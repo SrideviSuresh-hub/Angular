@@ -1,0 +1,11 @@
+.card{
+    background-color: rgb(44, 43, 43);
+    color: white;
+    width: 50vw;
+    margin-left: 25%;
+   padding: 20px 30px;
+}
+h2{
+    text-align: center;
+    
+}

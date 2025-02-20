@@ -1,0 +1,19 @@
+.comp1-component{
+    text-align: center;
+    border: #bbb 2px solid;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 15px;
+    margin-Left: 5px;
+    margin-right:5px;
+    /*  width:500px;  */
+    
+    }
+/*    
+    button{
+    width: 120px;
+    height: 38px;
+    border: none;
+    text-align: center;
+    background-color: coral;
+    } */

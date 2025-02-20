@@ -1,0 +1,62 @@
+<div class="ekart--product--container">
+    <app-search (searchTextChanged)="setSearchText($event)">
+    </app-search>
+    <product-list [searchText]="searchText" #productListComponent></product-list>
+    <product-detail *ngIf="productListComponent.selectedProduct" [productListComp]="productListComponent">
+    </product-detail>
+    <div class="ekart--features-products">
+        <div class="ekart--features-products-heading">
+            <h1>Latest Arrival in popular Brands
+            </h1>
+        </div>
+
+        <!-- <div *ngFor="let item of listOfString">
+    <p>current element of an array is: {{item}}</p>
+</div>  -->
+    <featured-brands>
+        <h3 class="title">New Arrivals in Nike</h3>
+        <button class="call-to-action">Show more in Nike</button>
+    </featured-brands>
+    <featured-brands>
+        <h3 class="title">New Arrivals in Nike</h3>
+        <button class="call-to-action">Show more in Adidas</button>
+    </featured-brands>
+    <featured-brands>
+        <h3 class="title">New Arrivals in Nike</h3>
+        <button class="call-to-action">show more in Reebook</button>
+    </featured-brands>
+    
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+    <!-- 
+    <p>Name:{{product.name}}</p>
+<p>Price:{{'$ ' + product.price}}</p>
+<p>Color: {{product.color}}</p>
+<p>Discount rice:{{ getDiscountedPrice().toFixed(0)}}</p>
+<p>InStock: {{ product.inStock> 0 ? product.inStock+" items left" :"no item left"}}
+</p>
+
+<button (click)="decrementCartValue()">-</button>
+<button>{{addToCart}}</button>
+<button (click)="incrementCartValue()">+</button>
+-->
+
+
+
+    <!-- <p>Price:$ {{product.price}}</p> -->
+
+    <!-- <img [src]="product.pImage", alt="imag1"> -->
+    <!-- <button [disabled]="!(product.inStock>0)">Buy Now</button> -->
+    <!-- <input type="text" [value]="name" [attr.aria-hidden]=""> -->
+    <!-- <input type="text" (input)="onNameChange($event)"><br>
+
+<p>{{name}}</p> -->

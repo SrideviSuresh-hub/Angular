@@ -1,0 +1,14 @@
+.container{
+   
+    background-color: rgb(220, 226, 231);
+    width: 40vw;
+    height: 200px;
+    text-align: center;
+    margin-left:30% ;
+    padding: 10px;
+    box-shadow: 5px 5px 5px rgb(136, 133, 133);
+}
+button{
+    background-color: black;
+    color: azure;
+}

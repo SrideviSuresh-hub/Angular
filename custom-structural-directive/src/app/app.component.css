@@ -1,0 +1,21 @@
+.notice-container{
+   border: 2px solid black;
+   margin-left: 25vw;
+   margin-right: 25vw;
+   padding: 20px;
+  
+}
+button{
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+    border: none;
+    background-color: black;
+    border-radius: 5px;
+    color: white;
+    font-size: larger;
+}
+.notice-header{
+    background-color: rgb(111, 41, 41);
+    
+}

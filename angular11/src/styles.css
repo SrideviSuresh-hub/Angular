@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+*{
+    margin:0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: normal;
+    
+}
+body{
+    /* font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ; */
+}
+a {
+    text-decoration: none;
+    padding: 0 10px;
+    color: black;
+  }
+  .hightlight-product{
+    box-shadow: 0 0 1px 3px #000 inset;
+    border: #efefef 2px solid;
+    box-shadow: 10px 10px 18px #cccccc;
+    transform: scale(1.05);
+} 
+.disableProduct{
+    background-color: #262628;
+    opacity: 0.5;
+}

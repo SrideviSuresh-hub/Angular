@@ -1,0 +1,19 @@
+.notice-container{
+ border: 2px solid black;
+
+}
+.notice-header{
+    background-color: black;
+}
+.notice-body{
+    padding: 0px 50px;
+    
+   
+
+}
+button{
+    background-color: black;
+    border: none;
+    color: rgb(211, 206, 206);
+    padding: 5px 20px;
+}

@@ -1,0 +1,63 @@
+<div class="ekart--product--details--info scroll">
+    <div class="ekart-product-detail-close">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </div>
+    <div class="ekart-product-detail-image">
+        <img [src]="product.imageURL">
+    </div>
+    
+    <div class="ekart-product-detail">
+        <div class="ekart-product-detail-name">
+            <h2>{{product.name}}</h2>
+        </div>
+        <div class="ekart-product-detail-gbc">
+            <!-- <span setBackground [textColor]="'black'"  [title]="'example title'" >{{product.gender}}</span> -->
+            <!-- <span [setBackground] [textColor]="'white'">{{product.gender}}</span> -->
+            <span [setBackground]="{backColor:'green',textColor:'white'}">{{product.gender}}</span>
+            <span [setBackground]="{backColor:'yellow',textColor:'wblackhite'}">{{product.brand}} </span>
+            <span [setBackground]="{backColor:'blue',textColor:'white'}">{{product.category}}</span>
+        </div>
+        <div class="ekart-product-detail-price">
+            <p>
+                <b>Price Each Pair:</b>
+                <span style="background-color: red; color:white;" >{{product.price}}</span>
+                <span style="background-color: green; color:white; text-decoration: none;"  *ngIf="product.discountPrice">{{(product.discountPrice/product.price*100).toFixed()+"% off"}}</span> (Inclusive of all taxes)
+            </p>
+        </div>
+        <div class="ekart-product-detail-size">
+            <div style="padding: 5px 0px;border-bottom: #ccc 2px solid">
+                <h4>Available Size</h4>
+            </div>
+            <diV style="margin-top: 20px">
+                <span class="ekart-product-detail-available-size" *ngFor="let size of product.size">{{size}}</span>
+            </diV>                
+        </div>
+
+        <div class="ekart-product-detail-color">
+            <div style="padding: 5px 0px;border-bottom: #ccc 2px solid">
+                <h4>Available Color</h4>
+            </div>
+            <diV style="margin-top: 20px;">
+                <span class="ekart-product-detail-available-color" *ngFor="let color of product.color" [style.background-color]="color"></span>
+            </diV>                
+        </div>
+
+        <div class="ekart-product-detail-desc">
+            <div style="padding: 5px 0px;border-bottom: #ccc 2px solid">
+                <h4>Product Description</h4>
+            </div>
+            <div style="margin-top: 20px">
+                <p>{{product.description}}</p>
+            </div>                
+        </div>
+    </div>
+    <div class="ekart-product-detail-addtoCart">
+        <button class="btn-add-to-cart"
+         *ngIf="product.is_in_inventory; else notifyme"
+          appHover>ADD TO CART</button>
+        <ng-template #notifyme>
+        <button class="btn-add-to-cart" >Notify Me </button>
+    </ng-template>
+    </div>
+</div>
+<div class="overlay"></div>

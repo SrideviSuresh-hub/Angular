@@ -1,0 +1,30 @@
+.ekart--product--container{
+    padding: 0px 20vh;
+    margin: 20px auto;
+}
+.ekart--features-products{
+    background-color: #020202;
+  
+    padding: 20px 10px;
+    display: flex;
+}
+.ekart--features-products-heading{
+    width: 320px;
+    margin: 10px 10px;
+    padding: 20px 30px;
+    color: #ffff;
+}
+.title, .call-to-action{
+    margin:10px 0px;
+    font-weight: 700;;
+}
+.call-to-action{
+    background-color: #282828;
+    color: #fff;
+    width: 100%;
+    padding: 10px 0px;
+}
+/* button{
+    padding: 5px 10px;
+    margin:0px 5px ;
+} */

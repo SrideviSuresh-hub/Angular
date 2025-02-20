@@ -1,0 +1,51 @@
+<div class="notice-container">
+  <div class="notice-header">
+  <button (click)="displayDiv()">+</button>
+  </div>
+
+  <div class="notice-info">
+  <p>Read terms of services and privacy policy .</p>
+  </div>
+  <hr style="border:2px solid black;">
+
+  <!-- <ng-template [ngIf]="display" [ngIfElse]="tempVAr" > -->
+   <!-- <div class="notice-body" *ngIf="display; else tempVAr"> -->
+
+  <!-- <ng-template [ngIf]="display" [ngIfElse]="tempVAr" >  -->
+    <div class="notice-body" *appIf="display"> 
+  <h1>Terms of services & privacy policy</h1>
+  <p>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+  esse cillum dolore eu fugiat nulla pariatur.
+  </p>
+  <h2>Terms of services</h2>
+  <p>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+  esse cillum dolore eu fugiat nulla pariatur.
+  </p>
+  <h2>Privacy Policy</h2>
+  <p>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+  esse cillum dolore eu fugiat nulla pariatur.
+</p>
+</div>
+<!-- </ng-template> -->
+<!-- <ng-template  #tempVAr>
+  <div class="notice-body">
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+    esse cillum dolore eu fugiat nulla pariatur.
+  </p>
+</div>
+</ng-template> -->
+<!-- <p *appIf="false">this demoo</p> -->
+
+</div>
