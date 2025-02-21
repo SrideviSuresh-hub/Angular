@@ -1,0 +1,22 @@
+.admin-user-list {
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.admin-user-detail {
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-user-name,
+.admin-user-gender,
+.admin-user-subtype,
+.admin-user-active {
+    margin-bottom: 5px;
+}

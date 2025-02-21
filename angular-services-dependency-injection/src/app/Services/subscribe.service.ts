@@ -1,5 +1,8 @@
+import { Injectable, InjectionToken } from "@angular/core";
 
+@Injectable()
 export class SubscribeService{
+// export subscribeSevice= new InjectionToken<SubscribeService>();
 
     onSubscribeClicked(type:string){
         //add user to db

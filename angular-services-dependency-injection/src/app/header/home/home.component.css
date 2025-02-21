@@ -1,0 +1,21 @@
+.home-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+app-hero, app-sidebar {
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+app-hero {
+    flex: 2; /* Takes more space */
+    margin-right: 20px; /* Space between hero and sidebar */
+}
+
+app-sidebar {
+    flex: 1; /* Takes less space */
+}
