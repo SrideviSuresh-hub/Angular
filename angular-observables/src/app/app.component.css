@@ -1,0 +1,18 @@
+button{
+    background-color: tomato;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+}
+.container{
+    margin-left: 25vw;
+    margin-top: 20vh;
+}
+.data-list{
+    background-color: rgb(229, 231, 233);
+    padding: 10px;
+    padding-left: 30px;
+    margin:  10px 0px;
+    border: none;
+    border-radius: 5px;
+}

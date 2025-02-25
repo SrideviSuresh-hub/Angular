@@ -1,0 +1,10 @@
+.show-task-conatiner{
+margin: 30px 20px;
+align-content: center;
+}
+.task-list{
+    background-color: rgb(206, 189, 208);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 25vw;
+}

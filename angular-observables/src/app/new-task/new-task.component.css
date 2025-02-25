@@ -1,0 +1,15 @@
+.create-taskk-container{
+    height: 25vh;
+    background-color: rgb(79, 12, 79);
+    text-align: center;
+    align-content: center;
+}
+input,button{
+    padding: 15px 20px;
+    margin:5px;
+    background-color: rgb(235, 232, 236);
+    border: none;
+    border-radius: 5px;
+}
+
+   
