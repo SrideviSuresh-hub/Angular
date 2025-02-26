@@ -16,7 +16,7 @@
                     {{ course.title }}
                 </div>
                 <div class="course-desc">
-                    {{ course.desc.substring(0, 120) }}
+                    {{ course.desc.substring(0, 20) }}
                 </div>
                 <div class="course-price-rating">
                     <div class="course-price"><b>PRICE:</b> {{ course.price | currency }}</div>
@@ -29,4 +29,5 @@
             </div>
         </div>
     </div>
+    <a routerLink="/Course" [queryParams]="{search:'javascript'}"> SHow JavaScript</a>
 </div>

@@ -47,11 +47,12 @@ export class SubjectComponent implements OnInit {
 
 
 
-    // // let besub = new Subject<number>();
+    // let besub = new Subject<number>();
+
     // let besub = new BehaviorSubject<number>(100);
-    // besub.next(10);
-    // besub.next(20);
-    // besub.next(30);
+    // // besub.next(10);
+    // // besub.next(20);
+    // // besub.next(30);
     // besub.subscribe((res) => { console.log(res) })
     // besub.subscribe((res) => { console.log(res) })
     // besub.next(2020);
@@ -70,37 +71,37 @@ export class SubjectComponent implements OnInit {
     // resub.next(3000);
     // resub.subscribe((data)=>{ console.log(data)});
 
-    // let assub=new AsyncSubject();
+    // // let assub=new AsyncSubject();
     // assub.next(100);
     // // assub.complete();
     // assub.next(200);
     // assub.next(300);
     // assub.subscribe((data)=> console.log(data));
-    // assub.complete();
+    // // assub.complete();
     // assub.subscribe((data)=> console.log(data));
 
-let promise=new Promise((resolve,reject)=>{
-  console.log('promise called');
-  resolve(100);
-  resolve(200);
-  resolve(300);
-})
-promise.then((data)=>{
-  console.log(data);
-})
-let obs=new Observable((sub)=>{
-  console.log('observer called')
-  sub.next(100);
-  sub.next(200);
-  sub.next(300);
-})
+// let promise=new Promise((resolve,reject)=>{
+//   console.log('promise called');
+//   resolve(100);
+//   resolve(200);
+//   resolve(300);
+// })
+// promise.then((data)=>{
+//   console.log(data);
+// })
+// let obs=new Observable((sub)=>{
+//   console.log('observer called')
+//   sub.next(100);
+//   sub.next(200);
+//   sub.next(300);
+// })
 
-// obs.subscribe()
-obs.subscribe((data)=>{
-  console.log(data);
-  console.log(data);
-  console.log(data);
-})
+// // obs.subscribe()
+// obs.subscribe((data)=>{
+//   console.log(data);
+//   console.log(data);
+//   console.log(data);
+// })
 
     }
 }

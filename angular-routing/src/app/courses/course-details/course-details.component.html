@@ -45,8 +45,8 @@
                     </p>
                 </div>
                 <div class="'prev-nect-course">
-                    <button class="prev-btn" routerLink="'/Course/courseDetail/'+selectedCourse.id-1"> Previous course</button>
-                    <button class="next-btn" routerLink="'/Course/courseDetail/'+selectedCourse.id+1"> Next course</button>
+                    <button class="prev-btn" [routerLink]="'/Course/courseDetail/'+(selectedCourse.id-1)"> Previous course</button>
+                    <button class="next-btn" [routerLink]="'/Course/courseDetail/'+(selectedCourse.id+1)"> Next course</button>
                    
                 </div>
             </div>

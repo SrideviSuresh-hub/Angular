@@ -17,11 +17,19 @@ export class CourseDetailsComponent implements OnInit{
   activeRoute:ActivatedRoute=inject(ActivatedRoute);
   ngOnInit(){
         // this.courseId=this.activeRoute.snapshot.params['id'];
-        this.courseId=+this.activeRoute.snapshot.paramMap.get('id');
-       console.log( this.courseId);
-    this.selectedCourse=this.courseService.courses.find((cur)=>{
-        return cur.id===this.courseId
-      })
-   console.log(this.selectedCourse)
+  //       this.courseId=+this.activeRoute.snapshot.paramMap.get('id');
+  //      console.log( this.courseId);
+  //   this.selectedCourse=this.courseService.courses.find((cur)=>{
+  //       return cur.id===this.courseId
+  //     })
+  //  console.log(this.selectedCourse)
+  // this.activeRoute.params.subscribe((data)=>{
+  //     this.courseId=+data['id'];
+  this.activeRoute.paramMap.subscribe((data)=>{
+      this.courseId=+data.get('id');
+      this.selectedCourse=this.courseService.courses.find((cur)=>{
+              return cur.id===this.courseId
+            })
+  })
   }
 }

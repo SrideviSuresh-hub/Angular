@@ -10,6 +10,6 @@
     </div>
     <div class="home-page-banner-search">
       <input type="text" class="search-input" placeholder="Search Courses" #searchVar>
-      <button class="search-button">Search Courses</button>
+      <button class="search-button" [routerLink]="'/Course'" (click)="onSearchClicked(searchVar.value)">Search Courses</button>
     </div>
   </div>

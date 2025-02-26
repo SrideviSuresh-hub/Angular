@@ -38,9 +38,9 @@ export class AppComponent  {
 
   // form
 
-  myPromise = new Promise((resolve, reject) => {
-    resolve([1, 2, 3, 4]);
-  })
+  // myPromise = new Promise((resolve, reject) => {
+  //   resolve([1, 2, 3, 4]);
+  // })
 
   // myObservable = from(this.myPromise);
   

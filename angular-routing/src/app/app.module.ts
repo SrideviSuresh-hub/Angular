@@ -18,19 +18,10 @@ import { PopularComponent } from './home/popular/popular.component';
 import { ServicesComponent } from './home/services/services.component';
 import { TestimonyComponent } from './home/testimony/testimony.component';
 import { CourseDetailsComponent } from './courses/course-details/course-details.component';
+import { RoutingModule } from './routing.module';
 
 
-//define routes
-const routes:Routes=[
-  {path:'',component:HomeComponent},
-  // {path:'',redirectTo:'Home',pathMatch:'full'},
-  {path:'Home',component:HomeComponent},
-  {path:'About',component:AboutComponent},
-  {path:'Contact',component:ContactComponent},
-  {path:'Course',component:CoursesComponent},
-  {path:'Course/courseDetail/:id',component:CourseDetailsComponent},
-  {path:'**',component:NotFoundComponent}
-]
+
 
 @NgModule({
   declarations: [
@@ -53,7 +44,7 @@ const routes:Routes=[
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule.forRoot(routes)
+    RoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

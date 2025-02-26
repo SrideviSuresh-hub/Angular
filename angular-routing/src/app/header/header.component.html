@@ -8,11 +8,11 @@
       </ul>
     </div>  
     <div class="page-header-secondary-nav">
-      <a routerLink="#">SEARCH</a>
-      <a routerLink="#">POPULAR</a>
-      <a routerLink="#">TESTIMONY</a>
-      <a routerLink="#">SERVICES</a>
-      <a routerLink="#">CONTACT</a>
+      <a routerLink="Home" fragment="search">SEARCH</a>
+      <a routerLink="Home" fragment="popular">POPULAR</a>
+      <a routerLink="Home" fragment="testimony">TESTIMONY</a>
+      <a routerLink="Home" fragment="services">SERVICES</a>
+      <a routerLink="Home" fragment="contact">CONTACT</a>
     </div>
   </div>
   <div class="page-header">
@@ -26,9 +26,10 @@
         </div>      
         <div class="page-header-primary">
           <div class="page-header-primary-nav">
-              <a routerLink="Home" [routerLinkActive]="'active'"   [routerLinkActiveOptions]="{exact:true}">HOME</a>
-              <a [routerLink]="'About'"routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">ABOUT</a>
-              <a routerLink="Contact" routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">CONTACT</a>
+              <!-- <a routerLink="Home" [routerLinkActive]="'active'"  (click)="homeClicked()[routerLinkActiveOptions]="{exact:true}" >HOME</a> -->
+              <!-- <a  [routerLinkActive]="'active'"   [routerLinkActiveOptions]="{exact:true}" (click)="homeClicked() >HOME</a> -->
+              <!-- <a [routerLink]="'About'"routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">ABOUT</a> -->
+              <a  (click)="onClick()" routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">CONTACT</a>
               <a routerLink="Course" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">COURSES</a>
           </div>
           <div class="page-header-login-logout">
