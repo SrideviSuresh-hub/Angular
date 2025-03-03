@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { interval, Observable } from "rxjs";
 import { Course } from "../Models/course";
 import { Injectable } from "@angular/core";
 
@@ -20,10 +20,10 @@ export class CourseService {
         { id: 8, title: 'Machine Learning with Python', price: 1299, desc: this.description, image: './../assets/courses/course8.jpg', rating: 4.8, duration: 26.7, author: 'Sarah King'}
     ];
     getAllCourses(){
-        return new Observable<Course[]>((sub)=>{
-            setTimeout(()=>{
-                sub.next(this.courses);
-            },1000)
+       return new Observable<Course[]>((subscriber)=>{
+           setTimeout(( )=>{
+             subscriber.next(this.courses);
+            },5000)
         })
     }
 }

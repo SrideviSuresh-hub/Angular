@@ -26,15 +26,15 @@
         </div>      
         <div class="page-header-primary">
           <div class="page-header-primary-nav">
-              <!-- <a routerLink="Home" [routerLinkActive]="'active'"  (click)="homeClicked()[routerLinkActiveOptions]="{exact:true}" >HOME</a> -->
-              <!-- <a  [routerLinkActive]="'active'"   [routerLinkActiveOptions]="{exact:true}" (click)="homeClicked() >HOME</a> -->
-              <!-- <a [routerLink]="'About'"routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">ABOUT</a> -->
+              <a routerLink="Home" [routerLinkActive]="'active'"   [routerLinkActiveOptions]="{exact:true}">HOME</a> 
+              <a [routerLink]="'About'"routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">ABOUT</a>
               <a  (click)="onClick()" routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">CONTACT</a>
               <a routerLink="Course" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">COURSES</a>
           </div>
           <div class="page-header-login-logout">
-              <a routerLink="#">LOGIN</a>
-              <a routerLink="#">LOGOUT</a>
+              <a routerLink="/Login" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">LOGIN</a>
+              <!-- <a (click)="onLogin()" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">LOGIN</a> -->
+              <a routerLink="/Login" [queryParams]="{logout:true}">LOGOUT</a>
           </div>
         </div>
         

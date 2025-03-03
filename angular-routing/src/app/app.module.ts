@@ -19,6 +19,8 @@ import { ServicesComponent } from './home/services/services.component';
 import { TestimonyComponent } from './home/testimony/testimony.component';
 import { CourseDetailsComponent } from './courses/course-details/course-details.component';
 import { RoutingModule } from './routing.module';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -39,12 +41,14 @@ import { RoutingModule } from './routing.module';
     PopularComponent,
     ServicesComponent,
     TestimonyComponent,
-    CourseDetailsComponent
+    CourseDetailsComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RoutingModule
+    RoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -14,22 +14,22 @@
       <div class="container">
           <form>
             <label for="fname">First Name</label>
-            <input type="text" class="contact-input-el" placeholder="Your name.." name="firstname">
+            <input type="text" class="contact-input-el" placeholder="Your name.." name="firstname" [(ngModel)]="fname">
         
             <label for="lname">Last Name</label>
-            <input type="text" class="contact-input-el" placeholder="Your last name.." name="lastname">
+            <input type="text" class="contact-input-el" placeholder="Your last name.." name="lastname" [(ngModel)]="lname">
         
             <label for="country">Country</label>
-            <select id="country" name="country" name="country">
-              <option value="australia">Australia</option>
+            <select id="country" name="country" name="country" [(ngModel)]="country">
+              <option value="india">India</option>
               <option value="canada">Canada</option>
               <option value="usa">USA</option>
             </select>
         
             <label for="subject">Subject</label>
-            <textarea class="contact-input-el" placeholder="Write something.." style="height:200px" name="message"></textarea>
+            <textarea class="contact-input-el" placeholder="Write something.." [(ngModel)]="msg" style="height:200px" name="message"></textarea>
         
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit" (click)="onSubmit()">
           </form>
         </div>
   </div>

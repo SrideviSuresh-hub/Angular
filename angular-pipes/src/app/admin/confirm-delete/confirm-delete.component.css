@@ -1,0 +1,10 @@
+.modal{
+    width: 40vw;
+    height: 15vh;
+    position: absolute;
+    margin-top:-40vh;
+    margin-left: 40vh;
+    background-color: rgb(17, 17, 16);
+    padding: 10px;
+    color: rgb(229, 226, 221);
+}
