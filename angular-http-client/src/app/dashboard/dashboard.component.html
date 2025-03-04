@@ -5,7 +5,9 @@
         [isEditMode]="editMode"
         [selectedTask]="selectedTask"
 ></app-create-task>
-<!-- child parent -->
+<app-task-details *ngIf="taskDetails"
+(closeDetailView)="closeDetailView()"
+[currentTask]="currentTask"></app-task-details>
 <div class="dashboard-container">
     <div style="display: flex;">
         <div style="width: 50%">
@@ -17,32 +19,36 @@
             <button class="create-task-btn" (click)="clearAllTasks()">Clear Tasks</button>
         </div>
     </div>
-
+    
     <hr>
-
+    
     <div class="dashboard-item-container">
+        <div class="sb sb-error" *ngIf="errorMsg"> {{errorMsg}}</div>
+        <div class="loader" *ngIf="isLoading"></div>
         <div  *ngIf="allTasks.length<1" style="text-align: center;">
             <h2>NO TAsks Created Yet</h2>
         </div>
-            <div class="task-item"  [ngClass]="'task-'+ task.status" *ngFor="let task of allTasks">
-                <div class="task-title">
-                    <h3> {{task.title}}</h3>
+            <ng-container *ngIf="!isLoading">
+                <div class="task-item"  [ngClass]="'task-'+ task.status" *ngFor="let task of allTasks">
+                    <div class="task-title">
+                        <h3> {{task.title}}</h3>
+                    </div>
+                    <p ><b>Assigned to: </b>{{task.assignedTo}}</p>
+                    <p><b>Priority: </b>{{task.priority}}</p>
+                    <p><b>Status: </b>{{task.status}}</p>
+                    <div class="task-action-icons">
+                        <button class="task-action-btn" title="Detail" (click)="showCurTaskDetails(task.id)" >
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        </button>
+                        <button class="task-action-btn" title="Edit"  (click)="editTask(task.id)">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </button>
+                        <button class="task-action-btn" title="Delete" (click)="deleteTask(task.id)">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>            
+                    </div>
                 </div>
-                <p ><b>Assigned to: </b>{{task.assignedTo}}</p>
-                <p><b>Priority: </b>{{task.priority}}</p>
-                <p><b>Status: </b>{{task.status}}</p>
-                <div class="task-action-icons">
-                    <button class="task-action-btn" title="Detail">
-                        <i class="fa fa-info-circle" aria-hidden="true"></i>
-                    </button>
-                    <button class="task-action-btn" title="Edit"  (click)="editTask(task.id)">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </button>
-                    <button class="task-action-btn" title="Delete" (click)="deleteTask(task.id)">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                    </button>            
-                </div>
-            </div>
+            </ng-container>
     </div>
 </div>
 

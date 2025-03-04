@@ -1,7 +1,8 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Task } from "../Models/task";
-import { map, Observable } from "rxjs";
+import { catchError, every, map, Subject, tap, throwError } from "rxjs";
+import { LoggingService } from "./logging.service";
 
 @Injectable(
     {
@@ -10,42 +11,103 @@ import { map, Observable } from "rxjs";
 )
 export class TaskService {
     http: HttpClient = inject(HttpClient);
+    loggingService:LoggingService=inject(LoggingService);
+    errorSubject= new Subject<HttpErrorResponse>();
 
     createTask(task: Task) {
         const headers = new HttpHeaders({ 'my-header': 'hello-word' });
-        this.http.post('https://angularhttpclient-c3ed7-default-rtdb.firebaseio.com/tasks.json'
-            , task, { headers: headers })
-            .subscribe((response) => {
-                console.log(response)
-            })
+      return   this.http.post('https://angularhttpclient-c3ed7-default-rtdb.firebaseio.com/tasks.json'
+            , task, { headers: headers})
+            .pipe(catchError((err)=>
+                {
+                    const errorObj={statusCode:err.status,errorMessage:err.message, datetime:new Date()}
+                    this.loggingService.logErrors(errorObj);
+                    return throwError(()=>err);
+        
+                }))
+            .subscribe({error:(err)=>{
+                this.errorSubject.next(err);
+            }})
     }
     deleteTask(id: string | undefined) {
         this.http.delete('https://angularhttpclient-c3ed7-default-rtdb.firebaseio.com/tasks' + id + '.json')
-            .subscribe((resp) => {
-                console.log(resp);
-            })
+            
+        .pipe(catchError((err)=>
+            {
+                const errorObj={statusCode:err.status,errorMessage:err.message, datetime:new Date()}
+                this.loggingService.logErrors(errorObj);
+                return throwError(()=>err);
+    
+            })).subscribe({error:(err)=>{
+                this.errorSubject.next(err);
+            }})
     }
     clearAllTasks() {
-        this.http.delete('https://angularhttpclient-c3ed7-default-rtdb.firebaseio.com/tasks.json')
-            .subscribe(() => {
+        this.http.delete('https://angularhttpclient-c3ed7-default-rtdb.firebaseio.com/tasks.json',{observe:'events',responseType:'json'})
+        .pipe(tap((event)=>{
+            console.log(event)
+            }),catchError((err)=>
+            {
+                const errorObj={statusCode:err.status,errorMessage:err.message, datetime:new Date()}
+                this.loggingService.logErrors(errorObj);
+                return throwError(()=>err);
+    
+            }))
+            .subscribe({error:(err)=>{
 
-            })
+                this.errorSubject.next(err);
+            }})
     }
     fetchAllTasks(){
-       return  this.http.get<{[name:string]:Task}>('https://angularhttpclient-c3ed7-default-rtdb.firebaseio.com/tasks.json')
-        .pipe(map((task)=>{
+        let headers=new HttpHeaders();
+        headers=headers.append('content-type','application/json');
+        headers=headers.append('content-type','text/html');
+        // headers=headers.append('access-controll-allow-origin','*');
+        let queryParams=new HttpParams();
+        queryParams=queryParams.set('page',2);
+        queryParams=queryParams.set('item',10);
+        // ?page=2&item=10
+       return  this.http.get<{[name:string]:Task}>('https://angularhttpclient-c3ed7-default-rtdb.firebaseio.com/tasks.json',
+        {headers:headers,params:queryParams,observe:'body'}
+       ).pipe(map((task)=>{
                 let tasks=[];
+                console.log(task);
                 for(let key in task){
                     if(task.hasOwnProperty(key)){
                         tasks.push({...task[key],id:key})
                     }
                 }
                 return tasks;
+        }),catchError((err)=>
+        {
+            const errorObj={statusCode:err.status,errorMessage:err.message, datetime:new Date()}
+            this.loggingService.logErrors(errorObj);
+            return throwError(()=>err);
+
         }))
     }
     updateTask(id:string|undefined, data:Task){
-         this.http.put('https://angularhttpclient-c3ed7-default-rtdb.firebaseio.com/tasks/'+id+'.json',data)
-        .subscribe();
+       return   this.http.put('https://angularhttpclient-c3ed7-default-rtdb.firebaseio.com/tasks/'+id+'.json',data)
+       .pipe(catchError((err)=>
+        {
+            const errorObj={statusCode:err.status,errorMessage:err.message, datetime:new Date()}
+            this.loggingService.logErrors(errorObj);
+            return throwError(()=>err);
+
+        }))
+        .subscribe({error:(err)=>{
+            this.errorSubject.next(err);
+        }});
+
+    }
+    getTaskDetail(id:string|undefined){
+          return this.http.get('https://angularhttpclient-c3ed7-default-rtdb.firebaseio.com/tasks/'+id+'.json')
+          .pipe(map((resp)=>{
+            let task={};
+            task={...resp,id:id}
+            console.log(resp);
+            return task;  
+          }))
 
     }
 

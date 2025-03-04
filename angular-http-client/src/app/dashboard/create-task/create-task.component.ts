@@ -22,7 +22,7 @@ export class CreateTaskComponent implements AfterViewInit {
     this.taskForm.form.patchValue(this.selectedTask),0});
 
   }
-  onFormSubmit(form: NgForm) {
+  onFormSubmit(form:NgForm) {
     this.emitTaskData.emit(form.value);
     console.log(form.value);
     this.CloseForm.emit(false);
@@ -30,6 +30,6 @@ export class CreateTaskComponent implements AfterViewInit {
 
   onCloseForm() {
     this.CloseForm.emit(false);
-
+  
   }
 }

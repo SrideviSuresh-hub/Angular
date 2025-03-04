@@ -18,7 +18,7 @@ export class AdminComponent implements  OnInit {
   stdIdToEdit:number;
 
   filterText:string='All';
-  totalStudents= new Promise((resolve,reject)=>{
+  totalStudents= new Promise((resolve)=>{
     setTimeout(() => {
       resolve(this.students.length)
     }, 2000);

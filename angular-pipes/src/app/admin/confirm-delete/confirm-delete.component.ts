@@ -8,20 +8,21 @@ import { Student } from '../../Models/Student';
   styleUrl: './confirm-delete.component.css'
 })
 export class ConfirmDeleteComponent implements OnInit {
-  constructor(){
+  constructor() {
 
   }
 
   @Input()
-  studentToDelete:Student;
-@Output()
-OnConfirmation:EventEmitter<boolean>=new EventEmitter<boolean>();
+  studentToDelete: Student;
+  
+  @Output()
+  OnConfirmation: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  ngOnInit(){
-      
+  ngOnInit() {
+
   }
 
-  onConfirmClicked(value:boolean){
+  onConfirmClicked(value: boolean) {
     this.OnConfirmation.emit(value);
   }
 }

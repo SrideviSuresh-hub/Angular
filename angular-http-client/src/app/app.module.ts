@@ -8,7 +8,9 @@ import { FooterComponent } from './footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreateTaskComponent } from './dashboard/create-task/create-task.component';
 import { FormsModule } from '@angular/forms';
-import {  HttpClientModule } from '@angular/common/http';
+import {  HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TaskDetailsComponent } from './dashboard/task-details/task-details.component';
+import { AuthInterceptorService } from './Services/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,8 @@ import {  HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     FooterComponent,
     DashboardComponent,
-    CreateTaskComponent
+    CreateTaskComponent,
+    TaskDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +27,7 @@ import {  HttpClientModule } from '@angular/common/http';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers:[{provide:HTTP_INTERCEPTORS, useClass:AuthInterceptorService,multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

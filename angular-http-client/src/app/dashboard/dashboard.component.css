@@ -2,7 +2,21 @@
     padding: 30px 100px;
     background-color: #dedede;
 }
+.loader{
+  border: 16px solid lightgray; 
+  border-top: 16px solid blue;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+  margin: 0 auto;
+}
 
+@keyframes spin{
+  0%{transform: rotate(0deg)}
+  100%{transform: rotate(360deg)}
+  
+}
 hr{
     border: #fff 1.5px solid;
     margin: 20px 0px;
@@ -59,20 +73,7 @@ i{
     color: white;
 }
 
-.loader {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
-    margin: 0 auto;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+
 
   .sb {
     min-width: 350px; /* Set a default minimum width */
@@ -85,7 +86,7 @@ i{
     z-index: 1; /* Add a z-index if needed */
     left: 50%; /* Center the snackbar */
     top: 40px; /* 30px from the bottom */
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
   }
 
@@ -100,7 +101,7 @@ i{
   }
 
   /* Animations to fade the snackbar in and out */
-@-webkit-keyframes fadein {
+@keyframes fadein {
     from {top: 0; opacity: 0;}
     to {top: 40px; opacity: 1;}
   }
@@ -110,7 +111,7 @@ i{
     to {top: 40px; opacity: 1;}
   }
   
-  @-webkit-keyframes fadeout {
+  @keyframes fadeout {
     from {top: 30px; opacity: 1;}
     to {top: 0; opacity: 0;}
   }
