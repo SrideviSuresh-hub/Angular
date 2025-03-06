@@ -1,4 +1,4 @@
-.main-content-area{
-    margin: 30px 30px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+.app-main-area{
+    margin: 10px 10px;
+    background-color: #F7F9F9;
 }

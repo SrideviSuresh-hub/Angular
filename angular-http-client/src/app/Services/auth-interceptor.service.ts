@@ -1,14 +1,17 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-// import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { HttpEvent, HttpEventType, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { Observable, tap } from "rxjs";
 
-// @Injectable({
-//     providedIn:'root'
-// })
+
 export class AuthInterceptorService implements HttpInterceptor{
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-       
-        console.log("auth interceptor called");
-        return next.handle(req);
+    //    const modifiedReq=req.clone({headers:req.headers.append('authHeader','abcxyz')});
+    //     console.log("auth interceptor called" + modifiedReq.url);
+    //     const resp= next.handle(modifiedReq);
+        return next.handle(req).pipe(tap((event:HttpEvent<any>)=>{
+            if(event.type === HttpEventType.Response){
+                console.log('response has arrived ')
+                console.log(event.body);
+            }
+        }))
     }
 }

@@ -1,0 +1,12 @@
+.container{
+    padding: 50px 100px;
+
+}
+.content{
+    width:70%;
+    padding-top: 50px;
+    border-top: 3px solid #dedede;
+}
+p{
+    margin-top: 20px;
+}

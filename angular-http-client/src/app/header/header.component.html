@@ -1,10 +1,12 @@
 <header>
     <div class="header-logo">
-        <h2>USer Management</h2>
+        <h2>Task Management</h2>
     </div>
     <div class="header-nav">
-        <a href="#">DASHBOARD</a>
-        <a href="#">DETAILS</a>
-        <a href="#">LOGIN</a>
+        <a routerLink="/">HOME</a>
+        <a routerLink="/dashboard" *ngIf="isLoggedIn">DASHBOARD</a>
+        <a routerLink="/login" *ngIf="!isLoggedIn">LOGIN</a>
+        <a *ngIf="isLoggedIn">LOGOUT</a>
     </div>
+  
 </header>

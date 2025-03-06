@@ -1,5 +1,5 @@
 header{
-    display: flex;
+    /* display: flex; */
     background-color: #28282B;
     color: white;
     border-top-left-radius: 5px;
@@ -20,3 +20,6 @@ a{
     width: 70%;
     text-align: right;
 }
+
+
+
