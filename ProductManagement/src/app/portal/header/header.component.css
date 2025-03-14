@@ -1,0 +1,22 @@
+.card{
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    
+}
+.start-content{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.end-content{
+    display:flex;
+    align-items: center;
+    gap:20px
+}
+app-weather{
+    display: flex;
+    align-items: center;
+    
+}
+

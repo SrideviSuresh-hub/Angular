@@ -1,0 +1,50 @@
+<div class="grid-container min-h-screen">
+    <div class="image-container">
+        <img src="assets\images\shopsy.png" alt="shopsy image" class="image">
+    </div>
+    <div class="form-container flex justify-content-center align-items-center">
+<p-card header="Login" >
+    <app-snackbar [errorMessage]="errorMessage" *ngIf="errorMessage"></app-snackbar>
+    <p-progress-spinner *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" *ngIf="!isLoading">
+        <div class="field">
+            <label for="email">Email</label>
+                <input type="text" pInputText 
+                [(ngModel)]="login.email" 
+                class="w-full"
+                id="email"
+                name="email"
+                #email="ngModel"
+                required
+                email/>
+                <small *ngIf="email.invalid && email.touched">*Enter Valid Email</small>
+           
+        </div>
+        <div class="field">
+            <label for="password">Password</label>
+            <p-password [(ngModel)]="login.password"
+             [feedback]="false"
+              [toggleMask]="true"
+              inputId="password"
+              name="password"
+              #password="ngModel"
+              inputStyleClass="w-full"
+              styleClass="w-full"
+              required/>
+              <!-- <small *ngIf="password.touched || password.dirty">*Enter valid Password</small> -->
+        </div>
+        
+       <div class="field">
+        <p-button label="LOGIN"
+        styleClass="w-full background-color-rgb(183, 145, 219)"
+        [disabled]="loginForm.invalid"
+        type="submit"></p-button>
+       </div>
+       <div>Not Registered Yet?
+        <a routerLink="/signup">Signup</a>
+        </div>
+        
+    </form>
+</p-card>
+</div>
+</div>

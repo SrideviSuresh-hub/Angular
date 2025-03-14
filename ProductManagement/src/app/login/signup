@@ -1,0 +1,172 @@
+Sure! Let's add an image input for the badge at the top of the first page and ensure the file size is less than 2MB. I'll also provide some elegant CSS for the form.
+
+1. **Update the Template** (`your-component.component.html`):
+   ```html
+   <section class="container">
+     <header>Registration Form</header>
+     <p-progress-spinner *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }"></p-progress-spinner>
+     <form class="form" (ngSubmit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
+       <!-- Image Input for Badge -->
+       <div class="input-box">
+         <label for="badge">Upload Badge (less than 2MB)</label>
+         <input type="file" id="badge" (change)="onFileChange($event)" accept="image/*" aria-label="Upload Badge"/>
+         <small *ngIf="fileSizeError" class="error">File size should be less than 2MB</small>
+       </div>
+       <!-- Page 0 -->
+       <div *ngIf="currentPage === 0">
+         <!-- User Name -->
+         <div class="input-box">
+           <label>User Name</label>
+           <input type="text" placeholder="username" name="username" ngModel #uname="ngModel" maxlength="20" required aria-label="User Name"/>
+           <div>
+             <small *ngIf="uname.invalid && uname.touched">*Username is a required field</small>
+           </div>
+         </div>
+         <!-- Other fields for Page 0 -->
+       </div>
+       <!-- Page 1 -->
+       <div *ngIf="currentPage === 1">
+         <!-- Email ID -->
+         <div class="input-box">
+           <label>Email ID</label>
+           <input type="text" placeholder="Email" name="email" maxlength="100" #email="ngModel" ngModel required email aria-label="Email ID"/>
+           <div>
+             <small *ngIf="email.invalid && email.touched">*Entered Email is not valid</small>
+           </div>
+         </div>
+         <!-- Other fields for Page 1 -->
+       </div>
+       <!-- Paginator -->
+       <p-paginator [rows]="1" [totalRecords]="2" (onPageChange)="onPageChange($event)"></p-paginator>
+       <!-- Submit Button -->
+       <div class="input-box">
+         <p-button label="Sign Up" styleClass="w-full" [style]="{ 'background-color': 'rgb(183, 145, 219)' }" [disabled]="signupForm.invalid" type="submit"></p-button>
+       </div>
+     </form>
+     <div> Already have an account?
+       <a routerLink="/login">Login</a>
+     </div>
+   </section>
+   ```
+
+2. **Update the Component Class** (`your-component.component.ts`):
+   ```typescript
+   import { Component } from '@angular/core';
+
+   @Component({
+     selector: 'app-your-component',
+     templateUrl: './your-component.component.html',
+     styleUrls: ['./your-component.component.css']
+   })
+   export class YourComponent {
+     currentPage: number = 0;
+     isLoading: boolean = false;
+     password: string = '';
+     confirmpassword: string = '';
+     passwordMatching: boolean = true;
+     fileSizeError: boolean = false;
+
+     onPageChange(event: any) {
+       this.currentPage = event.page;
+     }
+
+     validatePassword() {
+       this.passwordMatching = this.password === this.confirmpassword;
+     }
+
+     onSignup(form: any) {
+       if (form.valid) {
+         // Handle form submission
+       }
+     }
+
+     onFileChange(event: any) {
+       const file = event.target.files[0];
+       if (file && file.size > 2 * 1024 * 1024) {
+         this.fileSizeError = true;
+       } else {
+         this.fileSizeError = false;
+         // Handle file upload
+       }
+     }
+   }
+   ```
+
+3. **Add Elegant CSS** (`your-component.component.css`):
+   ```css
+   .container {
+     max-width: 600px;
+     margin: 0 auto;
+     padding: 20px;
+     background-color: #f9f9f9;
+     border-radius: 8px;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   }
+
+   header {
+     font-size: 24px;
+     font-weight: bold;
+     text-align: center;
+     margin-bottom: 20px;
+   }
+
+   .form {
+     display: flex;
+     flex-direction: column;
+     gap: 20px;
+   }
+
+   .input-box {
+     display: flex;
+     flex-direction: column;
+   }
+
+   .input-box label {
+     font-weight: bold;
+     margin-bottom: 5px;
+   }
+
+   .input-box input,
+   .input-box select {
+     padding: 10px;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+   }
+
+   .input-box .error {
+     color: red;
+     font-size: 12px;
+   }
+
+   .column {
+     display: flex;
+     gap: 20px;
+   }
+
+   .gender-option {
+     display: flex;
+     gap: 10px;
+   }
+
+   .input-box address {
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
+   }
+
+   .select-box {
+     display: flex;
+     flex-direction: column;
+   }
+
+   .w-full {
+     width: 100%;
+   }
+
+   .card {
+     padding: 20px;
+     border: 1px solid #ccc;
+     border-radius: 8px;
+     background-color: #fff;
+   }
+ 

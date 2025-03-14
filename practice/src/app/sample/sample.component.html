@@ -1,0 +1,45 @@
+<h1>{{title}}</h1>
+<img [src]='src' width="100px" alt="">
+<div>
+    Lorem ipsum dolor sit amet consectetur,
+     adipisicing elit. Delectus dolor recusandae 
+     velit ratione sit possimus eaque temporibus
+      dolorem, pariatur odit doloremque assumenda 
+      consequatur animi a distinctio quis sequi 
+      soluta amet!
+</div><br>
+
+<label for="search-btn">Search Text:</label>
+<input type="search"  id="serach-btn" [(ngModel)]="searchname">
+<button [ngClass]="{'btn':true,'enable':searchname,'disable':!searchname}">Search</button>
+<br><br>
+<!-- [hidden]="!(instock>0)" -->
+<button bind-disabled='!(instock>0)' onclick="(name)"> BUY</button>
+    <input type="checkbox" name="check" id="check" [checked]="instock>0">Checked
+    <br>
+    <!-- [attr.aria-hidden]="instock>0" -->
+    <!-- <input type="text" name="name"   value={{name}}> -->
+    <input type="text" name="name" (input)="onNameChange($event)" >
+    <p>name={{name}}</p>
+
+    <hr>
+    <div ></div>
+    <hr>
+    <div>
+        <!-- [disabled]="!(count>0)" -->
+        <button (click)="onDecrement()" >-</button>
+        <button>{{count}}</button>
+        <button (click)="onIncrement()">+</button>
+    </div>
+
+
+    <input type="text" name="name"[(ngModel)]="searchname">
+    <p  *ngIf="searchname" >Search name:{{searchname}}</p>
+<hr>
+    <div *ngFor="let item of arr">
+        <p>item:{{item}}</p>
+    </div>
+
+<div>
+    <app-child1 *ngFor="let user of sampleData" [childUser]="user"></app-child1>
+    </div>

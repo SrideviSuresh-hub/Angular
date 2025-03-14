@@ -1,0 +1,23 @@
+.body {
+    /* width: calc(100% - 5rem); */
+    margin-left: 5rem;
+    /* z-index: 0;s */
+    position: relative;
+    top:5vh;
+    transition: all 0.5s ease;
+    /* background: #f4f7fa; */
+     /* padding: 3rem; */
+    /* width:350px;
+    float:left;
+    padding:10px;  */
+  }
+  
+  .body-trimmed {
+    width: calc(100% - 16rem);
+    margin-left: 16rem;
+  }
+  
+  .body-md-screen {
+    width: calc(100% - 5rem);
+    margin-left: 5rem;
+  }

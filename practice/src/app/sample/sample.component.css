@@ -1,0 +1,14 @@
+.btn{
+
+    color: white;
+    border: none;
+    padding: 5px;
+}
+.enable{
+    cursor: pointer; 
+    background-color: black;
+}
+.disable{
+    cursor:not-allowed;
+    background-color: grey;
+}

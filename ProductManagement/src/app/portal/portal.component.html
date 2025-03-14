@@ -1,0 +1,9 @@
+<div class="container">
+    <app-header></app-header>
+<div style="display: flex;">
+<app-sidebar 
+[isLeftSidebarCollapsed]="isLeftSidebarCollapsed()" 
+(changeIsLeftSidebarCollapsed)="changeIsLeftSidebarCollapsed($event)"></app-sidebar>
+<app-main></app-main>
+</div>
+</div>

@@ -6,7 +6,7 @@ import { Component, computed, DoCheck, effect, signal } from '@angular/core';
   templateUrl: './signals.component.html',
   styleUrl: './signals.component.css'
 })
-export class SignalsComponent implements DoCheck {
+export class SignalsComponent  {
   counter = signal(0);//writable 
   message = signal<string[]>([]);
   doubleCounter=computed(()=>this.counter()*2);
@@ -29,7 +29,7 @@ export class SignalsComponent implements DoCheck {
   constructor(){
     effect(()=>console.log('new counter value is'+this.counter()))
   }
-  ngDoCheck() {
-    console.log("change detection cycle");
-  }
+  // ngDoCheck() {
+  //   console.log("change detection cycle");
+  // }
 }

@@ -1,0 +1,17 @@
+ul{
+    background-color: rgb(12, 13, 13);
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    gap: 50px;
+}
+li{
+list-style-type: none;
+}
+a{
+    text-decoration: none;
+    color: rgb(247, 248, 249);
+    font-size: large;
+    font-weight: bolder;
+    padding: 10px;
+}

@@ -1,0 +1,10 @@
+<!-- <div *ngFor="let childUser of sampleData"> -->
+<div >
+    <p >name:{{childUser.name}}</p>
+    <p >age:{{childUser.age}}</p>
+    <p >address:{{childUser.address.city+" " +childUser.address.street+" "+ childUser.address.zipCode}}</p>
+    <p >contact:{{childUser.contact.email + " "+childUser.contact.phone}}</p>
+    <p>hobbchildUseres:{{childUser.hobbies}}</p>
+    <p [ngStyle]="{fontWeight:'bold',color:childUser.in_inventory?'green':'red'}">inInventory:{{childUser.in_inventory?'Available':'Out of Stock'}}</p>
+    <br>
+</div>
