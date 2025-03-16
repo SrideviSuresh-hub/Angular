@@ -3,7 +3,17 @@
 
 /* @import 'primeng/resources/themes/lara-light-blue/theme.css';
 @import 'primeng/resources/themes/lara-dark-blue/theme.css'; */
-html,body{
-    height: 100%;
+body{
+   
     margin: 0;
+    padding: 0;
 }
+::ng-deep .p-card {
+    width: 50%;
+    margin: auto;
+  }
+  
+  ::ng-deep .p-inputtext {
+    width: 100%;
+  }
+  

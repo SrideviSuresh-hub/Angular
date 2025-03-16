@@ -1,9 +1,12 @@
-
-<section class="container">
-    <!--  [ngClass]="{'form-shadow': signupForm.touched -->
-    <header>Registration Form</header>
-    <p-progress-spinner *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+<div class="grid-container min-h-screen">
+    <div class="image-container">
+        <img src="assets\images\shopsy.png" alt="shopsy image" class="image">
+    </div>
+    <div class="form-container flex justify-content-center align-items-center">
+<p-card header="SIGN UP" >
+   <p-progress-spinner *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
     <form class="form" (ngSubmit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
+        <div *ngIf="currentStep===1">
         <div class="input-box">
             <label>User Name</label>
             <input type="text" placeholder="username" name="username" ngModel #uname="ngModel" maxlength="20"
@@ -66,8 +69,9 @@
             <label>Mobile Number</label>
             <input type="number" placeholder="Phone Number" name="phone"  ngModel />
         </div>
-
-
+        <p-button label="Next" class="float-but" type="button" (click)="nextStep()" ></p-button>
+    </div>
+        <div *ngIf="currentStep===2">
         <div class="input-box address" ngModelGroup="address" #addr="ngModelGroup">
             <label>Address</label>
             <input type="text" placeholder="Street address line 1" name="street1" ngModel required />
@@ -99,7 +103,7 @@
                 </div>
                 <div class="select-box">
                     <label>TimeZone</label>
-                    <select name="timezone" ngModel required>
+                    <select name="timezone"  ngModel required>
                         <option *ngFor="let timezone of timezones" [value]="timezone">{{timezones}}</option>
                     </select>
                 </div>
@@ -147,19 +151,28 @@
               required/>
               <!-- <small *ngIf="password.touched || password.dirty">*Enter valid Password</small> -->
         </div>
+
         <small *ngIf="!passwordMatching && cpassword.dirty">Passwords Didn't match</small>
         
+       
+       <p-button class="float-but" type="button" (click)="previousStep()">Previous</p-button>
+            <p-button  class="float-but"type="button"(click)="nextStep()">Next</p-button>
+       </div>
+
        <div class="input-box">
         <p-button label="Sign Up"
         styleClass="w-full background-color-rgb(183, 145, 219)"
         [disabled]="signupForm.invalid"
         type="submit"></p-button>
-       </div>
+       </div> 
     </form>
-    <div> Already have an account?
+    <div class="float-but"> Already have an account?
         <a routerLink="/login">Login</a>
-        </div>
-</section>
+    </div>
+</p-card>
+</div>
+</div>
+
 
 
 
@@ -173,4 +186,4 @@
 
 <!-- <div class="user-avatar">
         <p>{{firstName.slice(0, 1).toUpperCase()}}{{lastName.slice(0, 1).toUpperCase()}}</p>
-      </div>s -->
+      </div> --> 

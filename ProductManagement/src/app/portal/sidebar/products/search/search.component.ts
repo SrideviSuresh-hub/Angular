@@ -7,17 +7,17 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
   styleUrl: './search.component.css'
 })
 export class SearchComponent {
-// searchText:string='';
-// @Output()
-// searchTextChnaged:EventEmitter<string>=new EventEmitter<string>();
+searchText:string='';
+@Output()
+searchTextChnaged:EventEmitter<string>=new EventEmitter<string>();
 
-// @ViewChild('searchInput') searchInputEl=ElementRef;
+@ViewChild('searchInput') searchInputEl=ElementRef;
 
-// onSearchTextChanged(){
-//   this.searchTextChnaged.emit(this.searchText)
-// }
-// updateSearchText(){
-//   // this.searchText=this.searchInputEl.nativeElement.value;
-//   this.searchTextChnaged.emit(this.searchText)
-// }
+onSearchTextChanged(){
+  this.searchTextChnaged.emit(this.searchText)
+}
+updateSearchText(){
+  // this.searchText=this.searchInputEl.nativeElement.value;
+  this.searchTextChnaged.emit(this.searchText)
+}
 }

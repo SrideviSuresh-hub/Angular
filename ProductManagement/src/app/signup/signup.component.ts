@@ -45,15 +45,25 @@ export class SignupComponent {
     'UTC+06:00', 'UTC+07:00', 'UTC+08:00', 'UTC+09:00', 'UTC+10:00', 'UTC+11:00',
     'UTC+12:00'
   ];
-  currentPage:number=0
-  passwordMatching: boolean = false;
-  fileSizeError: boolean = false;
+  currentStep = 1;
+  passwordMatching = true;
 
-  onPageChange(event: any) {
-    this.currentPage = event.page;
+  nextStep() {
+    if(this.currentStep==1){
+      this.currentStep++;
+      console.log('Current Step:', this.currentStep);
+    }
   }
+  
+  previousStep() {
+  if(this.currentStep==2){
+    this.currentStep--;
+    console.log('Current Step:', this.currentStep);
+  }
+}
 
 
+ 
   onCountryChange(event: any) {
     const selectedCountry = event.target.value;;
     if (selectedCountry === "India") {
@@ -69,15 +79,7 @@ export class SignupComponent {
     this.passwordMatching = this.password === this.confirmpassword;
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file && file.size > 2 * 1024 * 1024) {
-      this.fileSizeError = true;
-    } else {
-      this.fileSizeError = false;
-      // Handle file upload
-    }
-  }
+  
 
   onSignup(form: NgForm) {
     const email = form.value.email;

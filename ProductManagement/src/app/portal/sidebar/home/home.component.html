@@ -1,1 +1,17 @@
-<p>home works!</p>
+<div class="input-box">
+    <label>Upload Profile Picture (JPG/PNG only, Max 2MB)</label>
+    <p-fileUpload 
+      name="profileImage" 
+      mode="basic" 
+      accept="image/png, image/jpeg" 
+      [maxFileSize]="2000000" 
+      customUpload="true" 
+      (onSelect)="onProfileUpload($event)">
+    </p-fileUpload>
+  </div>
+  
+  <!-- Display Image Preview -->
+  <div *ngIf="profileImage">
+    <h4>Preview:</h4>
+    <img [src]="profileImage" alt="Profile Image" class="profile-preview" />
+  </div>

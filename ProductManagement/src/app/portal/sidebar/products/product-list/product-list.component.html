@@ -1,1 +1,42 @@
-<p>product-list works!</p>
+<div class="layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h3>Shopify</h3>
+      <ul>
+        <li><i class="pi pi-home"></i> Home</li>
+        <li><i class="pi pi-box"></i> Products</li>
+        <li><i class="pi pi-shopping-cart"></i> Cart</li>
+        <li><i class="pi pi-truck"></i> Order</li>
+      </ul>
+    </div>
+  
+    <!-- Main Content -->
+    <div class="content">
+      <div class="header">
+        <h2>Available Products</h2>
+        <input pInputText type="text" placeholder="Search Products..." />
+        <p-button icon="pi pi-moon" label="Dark Mode"></p-button>
+        <p-button icon="pi pi-power-off" label="Logout" class="p-button-danger"></p-button>
+      </div>
+  
+      <div class="product-grid">
+        <div *ngFor="let product of products" class="product-card">
+          <div class="header">
+            <img [src]="product.image" alt="{{ product.name }}" class="product-img" />
+          </div>
+          <div class="title">
+            <h3>{{ product.name }}</h3>
+          </div>
+          <div class="content">
+            <p>{{ product.description }}</p>
+            <div class="quantity-controls">
+              <button pButton icon="pi pi-minus" (click)="decreaseQuantity(product)" class="p-button-text"></button>
+              <span>{{ product.quantity }}</span>
+              <button pButton icon="pi pi-plus" (click)="increaseQuantity(product)" class="p-button-text"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

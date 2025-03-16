@@ -13,6 +13,14 @@ import { ProductListComponent } from "./sidebar/products/product-list/product-li
 import { FormsModule } from "@angular/forms";
 import { ProductsComponent } from "./sidebar/products/products.component";
 import { SearchComponent } from "./sidebar/products/search/search.component";
+import { FileUploadModule } from 'primeng/fileupload';
+import { HomeComponent } from "./sidebar/home/home.component";
+import { CardModule } from "primeng/card";
+import { DataView } from 'primeng/dataview';
+import { Tag } from 'primeng/tag';
+import { Rating } from 'primeng/rating';
+import { SelectButton } from 'primeng/selectbutton';
+import { Select } from "primeng/select";
 
 @NgModule({
     declarations:[
@@ -23,7 +31,10 @@ import { SearchComponent } from "./sidebar/products/search/search.component";
         WeatherComponent,
         SearchComponent,
         ProductListComponent,
-        ProductsComponent
+      ProductsComponent,
+        HomeComponent,
+        
+       
     ],
     exports:[
         PortalComponent,
@@ -36,6 +47,13 @@ import { SearchComponent } from "./sidebar/products/search/search.component";
         SearchComponent,
         ProductsComponent,
         ProductListComponent,
+        FileUploadModule,
+        CardModule,
+        DataView,
+        Tag,
+        Rating,
+        SelectButton,
+        Select
     ],
     imports:[
         RouterModule.forChild(routes2),
@@ -43,7 +61,14 @@ import { SearchComponent } from "./sidebar/products/search/search.component";
         CommonModule,
         ButtonModule,
         PortalRouteModule,
-        FormsModule
+        FormsModule,
+        FileUploadModule,
+        DataView,
+        Tag,
+        Rating,
+        SelectButton,
+        Select,
+        
     ]
 })
 export class PortalModule{
