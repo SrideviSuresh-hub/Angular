@@ -21,6 +21,7 @@ import { Tag } from 'primeng/tag';
 import { Rating } from 'primeng/rating';
 import { SelectButton } from 'primeng/selectbutton';
 import { Select } from "primeng/select";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
     declarations:[
@@ -57,6 +58,7 @@ import { Select } from "primeng/select";
     ],
     imports:[
         RouterModule.forChild(routes2),
+        HttpClientModule,
         MenubarModule,
         CommonModule,
         ButtonModule,

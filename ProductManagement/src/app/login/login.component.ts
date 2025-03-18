@@ -12,30 +12,40 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
 router:Router=inject(Router);
-  authService:AuthService=inject(AuthService);
+authService:AuthService=inject(AuthService);
  login={email:'', password:''}
+
  isLoading:boolean=false;
  errorMessage: string | null = null;
  
  onLogin(form:NgForm){
+  if(form.invalid) return;
   const email=form.value.email;
   const password=form.value.password;
-  this.isLoading=true
-    this.authService.login(email,password).subscribe({
-      next:(resp)=>{console.log(resp)
+  this.isLoading=true;
+  this.authService.login(email,password).subscribe({
+    next:(user)=>{
+      if(user){
         this.isLoading=false;
         this.authService.active=true;
-        this.router.navigate(['/portal']);
-      },
-      error:(errMsg)=>{
-        this.isLoading=false;
-        this.errorMessage=errMsg;
-        this.authService.active=false;
-        this.hideSnackBar()
+        this.router.navigate(['/portal'])
       }
-    })
+      else{
+        this.isLoading=false;
+        this.errorMessage="Invalid data not found";
+      }
+    },
+    error:(errMsg)=>{
+              this.isLoading=false;
+              this.errorMessage=errMsg;
+              this.authService.active=false;
+              this.hideSnackBar();
+            }
+  })
     form.reset();
  }
+ 
+ 
  hideSnackBar(){
   setTimeout(()=>{
     this.errorMessage=null
@@ -43,3 +53,28 @@ router:Router=inject(Router);
  }
 
 }
+
+
+
+// onLogin(form:NgForm){
+//   if(form.invalid) return ;
+
+//   const email=form.value.email;
+//   const password=form.value.password;
+//   this.isLoading=true;
+  
+//     this.authService.login(email,password).subscribe({
+//       next:(resp)=>{console.log(resp)
+//         this.isLoading=false;
+//         this.authService.active=true;
+//         this.router.navigate(['/portal']);
+//       },
+//       error:(errMsg)=>{
+//         this.isLoading=false;
+//         this.errorMessage=errMsg;
+//         this.authService.active=false;
+//         this.hideSnackBar()
+//       }
+//     })
+//     form.reset();
+//  }

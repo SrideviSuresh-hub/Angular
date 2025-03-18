@@ -1,4 +1,76 @@
-<div class="card">
+
+  
+
+  
+        <div class="product-container">
+            <div class="search-bar">
+              <input type="text" pInputText placeholder="Search products..." [(ngModel)]="searchText" />
+              <button pButton label="Search"></button>
+            </div>
+          
+            <div class="product-grid">
+              <div *ngFor="let product of products" class="product-card">
+                <img [src]="product.image" alt="{{ product.name }}" class="product-img" />
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                
+                <div class="quantity-controls">
+                  <button pButton icon="pi pi-minus" (click)="decrementQuantity(product)" class="p-button-text"></button>
+                  <span>{{ product.quantity }}</span>
+                  <button pButton icon="pi pi-plus" (click)="incrementQuantity(product)" class="p-button-text"></button>
+                </div>
+          
+                <div *ngIf="!isAdmin">
+                  <button pButton label="Add to Cart" (click)="addToCart(product)"></button>
+                </div>
+          
+                <div *ngIf="isAdmin">
+                  <button pButton icon="pi pi-trash" class="p-button-danger" (click)="deleteProduct(product.id)"></button>
+                </div>
+              </div>
+          
+              <div *ngIf="isAdmin" class="product-card add-product">
+                <h3>Add New Product</h3>
+                <input type="text" pInputText [(ngModel)]="newProduct.name" placeholder="Product Name" />
+                <input type="text" pInputText [(ngModel)]="newProduct.description" placeholder="Description" />
+                <input type="text" pInputText [(ngModel)]="newProduct.image" placeholder="Image URL" />
+                <button pButton label="Add" (click)="addNewProduct()"></button>
+              </div>
+            </div>
+          </div>
+        
+   
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="card">
   <p-dataview #dv [layout]="layout">
       <ng-template #grid let-items>
           <div class="grid grid-cols-12 gap-4">
@@ -46,4 +118,7 @@
      </div>
      </ng-template>
   </p-dataview>
-</div>
+</div> -->
+
+
+<!-- <app-product-list style="top: 50px;"></app-product-list> -->

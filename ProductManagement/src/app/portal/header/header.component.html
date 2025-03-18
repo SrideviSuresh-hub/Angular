@@ -1,16 +1,19 @@
-<div class="card">
+
+
+
+<!-- <div class="card"> -->
     <p-menubar styleClass="backg"round-color:balack>
      <ng-template #start>
          <div class="start-content">
-     <img src="assets/images/Group 1.png" alt="">
+     <img src="assets/images/Group 1.png" alt="LOGO">
      <i class="pi pi-home" style="font-size: 1.5rem; color: rgb(115, 95, 242)"></i>
      </div>
      </ng-template>
      <ng-template #end>
      <div class="end-content" >
          <app-weather></app-weather>
-         <button pButton label="Logout"></button>
+         <button pButton label="Logout" (click)="onLogout()"></button>
      </div>
     </ng-template>
     </p-menubar>
-    </div>
+    <!-- </div> -->

@@ -1,0 +1,29 @@
+<div class="cart-container">
+    <h2>Your Cart</h2>
+  
+    <div *ngIf="cartItems.length === 0">
+      <p>Your cart is empty. Add items from the products section.</p>
+    </div>
+  
+    <div *ngFor="let product of cartItems" class="cart-item">
+      <img [src]="product.image" alt="{{ product.name }}" class="cart-img" />
+      <div class="cart-info">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+  
+        <div class="quantity-controls">
+          <button pButton icon="pi pi-minus" (click)="decreaseQuantity(product)" class="p-button-text"></button>
+          <span>{{ product.quantity }}</span>
+          <button pButton icon="pi pi-plus" (click)="increaseQuantity(product)" class="p-button-text"></button>
+        </div>
+  
+        <button pButton icon="pi pi-trash" class="p-button-danger" (click)="removeFromCart(product)"></button>
+      </div>
+    </div>
+  
+    <div class="cart-summary" *ngIf="cartItems.length > 0">
+      <h3>Total Price: ₹{{ totalPrice }}</h3>
+      <button pButton label="Checkout" class="checkout-btn" (click)="checkout()"></button>
+    </div>
+  </div>
+  

@@ -1,3 +1,20 @@
+/* .card {
+    background-color: black;
+    padding: 10px;
+  }
+  
+  .start-content img {
+    width: 50px;
+    margin-right: 10px;
+  }
+  
+  .end-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  } */
+  
+
 .card{
     display: flex;
     flex-direction: column;

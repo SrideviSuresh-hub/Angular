@@ -1,6 +1,7 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../Services/auth.service';
+import { Router } from '@angular/router';
 
 
 
@@ -11,26 +12,29 @@ import { AuthService } from '../Services/auth.service';
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
-  authService: AuthService = inject(AuthService);
   isLoading: boolean = false;
-  title = 'template-driven-form';
+  authService: AuthService = inject(AuthService);
+  router: Router = inject(Router);
+  errorMessage: string = '';
 
   userName: string = '';
   firstName: string = '';
   lastName: string = '';
   dob: string = '';
   emailAddress: string = '';
+  phone:number;
   gender: string = '';
+  street1:string='';
+  street2:string='';
   country: string = '';
   city: string = '';
-  region: string = '';
   postal: string = '';
   IsAdmin: boolean = false;
   states: string[] = [];
   password: string = '';
   confirmpassword: string = '';
   locales: string[] = ['en-US', 'en-GB', 'fr-FR', 'de-DE', 'es-ES', 'zh-CN'];
-  @ViewChild('registrationForm') form: NgForm;
+
 
   genders = [
     { id: 'check-male', value: 'male', display: 'Male' },
@@ -45,55 +49,131 @@ export class SignupComponent {
     'UTC+06:00', 'UTC+07:00', 'UTC+08:00', 'UTC+09:00', 'UTC+10:00', 'UTC+11:00',
     'UTC+12:00'
   ];
+  
+  @ViewChild('signupForm') form: NgForm;
+
   currentStep = 1;
   passwordMatching = true;
 
   nextStep() {
-    if(this.currentStep==1){
+    if (this.currentStep == 1) {
       this.currentStep++;
       console.log('Current Step:', this.currentStep);
     }
   }
-  
+
   previousStep() {
-  if(this.currentStep==2){
-    this.currentStep--;
-    console.log('Current Step:', this.currentStep);
+    if (this.currentStep == 2) {
+      this.currentStep--;
+      console.log('Current Step:', this.currentStep);
+    }
   }
-}
 
-
- 
   onCountryChange(event: any) {
-    const selectedCountry = event.target.value;;
+    const selectedCountry = event.target.value;
     if (selectedCountry === "India") {
-      this.states = ['Karnataka', 'Andra Pradesh', 'Tamil Nadu', 'Delhi', 'Chennai'];
-    } else if (selectedCountry === 'USA') {
-      this.states = ['California', 'Texas', 'New York', 'Florida'];
+      this.states = ['Karnataka',' Andhra Pradesh', 'Tamil Nadu', 'Delhi', 'Chennai'];
+    } else if (selectedCountry === "USA") {
+      this.states = ['California, Texas, New York, Florida'];
     } else {
       this.states = [];
     }
   }
 
-  validatePassword() {
-    this.passwordMatching = this.password === this.confirmpassword;
+  validatePassword(password, confirmpassword) {
+    this.passwordMatching = password === confirmpassword;
   }
 
+  summa(){
+    console.log(this.form)
+    console.log(this.form.controls['username'].value)
+  }
+
+  onSignup(form : NgForm) {
+    if (form.invalid || !this.passwordMatching) {
+      return;
+    }
+    
+    this.isLoading=true;
+    this.errorMessage='';
+    
+   
+    
+    let userData={
+      username : this.userName,
+      firstName : this.firstName,
+      lastName : this.lastName,
+      gender : this.gender,
+      dob : this.dob,
+      email : this.emailAddress,
+      mobile : this.phone,
+      address1 : this.street1,
+      address2 : this.street2 ,
+      country : form.value.country,
+      state : form.value.state,
+      zipCode : this.postal,
+      timezone : form.value.timezone,
+      locale :form.value.locale,
+      profileImage : '', 
+      isAdmin : false, 
+      password : this.password
+    };
+    
+    
+    this.authService.signUp(userData).subscribe(
+      // (res)=>
+      {
+          
+        next:(user)=>{
+          this.isLoading=false;
+          alert('Signup successful! You can now log in.');
+          this.router.navigate(['/login']);
+        },
+        error:(errMsg)=>{
+          this.isLoading=false;
+          this.errorMessage='Signup Failed. Try Again';
+        }
+    // console.log(res);
+     });
+   }
+    }
+  
+    // onFileChange(event: any) {
+    //   const file = event.target.files[0];
+    //   if (file && file.size < 2 * 1024 * 1024) { // Restrict to 2MB
+    //     const reader = new FileReader();
+    //     reader.onload = () => this.profileImage = reader.result as string;
+    //     reader.readAsDataURL(file);
+    //   } else {
+    //     this.errorMessage = 'Image must be less than 2MB!';
+    //   }
+    // }
+ 
   
 
-  onSignup(form: NgForm) {
-    const email = form.value.email;
-    const password = form.value.password;
-    this.isLoading = true;
-    this.authService.signUp(email, password).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.log(err);
-        this.isLoading = false;
-      }
-    });
-  }
-}
+
+
+
+
+
+
+
+
+
+
+
+  // onSignup(form: NgForm) {
+  //   const email = form.value.email;
+  //   const password = form.value.password;
+  //   this.isLoading = true;
+  //   this.authService.signUp(email, password).subscribe({
+  //     next: (res) => {
+  //       console.log(res);
+  //       this.isLoading = false;
+  //     },
+  //     error: (err) => {
+  //       console.log(err);
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // }

@@ -1,4 +1,4 @@
-/* .layout {
+.layout {
     display: flex;
   }
   
@@ -27,7 +27,7 @@
   
   .sidebar li:hover {
     background-color: #b7a1d3;
-  } */
+  }
   
   .content {
     flex: 1;

@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, EventEmitter, Input, input, Output, output } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,8 +8,11 @@ import { Component, input, output } from '@angular/core';
 })
 export class SidebarComponent {
 
-  isLeftSidebarCollapsed=input.required<boolean>();
-  changeIsLeftSidebarCollapsed=output<boolean>();
+  @Input() isLeftSidebarCollapsed: boolean = false;
+  @Output() changeIsLeftSidebarCollapsed = new EventEmitter<boolean>();
+
+
+
   items=[
     {
       routeLink:'home',
@@ -32,8 +35,9 @@ export class SidebarComponent {
       label:'Orders'
     }
   ]
-  toggleCollapse(){
-    this.changeIsLeftSidebarCollapsed.emit(!this.isLeftSidebarCollapsed());
-    console.log('change')
+  toggleCollapse() {
+    this.isLeftSidebarCollapsed = !this.isLeftSidebarCollapsed;
+    this.changeIsLeftSidebarCollapsed.emit(this.isLeftSidebarCollapsed);
   }
+
 }
