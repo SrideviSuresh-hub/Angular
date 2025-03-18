@@ -46,15 +46,16 @@ export class ProductsComponent  {
   
   }
 
-  addToCart(product: Product) {
-    this.prodService.updateProduct(product.id,product);
-  }
+  // addToCart(product: Product) {
+  //   this.prodService.updateProduct(product.id,product);
+  // }
 
   incrementQuantity(product: Product) {
+    if (!product.quantity) product.quantity = 0; 
     product.quantity++;
-    console.log(product.id +" "+product.quantity);
     this.prodService.updateProduct(product.id,product).subscribe((resp)=>{
-       resp.quantity=product.quantity;
+      resp.quantity=product.quantity;
+      // console.log(product.id +" "+product.quantity);
     });
     this.cartService.addToCart(product);
   }
@@ -63,19 +64,26 @@ export class ProductsComponent  {
   decrementQuantity(product: Product) {
     if (product.quantity > 0) {
       product.quantity--;
-      console.log(product.id+" " +product.quantity);
       this.prodService.updateProduct(product.id,product).subscribe((resp)=>{
         resp.quantity=product.quantity;
+        // console.log(product.id+" " +product.quantity);
       });
       this.cartService.removeFromCart(product);
     }
+
+  }
+  deleteProduct(id: string) {
+      this.prodService.deleteProduct(id).subscribe()
+  
+    }
+}
   
     //  else {
     //   product.quantity--;
     //   this.cartService.removeFromCart(product.id)
     //   console.log(product.quantity);
     // }
-  }
+  
 
   // addNewProduct(newProduct:Product): void {
   //   if (this.newProduct.image && this.newProduct.description && this.newProduct.image) {
@@ -95,12 +103,9 @@ export class ProductsComponent  {
   //     console.log("Products Added succesfully")
   //   })
   // }
-  deleteProduct(id: string) {
-    this.prodService.deleteProduct(id).subscribe()
+  // 
 
-  }
 
-}
 
 // addIntialProducts(){
 //   this.prodService.addAllProducts(  { id: '9', name: 'Glasses', description: 'Explore the widest range of glasses via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 }

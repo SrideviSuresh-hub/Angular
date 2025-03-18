@@ -11,7 +11,7 @@ import { ProductService } from '../../../Services/products.service';
 })
 export class CartComponent {
 
-  prodService: ProductService = inject(ProductService);
+  // prodService: ProductService = inject(ProductService);
   cartService: CartService = inject(CartService);
   cartItems: Product[] = [];
   router: Router = inject(Router);
@@ -20,33 +20,52 @@ export class CartComponent {
     this.loadCart()
   }
   loadCart() {
-    this.cartService.getCart().subscribe(cart => {
-      this.cartItems = cart;
+    this.cartService.getCart().subscribe(items => {
+      console.log(items)
+      this.cartItems = items;
     }
     )
   }
-  decreaseQuantity(product) {
-    if (product.quantity > 1) {
-      product.quantity--;
-      this.cartService.removeFromCart(product);
-      
-    }
-  }
-  increaseQuantity(product) {
+ 
+  incrementQuantity(product:Product){
     product.quantity++;
-    this.cartService.addToCart(product)
-
-  }
-  removeFromCart(product) {
-    this.cartItems = this.cartItems.filter(item => item.id !== product.id);
-    this.cartService.updateCart(this.cartItems).subscribe(() => {
-      console.log('Product removed from cart')
+    this.cartService.updateCart(this.cartItems).subscribe(()=>{
+      console.log('cart updated successfully');
     })
   }
+
+  decrementQuantity(product:Product){
+    if(product.quantity>1){
+      product.quantity--;
+    }else{
+      this.removeItem(product);
+    }
+    this.cartService.updateCart(this.cartItems).subscribe(()=>{
+      console.log('cart Updated Successfull')
+    })
+  }
+  removeItem(product:Product){
+    this.cartService.removeFromCart(product)
+    this.loadCart();
+  }
+clearCart(){
+  this.cartService.clearCart().subscribe(()=>{
+    this.cartItems=[];
+    console.log('Cart cleared')
+  })
+}
+ 
   checkOut() {
 
   }
 }
 
 
+
+// removeFromCart(product) {
+//   this.cartItems = this.cartItems.filter(item => item.id !== product.id);
+//   this.cartService.updateCart(this.cartItems).subscribe(() => {
+//     console.log('Product removed from cart')
+//   })
+// }
 

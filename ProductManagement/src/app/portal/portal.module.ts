@@ -34,8 +34,6 @@ import { HttpClientModule } from "@angular/common/http";
         ProductListComponent,
       ProductsComponent,
         HomeComponent,
-        
-       
     ],
     exports:[
         PortalComponent,
@@ -50,6 +48,7 @@ import { HttpClientModule } from "@angular/common/http";
         ProductListComponent,
         FileUploadModule,
         CardModule,
+        CommonModule,
         DataView,
         Tag,
         Rating,

@@ -1,63 +1,25 @@
-<div *ngIf="products.length > 0; else noProducts">
-  <div *ngFor="let product of products">
-    <h2>{{ product.name }}</h2>
-    <p>{{ product.description }}</p>
-    <img [src]="product.image" alt="{{ product.name }}">
-    <p>Quantity: {{ product.quantity }}</p>
-    <button (click)="increaseQuantity(product)">+</button>
-    <button (click)="decreaseQuantity(product)">-</button>
-    <!-- <button *ngIf="isAdmin" (click)="deleteProduct(product.id)">Delete</button> -->
-    <!-- <button *ngIf="isAdmin" (click)="updateProduct(product)">Update</button> -->
-  </div>
-</div>
-<ng-template #noProducts>
-  <p>No products available.</p>
-</ng-template>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="cart-container">
-    <h2>Your Cart</h2>
-  
-    <div *ngIf="cartItems.length === 0">
-      <p>Your cart is empty. Add items from the products section.</p>
-    </div>
-  
-    <div *ngFor="let product of cartItems" class="cart-item">
+  <h2>Your Cart</h2>
+  <ul>
+    <li *ngFor="let product of cartItems">
       <img [src]="product.image" alt="{{ product.name }}" class="cart-img" />
-      <div class="cart-info">
+      <div class="cart-details">
         <h3>{{ product.name }}</h3>
         <p>{{ product.description }}</p>
-  
         <div class="quantity-controls">
-          <button pButton icon="pi pi-minus" (click)="decreaseQuantity(product)" class="p-button-text"></button>
+          <button (click)="decrementQuantity(product)">-</button>
           <span>{{ product.quantity }}</span>
-          <button pButton icon="pi pi-plus" (click)="increaseQuantity(product)" class="p-button-text"></button>
+          <button (click)="incrementQuantity(product)">+</button>
         </div>
-  
-        <button pButton icon="pi pi-trash" class="p-button-danger" (click)="removeFromCart(product)"></button>
+        <button class="remove-btn" (click)="removeItem(product)">Remove</button>
       </div>
-    </div>
-  
-    <div class="cart-summary" *ngIf="cartItems.length > 0">
-      <!-- <h3>Total Price: ₹{{ totalPrice }}</h3> -->
-      <button pButton label="Checkout" class="checkout-btn" (click)="checkOut()"></button>
-    </div>
-  </div>
-  
+    </li>
+  </ul>
+
+  <button class="clear-cart-btn" (click)="clearCart()" *ngIf="cartItems.length > 0">
+    Clear Cart
+  </button>
+
+  <p *ngIf="cartItems.length === 0">Your cart is empty.</p>
+</div>
+
