@@ -1,3 +1,37 @@
+<div *ngIf="products.length > 0; else noProducts">
+  <div *ngFor="let product of products">
+    <h2>{{ product.name }}</h2>
+    <p>{{ product.description }}</p>
+    <img [src]="product.image" alt="{{ product.name }}">
+    <p>Quantity: {{ product.quantity }}</p>
+    <button (click)="increaseQuantity(product)">+</button>
+    <button (click)="decreaseQuantity(product)">-</button>
+    <!-- <button *ngIf="isAdmin" (click)="deleteProduct(product.id)">Delete</button> -->
+    <!-- <button *ngIf="isAdmin" (click)="updateProduct(product)">Update</button> -->
+  </div>
+</div>
+<ng-template #noProducts>
+  <p>No products available.</p>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="cart-container">
     <h2>Your Cart</h2>
   
@@ -22,8 +56,8 @@
     </div>
   
     <div class="cart-summary" *ngIf="cartItems.length > 0">
-      <h3>Total Price: ₹{{ totalPrice }}</h3>
-      <button pButton label="Checkout" class="checkout-btn" (click)="checkout()"></button>
+      <!-- <h3>Total Price: ₹{{ totalPrice }}</h3> -->
+      <button pButton label="Checkout" class="checkout-btn" (click)="checkOut()"></button>
     </div>
   </div>
   

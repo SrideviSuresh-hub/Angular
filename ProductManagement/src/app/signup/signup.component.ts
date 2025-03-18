@@ -29,7 +29,7 @@ export class SignupComponent {
   country: string = '';
   city: string = '';
   postal: string = '';
-  IsAdmin: boolean = false;
+  IsAdmin: boolean;
   states: string[] = [];
   password: string = '';
   confirmpassword: string = '';
@@ -115,7 +115,7 @@ export class SignupComponent {
       timezone : form.value.timezone,
       locale :form.value.locale,
       profileImage : '', 
-      isAdmin : false, 
+      isAdmin : this.IsAdmin, 
       password : this.password
     };
     

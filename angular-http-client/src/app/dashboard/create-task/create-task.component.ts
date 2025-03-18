@@ -19,7 +19,6 @@ export class CreateTaskComponent implements AfterViewInit {
   counterService:CounterService=inject(CounterService);
   ngOnInit(){
     this.counterService.increment('CreateTaskComponent')
-
   }
   ngAfterViewInit() {
     setTimeout(()=>

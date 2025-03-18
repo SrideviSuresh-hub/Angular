@@ -1,10 +1,9 @@
 
   
-
-  
-        <div class="product-container">
-            <div class="search-bar">
-              <input type="text" pInputText placeholder="Search products..." [(ngModel)]="searchText" />
+        <div class="product-container" style="top: 20px;">
+          <h1>Available Products </h1>
+          <div class="search-bar" >
+            <input type="text"  pInputText placeholder="Search products..." [(ngModel)]="searchText" />
               <button pButton label="Search"></button>
             </div>
           
@@ -20,9 +19,9 @@
                   <button pButton icon="pi pi-plus" (click)="incrementQuantity(product)" class="p-button-text"></button>
                 </div>
           
-                <div *ngIf="!isAdmin">
+                <!-- <div *ngIf="!isAdmin">
                   <button pButton label="Add to Cart" (click)="addToCart(product)"></button>
-                </div>
+                </div> -->
           
                 <div *ngIf="isAdmin">
                   <button pButton icon="pi pi-trash" class="p-button-danger" (click)="deleteProduct(product.id)"></button>
@@ -34,7 +33,7 @@
                 <input type="text" pInputText [(ngModel)]="newProduct.name" placeholder="Product Name" />
                 <input type="text" pInputText [(ngModel)]="newProduct.description" placeholder="Description" />
                 <input type="text" pInputText [(ngModel)]="newProduct.image" placeholder="Image URL" />
-                <button pButton label="Add" (click)="addNewProduct()"></button>
+                <!-- <button pButton label="Add" (click)="addNewProduct(prod)"></button> -->
               </div>
             </div>
           </div>

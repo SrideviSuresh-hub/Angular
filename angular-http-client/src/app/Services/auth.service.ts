@@ -111,11 +111,7 @@ export class AuthService {
             case 'INVALID_LOGIN_CREDENTIALS':
                 unknownError = "invalid login credentials"
                 break;
-
         }
         return throwError(() => unknownError)
-
-
-
     }
 }
