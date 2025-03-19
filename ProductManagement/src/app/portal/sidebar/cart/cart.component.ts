@@ -11,53 +11,71 @@ import { ProductService } from '../../../Services/products.service';
 })
 export class CartComponent {
 
-  // prodService: ProductService = inject(ProductService);
   cartService: CartService = inject(CartService);
-  cartItems: Product[] = [];
   router: Router = inject(Router);
-
-  ngOnIntit() {
+  cartItems: Product[] = [];
+  searchText: string = '';
+  productService:ProductService=inject(ProductService)
+  ngOnInit() {
     this.loadCart()
   }
   loadCart() {
     this.cartService.getCart().subscribe(items => {
-      console.log(items)
       this.cartItems = items;
+      console.log('cart items', this.cartItems)
     }
     )
   }
- 
-  incrementQuantity(product:Product){
-    product.quantity++;
-    this.cartService.updateCart(this.cartItems).subscribe(()=>{
-      console.log('cart updated successfully');
-    })
-  }
-
-  decrementQuantity(product:Product){
-    if(product.quantity>1){
-      product.quantity--;
-    }else{
-      this.removeItem(product);
+  getFilteredCartItems() {
+    if (!this.searchText.trim()) {
+      return this.cartItems; // Return all items if no search text
     }
-    this.cartService.updateCart(this.cartItems).subscribe(()=>{
-      console.log('cart Updated Successfull')
+    return this.cartItems.filter((item) =>
+      item.name.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
+
+  incrementQuantity(product: Product) {
+    product.quantity++;
+    this.cartService.addToCart(product);
+    this.productService.updateProduct(product.id, product).subscribe(()=>{
+      console.log('prod updated')
+   setTimeout(() => this.loadCart(), 200);
+  });
+  }
+
+  decrementQuantity(product: Product) {
+    product.quantity--;
+    this.cartService.removeFromCart(product);
+    this.productService.updateProduct(product.id, product).subscribe(()=>{
+      console.log('prod updated');
+   setTimeout(() => this.loadCart(), 200);
+  });
+  }
+
+  removeItem(product: Product) {
+    this.productService.updateProduct(product.id, product).subscribe();
+   setTimeout(() => this.loadCart(), 200);
+  }
+
+  clearCart() {
+    this.cartService.clearCart().subscribe(() => {
+      this.cartItems = [];
+     setTimeout(() => this.loadCart(), 200);
+      console.log('Cart cleared');
     })
   }
-  removeItem(product:Product){
-    this.cartService.removeFromCart(product)
-    this.loadCart();
-  }
-clearCart(){
-  this.cartService.clearCart().subscribe(()=>{
-    this.cartItems=[];
-    console.log('Cart cleared')
-  })
-}
- 
-  checkOut() {
 
+  checkOut() {
+    if (this.cartItems.length > 0) {
+      alert("procedding to this.checkOut.");
+      this.clearCart();
+    }
+    else {
+      alert('your cart i sempty')
+    }
   }
+
 }
 
 

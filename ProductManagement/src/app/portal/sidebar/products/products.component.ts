@@ -17,11 +17,13 @@ export class ProductsComponent  {
   authService: AuthService = inject(AuthService);
   cartService: CartService = inject(CartService);
   prodService: ProductService = inject(ProductService);
+
   searchText: string = '';
   isAdmin: boolean = false;
   newProduct: { id: '', name: '', description: '', image: '', quantity: 0 };;
   products: Product[] = [];
   filteredProducts:Product[]=[];
+
   ngOnInit() {
     this.isAdmin = this.authService.isAdmin();
     this.loadProducts();
@@ -30,19 +32,15 @@ export class ProductsComponent  {
 
   loadProducts() {
     this.prodService.getProducts().subscribe((res: Product[]) => {
-      if (res) {
-        console.log(res)
         this.products = res;
-        this.filteredProducts=res;
-      }
-    }
-    )
+        this.filteredProducts=[...this.products];
+    });
   }
  
   searchProducts() {
-    this.filteredProducts = this.products.filter((p) =>
-      p.name.toLowerCase().includes(this.searchText.toLowerCase())
-    )
+    const search=this.searchText.toLowerCase();
+    this.filteredProducts=this.products.filter((p)=>
+    p.name.toLowerCase().includes(search));
   
   }
 
@@ -50,30 +48,46 @@ export class ProductsComponent  {
   //   this.prodService.updateProduct(product.id,product);
   // }
 
+   private updateProduct( product :Product){
+this.prodService.updateProduct(product.id,product).subscribe(()=>{
+  // console.log(product.id +" "+product.quantity);
+})
+  }
+
   incrementQuantity(product: Product) {
     if (!product.quantity) product.quantity = 0; 
     product.quantity++;
-    this.prodService.updateProduct(product.id,product).subscribe((resp)=>{
-      resp.quantity=product.quantity;
-      // console.log(product.id +" "+product.quantity);
-    });
+    this.updateProduct(product);
     this.cartService.addToCart(product);
   }
 
+  addNewProduct(): void {
+    if (this.newProduct.image && this.newProduct.description && this.newProduct.image) {
+      const prodToAdd = { ...this.newProduct,quantity:0 };
+      this.prodService.addProduct(prodToAdd).subscribe(() => {
+        this.loadProducts();
 
-  decrementQuantity(product: Product) {
-    if (product.quantity > 0) {
-      product.quantity--;
-      this.prodService.updateProduct(product.id,product).subscribe((resp)=>{
-        resp.quantity=product.quantity;
-        // console.log(product.id+" " +product.quantity);
-      });
-      this.cartService.removeFromCart(product);
+        this.newProduct = { id: '', name: '', description: '', image: '', quantity: 0 };
+      })
+
     }
 
   }
+  decrementQuantity(product: Product) {
+  
+      product.quantity--;
+      this.updateProduct(product);
+      this.cartService.removeFromCart(product);
+    
+    
+
+  }
   deleteProduct(id: string) {
-      this.prodService.deleteProduct(id).subscribe()
+      this.prodService.deleteProduct(id).subscribe(()=>{
+        this.products=this.products.filter((p)=>p.id!==id);
+        this.filteredProducts=this.filteredProducts.filter((p)=>p.id!==id);
+        console.log('product deleted')
+      })
   
     }
 }
@@ -85,18 +99,7 @@ export class ProductsComponent  {
     // }
   
 
-  // addNewProduct(newProduct:Product): void {
-  //   if (this.newProduct.image && this.newProduct.description && this.newProduct.image) {
-  //     const prodToAdd = { ...this.newProduct, id: crypto.randomUUID() };
-  //     this.prodService.addProduct(prodToAdd).subscribe(() => {
-  //       this.loadProducts();
 
-  //       this.newProduct = { id: '', name: '', description: '', image: '', quantity: 0 };
-  //     })
-
-  //   }
-
-  // }
   // addNewProduct(newProd:Product){
   //   this.products.push(newProd);
   //   this.prodService.addAllProducts(this.products).subscribe((res)=>{

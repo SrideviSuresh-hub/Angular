@@ -1,25 +1,32 @@
 <div class="cart-container">
-  <h2>Your Cart</h2>
-  <ul>
-    <li *ngFor="let product of cartItems">
-      <img [src]="product.image" alt="{{ product.name }}" class="cart-img" />
+  <h1>Shopping Cart</h1>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Search cart items..." [(ngModel)]="searchText" (input)="getFilteredCartItems()" />
+    <button pButton label="Search"></button>
+  </div>
+
+  <div class="cart-grid">
+    <div *ngFor="let item of getFilteredCartItems()" class="cart-card">
+      <img [src]="item.image" alt="{{ item.name }}" class="cart-img" />
       <div class="cart-details">
-        <h3>{{ product.name }}</h3>
-        <p>{{ product.description }}</p>
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.description }}</p>
+        <!-- <span class="price">₹{{ item.price }}</span> -->
+
         <div class="quantity-controls">
-          <button (click)="decrementQuantity(product)">-</button>
-          <span>{{ product.quantity }}</span>
-          <button (click)="incrementQuantity(product)">+</button>
+          <button pButton icon="pi pi-minus" (click)="decrementQuantity(item)" class="p-button-text"></button>
+          <span>{{ item.quantity }}</span>
+          <button pButton icon="pi pi-plus" (click)="incrementQuantity(item)" class="p-button-text"></button>
         </div>
-        <button class="remove-btn" (click)="removeItem(product)">Remove</button>
+
+        <button pButton icon="pi pi-trash" class="p-button-danger" (click)="removeItem(item)"></button>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 
-  <button class="clear-cart-btn" (click)="clearCart()" *ngIf="cartItems.length > 0">
-    Clear Cart
-  </button>
-
-  <p *ngIf="cartItems.length === 0">Your cart is empty.</p>
+  <div class="cart-summary">
+    <!-- <h2>Total: ₹{{ getTotalPrice() }}</h2> -->
+    <button pButton label="Checkout" class="checkout-btn" (click)="checkOut()"></button>
+  </div>
 </div>
-

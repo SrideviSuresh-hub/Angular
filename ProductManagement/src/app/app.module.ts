@@ -28,6 +28,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { StyleClass } from 'primeng/styleclass';
 import { PortalRouteModule } from './portal/portal-route.module';
 import { routes1 } from './route.module';
+import { PortalModule } from './portal/portal.module';
 @NgModule({
   declarations: [
   AppComponent,
@@ -40,6 +41,8 @@ import { routes1 } from './route.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    PortalModule,
     CardModule,
     InputTextModule,
     PasswordModule,

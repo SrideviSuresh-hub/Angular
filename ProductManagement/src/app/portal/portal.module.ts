@@ -22,6 +22,8 @@ import { Rating } from 'primeng/rating';
 import { SelectButton } from 'primeng/selectbutton';
 import { Select } from "primeng/select";
 import { HttpClientModule } from "@angular/common/http";
+import { CartService } from "../Services/cart.service";
+import { CartComponent } from "./sidebar/cart/cart.component";
 
 @NgModule({
     declarations:[
@@ -34,6 +36,7 @@ import { HttpClientModule } from "@angular/common/http";
         ProductListComponent,
       ProductsComponent,
         HomeComponent,
+       CartComponent
     ],
     exports:[
         PortalComponent,
@@ -41,6 +44,7 @@ import { HttpClientModule } from "@angular/common/http";
         MainComponent,
         SidebarComponent,
         WeatherComponent,
+        CartComponent,
         ButtonModule,
         MenubarModule,
         SearchComponent,
@@ -48,7 +52,6 @@ import { HttpClientModule } from "@angular/common/http";
         ProductListComponent,
         FileUploadModule,
         CardModule,
-        CommonModule,
         DataView,
         Tag,
         Rating,
@@ -59,10 +62,10 @@ import { HttpClientModule } from "@angular/common/http";
         RouterModule.forChild(routes2),
         HttpClientModule,
         MenubarModule,
-        CommonModule,
         ButtonModule,
         PortalRouteModule,
         FormsModule,
+        CommonModule,
         FileUploadModule,
         DataView,
         Tag,
