@@ -9,7 +9,8 @@ export const canActivate = (
     state: RouterStateSnapshot
 ):boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> => {
     const authService: AuthService = inject(AuthService);
-    const loggedIn = authService.isLoggedIn;
+    const loggedIn = authService.isLoggedIn();
+    console.log(loggedIn);
     const route=inject(Router);
     if (loggedIn) {
         return true;

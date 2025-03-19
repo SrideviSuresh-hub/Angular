@@ -79,7 +79,7 @@
                 </div>
                 <div class="select-box">
                   <label>State</label>
-                  <select name="state" required>
+                  <select name="state" [(ngModel)]="statee" required>
                     <option *ngFor="let state of states" [value]="state">{{ state }}</option>
                   </select>
                 </div>
@@ -93,7 +93,7 @@
                 </div>
                 <div class="select-box">
                   <label>TimeZone</label>
-                  <select name="timezone" ngModel required>
+                  <select name="timezone" [(ngModel)]="timezonee" required>
                     <option *ngFor="let timezone of timezones"   [value]="timezone">{{ timezone }}</option>
                   </select>
                 </div>
@@ -103,7 +103,7 @@
             <div class="column">
               <div class="column">
                 <label for="locale">Locale</label>
-                <select  name="locale" ngModel required>
+                <select  name="locale" [(ngModel)]="localee" required>
                   <option *ngFor="let locale of locales" [value]="locale">{{ locale }}</option>
                 </select>
               </div>

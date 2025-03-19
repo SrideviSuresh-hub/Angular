@@ -15,7 +15,7 @@ export class CartComponent {
   router: Router = inject(Router);
   cartItems: Product[] = [];
   searchText: string = '';
-  productService:ProductService=inject(ProductService)
+  productService: ProductService = inject(ProductService)
   ngOnInit() {
     this.loadCart()
   }
@@ -38,41 +38,55 @@ export class CartComponent {
   incrementQuantity(product: Product) {
     product.quantity++;
     this.cartService.addToCart(product);
-    this.productService.updateProduct(product.id, product).subscribe(()=>{
+    this.productService.updateProduct(product.id, product).subscribe(() => {
       console.log('prod updated')
-   setTimeout(() => this.loadCart(), 200);
-  });
+      setTimeout(() => this.loadCart(), 200);
+    });
   }
 
   decrementQuantity(product: Product) {
-    product.quantity--;
-    this.cartService.removeFromCart(product);
-    this.productService.updateProduct(product.id, product).subscribe(()=>{
-      console.log('prod updated');
-   setTimeout(() => this.loadCart(), 200);
-  });
+    if (product.quantity > 0) {
+      product.quantity--;
+      this.cartService.removeFromCart(product);
+      this.productService.updateProduct(product.id, product).subscribe(() => {
+        console.log('prod updated');
+        setTimeout(() => this.loadCart(), 200);
+      });
+    } else {
+      this.removeItem(product);
+    }
   }
 
   removeItem(product: Product) {
-    this.productService.updateProduct(product.id, product).subscribe();
-   setTimeout(() => this.loadCart(), 200);
-  }
+    this.cartService.removeFromCart(product);
+    this.productService.updateProduct(product.id, product).subscribe(() => {
+      console.log('Product Updated');
 
-  clearCart() {
-    this.cartService.clearCart().subscribe(() => {
-      this.cartItems = [];
-     setTimeout(() => this.loadCart(), 200);
-      console.log('Cart cleared');
+      setTimeout(() => this.loadCart(), 200);
     })
   }
 
+  // clearCart() {
+  //   this.cartService.clearCart().subscribe(() => {
+  //     this.cartItems = [];
+  //     this.loadCart();
+  //     console.log('Cart cleared');
+  //   })
+  // }
+
   checkOut() {
-    if (this.cartItems.length > 0) {
-      alert("procedding to this.checkOut.");
-      this.clearCart();
+    if (this.cartItems.length === 0) {
+      alert('your cart is empty');
+      return;
+
     }
     else {
-      alert('your cart i sempty')
+      console.log("procedding to checkOut.");
+      this.cartService.checkOut().subscribe(()=>{
+        this.loadCart();
+        alert('order Placed Successfully!');
+        this.router.navigate(['/orders']);
+      });
     }
   }
 

@@ -74,13 +74,11 @@ this.prodService.updateProduct(product.id,product).subscribe(()=>{
 
   }
   decrementQuantity(product: Product) {
-  
+  if(product.quantity>0){
       product.quantity--;
       this.updateProduct(product);
       this.cartService.removeFromCart(product);
-    
-    
-
+  }
   }
   deleteProduct(id: string) {
       this.prodService.deleteProduct(id).subscribe(()=>{
@@ -90,7 +88,19 @@ this.prodService.updateProduct(product.id,product).subscribe(()=>{
       })
   
     }
+    
 }
+
+// { id: '1', name: 'clothes', description: 'Explore the widest range of clothes via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
+// { id: '2', name: 'Shoes', description: 'Explore the widest range of shoes via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
+// { id: '3', name: 'Utensils', description: 'Explore the widest range of utensils via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
+// { id: '4', name: 'Watches', description: 'Explore the widest range of watches via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
+// { id: '5', name: 'Accessories', description: 'Explore the widest range of accessories via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
+// { id: '6', name: 'Hats', description: 'Explore the widest range of hats via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
+// { id: '7', name: 'Electronics', description: 'Explore the widest range of electronics via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
+// { id: '8', name: 'Bags', description: 'Explore the widest range of bags via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
+// { id: '9', name: 'Glasses', description: 'Explore the widest range of glasses via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 }
+
   
     //  else {
     //   product.quantity--;
@@ -109,23 +119,17 @@ this.prodService.updateProduct(product.id,product).subscribe(()=>{
   // 
 
 
+  // addIntialProducts(){
+  //   this.prodService.addAllProducts( { id: '9', name: 'Glasses', description: 'Explore the widest range of glasses via Shopify.', image: 'assets/images/glasses.png', quantity: 0 }
+  
+  
+  
+  //   ).subscribe((res)=>{
+      
+  //     console.log("Intial products added")
+  //   })
+  //   }
 
-// addIntialProducts(){
-//   this.prodService.addAllProducts(  { id: '9', name: 'Glasses', description: 'Explore the widest range of glasses via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 }
-//   ).subscribe((res)=>{
-    
-//     console.log("Intial products added")
-//   })
-//   }
   
 
 
-// { id: '1', name: 'clothes', description: 'Explore the widest range of clothes via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '2', name: 'Shoes', description: 'Explore the widest range of shoes via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '3', name: 'Utensils', description: 'Explore the widest range of utensils via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '4', name: 'Watches', description: 'Explore the widest range of watches via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '5', name: 'Accessories', description: 'Explore the widest range of accessories via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '6', name: 'Hats', description: 'Explore the widest range of hats via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '7', name: 'Electronics', description: 'Explore the widest range of electronics via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '8', name: 'Bags', description: 'Explore the widest range of bags via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '9', name: 'Glasses', description: 'Explore the widest range of glasses via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 }

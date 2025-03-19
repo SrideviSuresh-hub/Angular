@@ -16,7 +16,8 @@ export class SignupComponent {
   authService: AuthService = inject(AuthService);
   router: Router = inject(Router);
   errorMessage: string = '';
-
+timezonee:string='';
+localee:string='';
   userName: string = '';
   firstName: string = '';
   lastName: string = '';
@@ -29,7 +30,8 @@ export class SignupComponent {
   country: string = '';
   city: string = '';
   postal: string = '';
-  IsAdmin: boolean;
+  IsAdmin: boolean=false;
+  statee:string='';
   states: string[] = [];
   password: string = '';
   confirmpassword: string = '';
@@ -61,7 +63,6 @@ export class SignupComponent {
       console.log('Current Step:', this.currentStep);
     }
   }
-
   previousStep() {
     if (this.currentStep == 2) {
       this.currentStep--;
@@ -74,7 +75,7 @@ export class SignupComponent {
     if (selectedCountry === "India") {
       this.states = ['Karnataka',' Andhra Pradesh', 'Tamil Nadu', 'Delhi', 'Chennai'];
     } else if (selectedCountry === "USA") {
-      this.states = ['California, Texas, New York, Florida'];
+      this.states = ['California', 'Texas', 'New York','Florida'];
     } else {
       this.states = [];
     }
@@ -103,29 +104,28 @@ export class SignupComponent {
       username : this.userName,
       firstName : this.firstName,
       lastName : this.lastName,
-      gender : this.gender,
+      genders: this.gender,
       dob : this.dob,
       email : this.emailAddress,
       mobile : this.phone,
       address1 : this.street1,
       address2 : this.street2 ,
-      country : form.value.country,
-      state : form.value.state,
+      country : this.country,
+      states : this.statee,
       zipCode : this.postal,
-      timezone : form.value.timezone,
-      locale :form.value.locale,
-      profileImage : '', 
+      timezones : this.timezonee,
+      locales :this.localee,
+      profileImage :'', 
       isAdmin : this.IsAdmin, 
       password : this.password
     };
     
     
     this.authService.signUp(userData).subscribe(
-      // (res)=>
-      {
-          
+      {  
         next:(user)=>{
           this.isLoading=false;
+          console.log(user);
           alert('Signup successful! You can now log in.');
           this.router.navigate(['/login']);
         },
@@ -133,10 +133,8 @@ export class SignupComponent {
           this.isLoading=false;
           this.errorMessage='Signup Failed. Try Again';
         }
-    // console.log(res);
      });
-   }
-    }
+   }}
   
     // onFileChange(event: any) {
     //   const file = event.target.files[0];

@@ -77,8 +77,10 @@ h1 {
   border-radius: 5px;
   border: none;
   cursor: pointer;
+  float: right;
 }
 
 .checkout-btn:hover {
   background: darkgreen;
+  
 }

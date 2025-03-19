@@ -27,7 +27,6 @@ authService:AuthService=inject(AuthService);
     next:(user)=>{
       if(user){
         this.isLoading=false;
-        this.authService.active=true;
         this.router.navigate(['/portal'])
       }
       else{
@@ -38,7 +37,6 @@ authService:AuthService=inject(AuthService);
     error:(errMsg)=>{
               this.isLoading=false;
               this.errorMessage=errMsg;
-              this.authService.active=false;
               this.hideSnackBar();
             }
   })

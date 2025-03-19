@@ -6,7 +6,7 @@
     <div>
       <!--  style="margin-top: 50px;" -->
       <div *ngFor="let item of items" class="sidenav-nav">
-        <li class="sidenav-nav-item">
+        <li class="sidenav-nav-item" >
           <a class="sidenav-nav-link" [routerLink]="item.routeLink" 
           routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
             <i class="sidenav-link-icon" [class]="item.icon"></i>
@@ -16,4 +16,3 @@
       </div>
     </div>
     </div>
-   

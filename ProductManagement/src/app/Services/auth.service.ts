@@ -13,7 +13,6 @@ import {  Router } from "@angular/router";
 
 export class AuthService{
     router:Router=inject(Router);
-    active:boolean=false;
     http:HttpClient=inject(HttpClient);
     private baseUrluser='https://assignment-a22f7-default-rtdb.firebaseio.com/user';
 
@@ -67,6 +66,7 @@ login(email:string,password:string):Observable<any>{
         })
     )
 }
+
 logout(){
     localStorage.removeItem('user');
     this.router.navigate(['/login']);
@@ -75,6 +75,7 @@ logout(){
 getCurrentUser():any{
     return JSON.parse(localStorage.getItem('user')||null);
 }
+
 isAdmin():boolean{
     const user=this.getCurrentUser();
     if(user){
@@ -82,8 +83,9 @@ isAdmin():boolean{
     }
     return false;
 }
+
 isLoggedIn():boolean{
-    console.log(!!this.getCurrentUser);
+    console.log(!!this.getCurrentUser());
     return !!this.getCurrentUser();
 }
 

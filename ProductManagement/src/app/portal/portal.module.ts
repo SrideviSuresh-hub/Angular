@@ -9,10 +9,8 @@ import {  MenubarModule } from 'primeng/menubar';
 import { CommonModule } from "@angular/common"
 import { ButtonModule } from 'primeng/button';
 import { PortalRouteModule, routes2 } from "./portal-route.module";
-import { ProductListComponent } from "./sidebar/products/product-list/product-list.component";
 import { FormsModule } from "@angular/forms";
 import { ProductsComponent } from "./sidebar/products/products.component";
-import { SearchComponent } from "./sidebar/products/search/search.component";
 import { FileUploadModule } from 'primeng/fileupload';
 import { HomeComponent } from "./sidebar/home/home.component";
 import { CardModule } from "primeng/card";
@@ -22,8 +20,12 @@ import { Rating } from 'primeng/rating';
 import { SelectButton } from 'primeng/selectbutton';
 import { Select } from "primeng/select";
 import { HttpClientModule } from "@angular/common/http";
-import { CartService } from "../Services/cart.service";
 import { CartComponent } from "./sidebar/cart/cart.component";
+import { TableModule } from 'primeng/table';
+import { OrdersComponent } from "./sidebar/orders/orders.component";
+// import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { UsersComponent } from "./sidebar/users/users.component";
 
 @NgModule({
     declarations:[
@@ -32,31 +34,35 @@ import { CartComponent } from "./sidebar/cart/cart.component";
         MainComponent,
         SidebarComponent,
         WeatherComponent,
-        SearchComponent,
-        ProductListComponent,
-      ProductsComponent,
+        UsersComponent,
+        ProductsComponent,
         HomeComponent,
-       CartComponent
+       CartComponent,
+       OrdersComponent
     ],
     exports:[
         PortalComponent,
         HeaderComponent,
         MainComponent,
         SidebarComponent,
+        UsersComponent,
         WeatherComponent,
         CartComponent,
+        OrdersComponent,
         ButtonModule,
         MenubarModule,
-        SearchComponent,
         ProductsComponent,
-        ProductListComponent,
         FileUploadModule,
         CardModule,
         DataView,
         Tag,
         Rating,
         SelectButton,
-        Select
+        TableModule,
+        // ConfirmDialogModule,
+        ToastModule
+        
+        // Select
     ],
     imports:[
         RouterModule.forChild(routes2),
@@ -71,7 +77,10 @@ import { CartComponent } from "./sidebar/cart/cart.component";
         Tag,
         Rating,
         SelectButton,
-        Select,
+        TableModule,
+        // ConfirmDialogModule,
+        ToastModule
+        // Select,
         
     ]
 })
