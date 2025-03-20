@@ -1,0 +1,41 @@
+<h1>Users</h1>
+<button style="float: right;" (click)="addUser()">Add User+</button>
+
+<p-table [value]="users">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>User Image</th>
+        <th>Username</th>
+        <th>Age</th>
+        <th>Products Count</th>
+        <th>Country</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td><img [src]="user.image" alt="User Image" width="50"></td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.age }}</td>
+        <td>{{ user.productsCount }}</td>
+        <td>{{ user.country }}</td>
+        <td>
+          <button (click)="editUser(user)">Edit</button>
+          <button (click)="deleteUser(user)">Delete</button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  
+  <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="false">
+    <ng-template pTemplate="header">
+      <h3>{{ isNewUser ? 'Add User' : 'Edit User' }}</h3>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <app-user-form [selectedUser]="selectedUser" [isNewUser]="isNewUser" (save)="saveUser()" (cancel)="displayDialog = false"></app-user-form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button (click)="saveUser()">Save</button>
+      <button (click)="displayDialog = false">Cancel</button>
+    </ng-template>
+  </p-dialog>

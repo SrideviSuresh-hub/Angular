@@ -1,0 +1,79 @@
+<form>
+    <div>
+      <label for="username">Username</label>
+      <input id="username" [(ngModel)]="selectedUser.username" [disabled]="!isNewUser" required maxlength="20">
+    </div>
+    <div>
+      <label for="firstName">First Name</label>
+      <input id="firstName" [(ngModel)]="selectedUser.firstName" required maxlength="30">
+    </div>
+    <div>
+      <label for="lastName">Last Name</label>
+      <input id="lastName" [(ngModel)]="selectedUser.lastName" maxlength="30">
+    </div>
+    <div>
+      <label for="gender">Gender</label>
+      <div>
+        <input type="radio" id="male" value="Male" [(ngModel)]="selectedUser.gender"> Male
+        <input type="radio" id="female" value="Female" [(ngModel)]="selectedUser.gender"> Female
+        <input type="radio" id="transgender" value="TransGender" [(ngModel)]="selectedUser.gender"> TransGender
+      </div>
+    </div>
+    <div>
+      <label for="dob">DOB</label>
+      <input type="date" id="dob" [(ngModel)]="selectedUser.dob" required>
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input type="email" id="email" [(ngModel)]="selectedUser.email" required maxlength="100">
+    </div>
+    <div>
+      <label for="mobile">Mobile Number</label>
+      <input type="text" id="mobile" [(ngModel)]="selectedUser.mobile" required maxlength="10">
+    </div>
+    <div>
+      <label for="address1">Address Field 1</label>
+      <input type="text" id="address1" [(ngModel)]="selectedUser.address1" required maxlength="100">
+    </div>
+    <div>
+      <label for="address2">Address Field 2</label>
+      <input type="text" id="address2" [(ngModel)]="selectedUser.address2" maxlength="100">
+    </div>
+    <div>
+      <label for="country">Country</label>
+      <select id="country" [(ngModel)]="selectedUser.country">
+        <option value="India">India</option>
+        <option value="USA">USA</option>
+      </select>
+    </div>
+    <div>
+      <label for="state">State</label>
+      <select id="state" [(ngModel)]="selectedUser.state">
+        <!-- Populate states based on selected country -->
+      </select>
+    </div>
+    <div>
+      <label for="zipCode">Zip Code</label>
+      <input type="text" id="zipCode" [(ngModel)]="selectedUser.zipCode" maxlength="20">
+    </div>
+    <div>
+      <label for="timezone">Timezone</label>
+      <select id="timezone" [(ngModel)]="selectedUser.timezone">
+        <!-- Populate timezones -->
+      </select>
+    </div>
+    <div>
+      <label for="locale">Locale</label>
+      <select id="locale" [(ngModel)]="selectedUser.locale">
+        <!-- Populate locales -->
+      </select>
+    </div>
+    <div>
+      <label for="image">Upload User Image</label>
+      <input type="file" id="image" (change)="onImageUpload($event)" accept="image/png, image/jpeg">
+    </div>
+    <div>
+      <label for="isAdmin">Is Admin</label>
+      <input type="checkbox" id="isAdmin" [(ngModel)]="selectedUser.isAdmin" [disabled]="!isNewUser">
+    </div>
+  </form>
