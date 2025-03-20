@@ -26,7 +26,8 @@ import { OrdersComponent } from "./sidebar/orders/orders.component";
 // import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { UsersComponent } from "./sidebar/users/users.component";
-
+import { UserFormComponent } from "./sidebar/users/user-form/user-form.component";
+import { DialogModule } from 'primeng/dialog';
 @NgModule({
     declarations:[
         PortalComponent,
@@ -35,6 +36,7 @@ import { UsersComponent } from "./sidebar/users/users.component";
         SidebarComponent,
         WeatherComponent,
         UsersComponent,
+        UserFormComponent,
         ProductsComponent,
         HomeComponent,
        CartComponent,
@@ -48,6 +50,7 @@ import { UsersComponent } from "./sidebar/users/users.component";
         UsersComponent,
         WeatherComponent,
         CartComponent,
+        UserFormComponent,
         OrdersComponent,
         ButtonModule,
         MenubarModule,
@@ -60,7 +63,8 @@ import { UsersComponent } from "./sidebar/users/users.component";
         SelectButton,
         TableModule,
         // ConfirmDialogModule,
-        ToastModule
+        ToastModule,
+        DialogModule
         
         // Select
     ],
@@ -74,6 +78,7 @@ import { UsersComponent } from "./sidebar/users/users.component";
         CommonModule,
         FileUploadModule,
         DataView,
+        DialogModule,
         Tag,
         Rating,
         SelectButton,

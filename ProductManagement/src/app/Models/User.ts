@@ -1,18 +1,20 @@
 
 export interface User {
-    userName:string;
+    id?: string;
+    username: string;
     firstName: string;
-    lastName: string;
+    lastName?: string;
     gender: string;
     dob: string;
-    emailAddress: string;
-    mobile:string;
+    email: string;
+    mobile: string;
+    address1: string;
+    address2?: string;
     country: string;
-    locale: string;
-    region: string;
+    state: string;
     zipCode: string;
+    timezone: string;
+    locale: string;
+    image: string;
     isAdmin: boolean;
-    states: string;
-    password: string;
-    image:string;
 }
