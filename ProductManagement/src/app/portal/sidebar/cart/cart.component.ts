@@ -61,7 +61,6 @@ export class CartComponent {
     this.cartService.removeFromCart(product);
     this.productService.updateProduct(product.id, product).subscribe(() => {
       console.log('Product Updated');
-
       setTimeout(() => this.loadCart(), 200);
     })
   }
@@ -82,6 +81,12 @@ export class CartComponent {
     }
     else {
       console.log("procedding to checkOut.");
+      this.cartItems.forEach(product=>{
+        product.quantity=0;
+        this.productService.updateProduct(product.id,product).subscribe(()=>{
+          console.log("000000000000");
+        })
+      })
       this.cartService.checkOut().subscribe(()=>{
         this.loadCart();
         alert('order Placed Successfully!');

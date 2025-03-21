@@ -20,13 +20,17 @@
     <p-tag [value]="order.deliveryStatus" [severity]="getSeverity(order.deliveryStatus)" />
 </td> 
                 <td >
-                    <i style="padding-right: 20px;" class="fa-solid fa-eye" ></i>              
-                 <i class="fa-solid fa-trash" (click)="deleteOrder(order.id)"></i>
+                    <i style="padding-right: 20px;" class="fa-solid fa-eye" (click)="viewOrder(order.idfire)"></i>              
+                 <i class="fa-solid fa-trash" (click)="deleteOrder(order.idfire)"></i>
                  </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
+
+
+
+
 
 
 

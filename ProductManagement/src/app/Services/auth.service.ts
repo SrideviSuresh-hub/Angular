@@ -50,9 +50,9 @@ login(email:string,password:string):Observable<any>{
     return this.http.get<{[key:string]:any}>(`${this.baseUrluser}.json`).pipe(
         map((data)=>{
             if(data){
-                console.log((data));
-                console.log(Object.keys(data));
-                console.log(Object.values(data))
+                // console.log((data));
+                // console.log(Object.keys(data));
+                // console.log(Object.values(data))
                 const users=Object.keys(data).map(key=>({id:key, ...data[key]}));
                 const user=users.find(u=>u.email===email && u.password===password);
                 return user|| null;

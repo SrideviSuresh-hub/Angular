@@ -1,9 +1,10 @@
 
 .main-content {
-  flex-grow: 1;
+  /* flex-grow: 1; */
   overflow-y: auto;
-  height: calc(100vh - 60px);
+  /* height: calc(100vh - 60px); */
   padding: 20px;
+  margin-top: 20px;
 }
 
 

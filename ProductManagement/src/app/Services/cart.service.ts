@@ -23,7 +23,7 @@ export class CartService {
       map(cartData => {
         if (!cartData) return [];
         return Object.keys(cartData).map(key => (
-          { ...cartData[key], cartId: key }));
+          { ...cartData[key], cartIndex: key }));
       })
     );
   }
@@ -96,10 +96,10 @@ export class CartService {
     const orderData = {
       userId:curUser.id,
       orderId: new Date().getTime().toString(),
-      products: [...this.cart],
+      products:this.cart,
       orderCount: this.cart.length,
       orderDate: new Date().toISOString(),
-      deliveryStatus: 'Shipped'
+      deliveryStatus: 'Shipped',
     }
     return this.http.post(`${this.baseUrlOrders}.json`, orderData).pipe(
       map(() => {

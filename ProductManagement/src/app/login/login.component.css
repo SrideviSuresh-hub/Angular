@@ -1,4 +1,4 @@
-body{
+/* body{
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -6,7 +6,7 @@ body{
 .grid-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    /* height: 100vh; */
+    height: 100vh;
 }
 .image-container {
     display: flex;
@@ -21,4 +21,70 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+} */
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Image container */
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding: 20px; */
+    overflow: hidden;
+}
+
+.image {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Form container */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.login-header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.form-content {
+    width: 90%;
+    max-width: 400px;
+}
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        height: auto;
+    }
+
+    .image-container {
+        order: -1;
+    }
+
+    .form-container {
+        padding: 10px;
+    }
+}
+

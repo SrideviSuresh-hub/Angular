@@ -1,6 +1,6 @@
 
   
-        <div class="product-container" style="top: 20px;">
+        <div class="product-container" style="top:20px;">
           <h1>Available Products </h1>
           <div class="search-bar" >
             <input type="text"
@@ -12,7 +12,7 @@
             </div>
           
             <div class="product-grid">
-              <div *ngFor="let product of products" class="product-card">
+              <div *ngFor="let product of filteredProducts" class="product-card">
                 <img [src]="product.image" alt="{{ product.name }}" class="product-img" />
                 <h3>{{ product.name }}</h3>
                 <p>{{ product.description }}</p>
@@ -22,29 +22,42 @@
                   <span>{{ product.quantity }}</span>
                   <button pButton icon="pi pi-plus" (click)="incrementQuantity(product)" class="p-button-text"></button>
                 </div>
-<!--           
-                <div *ngIf="!isAdmin">
-                  <button pButton label="Add to Cart" (click)="addToCart(product)"></button>
-                </div> -->
           
                 <div *ngIf="isAdmin">
                   <button pButton icon="pi pi-trash" class="p-button-danger" (click)="deleteProduct(product.id)"></button>
                 </div>
               </div>
-          
-              <div *ngIf="isAdmin" class="product-card add-product">
-                <h3>Add New Product</h3>
-                <input type="text" pInputText [(ngModel)]="newProduct.name" placeholder="Product Name" />
-                <input type="text" pInputText [(ngModel)]="newProduct.description" placeholder="Description" />
-                <input type="text" pInputText [(ngModel)]="newProduct.image" placeholder="Image URL" />
-                <button pButton label="Add" (click)="addNewProduct()"></button>
+              <div *ngIf="isAdmin" class="product-card add-product" (click)="showAddPopup()">
+                <i class="pi pi-plus-circle plus-icon"></i>
+                <h3>Add New product</h3>
               </div>
             </div>
           </div>
+          <p-dialog header="Edit Profile" [modal]="true" [(visible)]="showPopup"  header="Add product" [style]="{ width: '500px' }">
+            <div class="popup-content">
+            <div class="image-upload">
+              <label for="imageUpload" class="image-container">
+                <img *ngIf="imagePreview" [src]="imagePreview" class="image-preview">
+                <i *ngIf="!imagePreview" class="pi pi-image upload-icon"></i>
+              </label>
+              <input type="file" id="imageUpload" accept="image/*" (change)="onImageUpload($event)" hidden />
+              <!-- <p-fileupload mode="basic" name="demo[]" chooseIcon="pi pi-upload" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000" (onUpload)="onBasicUploadAuto($event)" [auto]="true" chooseLabel="Browse" /> -->
+            </div>
+            <label>Product Name</label>
+            <input type="text" pInputText [(ngModel)]="newProduct.name" placeholder="Enter product name" />
+        
+            <label>Description</label>
+            <input type="text" pInputText [(ngModel)]="newProduct.description" placeholder="Enter description" />
+        
+            <div class="popup-actions">
+              <button pButton label="Cancel" (click)="closePopup()"></button>
+              <button pButton label="Add" (click)="addNewProduct()" class="p-button-success"></button>
+            </div>
+          </div>
+        </p-dialog>
         
    
   
-
 
 
 

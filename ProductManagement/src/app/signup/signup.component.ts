@@ -24,7 +24,7 @@ localee:string='';
   dob: string = '';
   emailAddress: string = '';
   phone:number;
-  gender: string = '';
+  // gender: string = '';
   street1:string='';
   street2:string='';
   country: string = '';
@@ -38,12 +38,13 @@ localee:string='';
   locales: string[] = ['en-US', 'en-GB', 'fr-FR', 'de-DE', 'es-ES', 'zh-CN'];
 
 
-  genders = [
-    { id: 'check-male', value: 'male', display: 'Male' },
-    { id: 'check-female', value: 'female', display: 'Female' },
-    { id: 'check-other', value: 'Others', display: 'Prefer not to say' },
-  ];
-
+  // genders = [
+  //   { id: 'check-male', value: 'male', display: 'Male' },
+  //   { id: 'check-female', value: 'female', display: 'Female' },
+  //   { id: 'check-other', value: 'Others', display: 'Prefer not to say' },
+  // ];
+  genders:any[]=[{label:"Male", gender: 'male'},{label:"Female", gender: 'female'},{label:"Prefer not to say", gender: 'others'}]
+ gender!:string;
   timezones: string[] = [
     'UTC-12:00', 'UTC-11:00', 'UTC-10:00', 'UTC-09:00', 'UTC-08:00', 'UTC-07:00',
     'UTC-06:00', 'UTC-05:00', 'UTC-04:00', 'UTC-03:00', 'UTC-02:00', 'UTC-01:00',
@@ -120,7 +121,6 @@ localee:string='';
       password : this.password
     };
     
-    
     this.authService.signUp(userData).subscribe(
       {  
         next:(user)=>{
@@ -134,7 +134,20 @@ localee:string='';
           this.errorMessage='Signup Failed. Try Again';
         }
      });
-   }}
+   
+    }
+    imageUrl: string | ArrayBuffer | null = null;
+
+  onFileSelected(event: any) {
+    const file = event.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => this.imageUrl = e.target?.result;
+      reader.readAsDataURL(file);
+    }
+  }
+}
+  
   
     // onFileChange(event: any) {
     //   const file = event.target.files[0];

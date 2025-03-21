@@ -3,7 +3,8 @@
         <img src="assets\images\shopsy.png" alt="shopsy image" class="image">
     </div>
     <div class="form-container flex justify-content-center align-items-center">
-<p-card header="Login" >
+        <div class="form-content">
+            <h2 class="login-header">Login to Shopify... </h2>
     <app-snackbar [errorMessage]="errorMessage" *ngIf="errorMessage"></app-snackbar>
     <p-progress-spinner *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
     <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" *ngIf="!isLoading">
@@ -31,20 +32,20 @@
               inputStyleClass="w-full"
               styleClass="w-full"
               required/>
-              <!-- <small *ngIf="password.touched || password.dirty">*Enter valid Password</small> -->
-        </div>
-        
-       <div class="field">
-        <p-button label="LOGIN"
+            </div>
+            
+            <div class="field">
+                <p-button label="LOGIN"
         styleClass="w-full background-color-rgb(183, 145, 219)"
         [disabled]="loginForm.invalid"
         type="submit"></p-button>
        </div>
        <div>Not Registered Yet?
-        <a routerLink="/signup">Signup</a>
+           <a routerLink="/signup">Signup</a>
         </div>
         
     </form>
-</p-card>
 </div>
 </div>
+</div>
+<!-- <small *ngIf="password.touched || password.dirty">*Enter valid Password</small> -->

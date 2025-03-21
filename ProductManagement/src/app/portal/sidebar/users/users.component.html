@@ -1,5 +1,6 @@
-<h1>Users</h1>
-<button style="float: right;" (click)="addUser()">Add User+</button>
+<div class="user-container">
+  <h2>User Management</h2>
+  <p-button label="Add User" icon="pi pi-user-plus" (click)="openUserDialog()" />
 
 <p-table [value]="users">
     <ng-template pTemplate="header">
@@ -14,28 +15,31 @@
     </ng-template>
     <ng-template pTemplate="body" let-user>
       <tr>
-        <td><img [src]="user.image" alt="User Image" width="50"></td>
+        <td>
+          <p-avatar [image]="user.userImage || 'assets/default-avatar.png'" shape="circle"></p-avatar>
+        </td>
+        <!-- <td><img [src]="user.image" alt="User Image" width="50"></td> -->
         <td>{{ user.username }}</td>
         <td>{{ user.age }}</td>
-        <td>{{ user.productsCount }}</td>
+        <td>{{ user.productsCount ||0}}</td>
         <td>{{ user.country }}</td>
         <td>
-          <button (click)="editUser(user)">Edit</button>
-          <button (click)="deleteUser(user)">Delete</button>
+          <p-button  icon="pi pi-pencil" (click)="openUserDialog(user)" />
+          <p-button icon="pi pi-trash" severity="danger" #delete (click)="deleteUser(id)" />
         </td>
       </tr>
     </ng-template>
   </p-table>
-  
-  <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="false">
-    <ng-template pTemplate="header">
-      <h3>{{ isNewUser ? 'Add User' : 'Edit User' }}</h3>
-    </ng-template>
-    <ng-template pTemplate="content">
-      <app-user-form [selectedUser]="selectedUser" [isNewUser]="isNewUser" (save)="saveUser()" (cancel)="displayDialog = false"></app-user-form>
-    </ng-template>
-    <ng-template pTemplate="footer">
-      <button (click)="saveUser()">Save</button>
-      <button (click)="displayDialog = false">Cancel</button>
-    </ng-template>
-  </p-dialog>
+  </div>
+  <!-- User Dialog -->
+<p-dialog [(visible)]="displayDialog" modal="modal" [closable]="false" [style]="{width: '500px'}">
+  <ng-template pTemplate="header">
+    <h3>{{ isEditing ? 'Edit User' : 'Add User' }}</h3>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <app-user-form [newUser]="newUser" [isEditing]="!isEditing" (save)="saveUser()" (cancel)="displayDialog = false"></app-user-form>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>

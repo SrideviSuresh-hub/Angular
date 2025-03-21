@@ -35,6 +35,7 @@ export class ProductService {
   }
 
  
+ 
   updateProduct(productId: string, product:Product): Observable<any> {
     return this.http.put<void>(`${this.baseURLProd}/${productId}.json`, product);
   }
@@ -42,8 +43,6 @@ export class ProductService {
   deleteProduct(productId: string): Observable<any> {
     return this.http.delete<void>(`${this.baseURLProd}/${productId}.json`)
   }
-
-  
 
 }
 

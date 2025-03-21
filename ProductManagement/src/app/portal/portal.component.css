@@ -20,21 +20,19 @@ app-header {
 /* Wrapper for Sidebar & Main Content */
 .main-wrapper {
   display: flex;
-  height: calc(100vh - 60px); 
+  /* height: calc(100vh - 60px);  */
   margin-top: 60px; 
 }
 
 /* Sidebar */
 .sidebar {
-  width: 250px;
+  width: 200px;
   color: white;
   position: fixed;
   top: 60px; 
   left: 0;
   bottom: 0;
   overflow-y: auto;
-  z-index: 999; 
-  transition: width 0.3s ease-in-out;
 }
 
 
@@ -45,14 +43,13 @@ app-header {
 /* Main Content */
 .content-wrapper {
   flex-grow: 1;
-  margin-left: 250px; /* Sidebar width */
+  margin-left: 250px; 
   overflow-y: auto;
   height: calc(100vh - 60px);
   padding: 20px;
-  transition: margin-left 0.3s ease-in-out;
 }
 
 /* When Sidebar Collapses */
-.sidebar.collapsed + .content-wrapper {
+.sidebar.collapsed.content-wrapper {
   margin-left: 80px;
 }

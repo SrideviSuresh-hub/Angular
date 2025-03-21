@@ -20,4 +20,6 @@ export class HeaderComponent {
     this.authService.logout();
     this.router.navigate(['/login'])
   }
+  curUser=JSON.parse(localStorage.getItem('user'))
+  imgURL=this.curUser.imgURL;
 }

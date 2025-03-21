@@ -20,10 +20,14 @@ export class ProductsComponent  {
 
   searchText: string = '';
   isAdmin: boolean = false;
-  newProduct: { id: '', name: '', description: '', image: '', quantity: 0 };;
   products: Product[] = [];
   filteredProducts:Product[]=[];
 
+
+  showPopup: boolean = false;
+  imagePreview:string| ArrayBuffer|null=null;
+  newProduct: Product={ id:'', name: '', description: '', image: '', quantity: 0 };;
+selectedImageFile:File|null=null;
   ngOnInit() {
     this.isAdmin = this.authService.isAdmin();
     this.loadProducts();
@@ -61,18 +65,6 @@ this.prodService.updateProduct(product.id,product).subscribe(()=>{
     this.cartService.addToCart(product);
   }
 
-  addNewProduct(): void {
-    if (this.newProduct.image && this.newProduct.description && this.newProduct.image) {
-      const prodToAdd = { ...this.newProduct,quantity:0 };
-      this.prodService.addProduct(prodToAdd).subscribe(() => {
-        this.loadProducts();
-
-        this.newProduct = { id: '', name: '', description: '', image: '', quantity: 0 };
-      })
-
-    }
-
-  }
   decrementQuantity(product: Product) {
   if(product.quantity>0){
       product.quantity--;
@@ -86,9 +78,44 @@ this.prodService.updateProduct(product.id,product).subscribe(()=>{
         this.filteredProducts=this.filteredProducts.filter((p)=>p.id!==id);
         console.log('product deleted')
       })
-  
-    }
+    }   
     
+  addNewProduct(): void {
+    if (this.newProduct.image && this.newProduct.description && this.selectedImageFile) {
+      const imageURL=URL.createObjectURL(this.selectedImageFile);
+      this.newProduct.image=imageURL;
+      const prodToAdd = { ...this.newProduct,quantity:0 };
+      this.prodService.addProduct(prodToAdd).subscribe(() => {
+        this.loadProducts();
+        this.closePopup();
+        this.newProduct = { id: '', name: '', description: '', image: '', quantity: 0 };
+        this.imagePreview=null;
+      })
+
+    }
+
+  }
+   showAddPopup(){
+        this.showPopup=true;
+        this.imagePreview=null;
+        this.selectedImageFile=null;
+    }
+
+  closePopup() {
+    this.showPopup = false;
+  }
+   onImageUpload(event: any) {
+  const file = event.target.files[0]; 
+  if (file) {
+    this.selectedImageFile = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.imagePreview = e.target?.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
 }
 
 // { id: '1', name: 'clothes', description: 'Explore the widest range of clothes via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },

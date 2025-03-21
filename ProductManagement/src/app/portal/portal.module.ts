@@ -17,17 +17,23 @@ import { CardModule } from "primeng/card";
 import { DataView } from 'primeng/dataview';
 import { Tag } from 'primeng/tag';
 import { Rating } from 'primeng/rating';
+import { SelectModule } from 'primeng/select';
 import { SelectButton } from 'primeng/selectbutton';
 import { Select } from "primeng/select";
 import { HttpClientModule } from "@angular/common/http";
 import { CartComponent } from "./sidebar/cart/cart.component";
 import { TableModule } from 'primeng/table';
 import { OrdersComponent } from "./sidebar/orders/orders.component";
-// import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { UsersComponent } from "./sidebar/users/users.component";
 import { UserFormComponent } from "./sidebar/users/user-form/user-form.component";
 import { DialogModule } from 'primeng/dialog';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { ConfirmationService ,MessageService} from 'primeng/api';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SelectButtonModule } from 'primeng/selectbutton';
 @NgModule({
     declarations:[
         PortalComponent,
@@ -58,13 +64,18 @@ import { DialogModule } from 'primeng/dialog';
         FileUploadModule,
         CardModule,
         DataView,
+        AvatarGroupModule,
+        AvatarModule,
         Tag,
-        Rating,
+        SelectButtonModule,
+        DatePickerModule,
+        // Rating,
         SelectButton,
         TableModule,
-        // ConfirmDialogModule,
+        ConfirmDialogModule,
         ToastModule,
-        DialogModule
+        DialogModule,
+        SelectModule
         
         // Select
     ],
@@ -79,15 +90,21 @@ import { DialogModule } from 'primeng/dialog';
         FileUploadModule,
         DataView,
         DialogModule,
+        AvatarGroupModule,
+        AvatarModule,
         Tag,
-        Rating,
+        DatePickerModule,
+        SelectModule,
+        SelectButtonModule,
+        // Rating,
         SelectButton,
         TableModule,
-        // ConfirmDialogModule,
+        ConfirmDialogModule,
         ToastModule
         // Select,
         
-    ]
+    ],
+    providers:[ConfirmationService,MessageService]
 })
 export class PortalModule{
 

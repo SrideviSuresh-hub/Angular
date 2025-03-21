@@ -1,27 +1,4 @@
-/* .card {
-    background-color: black;
-    padding: 10px;
-  }
-  
-  .start-content img {
-    width: 50px;
-    margin-right: 10px;
-  }
-  
-  .end-content {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  } */
-  
 
-.card{
-    display: flex;
-    flex-direction: column;
-    height: 100px;
-    position: relative;
-    
-}
 .start-content{
     display: flex;
     align-items: center;
@@ -34,7 +11,6 @@
 }
 app-weather{
     display: flex;
-    align-items: center;
-    
+    align-items: center;  
 }
 

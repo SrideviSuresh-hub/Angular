@@ -1,7 +1,31 @@
-table {
-    width: 100%;
-  }
-  
-  button {
-    margin: 5px;
-  }
+.user-container {
+  padding: 20px;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+p-table {
+  margin-top: 15px;
+  width: 100%;
+}
+
+p-avatar {
+  width: 40px;
+  height: 40px;
+}
+
+p-button{
+  margin-right: 8px;
+  /* background-color: navy; */
+}
+
+/* .p-button-danger {
+  background-color: #e74c3c;
+}
+
+.p-button-warning {
+  background-color: #f39c12;
+} */
