@@ -31,4 +31,9 @@ export class UsersService{
     deleteUser(id:string):Observable<any>{
         return this.http.delete(`${this.baseUrluser}/${id}.json`)
     }
-}
+
+    getUserbyUserId(userId):Observable<any>{
+            return this.http.get(`${this.baseUrluser}/${userId}.json`);
+            
+    }}
+   

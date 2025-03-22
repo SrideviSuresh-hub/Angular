@@ -22,28 +22,8 @@ body {
   margin-bottom: 20px;
 }
 
-.header h2 {
-  margin: 0;
-}
 
-.add-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-}
-
-.add-button:hover {
-  background-color: #0056b3;
-}
-
-.edit-user-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.profile-picture {
+.profile-pic {
   width: 100px;
   height: 100px;
   background-color: #ddd;
@@ -78,10 +58,17 @@ input[type="radio"] {
 
 .form-footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content:space-between;
   margin-top: 20px;
 }
 
 .form-footer p-button {
   margin-top: 20px;
+}
+.close-btn{
+  float: right;
+  border:none;
+  background:none;
+  margin-top:0;
+  font-size: 2em;
 }

@@ -17,11 +17,11 @@
 .sidenav .logo-container .logo {
  cursor: pointer;
  border: none;
- border: none; 
  border-radius: 40%;
  float: right; 
  margin-top: 5px;
  margin-right:-15px;
+ position: relative;
 
   
 }
@@ -48,7 +48,7 @@
  color: #f3f3f3;
  text-decoration: none;
  border-radius: 0.625rem;
- transition: all 0.3s ease;
+ /* transition: all 0.3s ease; */
 }
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-icon {
  font-size: 22px;

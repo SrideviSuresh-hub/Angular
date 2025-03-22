@@ -1,0 +1,31 @@
+.order-details {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+    margin-bottom: 10px;
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-details img {
+    width: 150px; 
+    height: 200px; 
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-info {
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+}
+
+.product-info p {
+    margin: 5px 0;
+    font-size: 13px;
+}
+
+.product-info strong {
+    color: #333;
+    font-weight: bold;
+}

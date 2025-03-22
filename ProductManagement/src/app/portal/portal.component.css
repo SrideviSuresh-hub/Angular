@@ -1,4 +1,4 @@
-/* Full Page Layout */
+Full Page Layout
 .container {
   display: flex;
   flex-direction: column;
@@ -24,9 +24,10 @@ app-header {
   margin-top: 60px; 
 }
 
+
+
 /* Sidebar */
 .sidebar {
-  width: 200px;
   color: white;
   position: fixed;
   top: 60px; 
@@ -36,17 +37,17 @@ app-header {
 }
 
 
-.sidebar.collapsed {
-  width: 80px;
-}
-
 /* Main Content */
 .content-wrapper {
   flex-grow: 1;
   margin-left: 250px; 
+  margin-top: 50px;
   overflow-y: auto;
   height: calc(100vh - 60px);
   padding: 20px;
+}
+.full{
+  margin-left: 60px;
 }
 
 /* When Sidebar Collapses */

@@ -12,7 +12,8 @@ import { User } from '../../../Models/User';
 })
 export class OrdersComponent implements OnInit {
   orders: any[]=[];
-  selectedOrder:any=null;
+  showPopup:boolean=false;
+  selectedOrder:any;
   ordersService:OrdersService=inject(OrdersService);
   userService:UsersService=inject(UsersService);
   curUser=JSON.parse(localStorage.getItem('user'));
@@ -24,9 +25,20 @@ export class OrdersComponent implements OnInit {
     this.ordersService.getOrders().subscribe(data=>{
       console.log( "data",data);
       this.orders=data;
+      this.orders.forEach(order=>{
+        this.userService.getUserbyUserId(order.userId).subscribe(user=>{
+          order.userName=user.username;
+          order.address=`${user.street1||''},${user.street2||''}
+           ${user?.city || ''}, ${user?.state || ''}, ${user?.postcode || ''}`;
+        })
+        this.ordersService.getOrderProducts(order.idfire).subscribe(products => {
+          console.log(products)
+          order.products = products;
+      })
       console.log("Orders loaded", this.orders);
     })
-  }
+  })
+}
   deleteOrder(idfire:string){
    if(confirm("Do you want to really delete order?")){
     this.ordersService.deleteOrder(idfire).subscribe(()=>{
@@ -35,39 +47,24 @@ export class OrdersComponent implements OnInit {
     })
    }
   }
+
+
   getSeverity(status: string) {
     switch (status) {
         case 'Delivered':
             return 'success';
         case 'Shipped':
             return 'warn';
-        case 'Returned':
-            return 'danger';
        default:
-        return 'success'
+        return 'warn'
 
     }
 }
 
-viewOrder(idfire:number){
-  this.ordersService.getOrderById(idfire).subscribe((order)=>{
-    console.log(idfire)
-    if(order){
-      console.log(order)
-      this.selectedOrder={
-        ...order,
-        userName:this.curUser.userName,
-        street1:this.curUser.street1,
-        street2:this.curUser.street2,
-        country:this.curUser.country,
-        state:this.curUser.state,
-        postcode:this.curUser.postcode
-      }
-    }
-    else{
-      console.log('null order');
-    }
-  })
+viewOrder(order){
+  console.log("selected Order :", order)
+  this.selectedOrder={...order};
+  this.showPopup=true;
 }
 }
 

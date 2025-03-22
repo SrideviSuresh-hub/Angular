@@ -12,7 +12,6 @@
 <div class="container">
   <!-- Fixed Header -->
   <app-header></app-header>
-<!--  (sidebarToggle)="toggleSidebar()" -->
   <div class="main-wrapper" style="display: flex;">
     <!-- Sidebar -->
     <app-sidebar class="sidebar" [isLeftSidebarCollapsed]="isLeftSidebarCollapsed"
@@ -21,7 +20,7 @@
     </app-sidebar>
 
     <!-- Main Content -->
-    <div class="content-wrapper" >
+    <div class="content-wrapper" [ngClass]="isLeftSidebarCollapsed?'full':''">
       <app-main [isLeftSidebarCollapsed]="isLeftSidebarCollapsed"></app-main>
     </div>
   </div>

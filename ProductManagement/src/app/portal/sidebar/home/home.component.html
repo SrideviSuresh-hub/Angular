@@ -1,17 +1,64 @@
-<div class="input-box">
-    <label>Upload Profile Picture (JPG/PNG only, Max 2MB)</label>
-    <p-fileUpload 
-      name="profileImage" 
-      mode="basic" 
-      accept="image/png, image/jpeg" 
-      [maxFileSize]="2000000" 
-      customUpload="true" 
-      (onSelect)="onProfileUpload($event)">
-    </p-fileUpload>
+
+<div class="card">
+  <p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template #header>
+          <tr>
+              <th>User Name</th>
+              <th>Product Count</th>
+              <th>Ordered Item</th>
+              <th>Ordered date</th>
+              <th>Delivery status</th>
+          </tr>
+      </ng-template>
+      <ng-template #body let-order>
+          <tr>
+              <td>{{ order.userName }}</td>
+              <td>{{ order.quantity }}</td>
+              <td>{{ order.productName }}</td>
+              <td>{{ order.orderDate| date:'mediumDate'  }}</td>
+              <td>
+                <p-tag [value]="order.deliveryStatus"
+                 [severity]="'success'"
+                
+                 (click)="markAsDelivered(order)"
+                 severity="success" />
+              </td>
+              <td>
+                <p-button icon="pi pi-eye" (click)="viewOrder(order)"
+                styleClass="p-button-text p-button-rounded p-mr-2" title="View Order"></p-button>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+</div>
+
+<p-dialog header="Order Details" [(visible)]="showDialog" [modal]="true" [closable]="true">
+
+<ng-template pTemplate="content">
+  <div  *ngFor="let product of selectedOrdersProducts" class="product-item">
+    <img [src]="product.image" alt="Product image" width="300px">
+    <p><h2>{{product.name}}</h2>
+      <p>Quantity: <strong>{{product.quantity}}</strong></p>
+      <div class="product-info">
+      <div *ngIf="selectedOrder">
+      <p><strong>Delivered on :</strong>{{selectedOrder.orderDate}}</p>
+      <!-- <p>{{product.description}}</p> -->
+    </div>
+      <p><strong>Order ID: </strong>{{selectedOrder.orderId}}</p>
+      <p><strong>User Name: </strong>{{selectedOrder.userName}}</p>
+        <p><strong>Delivered Address : </strong>{{selectedOrder.street1+" "+ selectedOrder.street2}}</p>
+      <p><strong>State:</strong>{{selectedOrder.state}}</p>
+      <p><strong>Country:</strong>{{selectedOrder.Country}}</p>
+      <p><strong>Post Code:</strong>{{selectedOrder.pinCode}}</p>
+      </div>
   </div>
+</ng-template>
+  <div class="order-Details">
   
-  <!-- Display Image Preview -->
-  <div *ngIf="profileImage">
-    <h4>Preview:</h4>
-    <img [src]="profileImage" alt="Profile Image" class="profile-preview" />
-  </div>
+    
+</div>
+<p-footer>
+  <p-button label="Close" icon="pi pi-times" (click)="showDialog = false"></p-button>
+</p-footer>
+</p-dialog>
+

@@ -8,7 +8,7 @@
           <p-progress-spinner *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }"></p-progress-spinner>
           <form class="form" (ngSubmit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
               <div *ngIf="currentStep === 1">
-                <div class="avatar-container">
+                <!-- <div class="avatar-container">
                   <p-fileUpload #fileUploader mode="basic" accept="image/*" customUpload="true" chooseLabel=""
                     (onSelect)="onFileSelected($event)">
                     <div class="avatar-wrapper" (click)="fileUploader.choose()">
@@ -16,7 +16,23 @@
                       <i class="pi pi-pencil edit-icon"></i>
                     </div>
                   </p-fileUpload>
-                </div>
+                </div> -->
+                <div class="input-box">
+                    <p-fileUpload 
+                    name="profileImage" 
+                    mode="basic" 
+                    accept="image/png, image/jpeg" 
+                    [maxFileSize]="2000000" 
+                    customUpload="true" 
+                    (onSelect)="onProfileUpload($event)">
+                </p-fileUpload>
+            </div>
+            <label>Upload Profile Picture (JPG/PNG only, Max 2MB)</label>
+  
+  <!-- Display Image Preview -->
+  <div *ngIf="profileImage">
+    <img [src]="profileImage" alt="Profile Image" class="profile-preview" />
+  </div>
                 <div class="input-box">
                   <label>User Name<span class="required">*</span></label>
                   <input type="text" placeholder="username" name="username" #uname="ngModel" maxlength="20" [(ngModel)]="userName" required />
@@ -74,8 +90,11 @@
                   <div class="input-box address" ngModelGroup="address" #addr="ngModelGroup">
                       <label>Address<span class="required">*</span></label>
                       <input type="text" placeholder="Street address line 1" name="street1" [(ngModel)]="street1" required />
-                      
+                    </div>
+                    <div class="input-box address" ngModelGroup="address" #addr="ngModelGroup">
                       <input type="text" placeholder="Street address line 2" name="street2" [(ngModel)]="street2" />
+                    </div>
+
                       <div class="column">
                           <div class="select-box">
                               <label>Country<span class="required">*</span></label>
@@ -105,7 +124,7 @@
                               </select>
                           </div>
                       </div>
-                  </div>
+                  
 
                   <div class="column">
                       <div class="select-box">
