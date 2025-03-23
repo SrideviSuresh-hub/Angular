@@ -12,21 +12,13 @@ export class OrdersService {
     private baseUrluser = 'https://assignment-a22f7-default-rtdb.firebaseio.com/user';
     http: HttpClient = inject(HttpClient);
     curUser = JSON.parse(localStorage.getItem('user') || '{}')
-    // products: OrderProducts[];
 
-    // addOrders(order:Order):Observable<Order>{
-    //     return this.http.post<{name:string}>(`${this.baseUrluser}/${this.curUser.id}/orders.json`,order)
-    //     .pipe(map(resp=>({
-    //         ...order,
-    //         keyId:resp.name
-    //     })
-    // ))
-    // }
 
     getOrders(): Observable<any> {
         return this.http.get<any[]>(`${this.baseUrluser}/${this.curUser.id}/orders.json`)
         .pipe(
             map(orderData => {
+                console.log("Fetched Order Data:", orderData); // Debugging log
                 if (!orderData) return [];
                 return Object.keys(orderData).map(key =>
                 ({
@@ -36,15 +28,31 @@ export class OrdersService {
             })
         )
     }
+    updateOrderStatus(orderId: string, userId: string, newStatus: string) {
+        const url = `${this.baseUrluser}/${userId}/orders/${orderId}.json`;
+    
+        return this.http.patch(url, { status: newStatus });
+    }
+    
 
 
     deleteOrder(keyId: string): Observable<any> {
         return this.http.delete(`${this.baseUrluser}/${this.curUser.id}/orders/${keyId}/.json`);
     }
 
-    // getOrderById(orderId: number) {
-    //     return this.http.get<any[]>(`${this.baseUrluser}/${orderId}/${this.curUser.id}/orders.json`)
-    // }
+    getOrdersByUserId(userId: string): Observable<any> {
+        const url = `${this.baseUrluser}/${userId}/orders.json`;
+        return this.http.get<any>(url).pipe(
+            map(orderData => {
+                if (!orderData) return null;
+                return Object.keys(orderData).reduce((acc, key) => {
+                    acc[key] = { ...orderData[key], keyId: key };
+                    return acc;
+                }, {});
+            })
+        );
+    }
+    
 
 
     getOrderProducts(keyId: string) {
@@ -58,6 +66,34 @@ export class OrdersService {
             console.log(`Product ${prodIndex} updated with deliveryStatus: ${status}`);
         })
     );  }
+    getOrdersForCharts(): Observable<{ ordersPerDay: number[], productQuantities: { [key: string]: number } }> {
+        return this.getOrders().pipe(
+            map(orders => {
+                let ordersPerDay = new Array(7).fill(0);  
+                let productQuantities: { [key: string]: number } = {};
+    
+                orders.forEach(order => {
+                    const orderDate = new Date(order.orderDate);
+                    const dayIndex = orderDate.getDay(); 
+                    ordersPerDay[dayIndex]++;
+    
+                    order.products.forEach((product: any) => {
+                        if (productQuantities[product.name]) {
+                            productQuantities[product.name] += product.quantity;
+                        } else {
+                            productQuantities[product.name] = product.quantity;
+                        }
+                    });
+                });
+    
+                return { ordersPerDay, productQuantities };
+            })
+        );
+    }
+    
+
+
+
   }
 
     // getAllOrders(): Observable<any> {
@@ -70,7 +106,7 @@ export class OrdersService {
 
     //             return ordersArray.flatMap(order =>
     //                 order.products.map(prod => ({
-    //                     orderId: order.orderID,
+    //                     keyId: order.keyId,
     //                     userId: order.userId,
     //                     productName: prod.name,
     //                     productImg: prod.image,

@@ -27,14 +27,16 @@ import { Ripple } from 'primeng/ripple';
 import { AvatarModule } from 'primeng/avatar';
 import { StyleClass } from 'primeng/styleclass';
 import { PortalRouteModule } from './portal/portal-route.module';
-import { routes1 } from './route.module';
+import { routes1 } from './app-routing.module';
 import { PortalModule } from './portal/portal.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 @NgModule({
   declarations: [
   AppComponent,
   LoginComponent,
   SignupComponent,
   SnackbarComponent,
+  PageNotFoundComponent,
   
   
   ],

@@ -2,8 +2,10 @@
 <p-confirmDialog #confirmDialog key="deleteConfirm"></p-confirmDialog>
 
 <div class="card">
-
-    <p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="10">
+    <div *ngIf="isLoading" class="spinner-container">
+        <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+    </div>
+    <p-table *ngIf="!isLoading" [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="10">
         <ng-template #header>
             <tr>
                 <th>Order Id</th>

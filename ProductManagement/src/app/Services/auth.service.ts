@@ -17,21 +17,7 @@ export class AuthService{
     private baseUrluser='https://assignment-a22f7-default-rtdb.firebaseio.com/user';
 
 signUp(user:any):Observable<any>{
-    // return this.getUserByUserName(user.userName).pipe(
-    //     map(existingUser=>{
-    //         if(existingUser){
-    //             throw new Error("username Already exists");
-    //         }
-    //         return user;
-    //     }),
-    //     switchMap(newUser => {
-            // return this.http.post(`${this.baseUrluser}.json`, {...newUser});
-            return this.http.post(`${this.baseUrluser}.json`,user);
-        // }),
-        // catchError((error)=>throwError(()=>error.mesaage)||"Signup failed"))
-        
-
-
+      return this.http.post(`${this.baseUrluser}.json`,user);
 }
 
 
@@ -63,6 +49,7 @@ login(email:string,password:string):Observable<any>{
             if(user){
                 localStorage.setItem('user',JSON.stringify(user));
             }
+        
         })
     )
 }

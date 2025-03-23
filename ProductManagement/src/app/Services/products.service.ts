@@ -24,8 +24,8 @@ export class ProductService {
     return this.http.get<OrderProducts[]>(`${this.baseURLProd}.json`)
       .pipe(
         map(resp => {
+          console.log("Fetched Product Data:", resp); // Debugging log
           if (!resp) return [];
-          console.log(Object.keys(resp))
           return Object.keys(resp).map(key => ({
             ...resp[key],
             id: key  
@@ -43,6 +43,17 @@ export class ProductService {
   deleteProduct(productId: string): Observable<any> {
     return this.http.delete<void>(`${this.baseURLProd}/${productId}.json`)
   }
+  getChartProductData(): Observable<any[]> {
+    return this.getProducts().pipe(
+        map(products => {
+            return products.map(product => ({
+                name: product.name,
+                quantity: product.quantity || 1  // Ensure valid quantity
+            }));
+        })
+    );
+}
+
 
 }
 

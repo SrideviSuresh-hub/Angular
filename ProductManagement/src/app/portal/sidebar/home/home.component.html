@@ -1,7 +1,9 @@
 <div class="card">
   <h2>Welcome Admin!</h2>
-
-  <p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }">
+  <div class="spinner-container" *ngIf="isLoading">
+    <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+</div>
+  <p-table *ngIf="!isLoading" [value]="orders" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
         <th>User Name</th>
@@ -23,7 +25,7 @@
           <p-tag 
             [value]="order.deliveryStatus" 
             [severity]="getSeverity(order.deliveryStatus)" 
-            (click)="markAsDelivered(order.keyId, order.userId, order.productIndex)">
+            (click)="markProductAsDelivered(order.keyId, order.userId, order.productIndex)">
           </p-tag>
         </td>
         <td>

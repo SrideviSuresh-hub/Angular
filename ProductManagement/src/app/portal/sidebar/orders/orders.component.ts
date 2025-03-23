@@ -14,6 +14,7 @@ export class OrdersComponent implements OnInit {
   orders: any[]=[];
   showPopup:boolean=false;
   selectedOrder:any;
+  isLoading:boolean=false;
   ordersService:OrdersService=inject(OrdersService);
   userService:UsersService=inject(UsersService);
   messageService: MessageService = inject(MessageService);
@@ -22,40 +23,76 @@ export class OrdersComponent implements OnInit {
   ngOnInit() {
       this.loadOrders()
   }
-
-  loadOrders(){
+  loadOrders() {
+    this.isLoading=true;
     this.ordersService.getOrders().subscribe({
-      next:(data)=>{
-          console.log(JSON.stringify(data, null, 2));
-          if(data){
-          this.orders=data;
-          this.orders.forEach(order=>{
-            this.userService.getUserbyUserId(order.userId).subscribe({
-              next:(user)=>{
-                console.log("Fetching user details for User ID:", user);
-                  order.userName=user?.username||"Unknown";
-                  order.address1 = user?.address1 || "";
-                  order.address2 = user?.address2 || "";
-                  order.state = user?.states || "";
-                  order.zipCode = user?.zipCode || "";
-              },
-              error:(err)=>{
-                console.log("Error fetching user Details",err)
-              }
-            });
-            this.ordersService.getOrderProducts(order.keyId).subscribe({
-              next:(products)=>{
-                console.log(products);
-                order.products = products||[];
-            }
-          });
-          });
-        }},
-            error:(err)=>{
-              console.error("Error loading orders", err)
-            }
-        });
+      next: (data) => {
+        if (data) {
+          this.orders = data;
+          this.fetchUsersAndProducts();
+        }
+      },
+      error: (err) => {
+        console.error("Error loading orders", err);
+        this.isLoading=false;
       }
+    });
+  }
+
+  fetchUsersAndProducts() {
+    let count=0;
+    this.orders.forEach((order, index) => {
+      this.userService.getUserbyUserId(order.userId).subscribe({
+        next: (user) => {
+          if (user) {
+            this.orders[index] = {
+              ...this.orders[index],
+              userName: user.username || "Unknown",
+              address1: user.address1 || "",
+              address2: user.address2 || "",
+              state: user.states || "",
+              zipCode: user.zipCode || ""
+            };
+          }
+
+          // Fetch Updated Product Status
+          this.fetchUpdatedProducts(order.keyId, index, order.userId);
+        },
+        error: (err) => {
+          console.error("Error fetching user details:", err);
+        },
+        complete:()=>{
+          count++;
+          if (count === this.orders.length) this.isLoading = false;
+        }
+      });
+    });
+  }
+
+  fetchUpdatedProducts(orderId: string, orderIndex: number, userId: string) {
+    this.ordersService.getOrderProducts(orderId).subscribe({
+      next: (products) => {
+        if (products) {
+          let allDelivered = products.every(p => p.deliveryStatus === 'Delivered');
+          let someDelivered = products.some(p => p.deliveryStatus === 'Delivered');
+
+          let newStatus = allDelivered ? 'Delivered' : someDelivered ? 'Partially Delivered' : 'Pending';
+
+          this.orders[orderIndex] = {
+            ...this.orders[orderIndex],
+            products,
+            deliveryStatus: newStatus
+          };
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching products for order:', err);
+      }
+    });
+  }
+
+
+ 
   
       confirmDelete(keyId: string) {
         this.confirmationService.confirm({
@@ -73,6 +110,7 @@ export class OrdersComponent implements OnInit {
         });
       }
     
+
 
   deleteOrder(keyId:string){
     this.ordersService.deleteOrder(keyId).subscribe({
@@ -100,28 +138,3 @@ viewOrder(order){
 }
 
 
-// confirm1(event: Event) {
-//   this.confirmationService.confirm({
-//       target: event.target as EventTarget,
-//       icon: 'pi pi-times-circle',
-//       header: 'Danger Zone',
-//       message: 'Do you want to delete this record?',
-//       rejectLabel: 'Cancel',
-//       rejectButtonProps: {
-//           label: 'Cancel',
-//           severity: 'secondary',
-//           outlined: true,
-//       },
-//       acceptButtonProps: {
-//           label: 'Delete',
-//           severity: 'danger',
-//       },
-
-//       accept: () => {
-//           this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' });
-//       },
-//       reject: () => {
-//           this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
-//       },
-//   });
-// }

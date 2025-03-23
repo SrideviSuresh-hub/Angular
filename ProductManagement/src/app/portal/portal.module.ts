@@ -34,6 +34,9 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ConfirmationService ,MessageService} from 'primeng/api';
 import { DatePickerModule } from 'primeng/datepicker';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { UserHomeComponent } from "./user-home/user-home.component";
+import { ChartModule } from 'primeng/chart';
 @NgModule({
     declarations:[
         PortalComponent,
@@ -46,7 +49,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         ProductsComponent,
         HomeComponent,
        CartComponent,
-       OrdersComponent
+       OrdersComponent,
+       UserHomeComponent
     ],
     exports:[
         PortalComponent,
@@ -67,17 +71,16 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         AvatarGroupModule,
         AvatarModule,
         Tag,
+        ChartModule,
+        ProgressSpinnerModule,
         SelectButtonModule,
         DatePickerModule,
-        // Rating,
         SelectButton,
         TableModule,
         ConfirmDialogModule,
         ToastModule,
         DialogModule,
         SelectModule
-        
-        // Select
     ],
     imports:[
         RouterModule.forChild(routes2),
@@ -86,6 +89,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         ButtonModule,
         PortalRouteModule,
         FormsModule,
+        ProgressSpinnerModule,
         CommonModule,
         FileUploadModule,
         DataView,
@@ -93,15 +97,15 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         AvatarGroupModule,
         AvatarModule,
         Tag,
+        ChartModule,
         DatePickerModule,
         SelectModule,
         SelectButtonModule,
-        // Rating,
         SelectButton,
         TableModule,
         ConfirmDialogModule,
         ToastModule
-        // Select,
+
         
     ],
     providers:[ConfirmationService,MessageService]

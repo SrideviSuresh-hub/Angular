@@ -14,6 +14,7 @@ import { UnsubscriptionError } from 'rxjs';
 })
 export class HomeComponent {
   orders: any[] = [];
+  isLoading:boolean=false;
   orderService: OrdersService = inject(OrdersService);
   userService: UsersService = inject(UsersService);
   selectedProduct: any={};
@@ -24,81 +25,111 @@ export class HomeComponent {
     this.loadOrders();
   }
 
-  loadOrders() {
-    this.userService.getUsers().subscribe(users => {
-      this.orders = [];
-  
-      if (!users) {
-        console.error('No users found');
-        return;
-      }
-  
-      Object.values(users).forEach((user: any) => {
-        if (user.orders) {
-          Object.entries(user.orders).forEach(([keyId, order]: any) => {
-            if (order.products) {
-              order.products.forEach((product: any, index: number) => {
-                this.orders.push({
-                  keyId: keyId,
-                  userId: user.id,
-                  userName: user.username,
-                  orderDate: order.orderDate,
-                  productName: product.name,
-                  productImage: product.image,
-                  quantity: product.quantity,
-                  deliveryStatus: product.deliveryStatus || "Shipped", 
-                  productIndex: index
-                });
-              });
-            }
-          });
+  loadOrders() { 
+    this.userService.getUsers().subscribe({
+      next: (users) => {
+        if (!users) {
+          console.error('No users found');
+          return;
         }
-      });
   
-      console.log('Orders Loaded:', this.orders);
-    }, error => {
-      console.error('Error fetching users:', error);
+        let newOrders: any[] = [];
+        
+        Object.values(users).forEach((user: any) => {
+          if (user.orders) {
+            Object.entries(user.orders).forEach(([keyId, order]: any) => {
+              if (order.products) {
+                order.products.forEach((product: any, index: number) => {
+                  newOrders.push({
+                    keyId: keyId,
+                    orderId:order.orderId,
+                    userId: user.id,
+                    userName: user.username,
+                    firstName: user.firstName,
+                    lastName: user.lastName || '',
+                    email: user.email,
+                    mobile: user.mobile,
+                    street1: user.address1,
+                    street2: user.address2 || '',
+                    state: user.states || '',
+                    country: user.country || '',
+                    pinCode: user.zipCode || '',
+                    orderDate: order.orderDate,
+                    deliveryStatus: product.deliveryStatus || 'Pending',
+                    productName: product.name,
+                    productImage: product.image,
+                    quantity: product.quantity,
+                    productIndex: index
+                  });
+                });
+              }
+            });
+          }
+        });
+  
+        this.orders = [...this.orders, ...newOrders];
+        console.log('Orders Loaded:', this.orders);
+      },
+      error: (error) => {
+        console.error('Error fetching users:', error);
+      },
+      complete: () => {
+        this.isLoading = false;
+        console.log('User orders fetch complete.');
+      }
     });
   }
+  
   
   viewOrder(product: any) {
     this.selectedProduct = { ...product };
     this.showDialog = true;
   }
   
-  markAsDelivered(orderId: string, userId: string, productIndex: number) {
-    console.log(`Updating delivery status for Order: ${orderId}, Product Index: ${productIndex}`);
-
-    this.orderService.updateDeliveryStatus(orderId, userId, productIndex, "Delivered").subscribe(() => {
-      this.orders = this.orders.map(order => {
-          if (order.keyId === orderId && order.userId === userId && order.productIndex === productIndex) {
-              return {
-                  ...order,
-                  deliveryStatus: "Delivered"
-              };
-          }
-          return order;
-      });
-        console.log("update orders", this.orders);
-        
-        this.msgService.add({ severity: 'success', summary: 'Success', detail: 'Product marked as Delivered!' });
-    }, error => {
-        console.error('Error updating delivery status:', error);
+ 
+  markProductAsDelivered(orderId: string, userId: string, productIndex: number) {
+    this.orderService.updateDeliveryStatus(orderId, userId, productIndex, "Delivered").subscribe({
+      next: () => {
+        console.log(`Product ${productIndex} in order ${orderId} marked as Delivered`);
+        this.updateOrderStatus(orderId, userId);
+      },
+      error: (err) => {
+        console.error("Error updating product delivery status:", err);
+      }
     });
-}
-    
-  
-   
+  }
+
+  updateOrderStatus(orderId: string, userId: string) {
+    this.orderService.getOrderProducts(orderId).subscribe({
+      next: (products) => {
+        if (!products) return;
+
+        let allDelivered = products.every(p => p.deliveryStatus === "Delivered");
+        let someDelivered = products.some(p => p.deliveryStatus === "Delivered");
+
+        let newStatus = allDelivered ? "Delivered" : someDelivered ? "Partially Delivered" : "Pending";
+
+        console.log(`Updating order ${orderId} overall status to ${newStatus}`);
+
+        this.orderService.updateOrderStatus(orderId, userId, newStatus).subscribe({
+          next: () => {
+            console.log(`Order ${orderId} delivery status updated to ${newStatus}`);
+            this.loadOrders(); 
+          },
+          error: (err) => {
+            console.error("Error updating order delivery status:", err);
+          }
+        });
+      },
+      error: (err) => {
+        console.error("Error fetching updated products:", err);
+      }
+    });
+  }
+
 
 
   getSeverity(status: string) {
-    switch (status) {
-      case 'Delivered':
-        return 'success';
-      case 'Shipped':
-        return 'warn';
-      default:
-        return 'info';
+    return status === 'Delivered' ? 'success' : 'warn';
     }
   }
-}

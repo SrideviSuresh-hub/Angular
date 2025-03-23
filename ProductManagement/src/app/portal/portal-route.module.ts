@@ -7,15 +7,19 @@ import { RouterModule, Routes } from "@angular/router";
 import { PortalComponent } from "./portal.component";
 import { canActivate } from "../Guards/auth.guard";
 import { UsersComponent } from "./sidebar/users/users.component";
+import { UserHomeComponent } from "./user-home/user-home.component";
 
 export const routes2:Routes=[
-    {path:'',component:PortalComponent ,canActivate:[canActivate], 
+    {path:'',
+        component:PortalComponent,
+        canActivate:[canActivate], 
         children:[
     {path:'home',component:HomeComponent},
+    {path:'users',component:UsersComponent},
     {path:'products',component:ProductsComponent},
     {path:'cart',component:CartComponent},
     {path:'orders',component:OrdersComponent},
-    {path:'users',component:UsersComponent}
+    {path:'usersHome',component:UserHomeComponent}
 ]}
 ];
 
