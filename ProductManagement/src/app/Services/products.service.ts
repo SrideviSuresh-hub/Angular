@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { Product } from "../Models/products";
+import { OrderProducts } from "../Models/orderproducts";
 import { HttpClient } from "@angular/common/http";
 import { map, Observable } from "rxjs";
 
@@ -16,12 +16,12 @@ export class ProductService {
   //   return this.http.get<Product[]>(`${this.baseURLProd}.json`)
   // }
   
-  addProduct(product: Product): Observable<any> {
+  addProduct(product: OrderProducts): Observable<any> {
     return this.http.post<{ name: string }>(`${this.baseURLProd}.json`, product)
   }
 
   getProducts(): Observable<any> {
-    return this.http.get<Product[]>(`${this.baseURLProd}.json`)
+    return this.http.get<OrderProducts[]>(`${this.baseURLProd}.json`)
       .pipe(
         map(resp => {
           if (!resp) return [];
@@ -36,7 +36,7 @@ export class ProductService {
 
  
  
-  updateProduct(productId: string, product:Product): Observable<any> {
+  updateProduct(productId: string, product:OrderProducts): Observable<any> {
     return this.http.put<void>(`${this.baseURLProd}/${productId}.json`, product);
   }
 

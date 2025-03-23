@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CartService } from '../../../Services/cart.service';
-import { Product } from '../../../Models/products';
+import { OrderProducts } from '../../../Models/orderproducts';
 import { Router } from '@angular/router';
 import { ProductService } from '../../../Services/products.service';
 @Component({
@@ -13,7 +13,7 @@ export class CartComponent {
 
   cartService: CartService = inject(CartService);
   router: Router = inject(Router);
-  cartItems: Product[] = [];
+  cartItems: OrderProducts[] = [];
   searchText: string = '';
   productService: ProductService = inject(ProductService)
   ngOnInit() {
@@ -35,7 +35,7 @@ export class CartComponent {
     );
   }
 
-  incrementQuantity(product: Product) {
+  incrementQuantity(product: OrderProducts) {
     product.quantity++;
     this.cartService.addToCart(product);
     this.productService.updateProduct(product.id, product).subscribe(() => {
@@ -44,7 +44,7 @@ export class CartComponent {
     });
   }
 
-  decrementQuantity(product: Product) {
+  decrementQuantity(product: OrderProducts) {
     if (product.quantity > 0) {
       product.quantity--;
       this.cartService.removeFromCart(product);
@@ -57,7 +57,7 @@ export class CartComponent {
     }
   }
 
-  removeItem(product: Product) {
+  removeItem(product: OrderProducts) {
     this.cartService.removeFromCart(product);
     this.productService.updateProduct(product.id, product).subscribe(() => {
       console.log('Product Updated');

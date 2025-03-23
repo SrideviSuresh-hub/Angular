@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, inject, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { Product } from '../../../Models/products';
+import { OrderProducts } from '../../../Models/orderproducts';
 import { AuthService } from '../../../Services/auth.service';
 import { CartService } from '../../../Services/cart.service';
 import { ProductService } from '../../../Services/products.service';
@@ -20,13 +20,13 @@ export class ProductsComponent  {
 
   searchText: string = '';
   isAdmin: boolean = false;
-  products: Product[] = [];
-  filteredProducts:Product[]=[];
+  products: OrderProducts[] = [];
+  filteredProducts:OrderProducts[]=[];
 
 
   showPopup: boolean = false;
   imagePreview:string| ArrayBuffer|null=null;
-  newProduct: Product={ id:'', name: '', description: '', image: '', quantity: 0 };;
+  newProduct: OrderProducts={ id:'', name: '', description: '', image: '', quantity: 0 };;
 selectedImageFile:File|null=null;
   ngOnInit() {
     this.isAdmin = this.authService.isAdmin();
@@ -35,7 +35,7 @@ selectedImageFile:File|null=null;
   
 
   loadProducts() {
-    this.prodService.getProducts().subscribe((res: Product[]) => {
+    this.prodService.getProducts().subscribe((res: OrderProducts[]) => {
         this.products = res;
         this.filteredProducts=[...this.products];
     });
@@ -52,20 +52,20 @@ selectedImageFile:File|null=null;
   //   this.prodService.updateProduct(product.id,product);
   // }
 
-   private updateProduct( product :Product){
+   private updateProduct( product :OrderProducts){
 this.prodService.updateProduct(product.id,product).subscribe(()=>{
   // console.log(product.id +" "+product.quantity);
 })
   }
 
-  incrementQuantity(product: Product) {
+  incrementQuantity(product: OrderProducts) {
     if (!product.quantity) product.quantity = 0; 
     product.quantity++;
     this.updateProduct(product);
     this.cartService.addToCart(product);
   }
 
-  decrementQuantity(product: Product) {
+  decrementQuantity(product: OrderProducts) {
   if(product.quantity>0){
       product.quantity--;
       this.updateProduct(product);

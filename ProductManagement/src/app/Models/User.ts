@@ -11,7 +11,7 @@ export interface User {
     address1: string;
     address2?: string;
     country: string;
-    state: string;
+    states: string;
     zipCode: string;
     timezone: string;
     locale: string;

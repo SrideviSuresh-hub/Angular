@@ -16,54 +16,85 @@ export class OrdersComponent implements OnInit {
   selectedOrder:any;
   ordersService:OrdersService=inject(OrdersService);
   userService:UsersService=inject(UsersService);
+  messageService: MessageService = inject(MessageService);
+  confirmationService: ConfirmationService = inject(ConfirmationService);
   curUser=JSON.parse(localStorage.getItem('user'));
   ngOnInit() {
       this.loadOrders()
   }
 
   loadOrders(){
-    this.ordersService.getOrders().subscribe(data=>{
-      console.log( "data",data);
-      this.orders=data;
-      this.orders.forEach(order=>{
-        this.userService.getUserbyUserId(order.userId).subscribe(user=>{
-          order.userName=user.username;
-          order.address=`${user.street1||''},${user.street2||''}
-           ${user?.city || ''}, ${user?.state || ''}, ${user?.postcode || ''}`;
-        })
-        this.ordersService.getOrderProducts(order.idfire).subscribe(products => {
-          console.log(products)
-          order.products = products;
-      })
-      console.log("Orders loaded", this.orders);
-    })
-  })
-}
-  deleteOrder(idfire:string){
-   if(confirm("Do you want to really delete order?")){
-    this.ordersService.deleteOrder(idfire).subscribe(()=>{
-      this.loadOrders();
-      console.log("Order deleted Succesfully")
-    })
+    this.ordersService.getOrders().subscribe({
+      next:(data)=>{
+          console.log(JSON.stringify(data, null, 2));
+          if(data){
+          this.orders=data;
+          this.orders.forEach(order=>{
+            this.userService.getUserbyUserId(order.userId).subscribe({
+              next:(user)=>{
+                console.log("Fetching user details for User ID:", user);
+                  order.userName=user?.username||"Unknown";
+                  order.address1 = user?.address1 || "";
+                  order.address2 = user?.address2 || "";
+                  order.state = user?.states || "";
+                  order.zipCode = user?.zipCode || "";
+              },
+              error:(err)=>{
+                console.log("Error fetching user Details",err)
+              }
+            });
+            this.ordersService.getOrderProducts(order.keyId).subscribe({
+              next:(products)=>{
+                console.log(products);
+                order.products = products||[];
+            }
+          });
+          });
+        }},
+            error:(err)=>{
+              console.error("Error loading orders", err)
+            }
+        });
+      }
+  
+      confirmDelete(keyId: string) {
+        this.confirmationService.confirm({
+          key: 'deleteConfirm',
+          message: 'Do you really want to delete the selected item?',
+          header: 'Are You sure!?',
+          icon: 'pi pi-times-circle',
+          acceptLabel: 'Delete',
+          rejectLabel: 'Cancel',
+          acceptButtonStyleClass: 'custom-delete-btn',
+          rejectButtonStyleClass: 'custom-cancel-btn',
+          accept: () => {
+            this.deleteOrder(keyId);
+          }
+        });
+      }
+    
+
+  deleteOrder(keyId:string){
+    this.ordersService.deleteOrder(keyId).subscribe({
+      next:()=>{
+        this.loadOrders();
+        console.log("Order deleted Succesfully")
+  
+      },
+      error:(err)=>{
+        console.error("Error deleting order:",err);
+      }
+    }); 
    }
-  }
 
 
   getSeverity(status: string) {
-    switch (status) {
-        case 'Delivered':
-            return 'success';
-        case 'Shipped':
-            return 'warn';
-       default:
-        return 'warn'
-
-    }
+    return status=== 'Delivered'?'success':'warn';
 }
 
 viewOrder(order){
   console.log("selected Order :", order)
-  this.selectedOrder={...order};
+  this.selectedOrder={...order}
   this.showPopup=true;
 }
 }

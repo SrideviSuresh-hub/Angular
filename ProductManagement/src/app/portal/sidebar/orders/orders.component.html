@@ -1,12 +1,15 @@
+
+<p-confirmDialog #confirmDialog key="deleteConfirm"></p-confirmDialog>
+
 <div class="card">
-    <h2>Welcome admin!</h2>
+
     <p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="10">
         <ng-template #header>
             <tr>
                 <th>Order Id</th>
                 <th>Orders Count</th>
-                <th>Order Date time</th>
-                <th>is Delivered</th>
+                <th>Order Date Time</th>
+                <th>Delivery Status</th>
                 <th>Actions</th>
                 <th></th>
             </tr>
@@ -14,34 +17,38 @@
         <ng-template #body let-order>
             <tr>
                 <td>{{ order.orderId }}</td>
-                <td>{{ order.orderCount}}</td>
-                <td>{{ order.orderDate}}</td>
+                <td>{{ order.products?.length||0}}</td>
+                <td>{{ order.orderDate | date:'medium'}}</td>
                 <td>
                     <p-tag [value]="order.deliveryStatus" [severity]="getSeverity(order.deliveryStatus)" />
                 </td>
                 <td>
-                    <i style="padding-right: 20px;" class="fa-solid fa-eye" (click)="viewOrder(order)"></i>
-                    <i class="fa-solid fa-trash" (click)="deleteOrder(order.idfire)"></i>
+                    <!-- style="padding-right: 20px;" -->
+                    <i  class="fa-solid fa-eye"   (click)="viewOrder(order)"></i>
+                    <i class="fa-solid fa-trash" (click)="confirmDelete(order.keyId)"></i>
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
-<p-dialog header="Edit Profile" [modal]="true" [(visible)]="showPopup" [style]="{ width: '25rem' }">
+<p-dialog header="Order Details" [modal]="true" [(visible)]="showPopup" [style]="{ width: '25rem' }">
     <ng-template pTemplate="content">
         <ng-container *ngIf="selectedOrder">
-            <h3>Ordered Products</h3>
-            <div *ngFor="let product of selectedOrder.products" class="product-item">
+            <h2>Ordered Products</h2>
+            <div *ngFor="let product of selectedOrder.products" class="product-info">
                 <div class="order-details">
                     <img [src]="product.image" >
                     <div class="product-info">
+                        <p>Ordered Date: {{ selectedOrder.orderDate | date:'medium'}}</p>
                         <p><strong>{{product.name}}</strong> </p>
-                        <p><strong>Quantity:</strong> {{ product.quantity }}</p>
-                        <p><strong>Order ID:</strong> {{ selectedOrder.orderId }}</p>
-                        <!-- <p><strong>Username:</strong> {{ selectedOrder.userName }}</p> -->
-                        <p><strong>Address:</strong> {{ selectedOrder.address }}</p>
-                        <p><strong>Order Date:</strong> {{ selectedOrder.orderDate | date:'medium'}}</p>
-                        <p><strong>Delivery Status:</strong> {{ selectedOrder.deliveryStatus }}</p>
+                        <p>Quantity: {{ product.quantity }}</p>
+                        <p>Order ID: {{ selectedOrder.orderId }}</p>
+                        <!-- <p>Username: {{ selectedOrder.userName }}</p> -->
+                        <p>Address Line 1: {{ selectedOrder.address1 }}</p>
+                        <p>Address Line 2: {{ selectedOrder.address2 }}</p>
+                        <p>State: {{ selectedOrder.state }}</p>
+                        <p>Zip Code: {{ selectedOrder.zipCode }}</p>
+                        <p>Delivery Status: {{ selectedOrder.deliveryStatus }}</p>
                     </div>
                 </div>
             </div>

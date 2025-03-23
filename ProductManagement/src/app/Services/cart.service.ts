@@ -1,29 +1,33 @@
 import { inject, Injectable } from "@angular/core";
-import { Product } from "../Models/products";
+import { OrderProducts } from "../Models/orderproducts";
 import { map, Observable } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { Order } from "../Models/orders";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   private baseUrlCart = 'https://assignment-a22f7-default-rtdb.firebaseio.com/cart';
-  private baseUrlOrders = 'https://assignment-a22f7-default-rtdb.firebaseio.com/orders';
-  private cart: Product[] = [];
+  private baseUrluser = 'https://assignment-a22f7-default-rtdb.firebaseio.com/user';
 
+  // private baseUrlOrders = 'https://assignment-a22f7-default-rtdb.firebaseio.com/orders';
+  private cart: OrderProducts[] = [];
   http: HttpClient = inject(HttpClient);
-
+  curUser=JSON.parse(localStorage.getItem('user')||'{}')
+  
   constructor() {
     this.loadCart()
   }
 
   //fetch cart from firbase
-  getCart(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.baseUrlCart}.json`).pipe(
+  getCart(): Observable<OrderProducts[]> {
+    return this.http.get<OrderProducts[]>(`${this.baseUrlCart}/${this.curUser.id}.json`).pipe(
       map(cartData => {
         if (!cartData) return [];
-        return Object.keys(cartData).map(key => (
-          { ...cartData[key], cartIndex: key }));
+        return Object.keys(cartData).map(key => ({
+           ...cartData[key],
+             cartId: key }));
       })
     );
   }
@@ -36,16 +40,15 @@ export class CartService {
     });
   }
   // updating entire cart 
-  updateCart(cart: Product[]): Observable<any> {
-    this.cart = cart;
-    return this.http.put(`${this.baseUrlCart}.json`, cart);
+  updateCart(cart: OrderProducts[]): Observable<any> {
+    // this.cart = cart;
+    return this.http.put(`${this.baseUrlCart}/${this.curUser.id}.json`, cart);
   }
 
   //add prod to cart
-  addToCart(product: Product): void {
-    if (!this.cart) this.cart = [];
+  addToCart(product: OrderProducts): void {
+    // if (!this.cart) this.cart = [];
     const existingProduct = this.cart.find(p => p.id === product.id);
-
     if (existingProduct) {
       existingProduct.quantity = product.quantity;
     } else {
@@ -59,7 +62,7 @@ export class CartService {
 
 
   //remove a prod from cart
-  removeFromCart(product: Product) {
+  removeFromCart(product: OrderProducts) {
     const index = this.cart.findIndex(p => p.id === product.id);
     if (index !== -1) {
       if (this.cart[index].quantity > 1) {
@@ -77,35 +80,33 @@ export class CartService {
 
 
   clearCart(): Observable<any> {
-    // this.cart.forEach((item)=>{
-    //   item.quantity=0;
-    //   console.log("dfghjh")
-    // })
-  
     this.cart = [];
-    return this.http.delete(`${this.baseUrlCart}.json`);
+    return this.http.delete(`${this.baseUrlCart}/${this.curUser.id}.json`);
   }
 
 
   checkOut(): Observable<any> {
-    const curUser=JSON.parse(localStorage.getItem('user')||'{}')
     if (!this.cart.length) {
-      alert('Cart is Empty >Cannot Place Order!');
+      alert('Cart is Empty Cannot Place Order!');
       return new Observable();
     }
-    const orderData = {
-      userId:curUser.id,
+    const orderData:Order= {
       orderId: new Date().getTime().toString(),
-      products:this.cart,
-      orderCount: this.cart.length,
+      userId:this.curUser.id,
+      products:this.cart.map(item=>({
+        description:item.description,
+        id:item.id,
+        image:item.image,
+        name:item.name,
+        quantity:item.quantity
+      })),
+      productCount: this.cart.length,
       orderDate: new Date().toISOString(),
       deliveryStatus: 'Shipped',
     }
-    return this.http.post(`${this.baseUrlOrders}.json`, orderData).pipe(
+    return this.http.post(`${this.baseUrluser}/${this.curUser.id}/orders.json`,orderData).pipe(
       map(() => {
-        this.clearCart().subscribe(() => {
-          console.log('Order Placed and cart Cleared');
-        })
+        this.clearCart().subscribe();
       })
     )
   }

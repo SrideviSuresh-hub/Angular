@@ -28,4 +28,57 @@
 .product-info strong {
     color: #333;
     font-weight: bold;
-}
+    }
+
+
+      
+      
+      /* Icons */
+      .fa-eye, .fa-trash {
+        cursor: pointer;
+        font-size: 18px;
+        margin-right: 10px;
+      }
+      
+      
+/*
+
+
+:host ::ng-deep .p-dialog .p-dialog-header {
+    text-align: center;
+    border-bottom: none;
+  }
+  
+  :host ::ng-deep .p-dialog .p-dialog-content {
+    text-align: center;
+    font-size: 16px;
+  }
+  
+  :host ::ng-deep .p-dialog .p-dialog-content .pi-times-circle {
+    font-size: 48px;
+    color: #e74c3c;
+    display: block;
+    margin: auto;
+  }
+  
+  .custom-delete-btn {
+    background-color: #0a0a3e !important;
+    color: white !important;
+    border-radius: 6px !important;
+    padding: 10px 20px !important;
+  }
+  
+  .custom-cancel-btn {
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid #ccc !important;
+    border-radius: 6px !important;
+    padding: 10px 20px !important;
+  }
+  
+  :host ::ng-deep .p-dialog-footer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+   */

@@ -2,6 +2,9 @@ import { Component, inject } from '@angular/core';
 import { OrdersService } from '../../../Services/orders.service';
 import { UsersService } from '../../../Services/users.service';
 import { MessageService } from 'primeng/api';
+import { OrderProducts } from '../../../Models/orderproducts';
+import { Order } from '../../../Models/orders';
+import { UnsubscriptionError } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -10,62 +13,92 @@ import { MessageService } from 'primeng/api';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-orders:any[]=[];
-orderService:OrdersService=inject(OrdersService);
-userService:UsersService=inject(UsersService);
-selectedOrdersProducts:any[]=[];
-selectedOrder;
-showDialog:boolean=false;
-msgService:MessageService=inject(MessageService);
+  orders: any[] = [];
+  orderService: OrdersService = inject(OrdersService);
+  userService: UsersService = inject(UsersService);
+  selectedProduct: any={};
+  showDialog: boolean = false;
+  msgService: MessageService = inject(MessageService);
 
-ngOnInit(){
-  this.loadOrders()
-}
- loadOrders(){
-  this.orderService.getAllOrders().subscribe(data=>{
-    let updatedOrders=[...data];
-    console.log("admin Orders Loaded:",this.orders)
-    updatedOrders.forEach(order=>{
-      this.userService.getUserbyUserId(order.userId).subscribe(user=>{
-        order.userName=user.username;
-        order.street1=user.address1;
-        order.street2=user.address2;
-        order.country=user.country;
-        order.state=user.states;
-        order.pinCode=user.zipCode;
-        console.log(user);
-      
-    })
-  })
-  this.orders=updatedOrders;
-})
- }
+  ngOnInit() {
+    this.loadOrders();
+  }
 
-
- deleteOrder(orderId: string) {
-  if (confirm("Are you sure you want to delete this order?")) {
-    this.orderService.deleteOrder(orderId).subscribe(() => {
-      this.loadOrders();
+  loadOrders() {
+    this.userService.getUsers().subscribe(users => {
+      this.orders = [];
+  
+      if (!users) {
+        console.error('No users found');
+        return;
+      }
+  
+      Object.values(users).forEach((user: any) => {
+        if (user.orders) {
+          Object.entries(user.orders).forEach(([keyId, order]: any) => {
+            if (order.products) {
+              order.products.forEach((product: any, index: number) => {
+                this.orders.push({
+                  keyId: keyId,
+                  userId: user.id,
+                  userName: user.username,
+                  orderDate: order.orderDate,
+                  productName: product.name,
+                  productImage: product.image,
+                  quantity: product.quantity,
+                  deliveryStatus: product.deliveryStatus || "Shipped", 
+                  productIndex: index
+                });
+              });
+            }
+          });
+        }
+      });
+  
+      console.log('Orders Loaded:', this.orders);
+    }, error => {
+      console.error('Error fetching users:', error);
     });
   }
-}
-getSeverity(status:string){
- switch(status){
-  case 'Delivered':return 'success';
-  case 'Shipped':return 'warn';
-  default:return 'info';
- }
-}
+  
+  viewOrder(product: any) {
+    this.selectedProduct = { ...product };
+    this.showDialog = true;
+  }
+  
+  markAsDelivered(orderId: string, userId: string, productIndex: number) {
+    console.log(`Updating delivery status for Order: ${orderId}, Product Index: ${productIndex}`);
 
-viewOrder(order){
-  this.selectedOrder={...order};
-  this.selectedOrdersProducts=order.products;
- this.showDialog=true;
+    this.orderService.updateDeliveryStatus(orderId, userId, productIndex, "Delivered").subscribe(() => {
+      this.orders = this.orders.map(order => {
+          if (order.keyId === orderId && order.userId === userId && order.productIndex === productIndex) {
+              return {
+                  ...order,
+                  deliveryStatus: "Delivered"
+              };
+          }
+          return order;
+      });
+        console.log("update orders", this.orders);
+        
+        this.msgService.add({ severity: 'success', summary: 'Success', detail: 'Product marked as Delivered!' });
+    }, error => {
+        console.error('Error updating delivery status:', error);
+    });
 }
-markAsDelivered(order){
-  this.orderService.updateDeliveryStatus(order.idfire,'Delivered').subscribe(()=>{
-    this.msgService.add({severity:'success',summary:'Success',detail:'Order marked as delivered!'})
-    this.loadOrders();
-  })
-}
+    
+  
+   
+
+
+  getSeverity(status: string) {
+    switch (status) {
+      case 'Delivered':
+        return 'success';
+      case 'Shipped':
+        return 'warn';
+      default:
+        return 'info';
+    }
+  }
 }

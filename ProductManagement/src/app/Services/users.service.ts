@@ -11,12 +11,13 @@ export class UsersService{
     private baseUrluser='https://assignment-a22f7-default-rtdb.firebaseio.com/user';
 
     getUsers(){
-        return this.http.get<{[key:string]:User[]}>(`${this.baseUrluser}.json`)
+        return this.http.get<{[key:string]:User}>(`${this.baseUrluser}.json`)
         .pipe(
             map((userdata)=>{
                 if(!userdata) return [];
                 return Object.keys(userdata).map((key)=>({
-                    ...userdata[key],id:key,
+                    ...userdata[key],
+                    id:key
                 }))
             })
         )
@@ -26,10 +27,10 @@ export class UsersService{
         return this.http.post(`${this.baseUrluser}.json`,user);
     }
     updateUser(userId:string,user:any):Observable<any>{
-        return this.http.put(`${this.baseUrluser}/${user.id}`,user);
+        return this.http.put(`${this.baseUrluser}/${userId}`,user);
     }
-    deleteUser(id:string):Observable<any>{
-        return this.http.delete(`${this.baseUrluser}/${id}.json`)
+    deleteUser(userId:string):Observable<any>{
+        return this.http.delete(`${this.baseUrluser}/${userId}.json`)
     }
 
     getUserbyUserId(userId):Observable<any>{

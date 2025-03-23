@@ -1,64 +1,64 @@
-
 <div class="card">
+  <h2>Welcome Admin!</h2>
+
   <p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }">
-      <ng-template #header>
-          <tr>
-              <th>User Name</th>
-              <th>Product Count</th>
-              <th>Ordered Item</th>
-              <th>Ordered date</th>
-              <th>Delivery status</th>
-          </tr>
-      </ng-template>
-      <ng-template #body let-order>
-          <tr>
-              <td>{{ order.userName }}</td>
-              <td>{{ order.quantity }}</td>
-              <td>{{ order.productName }}</td>
-              <td>{{ order.orderDate| date:'mediumDate'  }}</td>
-              <td>
-                <p-tag [value]="order.deliveryStatus"
-                 [severity]="'success'"
-                
-                 (click)="markAsDelivered(order)"
-                 severity="success" />
-              </td>
-              <td>
-                <p-button icon="pi pi-eye" (click)="viewOrder(order)"
-                styleClass="p-button-text p-button-rounded p-mr-2" title="View Order"></p-button>
-              </td>
-          </tr>
-      </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>User Name</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Ordered Date</th>
+        <th>Delivery Status</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-order>
+      <tr>
+        <td>{{ order.userName }}</td>
+        <td>{{ order.productName }}</td>
+        <td>{{ order.quantity }}</td>
+        <td>{{ order.orderDate | date: 'mediumDate' }}</td>
+        <td>
+          <p-tag 
+            [value]="order.deliveryStatus" 
+            [severity]="getSeverity(order.deliveryStatus)" 
+            (click)="markAsDelivered(order.keyId, order.userId, order.productIndex)">
+          </p-tag>
+        </td>
+        <td>
+          <p-button 
+            icon="pi pi-eye" 
+            (click)="viewOrder(order)"
+            styleClass="p-button-text p-button-rounded p-mr-2" 
+            title="View Order">
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
   </p-table>
 </div>
 
+
+<!-- Order Details Popup -->
 <p-dialog header="Order Details" [(visible)]="showDialog" [modal]="true" [closable]="true">
-
-<ng-template pTemplate="content">
-  <div  *ngFor="let product of selectedOrdersProducts" class="product-item">
-    <img [src]="product.image" alt="Product image" width="300px">
-    <p><h2>{{product.name}}</h2>
-      <p>Quantity: <strong>{{product.quantity}}</strong></p>
+  <ng-template pTemplate="content">
+    <div class="product-item">
+      <img [src]="selectedProduct.productImage" alt="Product image" width="300px">
       <div class="product-info">
-      <div *ngIf="selectedOrder">
-      <p><strong>Delivered on :</strong>{{selectedOrder.orderDate}}</p>
-      <!-- <p>{{product.description}}</p> -->
-    </div>
-      <p><strong>Order ID: </strong>{{selectedOrder.orderId}}</p>
-      <p><strong>User Name: </strong>{{selectedOrder.userName}}</p>
-        <p><strong>Delivered Address : </strong>{{selectedOrder.street1+" "+ selectedOrder.street2}}</p>
-      <p><strong>State:</strong>{{selectedOrder.state}}</p>
-      <p><strong>Country:</strong>{{selectedOrder.Country}}</p>
-      <p><strong>Post Code:</strong>{{selectedOrder.pinCode}}</p>
+        <h2>{{ selectedProduct.productName }}</h2>
+        <p><strong>Quantity:</strong> {{ selectedProduct.quantity }}</p>
+        <p><strong>Order ID:</strong> {{ selectedProduct.orderId }}</p>
+        <p><strong>User Name:</strong> {{ selectedProduct.userName }}</p>
+        <p><strong>Address:</strong> {{ selectedProduct.street1 }}, {{ selectedProduct.street2 }}</p>
+        <p><strong>State:</strong> {{ selectedProduct.state }}</p>
+        <p><strong>Country:</strong> {{ selectedProduct.country }}</p>
+        <p><strong>Post Code:</strong> {{ selectedProduct.pinCode }}</p>
+        <p><strong>Delivery Status:</strong> {{ selectedProduct.deliveryStatus }}</p>
       </div>
-  </div>
-</ng-template>
-  <div class="order-Details">
-  
-    
-</div>
-<p-footer>
-  <p-button label="Close" icon="pi pi-times" (click)="showDialog = false"></p-button>
-</p-footer>
+    </div>
+  </ng-template>
+  <p-footer>
+    <p-button label="Close" icon="pi pi-times" (click)="showDialog = false"></p-button>
+  </p-footer>
 </p-dialog>
-

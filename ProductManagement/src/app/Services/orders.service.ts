@@ -1,69 +1,87 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { map, Observable } from "rxjs";
-import { Product } from "../Models/products";
+import { map, Observable, switchMap } from "rxjs";
+import { OrderProducts } from "../Models/orderproducts";
+import { Order } from "../Models/orders";
 
 @Injectable({
     providedIn: 'root'
 })
 export class OrdersService {
-    private baseUrlOrders = 'https://assignment-a22f7-default-rtdb.firebaseio.com/orders';
+    // private baseUrluser = 'https://assignment-a22f7-default-rtdb.firebaseio.com/orders';
     private baseUrluser = 'https://assignment-a22f7-default-rtdb.firebaseio.com/user';
-
     http: HttpClient = inject(HttpClient);
+    curUser = JSON.parse(localStorage.getItem('user') || '{}')
+    // products: OrderProducts[];
 
-    products: Product[];
+    // addOrders(order:Order):Observable<Order>{
+    //     return this.http.post<{name:string}>(`${this.baseUrluser}/${this.curUser.id}/orders.json`,order)
+    //     .pipe(map(resp=>({
+    //         ...order,
+    //         keyId:resp.name
+    //     })
+    // ))
+    // }
+
     getOrders(): Observable<any> {
-        const curUser = JSON.parse(localStorage.getItem('user') || '{}')
-        return this.http.get<any[]>(`${this.baseUrlOrders}.json`).pipe(
+        return this.http.get<any[]>(`${this.baseUrluser}/${this.curUser.id}/orders.json`)
+        .pipe(
             map(orderData => {
                 if (!orderData) return [];
                 return Object.keys(orderData).map(key =>
-                    ({ ...orderData[key], idfire: key }))
-                    .filter(order => order.userId === curUser.id);
-
+                ({
+                    ...orderData[key],
+                    keyId:key
+                }));
             })
         )
     }
 
 
-    deleteOrder(id: string): Observable<any> {
-        return this.http.delete(`${this.baseUrlOrders}/${id}.json`);
+    deleteOrder(keyId: string): Observable<any> {
+        return this.http.delete(`${this.baseUrluser}/${this.curUser.id}/orders/${keyId}/.json`);
     }
 
-    getOrderById(orderId: number) {
-        return this.http.get<any[]>(`${this.baseUrlOrders}/${orderId}.json`)
+    // getOrderById(orderId: number) {
+    //     return this.http.get<any[]>(`${this.baseUrluser}/${orderId}/${this.curUser.id}/orders.json`)
+    // }
+
+
+    getOrderProducts(keyId: string) {
+        return this.http.get<any[]>(`${this.baseUrluser}/${this.curUser.id}/orders/${keyId}/products.json`);
     }
+    updateDeliveryStatus(keyId: string,userId:string,prodIndex:number,status:string): Observable<any> {
+       const prodPath=`${this.baseUrluser}/${userId}/orders/${keyId}/products/${prodIndex}.json`;
+       console.log("Updating Firebase Path:", prodPath); 
+        return this.http.patch(prodPath, { deliveryStatus: status }).pipe(
+        map(() => {
+            console.log(`Product ${prodIndex} updated with deliveryStatus: ${status}`);
+        })
+    );  }
+  }
 
-    getAllOrders(): Observable<any> {
-        return this.http.get<any[]>(`${this.baseUrlOrders}.json`).pipe(
-            map(orderData => {
-                if (!orderData) return [];
+    // getAllOrders(): Observable<any> {
+    //     return this.http.get<any[]>(`${this.baseUrluser}/${this.curUser.id}/orders.json`).pipe(
+    //         map(orderData => {
+    //             if (!orderData) return [];
 
-                let ordersArray = Object.keys(orderData).map(key =>
-                    ({ ...orderData[key], idfire: key }));
+    //             let ordersArray = Object.keys(orderData).map(key =>
+    //                 ({ ...orderData[key], idfire: key }));
 
-                return ordersArray.flatMap(order =>
-                    order.products.map(prod => ({
-                        orderId: order.orderID,
-                        userId: order.userId,
-                        productName: prod.name,
-                        productImg: prod.image,
-                        quantity: prod.quantity,
-                        orderDate: order.orderDate,
-                        deliveryStatus: order.deliveryStatus,
-                        idfire: order.idfire
-                    }))
-                );
-            })
-        )
-    }
+    //             return ordersArray.flatMap(order =>
+    //                 order.products.map(prod => ({
+    //                     orderId: order.orderID,
+    //                     userId: order.userId,
+    //                     productName: prod.name,
+    //                     productImg: prod.image,
+    //                     quantity: prod.quantity,
+    //                     orderDate: order.orderDate,
+    //                     deliveryStatus: order.deliveryStatus,
+    //                     idfire: order.idfire
+    //                 }))
+    //             );
+    //         })
+    //     )
+    // }
 
-    getOrderProducts(orderId: string) {
-        return this.http.get<any[]>(`${this.baseUrlOrders}/${orderId}/products.json`);
-      }
-    updateDeliveryStatus(orderId: string, status: string): Observable<any> {
-        return this.http.patch(`${this.baseUrlOrders}/${orderId}.json`, { deliveryStatus: status });
-    }
 
-}
