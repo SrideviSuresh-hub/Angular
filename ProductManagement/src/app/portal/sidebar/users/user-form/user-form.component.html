@@ -4,10 +4,21 @@
     <button type="button" class="close-btn" (click)="cancelDailog()">&times;</button>
   </div>
 
-  <div class="profile-section">
-    <div class="profile-pic">
-      <img [src]="userImage" alt="User Image" />
-      <input type="file" (change)="onImageUpload($event)" accept="image/png, image/jpeg" />
+  <div class="avatar-container">
+    <input type="file" id="fileInput" accept="image/png, image/jpeg" (change)="onFileSelected($event)" hidden />
+    <div class="avatar-wrapper" (click)="triggerFileInput()">
+      <img *ngIf="imageUrl; else defaultAvatar;  " [src]="imageUrl" alt="Avatar" class="avatar" [(ngModel)]="imageUrl"/>
+      <ng-template #defaultAvatar>
+        <img src="assets/images/defaultAvatar.png" alt="Default Avatar" class="avatar" />
+      </ng-template>
+      <!-- else initialsAvatar 
+      <ng-template #initialsAvatar>
+        <div class="avatar-initials">{{ userInitials }}</div>
+      </ng-template> -->
+
+      <div class="edit-icon">
+        <i class="pi pi-pencil"></i>
+      </div>
     </div>
   </div>
 
@@ -76,14 +87,21 @@
     </div>
   </div>
 
-  <div class="form-group-container">
-    <div class="form-group">
-      <label>New Password</label>
-      <p-password [(ngModel)]="newUser.password" name="password" required toggleMask="true"></p-password>
-    </div>
-
-    
+  
+  <div class="form-group">
+    <label for="password">Password<span class="required">*</span></label>
+    <p-password [(ngModel)]="newUser.password" 
+                name="password" 
+                required
+                feedback="false" 
+                toggleMask="true" 
+                inputId="password"
+                inputStyleClass="w-full"
+                styleClass="w-full">
+    </p-password>
   </div>
+  
+
   <div class="form-footer">
     <p-button label="Cancel" icon="pi pi-times" (click)="cancelDailog()" class="p-button-text" />
     <p-button label="Save" icon="pi pi-check" (click)="saveUser()" />

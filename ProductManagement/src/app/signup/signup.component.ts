@@ -16,8 +16,8 @@ export class SignupComponent {
   authService: AuthService = inject(AuthService);
   router: Router = inject(Router);
   errorMessage: string = '';
-timezonee:string='';
-localee:string='';
+  timezonee:string='';
+  localee:string='';
   userName: string = '';
   firstName: string = '';
   lastName: string = '';
@@ -34,9 +34,28 @@ localee:string='';
   statee:string='';
   states: string[] = [];
   password: string = '';
+  imageUrl: string | ArrayBuffer | null = "assets/images/defaultAvatar.png";
   confirmpassword: string = '';
   locales: string[] = ['en-US', 'en-GB', 'fr-FR', 'de-DE', 'es-ES', 'zh-CN'];
+  userInitials: string = "";
 
+  triggerFileInput() {
+    document.getElementById('fileInput')?.click();
+  }
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+
+    if (file && file.size < 2 * 1024 * 1024) {  
+      const reader = new FileReader();
+      reader.onload = (e) => this.imageUrl = e.target?.result;
+      reader.readAsDataURL(file);
+    } else {
+      alert("File must be PNG or JPG and less than 2MB.");
+    }
+  }
+  generateIntials(){
+    this.userInitials=`${this.firstName.charAt(0).toUpperCase()}${this.lastName.charAt(0).toUpperCase()}`
+  }
 
   // genders = [
   //   { id: 'check-male', value: 'male', display: 'Male' },
@@ -58,25 +77,6 @@ localee:string='';
   currentStep = 1;
   passwordMatching = true;
 
-  
-  profileImage: string | ArrayBuffer | null = null;
-
-  onProfileUpload(event: any) {
-    const file = event.files[0];
-
-    // Check if file type is JPG/PNG
-    if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-        this.profileImage = e.target.result; // Save image for preview
-      };
-
-      reader.readAsDataURL(file);
-    } else {
-      alert("Only JPG and PNG formats are allowed.");
-    }
-  }
   nextStep() {
     if (this.currentStep == 1) {
       this.currentStep++;
@@ -104,11 +104,7 @@ localee:string='';
   validatePassword(password, confirmpassword) {
     this.passwordMatching = password === confirmpassword;
   }
-
-  summa(){
-    console.log(this.form)
-    console.log(this.form.controls['username'].value)
-  }
+  
 
   onSignup(form : NgForm) {
     if (form.invalid || !this.passwordMatching) {
@@ -117,8 +113,6 @@ localee:string='';
     
     this.isLoading=true;
     this.errorMessage='';
-    
-   
     
     let userData={
       username : this.userName,
@@ -135,7 +129,7 @@ localee:string='';
       zipCode : this.postal,
       timezones : this.timezonee,
       locales :this.localee,
-      profileImage :'', 
+      image :this.imageUrl, 
       isAdmin : this.IsAdmin, 
       password : this.password
     };
@@ -155,17 +149,51 @@ localee:string='';
      });
    
     }
-    imageUrl: string | ArrayBuffer | null = null;
-
-  onFileSelected(event: any) {
-    const file = event.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => this.imageUrl = e.target?.result;
-      reader.readAsDataURL(file);
-    }
-  }
 }
+
+  // onFileSelected(event: any) {
+  //   const file = event.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = (e) => this.imageUrl = e.target?.result;
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
+
+    // profileImage: string | ArrayBuffer | null = null;
+
+  // selectFile(e: any): void{
+  //   let a = e.target.files[0].type
+  //   let b = e.target.files[0].size / (1024 * 1024)
+  //   if( a == "image/jpeg" || a == "image/jpg" && b < 2){
+  //     // this.selectedFile = e.target.files[0]
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(e.target.files[0])
+  //     reader.onload = ((event: any)=>{
+  //       this.profileImage = event.target.result
+  //     })
+  //   }else{
+  //     // this.messageService.add({ severity: 'error', summary: 'Invalid image format or file size exceeds 2MB limit' });
+  //   }
+  // }
+
+  // onProfileUpload(event: any) {
+  //   const file = event.files[0];
+
+  //   // Check if file type is JPG/PNG
+  //   if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
+  //     const reader = new FileReader();
+
+  //     reader.onload = ((e: any) => {
+  //       this.profileImage = e.target.result;
+  //       console.log(this.profileImage) // Save image for preview
+  //     });
+
+  //     reader.readAsDataURL(file);
+  //   } else {
+  //     alert("Only JPG and PNG formats are allowed.");
+  //   }
+  // }
   
   
     // onFileChange(event: any) {
@@ -207,3 +235,4 @@ localee:string='';
   //     }
   //   });
   // }
+

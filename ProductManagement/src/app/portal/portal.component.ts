@@ -7,19 +7,9 @@ import { Component, signal } from '@angular/core';
   styleUrl: './portal.component.css'
 })
 export class PortalComponent {
-  // isLeftSidebarCollapsed=signal<boolean>(false);
-  // selectedSection: string = 'home';
-  // changeIsLeftSidebarCollapsed(isLeftSidebarCollapsed:boolean){
-  //   this.isLeftSidebarCollapsed.set(isLeftSidebarCollapsed);
-  // }
-  // selectedSection = '';
+  
 
-  isLeftSidebarCollapsed = false;
-
-  changeIsLeftSidebarCollapsed(event: boolean) {
-    this.isLeftSidebarCollapsed = event;
-    console.log(this.isLeftSidebarCollapsed);
-  }
+  
 
   // toggleSidebar() {
   //   this.isLeftSidebarCollapsed = !this.isLeftSidebarCollapsed;

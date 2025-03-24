@@ -13,12 +13,9 @@ export class UserFormComponent {
   @Input() newUser: any = {};
   @Output() save = new EventEmitter<User>();
   @Output() cancel = new EventEmitter<void>();
-  userImage: string = ''; 
-  // genders =[
-  //   { id: 'check-male', value: 'Male', display: 'Male' },
-  //   { id: 'check-female', value: 'Female', display: 'Female' },
-  //   { id: 'check-other', value: 'TransGender', display: 'TransGender' }
-  // ];
+  imageUrl: string | ArrayBuffer | null = "assets/images/defaultAvatar.png";
+  userInitials: string = "";
+
 
   genders:any[]=[{label:"Male", gender: 'male'},{label:"Female", gender: 'female'},{label:"Prefer not to say", gender: 'others'}]
   gender!:string;
@@ -40,25 +37,22 @@ export class UserFormComponent {
       : ['California', 'Texas', 'New York', 'Florida'];
   }
 
-  onImageUpload(event:any){
-    const file=event.target.files[0];
-    if(file.size<2*1024*1024){
-      const reader=new FileReader();
-      reader.onload = (e: any) => {
-        this.userImage = e.target.result; 
-      };
+triggerFileInput() {
+    document.getElementById('fileInput')?.click();
+  }
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+
+    if (file && file.size < 2 * 1024 * 1024) {  
+      const reader = new FileReader();
+      reader.onload = (e) => this.imageUrl = e.target?.result;
       reader.readAsDataURL(file);
-    }
-    else{
-      alert('Image shld be less tan 2MB!')
+    } else {
+      alert("File must be PNG or JPG and less than 2MB.");
     }
   }
 
   saveUser(){
-    if(this.newUser.password!== this.newUser.confirmPassword){
-      alert('passwords do not match');
-    return;
-    }
     this.save.emit(this.newUser);
   }
   cancelDailog(){

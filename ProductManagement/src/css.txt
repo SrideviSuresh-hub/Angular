@@ -1,0 +1,159 @@
+To apply global styles for PrimeNG components and tables across your Angular project, follow these steps:
+
+---
+
+### **1. Apply Global Table Styling in `styles.css` or `styles.scss`**
+Add the following styles to your global `styles.scss` (or `styles.css`) file to ensure uniform styling for all PrimeNG tables and components.
+
+
+.p-datatable {
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.p-datatable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.p-datatable th {
+  background-color: #f4f4f4;
+  text-align: left;
+  padding: 12px;
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;
+}
+
+.p-datatable td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.p-datatable tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.p-button {
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+}
+
+
+.p-dialog .p-dialog-header {
+  background-color: #673ab7;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 16px;
+}
+
+.p-dialog .p-dialog-content {
+  padding: 20px;
+}
+
+.p-dialog .p-dialog-footer {
+  padding: 16px;
+  text-align: right;
+}
+
+
+.p-tag {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+```
+
+---
+
+### **2. Update Your Angular Component to Use PrimeNG Table Styling**
+Modify your component's table to use `p-table` and ensure it follows global styles.
+
+```html
+<p-table #dt [value]="orders" [paginator]="true" [rows]="10" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>User Name</th>
+      <th>Product Name</th>
+      <th>Quantity</th>
+      <th>Ordered Date</th>
+      <th>Delivery Status</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-order>
+    <tr>
+      <td>{{ order.userName }}</td>
+      <td>{{ order.productName }}</td>
+      <td>{{ order.quantity }}</td>
+      <td>{{ order.orderDate | date: 'mediumDate' }}</td>
+      <td>
+        <p-tag [value]="order.deliveryStatus" [severity]="getSeverity(order.deliveryStatus)"></p-tag>
+      </td>
+      <td>
+        <p-button icon="pi pi-eye" class="p-button-rounded p-button-text" (click)="viewOrder(order)"></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+```
+
+---
+
+### **3. Consistent Styling for PrimeNG Dialogs**
+Ensure all dialogs use the same styling. If you want consistent modal popups, apply this globally:
+
+```scss
+.p-dialog .p-dialog-content {
+  font-size: 1rem;
+}
+
+.p-dialog .p-dialog-footer {
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-top: 1px solid #ddd;
+}
+```
+
+---
+
+### **4. Ensure Dark Mode Compatibility**
+Modify colors dynamically based on the `dark mode` toggle.
+
+```scss
+body.dark-theme {
+  .p-datatable {
+    background-color: #2c2c2c;
+    color: #fff;
+  }
+
+  .p-datatable th {
+    background-color: #3a3a3a;
+    color: #fff;
+  }
+
+  .p-dialog .p-dialog-header {
+    background-color: #222;
+    color: #fff;
+  }
+}
+```
+
+---
+
+### **5. Add Global Style Configurations in `angular.json`**
+Ensure `styles.scss` is included in the `angular.json` file.
+
+```json
+"styles": [
+  "src/styles.scss"
+]
+```
+

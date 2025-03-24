@@ -1,18 +1,17 @@
 
-
 <div class="container">
 
   <app-header></app-header>
   <div class="main-wrapper" style="display: flex;">
 
-    <app-sidebar class="sidebar" [isLeftSidebarCollapsed]="isLeftSidebarCollapsed"
-      (changeIsLeftSidebarCollapsed)="changeIsLeftSidebarCollapsed($event)"
-      [ngClass]="isLeftSidebarCollapsed?'sidenav-collapsed':''">
+    <app-sidebar class="sidebar" >
     </app-sidebar>
 
 
-    <div class="content-wrapper" [ngClass]="isLeftSidebarCollapsed?'full':''">
-      <app-main [isLeftSidebarCollapsed]="isLeftSidebarCollapsed"></app-main>
+    <div class="content-wrapper" >
+  
+        <router-outlet></router-outlet>
+     
     </div>
   </div>
 </div>

@@ -1,11 +1,32 @@
+
+
 .user-container {
-  padding: 20px;
+  overflow: hidden;
+  height: 100%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+  padding-bottom: 100px;
+  /* margin: 16px auto; */
+  
 }
 
-h2 {
-  color: #333;
-  margin-bottom: 15px;
+.head-content{
+  display: flex;
+  justify-content: space-between; 
+  width: 100%;
+  margin-bottom: 20px;
 }
+
+h2{
+  margin-top:10px;
+}
+.p-button{
+  margin-top: 20px;
+  padding: 10px;
+}
+
 
 p-table {
   margin-top: 15px;
@@ -17,15 +38,4 @@ p-avatar {
   height: 40px;
 }
 
-p-button{
-  margin-right: 8px;
-  /* background-color: navy; */
-}
 
-/* .p-button-danger {
-  background-color: #e74c3c;
-}
-
-.p-button-warning {
-  background-color: #f39c12;
-} */

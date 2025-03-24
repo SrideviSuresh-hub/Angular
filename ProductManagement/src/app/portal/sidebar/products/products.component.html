@@ -1,38 +1,50 @@
 
   
-        <div class="product-container" style="top:20px;">
-          <h1>Available Products </h1>
-          <div class="search-bar" >
-            <input type="text"
+          <!-- <p-card> -->
+            <div class="product-container" >
+              <div class="search-container">
+            <h1 class="title">Available Products </h1>
+          <div class="search-bar">
+            <input
+              type="text"
               pInputText
-               placeholder="Search products..."
-                [(ngModel)]="searchText"
-                (input)="searchProducts()" />
-              <button pButton label="Search"></button>
-            </div>
+              placeholder="Search products..."
+              [(ngModel)]="searchText"
+              (input)="searchProducts()"
+            />
+            <i class="pi pi-search search-icon"></i>
+          </div>
+          </div>
+          
           
             <div class="product-grid">
               <div *ngFor="let product of filteredProducts" class="product-card">
                 <img [src]="product.image" alt="{{ product.name }}" class="product-img" />
+                <div class="overlay">
+                  <div class="content">
                 <h3>{{ product.name }}</h3>
                 <p>{{ product.description }}</p>
-                
+                </div>
                 <div class="quantity-controls">
                   <button pButton icon="pi pi-minus" (click)="decrementQuantity(product)" class="p-button-text"></button>
                   <span>{{ product.quantity }}</span>
                   <button pButton icon="pi pi-plus" (click)="incrementQuantity(product)" class="p-button-text"></button>
                 </div>
-          
                 <div *ngIf="isAdmin">
                   <button pButton icon="pi pi-trash" class="p-button-danger" (click)="deleteProduct(product.id)"></button>
                 </div>
               </div>
+              </div>
+              
               <div *ngIf="isAdmin" class="product-card add-product" (click)="showAddPopup()">
+               <div class="add-icon">
                 <i class="pi pi-plus-circle plus-icon"></i>
+              </div>
                 <h3>Add New product</h3>
               </div>
             </div>
           </div>
+          <!-- </p-card> -->
           <p-dialog header="Edit Profile" [modal]="true" [(visible)]="showPopup"  header="Add product" [style]="{ width: '500px' }">
             <div class="popup-content">
             <div class="image-upload">
@@ -41,7 +53,6 @@
                 <i *ngIf="!imagePreview" class="pi pi-image upload-icon"></i>
               </label>
               <input type="file" id="imageUpload" accept="image/*" (change)="onImageUpload($event)" hidden />
-              <!-- <p-fileupload mode="basic" name="demo[]" chooseIcon="pi pi-upload" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000" (onUpload)="onBasicUploadAuto($event)" [auto]="true" chooseLabel="Browse" /> -->
             </div>
             <label>Product Name</label>
             <input type="text" pInputText [(ngModel)]="newProduct.name" placeholder="Enter product name" />
@@ -55,6 +66,7 @@
             </div>
           </div>
         </p-dialog>
+        
         
    
   

@@ -1,4 +1,6 @@
-
+body{
+    height: 50px;
+}
 .start-content{
     display: flex;
     align-items: center;
@@ -12,5 +14,8 @@
 app-weather{
     display: flex;
     align-items: center;  
+}
+.p-menu{
+    border-bottom-left-radius: 0px !important;
 }
 

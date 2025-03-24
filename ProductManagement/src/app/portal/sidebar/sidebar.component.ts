@@ -15,7 +15,8 @@ export class SidebarComponent implements OnInit {
   authService:AuthService=inject(AuthService);
   isAdmin:boolean=false;
   items:any[]=[];
-  ngOnInit(){
+  ngOnInit()
+  {
     this.isAdmin = this.authService.isAdmin();
     this.setSidebarItems();
   }
@@ -39,9 +40,6 @@ export class SidebarComponent implements OnInit {
 
 
   
-  toggleCollapse() {
-    this.isLeftSidebarCollapsed = !this.isLeftSidebarCollapsed;
-    this.changeIsLeftSidebarCollapsed.emit(this.isLeftSidebarCollapsed);
-  }
+
 
 }

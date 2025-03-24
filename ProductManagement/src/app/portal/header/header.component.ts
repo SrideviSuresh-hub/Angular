@@ -9,17 +9,26 @@ import { Router } from '@angular/router';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  // @Output() sidebarToggle = new EventEmitter<void>();
-
-  // toggleSidebar() {
-  //   this.sidebarToggle.emit();
-  // }
+  
   authService:AuthService=inject(AuthService);
   router:Router=inject(Router)
+  curUser=JSON.parse(localStorage.getItem('user'))
+  imgURL=this.curUser.imageUrl;
+ 
+  ngOnInit(){
+    console.log(this.imgURL)
+  }
+   
   onLogout(){
     this.authService.logout();
     this.router.navigate(['/login'])
   }
-  curUser=JSON.parse(localStorage.getItem('user'))
-  imgURL=this.curUser.imgURL;
 }
+
+
+
+// @Output() sidebarToggle = new EventEmitter<void>();
+
+  // toggleSidebar() {
+  //   this.sidebarToggle.emit();
+  // }

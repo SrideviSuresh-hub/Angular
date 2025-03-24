@@ -27,7 +27,7 @@ export class ProductsComponent  {
   showPopup: boolean = false;
   imagePreview:string| ArrayBuffer|null=null;
   newProduct: OrderProducts={ id:'', name: '', description: '', image: '', quantity: 0 };;
-selectedImageFile:File|null=null;
+  selectedImageFile:File|null=null;
   ngOnInit() {
     this.isAdmin = this.authService.isAdmin();
     this.loadProducts();
@@ -97,12 +97,15 @@ this.prodService.updateProduct(product.id,product).subscribe(()=>{
   }
    showAddPopup(){
         this.showPopup=true;
+        this.newProduct = { id: '', name: '', description: '', image: '', quantity: 0 };
         this.imagePreview=null;
         this.selectedImageFile=null;
     }
 
   closePopup() {
     this.showPopup = false;
+    this.newProduct = { id: '', name: '', description: '', image: '', quantity: 0 };
+    this.imagePreview=null;
   }
    onImageUpload(event: any) {
   const file = event.target.files[0]; 
@@ -115,6 +118,7 @@ this.prodService.updateProduct(product.id,product).subscribe(()=>{
     reader.readAsDataURL(file);
   }
 }
+
 
 }
 

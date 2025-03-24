@@ -4,7 +4,6 @@
 /* @import 'primeng/resources/themes/lara-light-blue/theme.css';
 @import 'primeng/resources/themes/lara-dark-blue/theme.css'; */
 body{
-   
     margin: 0;
     padding: 0;
 }
@@ -16,4 +15,71 @@ body{
   ::ng-deep .p-inputtext {
     width: 100%;
   }
+  
+.p-datatable {
+  border-radius: 10px;
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+  /* overflow: hidden !important; */
+  border: 1px solid #f5f3f3 !important;
+  border-radius: 5px !important;
+}
+
+.p-datatable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.p-datatable th {
+  background-color: #e1e0e0ec !important;
+  text-align: left;
+  padding: 10px !important;
+}
+
+.p-datatable td {
+  padding: 0px 10px !important;
+  border-bottom: 1.5px solid #eeebeb !important;
+}
+
+.p-paginator {
+  padding: 0px !important;
+}
+.p-datatable tbody tr:hover {
+  background-color:rgba(240,236,253,1);
+}
+
+.p-button {
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+}
+
+
+/* .p-dialog .p-dialog-header {
+  background-color: #673ab7;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 16px;
+} */
+
+.p-dialog .p-dialog-content {
+  padding: 20px;
+}
+
+.p-dialog .p-dialog-footer {
+  padding: 16px;
+  text-align: right;
+}
+
+
+.p-tag {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+  
   

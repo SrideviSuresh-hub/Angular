@@ -56,7 +56,9 @@ login(email:string,password:string):Observable<any>{
 
 logout(){
     localStorage.removeItem('user');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(() => {
+        window.location.reload();
+      });
 }
 
 getCurrentUser():any{

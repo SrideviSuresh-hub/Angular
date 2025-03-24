@@ -1,61 +1,6 @@
 
-.main-content {
-  /* flex-grow: 1; */
-  /* overflow-y: auto; */
-  /* height: calc(100vh - 60px); */
-  padding: 20px;
-  margin-top: 20px;
+.content{
+    overflow: scroll;
 }
 
 
-/* When Sidebar is Collapsed */
-/* .main-content.collapsed {
-  margin-left: 00px;
-} */
-
-
-
-
-
-
-
-
-
-
-/* .body {
-  margin-left: 5rem;
-  position: relative;
-  top:5vh;
-  transition: all 0.5s ease;
-} */
-  /* z-index: 0;s */
-  /* width: calc(100% - 5rem); */
-   
-    /* background: #f4f7fa; */
-     /* padding: 3rem; */
-    /* width:350px;
-    float:left;
-    padding:10px;  */
-  
-  /* .body-trimmed {
-    width: calc(100% - 16rem);
-    margin-left: 16rem;
-  }
-  
-  .main-content {
-  flex-grow: 1;
-  margin-left: 250px; 
-  overflow-y: auto;* 
-  height: calc(100vh - 60px);
-  padding: 20px;
-}
-  .body-md-screen {
-    width: calc(100% - 5rem);
-    margin-left: 5rem;
-  }.content {
-    margin-top: 60px;
-    padding: 20px;
-    overflow-y: auto;
-    flex-grow: 1;
-    height: calc(100vh - 60px); 
-  } */

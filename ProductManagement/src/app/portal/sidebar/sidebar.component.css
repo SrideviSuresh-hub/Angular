@@ -4,23 +4,23 @@
   background: #c7b1f2;
  transition: all 0.5s ease;
  position: fixed;
- top:15vh;
- width: 15.5rem;
- height: 85vh;
- /* box-shadow: 0.063rem 0 1.25rem 0 #8690a3; */
+ top:9vh;
+ width: 15rem;
+ height: 91vh;
  
 }
 .sidenav-collapsed {
- width: 5rem;
+ width:5rem;
 }
 
 .sidenav .logo-container .logo {
  cursor: pointer;
+ background: none;
  border: none;
+ color: #13093d;
  border-radius: 40%;
  float: right; 
- margin-top: 5px;
- margin-right:-15px;
+ margin-right:-18px;
  position: relative;
 
   
@@ -32,22 +32,22 @@
  display: flex;
  flex-direction: column;
  align-items: center;
- /* width: calc(100% - 3.65rem); */
  cursor: pointer;
  margin-top: 20px;
 
 }
 .sidenav-nav .sidenav-nav-item {
  width: 100%;
- /* margin-bottom: 10px; */
+ margin-bottom: 10px;
+
 }
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link {
  display: flex;
  align-items: center;
  height: 3rem;
- color: #f3f3f3;
+ color: #13093d;
  text-decoration: none;
- border-radius: 0.625rem;
+ border-radius: 0.3rem;
  /* transition: all 0.3s ease; */
 }
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-icon {
@@ -60,73 +60,26 @@
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-text {
  margin-left: 1.5rem;
 }
-.sidenav-nav .sidenav-nav-item:hover .sidenav-nav-link {
+/* .sidenav-nav .sidenav-nav-item:hover .sidenav-nav-link {
  background-color: #fff;
  color: #000;
-}
+} */
 
 .active {
- background-color: #fff;
+ background-color: #f6f3f3;
 }
+
 .active .sidenav-link-icon,
 .active .sidenav-link-text {
  color: #000;
 }
-
-
-
-
-/* body {
-  margin: 0;
-  font-family: "Lato", sans-serif;
-}
-
-.sidebar {
-  margin: 0;
-  padding: 0;
-  width: 200px;
-  background-color: #f1f1f1;
-  position: fixed;
-  height: 100%;
-  overflow: auto;
-}
-
-.sidebar a {
-  display: block;
-  color: black;
-  padding: 16px;
-  text-decoration: none;
-}
- 
-.sidebar a.active {
-  background-color: #04AA6D;
-  color: white;
-}
-
-.sidebar a:hover:not(.active) {
-  background-color: #555;
-  color: white;
-}
-
-div.content {
-  margin-left: 200px;
-  padding: 1px 16px;
-  height: 1000px;
-}
-
-@media screen and (max-width: 700px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
+@media screen and (max-width: 768px) {
+  .sidenav {
+    width: 5rem;
   }
-  .sidebar a {float: left;}
-  div.content {margin-left: 0;}
+
+  .sidenav .sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-text {
+    display: none;
+  }
 }
 
-@media screen and (max-width: 400px) {
-  .sidebar a {
-    text-align: center;
-    float: none;
-  }
-} */

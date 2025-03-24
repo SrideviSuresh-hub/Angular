@@ -37,6 +37,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { UserHomeComponent } from "./user-home/user-home.component";
 import { ChartModule } from 'primeng/chart';
+
 @NgModule({
     declarations:[
         PortalComponent,
@@ -80,7 +81,8 @@ import { ChartModule } from 'primeng/chart';
         ConfirmDialogModule,
         ToastModule,
         DialogModule,
-        SelectModule
+        SelectModule,
+        CardModule
     ],
     imports:[
         RouterModule.forChild(routes2),
@@ -97,6 +99,7 @@ import { ChartModule } from 'primeng/chart';
         AvatarGroupModule,
         AvatarModule,
         Tag,
+        CardModule,
         ChartModule,
         DatePickerModule,
         SelectModule,

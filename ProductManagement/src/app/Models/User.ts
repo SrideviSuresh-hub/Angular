@@ -17,4 +17,5 @@ export interface User {
     locale: string;
     image: string;
     isAdmin: boolean;
+    age?:number;
 }

@@ -1,8 +1,10 @@
 <div class="user-container">
-  <h2>User Management</h2>
+  <div class="head-content">
+    <h2>User Management</h2>
   <p-button label="Add User" icon="pi pi-user-plus" (click)="openUserDialog()" />
 
-<p-table [value]="users">
+  </div>
+<p-table [value]="users"  [paginator]="true" [rows]="5">
     <ng-template pTemplate="header">
       <tr>
         <th>User Image</th>
@@ -25,9 +27,8 @@
         <td>{{ user.country }}</td>
         <td>
           <p-button  icon="pi pi-pencil" (click)="openUserDialog(user)" />
-          <p-button icon="pi pi-trash" severity="danger" #delete (click)="deleteUser(id)" />
-        </td>
-      </tr>
+          <p-button icon="pi pi-trash" severity="danger" #delete (click)="confirmDeleteUser(user.id)" />
+        </td> 
     </ng-template>
   </p-table>
   </div>
@@ -37,7 +38,7 @@
     <h3>{{ isEditing ? 'Edit User' : 'Add User' }}</h3>
   </ng-template>
   <ng-template pTemplate="content">
-    <app-user-form [newUser]="newUser" [isEditing]="!isEditing" (save)="saveUser()" (cancel)="displayDialog = false"></app-user-form>
+    <app-user-form [newUser]="newUser" [isEditing]="isEditing" (save)="saveUser()" (cancel)="displayDialog = false"></app-user-form>
   </ng-template>
 </p-dialog>
 
