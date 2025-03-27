@@ -14,7 +14,14 @@
 /* .p-card{
   height: 100%;
 } */
-
+h1{
+font-family: 'Montserrat';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 24px;
+color: #141569;
+}
 .title {
   display: flex;
   font-size: 24px;
@@ -33,6 +40,7 @@
   position: relative;
   width: 100%;
   max-width: 400px; 
+
   /* margin-bottom: 20px; */
  
 }
@@ -40,8 +48,9 @@
 .search-bar input {
   width: 100%;
   padding: 10px 40px 10px 15px; 
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: none;
+  background-color:rgba(243, 243, 243, 1);
+  border-radius: 6px;
   font-size: 16px;
   outline: none;
 }
@@ -51,15 +60,17 @@
   right: 15px;
   top: 35%;
   transform: translateY(-50%);
-  color: gray;
+  color: rgba(20, 21, 105, 1);
   font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
+
 }
 
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Ensures responsive alignment */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 2fr)); /* Ensures responsive alignment */
   gap: 20px;
   /* border: 2px solid black; */
   overflow: auto;
@@ -68,10 +79,10 @@
 
 .product-card {
   position: relative;
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: auto;
-
   height: 250px;
+  border: 1px solid rgba(227, 227, 227, 1);
 }
 
 .image-wrapper {
@@ -85,6 +96,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 5px;
 }
 
 .overlay {
@@ -93,19 +105,40 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  opacity: 75%;
+  /* background: rgba(243, 242, 242, 0.5); */
   color: white;
   display: flex;
   align-items: flex-end;
   padding: 15px;
   transition: background 0.3s;
 }
+.admin-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+   background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  color: white;
+  display: flex;
+  align-items: flex-end;
+  padding: 15px;
+  transition: background 0.3s;
 
+}
 .overlay .content {
   width: 100%;
-  text-align: left;
+  margin-bottom: 100px;
+  /* text-align: left; */
+  font-size: 16px;
+  color:rgba(20, 21, 105, 1) ;
 }
-
+.overlay .content h3{
+  font-weight: 700;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 1);
+}
 .product-title {
   font-size: 18px;
   font-weight: bold;
@@ -138,19 +171,145 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #aaa;
+  border: 1px solid #aaa;
   text-align: center;
   cursor: pointer;
-
+  flex-direction: column;
   
 }
 
-.plus-icon {
-  font-size: 40px;
+.add-icon {
+  /* font-size: 40px; */
+  color: white;
+  background-color: rgba(20, 21, 105, 1);
+  padding: 7px 8px;
+  border-radius: 5px;
+}
+.add-icon i{
+  font-size: larger;
+  font-weight: 600;
+}
+
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  /* gap: 50px; */
+  padding: 50px;
+}
+
+.dialog-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  gap: 10px; /* Space between label and input */
+}
+
+.dialog-field label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.dialog-field input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+
+/* Image Upload Section */
+.image-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  
+}
+
+.image-container {
+  width: 65%;
+  height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border 0.3s ease-in-out;
+}
+/* 
+.image-container.drag-over {
+  border: 2px dashed #007bff;
+  background-color: rgba(0, 123, 255, 0.1);
+} */
+.footer{
+  display: flex;
+  justify-content: flex-end;
+  gap:10px
+}
+.image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.upload-icon {
+  font-size: 24px;
+  color: #555;
+}
+
+/* Input Fields */
+/* .p-inputtext {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border 0.3s ease-in-out;
+} */
+
+/* .p-inputtext:focus {
+  border-color: #007bff;
+} */
+
+
+.p-footer {
+  display: flex;
+  justify-content:space-between;
+
 }
 
 
 
+
+
+
+
+
+
+
+/* .p-button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+} */
+
+/* .p-button-success {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.p-button-success:hover {
+  background-color: #0056b3;
+}
+
+
+.drag-active {
+  border-color: #0d6efd;
+  background-color: rgba(13, 110, 253, 0.1);
+} */
 
 
 

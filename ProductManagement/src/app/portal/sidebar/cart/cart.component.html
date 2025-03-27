@@ -1,32 +1,27 @@
-<!-- <div class="cart-container"> -->
+<div class="cart-container">
   <h1>Your Cart</h1>
   <div *ngIf="cartItems.length>0; else emptyCart">
   <div class="search-bar">
     <input type="text" placeholder="Search cart items..." [(ngModel)]="searchText" (input)="getFilteredCartItems()" />
     <button pButton label="Search"></button>
   </div>
-
   <div class="cart-grid">
     <div *ngFor="let item of getFilteredCartItems()" class="cart-card">
       <img [src]="item.image" alt="{{ item.name }}" class="cart-img" />
       <div class="cart-details">
         <h3>{{ item.name }}</h3>
         <p>{{ item.description }}</p>
-        <!-- <span class="price">₹{{ item.price }}</span> -->
-
         <div class="quantity-controls">
           <button pButton icon="pi pi-minus" (click)="decrementQuantity(item)" class="p-button-text"></button>
           <span>{{ item.quantity }}</span>
           <button pButton icon="pi pi-plus" (click)="incrementQuantity(item)" class="p-button-text"></button>
         </div>
-
         <!-- <button pButton icon="pi pi-trash" class="p-button-danger" (click)="removeItem(item)"></button> -->
       </div>
     </div>
   </div>
 
   <div class="cart-summary">
-    <!-- <h2>Total: ₹{{ getTotalPrice() }}</h2> -->
     <button pButton label="Checkout" class="checkout-btn" (click)="checkOut()"></button>
   </div>
 </div>
@@ -34,4 +29,3 @@
   <p>Your cart is Empty</p>
 </ng-template>
 
-<!-- </div> -->

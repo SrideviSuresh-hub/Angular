@@ -13,12 +13,18 @@ export class HeaderComponent {
   authService:AuthService=inject(AuthService);
   router:Router=inject(Router)
   curUser=JSON.parse(localStorage.getItem('user'))
-  imgURL=this.curUser.imageUrl;
- 
+  userInitials:string="";
+  imgURL=this.curUser.imageUrl || this.userInitials;
+
   ngOnInit(){
-    console.log(this.imgURL)
+    this.userInitials=this.generateIntials();
+    console.log(this.imgURL);
+
   }
    
+  generateIntials() {
+    return  this.userInitials = `${this.curUser.firstName.charAt(0).toUpperCase()}${this.curUser.lastName.charAt(0).toUpperCase()}`
+  }
   onLogout(){
     this.authService.logout();
     this.router.navigate(['/login'])

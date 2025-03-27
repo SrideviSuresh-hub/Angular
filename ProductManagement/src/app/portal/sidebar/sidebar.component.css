@@ -1,8 +1,8 @@
 
 
 .sidenav {
-  background: #c7b1f2;
- transition: all 0.5s ease;
+  background:rgba(193, 186, 221, 1);
+ /* transition: all 0.2s ease; */
  position: fixed;
  top:9vh;
  width: 15rem;
@@ -17,7 +17,7 @@
  cursor: pointer;
  background: none;
  border: none;
- color: #13093d;
+ /* color: #13093d; */
  border-radius: 40%;
  float: right; 
  margin-right:-18px;
@@ -47,7 +47,7 @@
  height: 3rem;
  color: #13093d;
  text-decoration: none;
- border-radius: 0.3rem;
+ /* border-radius: 0.3rem; */
  /* transition: all 0.3s ease; */
 }
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-icon {
@@ -59,6 +59,9 @@
 }
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-text {
  margin-left: 1.5rem;
+ font-weight: 500;
+ color: rgb(0, 1, 12);
+ font-size: large;
 }
 /* .sidenav-nav .sidenav-nav-item:hover .sidenav-nav-link {
  background-color: #fff;
@@ -66,12 +69,13 @@
 } */
 
 .active {
- background-color: #f6f3f3;
+ background-color: rgba(255, 255, 255, 0.3);
+
 }
 
 .active .sidenav-link-icon,
 .active .sidenav-link-text {
- color: #000;
+ color: #060e50;
 }
 @media screen and (max-width: 768px) {
   .sidenav {

@@ -29,7 +29,7 @@
          
                 <div class="input-box">
                   <label>User Name<span class="required">*</span></label>
-                  <input type="text" placeholder="username" name="username" #uname="ngModel" maxlength="20" [(ngModel)]="userName" required />
+                  <input type="text" placeholder="username" name="username" #uname="ngModel" maxlength="20" [(ngModel)]="username" required />
                   <small *ngIf="uname.invalid && uname.touched">*Username is required</small>
                 </div>
 
@@ -55,7 +55,7 @@
                       <div class="gender">
                           <label>Gender<span class="required">*</span></label>
                           <div class="gender-option">
-                              <p-selectbutton [options]="genders" [(ngModel)]="gender" optionLabel="label" optionValue="gender" />
+                              <p-selectbutton [options]="genders" [(ngModel)]="gender" name="gender" optionLabel="label" optionValue="gender" />
                           </div>
                       </div>
 
@@ -99,7 +99,7 @@
                           </div>
                           <div class="select-box">
                               <label>State<span class="required">*</span></label>
-                              <select name="state" [(ngModel)]="statee" required>
+                              <select name="state" [(ngModel)]="states" required>
                                   <option *ngFor="let state of states" [value]="state">{{ state }}</option>
                               </select>
                           </div>

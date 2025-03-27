@@ -3,6 +3,7 @@ import { OrderProducts } from '../../../Models/orderproducts';
 import { AuthService } from '../../../Services/auth.service';
 import { CartService } from '../../../Services/cart.service';
 import { ProductService } from '../../../Services/products.service';
+import { OrdersService } from '../../../Services/orders.service';
 
 
 @Component({
@@ -14,24 +15,25 @@ import { ProductService } from '../../../Services/products.service';
 
 export class ProductsComponent  {
 
-  authService: AuthService = inject(AuthService);
+  // authService: AuthService = inject(AuthService);
   cartService: CartService = inject(CartService);
   prodService: ProductService = inject(ProductService);
-
+  orderService:OrdersService=inject(OrdersService);
   searchText: string = '';
-  isAdmin: boolean = false;
   products: OrderProducts[] = [];
   filteredProducts:OrderProducts[]=[];
-
-
   showPopup: boolean = false;
   imagePreview:string| ArrayBuffer|null=null;
   newProduct: OrderProducts={ id:'', name: '', description: '', image: '', quantity: 0 };;
   selectedImageFile:File|null=null;
-  ngOnInit() {
-    this.isAdmin = this.authService.isAdmin();
-    this.loadProducts();
+  isDragging: boolean = false;
+  isAdmin:boolean=false;
+  curUser=JSON.parse(localStorage.getItem('user'));
+  ngOnInit(){
+      this.isAdmin=this.curUser.isAdmin;
+      this.loadProducts();
   }
+  
   
 
   loadProducts() {
@@ -48,9 +50,7 @@ export class ProductsComponent  {
   
   }
 
-  // addToCart(product: Product) {
-  //   this.prodService.updateProduct(product.id,product);
-  // }
+ 
 
    private updateProduct( product :OrderProducts){
 this.prodService.updateProduct(product.id,product).subscribe(()=>{
@@ -80,21 +80,44 @@ this.prodService.updateProduct(product.id,product).subscribe(()=>{
       })
     }   
     
-  addNewProduct(): void {
-    if (this.newProduct.image && this.newProduct.description && this.selectedImageFile) {
-      const imageURL=URL.createObjectURL(this.selectedImageFile);
-      this.newProduct.image=imageURL;
-      const prodToAdd = { ...this.newProduct,quantity:0 };
-      this.prodService.addProduct(prodToAdd).subscribe(() => {
-        this.loadProducts();
-        this.closePopup();
-        this.newProduct = { id: '', name: '', description: '', image: '', quantity: 0 };
-        this.imagePreview=null;
-      })
-
-    }
-
+    addNewProduct(): void {
+      if (this.newProduct.name && this.selectedImageFile) {
+          const reader = new FileReader();
+          reader.onload = () => {
+              this.newProduct.image = reader.result as string;
+              const prodToAdd = { 
+                  ...this.newProduct, 
+                  quantity: 0, 
+                  orderCount: 0, 
+                  totalCount: 100 
+              };
+  
+              // Add product and capture Firebase-generated ID
+              this.prodService.addProduct(prodToAdd).subscribe(response => {
+                const generatedId = response.name;  
+                // prodToAdd.orderCount=this.getTotalOrderedCount(generatedId)
+                  this.prodService.updateProduct(generatedId, { ...prodToAdd,id: generatedId }).subscribe(() => {
+                      this.loadProducts();
+                      this.closePopup();
+                  });
+              });
+          };
+          reader.readAsDataURL(this.selectedImageFile);
+      }
   }
+  
+
+ getTotalOrderedCount(prodId: string): number {
+  let totalOrdered = 0;
+  this.prodService.getProductById(prodId).subscribe(product => {
+    if (product) {
+      totalOrdered = product.orderCount || 0;
+    }
+  });
+  return totalOrdered;
+}
+
+
    showAddPopup(){
         this.showPopup=true;
         this.newProduct = { id: '', name: '', description: '', image: '', quantity: 0 };
@@ -107,17 +130,39 @@ this.prodService.updateProduct(product.id,product).subscribe(()=>{
     this.newProduct = { id: '', name: '', description: '', image: '', quantity: 0 };
     this.imagePreview=null;
   }
+   onDrop(event:DragEvent){
+    event.preventDefault();
+    this.isDragging=true;
+    if(event.dataTransfer && event.dataTransfer.files.length>0){
+      this.selectedImageFile=event.dataTransfer.files[0];
+      const reader=new FileReader();
+      reader.onload=e=>this.imagePreview=e.target?.result;
+      reader.readAsDataURL(this.selectedImageFile);
+    }
+
+   }
    onImageUpload(event: any) {
-  const file = event.target.files[0]; 
-  if (file) {
-    this.selectedImageFile = file;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      this.imagePreview = e.target?.result;
-    };
-    reader.readAsDataURL(file);
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImageFile = file;
+      const reader = new FileReader();
+      reader.onload = (e) => this.imagePreview = e.target?.result;
+      reader.readAsDataURL(file);
+    }
   }
-}
+   
+   allowDrop(event:DragEvent){
+event.preventDefault();
+
+   }
+   onDragOver(event: DragEvent) {
+    event.preventDefault();
+    this.isDragging = true;
+  }
+
+  onDragLeave() {
+    this.isDragging = false;
+  }
 
 
 }

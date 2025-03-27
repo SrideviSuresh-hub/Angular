@@ -28,7 +28,7 @@ export class CartComponent {
   }
   getFilteredCartItems() {
     if (!this.searchText.trim()) {
-      return this.cartItems; // Return all items if no search text
+      return this.cartItems; 
     }
     return this.cartItems.filter((item) =>
       item.name.toLowerCase().includes(this.searchText.toLowerCase())

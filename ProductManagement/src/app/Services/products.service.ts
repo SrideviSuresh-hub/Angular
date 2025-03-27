@@ -33,8 +33,14 @@ export class ProductService {
         })
       );
   }
-
- 
+  getProductById(productId: string): Observable<OrderProducts> {
+    return this.http.get<OrderProducts>(`${this.baseURLProd}/${productId}.json`).pipe(
+        map(product => ({
+            ...product,
+            id: productId
+        }))
+    );
+}
  
   updateProduct(productId: string, product:OrderProducts): Observable<any> {
     return this.http.put<void>(`${this.baseURLProd}/${productId}.json`, product);
@@ -48,7 +54,7 @@ export class ProductService {
         map(products => {
             return products.map(product => ({
                 name: product.name,
-                quantity: product.quantity || 1  // Ensure valid quantity
+                quantity: product.quantity || 1
             }));
         })
     );

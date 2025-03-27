@@ -3,7 +3,7 @@
   <div class="spinner-container" *ngIf="isLoading">
     <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }"  />
 </div>
-  <p-table *ngIf="!isLoading" [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="9">
+  <p-table *ngIf="!isLoading" [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="6">
     <ng-template pTemplate="header">
       <tr>
         <th>User Name</th>
@@ -28,13 +28,12 @@
             (click)="markProductAsDelivered(order.keyId, order.userId, order.productIndex)">
           </p-tag>
         </td>
-        <td>
-          <p-button 
-            icon="pi pi-eye" 
-            (click)="viewOrder(order)"
-            styleClass="p-button-text p-button-rounded p-mr-2" 
+        <td class="actions">
+          <i
+            class="fa-solid fa-eye"
+            (click)="viewOrder(order)" 
             title="View Order">
-          </p-button>
+        </i>
         </td>
       </tr>
     </ng-template>

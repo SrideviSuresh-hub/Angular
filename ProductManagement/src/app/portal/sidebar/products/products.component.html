@@ -1,6 +1,4 @@
 
-  
-          <!-- <p-card> -->
             <div class="product-container" >
               <div class="search-container">
             <h1 class="title">Available Products </h1>
@@ -8,7 +6,6 @@
             <input
               type="text"
               pInputText
-              placeholder="Search products..."
               [(ngModel)]="searchText"
               (input)="searchProducts()"
             />
@@ -21,6 +18,7 @@
               <div *ngFor="let product of filteredProducts" class="product-card">
                 <img [src]="product.image" alt="{{ product.name }}" class="product-img" />
                 <div class="overlay">
+                <div *ngIf="!isAdmin">
                   <div class="content">
                 <h3>{{ product.name }}</h3>
                 <p>{{ product.description }}</p>
@@ -30,42 +28,66 @@
                   <span>{{ product.quantity }}</span>
                   <button pButton icon="pi pi-plus" (click)="incrementQuantity(product)" class="p-button-text"></button>
                 </div>
-                <div *ngIf="isAdmin">
-                  <button pButton icon="pi pi-trash" class="p-button-danger" (click)="deleteProduct(product.id)"></button>
+              </div>
+            
+                <div *ngIf="isAdmin" class="admin-overlay">
+                  <div class="content">
+                  <h3>{{ product.name }}</h3>
+                      <p>Available Quantity: <strong>{{ product.totalCount }}</strong></p>
+                      <p>Ordered Quantity: <strong>{{product.orderCount}}</strong></p>
+                    </div>
+                  <!-- <button pButton icon="pi pi-trash" class="p-button-danger" (click)="deleteProduct(product.id)"></button> -->
                 </div>
+            
               </div>
               </div>
-              
               <div *ngIf="isAdmin" class="product-card add-product" (click)="showAddPopup()">
                <div class="add-icon">
-                <i class="pi pi-plus-circle plus-icon"></i>
+                <i class="pi  pi-plus"></i>
               </div>
-                <h3>Add New product</h3>
+                <h3>Add Product</h3>
               </div>
             </div>
           </div>
-          <!-- </p-card> -->
-          <p-dialog header="Edit Profile" [modal]="true" [(visible)]="showPopup"  header="Add product" [style]="{ width: '500px' }">
-            <div class="popup-content">
-            <div class="image-upload">
-              <label for="imageUpload" class="image-container">
-                <img *ngIf="imagePreview" [src]="imagePreview" class="image-preview">
-                <i *ngIf="!imagePreview" class="pi pi-image upload-icon"></i>
-              </label>
-              <input type="file" id="imageUpload" accept="image/*" (change)="onImageUpload($event)" hidden />
+         
+         
+          <p-dialog header="Add Product" [modal]="true" [(visible)]="showPopup" [style]="{ width: '500px' }">
+            <div class="dailog-content">
+              <label>Add Image</label>
+              <div class="image-upload">
+                <div 
+                  class="image-container" 
+                  [ngClass]="{ 'drag-over': isDragging }" 
+                  (dragover)="onDragOver($event)" 
+                  (dragleave)="onDragLeave()" 
+                  (drop)="onDrop($event)"
+                >
+                  <img *ngIf="imagePreview" [src]="imagePreview" alt="Preview" />
+                  <span *ngIf="!imagePreview" class="upload-icon"> <i class="fa-light fa-folder-arrow-up"></i>Drag & Drop here</span>
+                  <button  pButton label="Browse File" class="p-button-secondary" (click)="fileInput.click()"></button>
+                </div>
+                
+                <input type="file" #fileInput accept="image/*" (change)="onImageUpload($event)" hidden />
+                
+              </div>
+              
+              <div class="dialog-field">
+                <label for="productName">Product Name</label>
+                <input id="productName" type="text" [(ngModel)]="newProduct.name" placeholder="Enter product name"/>
+              </div>
+              <div class="dialog-field">
+                <label for="productDesc">Description</label>
+                <input id="productDesc" type="text" [(ngModel)]="newProduct.description" placeholder="Enter description.." />
+              </div>
+              <p-footer class="footer">
+                <button pButton label="Cancel" class="p-button-secondary" (click)="closePopup()"></button>
+                <button pButton label="Add Product" class="p-button-primary" (click)="addNewProduct()"></button>
+              </p-footer>
             </div>
-            <label>Product Name</label>
-            <input type="text" pInputText [(ngModel)]="newProduct.name" placeholder="Enter product name" />
-        
-            <label>Description</label>
-            <input type="text" pInputText [(ngModel)]="newProduct.description" placeholder="Enter description" />
-        
-            <div class="popup-actions">
-              <button pButton label="Cancel" (click)="closePopup()"></button>
-              <button pButton label="Add" (click)="addNewProduct()" class="p-button-success"></button>
-            </div>
-          </div>
-        </p-dialog>
+          </p-dialog>
+          
+         
+          
         
         
    

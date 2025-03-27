@@ -1,11 +1,12 @@
 
 <p-confirmDialog #confirmDialog key="deleteConfirm"></p-confirmDialog>
 
-<div class="card">
+<div class="order-container">
+    <h2>My Orders</h2>
     <div *ngIf="isLoading" class="spinner-container">
         <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
     </div>
-    <p-table *ngIf="!isLoading" [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="10">
+    <p-table *ngIf="!isLoading" [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="8">
         <ng-template #header>
             <tr>
                 <th>Order Id</th>
@@ -13,7 +14,7 @@
                 <th>Order Date Time</th>
                 <th>Delivery Status</th>
                 <th>Actions</th>
-                <th></th>
+                <!-- <th></th> -->
             </tr>
         </ng-template>
         <ng-template #body let-order>
@@ -24,16 +25,16 @@
                 <td>
                     <p-tag [value]="order.deliveryStatus" [severity]="getSeverity(order.deliveryStatus)" />
                 </td>
-                <td>
-                    <!-- style="padding-right: 20px;" -->
+                <td class="actions">
                     <i  class="fa-solid fa-eye"   (click)="viewOrder(order)"></i>
                     <i class="fa-solid fa-trash" (click)="confirmDelete(order.keyId)"></i>
                 </td>
             </tr>
         </ng-template>
     </p-table>
+
 </div>
-<p-dialog header="Order Details" [modal]="true" [(visible)]="showPopup" [style]="{ width: '25rem' }">
+<p-dialog header="Order Details" [modal]="true" [(visible)]="showPopup" [style]="{width: '679px',}">
     <ng-template pTemplate="content">
         <ng-container *ngIf="selectedOrder">
             <h2>Ordered Products</h2>
@@ -45,12 +46,11 @@
                         <p><strong>{{product.name}}</strong> </p>
                         <p>Quantity: {{ product.quantity }}</p>
                         <p>Order ID: {{ selectedOrder.orderId }}</p>
-                        <!-- <p>Username: {{ selectedOrder.userName }}</p> -->
                         <p>Address Line 1: {{ selectedOrder.address1 }}</p>
                         <p>Address Line 2: {{ selectedOrder.address2 }}</p>
                         <p>State: {{ selectedOrder.state }}</p>
                         <p>Zip Code: {{ selectedOrder.zipCode }}</p>
-                        <p>Delivery Status: {{ selectedOrder.deliveryStatus }}</p>
+                        <p>Delivery Status: {{product.deliveryStatus|| 'pending' }}</p>
                     </div>
                 </div>
             </div>
@@ -66,16 +66,3 @@
 
 
 
-
-<!-- <div class="card flex justify-center gap-2">
-                    <p-toast/>
-                    <p-confirmdialog>
-                        <ng-template #message let-message>
-                            <div class="flex flex-col items-center w-full gap-4 border-b border-surface-200 dark:border-surface-700">
-                                <i [ngClass]="message.icon" class="!text-6xl text-primary-500"></i>
-                                <p>{{ message.message }}</p>
-                            </div>
-                        </ng-template>
-                    </p-confirmdialog>
-                    <p-button (click)="confirm1($event)" label="Delete" severity="danger" [outlined]="true" />
-                </div> -->

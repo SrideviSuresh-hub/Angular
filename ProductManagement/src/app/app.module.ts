@@ -63,6 +63,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     AvatarModule,
     StyleClass
   ],
+ 
   providers: [   provideAnimationsAsync(),
     providePrimeNG({
         theme: {

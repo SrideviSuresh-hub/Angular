@@ -44,6 +44,17 @@ body {
   height: 100%;
   object-fit: cover;
 }
+.avatar-initials{
+  background-color: rgb(187, 176, 176);
+  border-radius: 50%;
+  font-size: 25px;
+  height: 40px;
+  width:40px;
+  font-style:normal;
+  font-weight: 500;
+  align-content: center;
+  text-align: center;    
+}
 
 .edit-icon:hover{
   border: #007bff;

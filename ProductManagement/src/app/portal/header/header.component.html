@@ -10,7 +10,10 @@
      <div class="end-content" >
          <app-weather></app-weather>
          <button pButton label="Logout" (click)="onLogout()"></button>
-         <p-avatar [image]="imgURL"  class="mr-2" size="large" shape="circle"></p-avatar>
+         <p-avatar *ngIf="imgURL; else initialsAvatar" [image]="imgURL"  class="mr-2" size="large" shape="circle"></p-avatar>
+         <ng-template  #initialsAvatar>
+            <div class="avatar-initials">{{ userInitials }}</div>
+          </ng-template>
      </div>
     </ng-template>
     </p-menubar>

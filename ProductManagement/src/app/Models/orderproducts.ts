@@ -4,4 +4,6 @@ export interface OrderProducts{
     description:string
     image:string;
     quantity:number;
+    totalCount?:number;
+    orderCount?:number;
   }

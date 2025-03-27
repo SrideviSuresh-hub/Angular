@@ -13,18 +13,18 @@ export class UserHomeComponent implements OnInit {
   lineChartData!: ChartData<'line'>;
   barChartData!: ChartData<'bar'>;
   lineChartOptions: ChartOptions<'line'> = {
-    responsive: true,
+    // responsive: true,
     plugins: { legend: { display: false } },
   };
   barChartOptions: ChartOptions<'bar'> = {
-    responsive: true,
+    // responsive: true,
     plugins: { legend: { display: false } },
   };
   orderService:OrdersService=inject(OrdersService);
   productService:ProductService=inject(ProductService);
   ngOnInit(): void {
     this.loadOrdersData();
-    this.loadProductsData();
+    this.loadUsersProductData();
   }
 
   loadOrdersData() {
@@ -35,7 +35,11 @@ export class UserHomeComponent implements OnInit {
       orders.forEach(order => {
         const orderDate = new Date(order.orderDate);
         const dayIndex = orderDate.getDay();
-        if (dayIndex > 0) orderCounts[dayIndex - 1] += 1; // Adjust for Monday-Sunday
+        console.log(dayIndex);
+        if (dayIndex > 0)
+          {
+             orderCounts[dayIndex - 1] += 1; 
+          }
       });
 
       this.lineChartData = {
@@ -51,28 +55,54 @@ export class UserHomeComponent implements OnInit {
     });
   }
 
-  loadProductsData() {
-    this.productService.getProducts().subscribe(products => {
-      const productNames = products.map(p => p.name);
-      const stockQuantities = products.map(p => p.quantity); // Available stock
-      const soldQuantities = products.map(p => p.sold || 0); // Sold items (assuming API provides it)
-  
-      this.barChartData = {
-        labels: productNames,
-        datasets: [
-          {
-            label: 'Stock Quantity',
-            data: stockQuantities,
-            backgroundColor: 'purple'
-          },
-          {
-            label: 'Sold Quantity',
-            data: soldQuantities,
-            backgroundColor: 'orange'
+  loadUsersProductData(){
+    this.orderService.getOrders().subscribe(orders=>{
+      let prodCount:{[prodName:string]:number}={};
+      orders.forEach(order=>{
+        order.products.forEach((prod:any)=>{
+          if(prodCount[prod.name]){
+            prodCount[prod.name]+=prod.quantity;
           }
-        ]
-      };
-    });
+          else{
+            prodCount[prod.name]=prod.quantity;
+          }
+        });
+      });
+      this.barChartData={
+        labels:Object.keys(prodCount),
+        datasets:[{
+          label:'Quantity',
+          data:Object.values(prodCount),
+          backgroundColor:'blue'
+        }]
+      }
+    })
+  
   }
+ 
   
 }
+
+// loadProductsData() {
+//   this.productService.getProducts().subscribe(products => {
+//     const productNames = products.map(p => p.name);
+//     const stockQuantities = products.map(p => p.quantity);
+//     const soldQuantities = products.map(p => p.sold || 0); 
+
+//     this.barChartData = {
+//       labels: productNames,
+//       datasets: [
+//         {
+//           label: 'Stock Quantity',
+//           data: stockQuantities,
+//           backgroundColor: 'purple'
+//         },
+//         {
+//           label: 'Sold Quantity',
+//           data: soldQuantities,
+//           backgroundColor: 'orange'
+//         }
+//       ]
+//     };
+//   });
+// }

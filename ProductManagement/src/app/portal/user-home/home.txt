@@ -1,0 +1,113 @@
+I'll update your **UserHomeComponent (TS & HTML)** to ensure the **bar chart displays the total quantity of products ordered by the specific user**. Here's the plan:
+
+1. **Fetch all user orders** and extract product names and their total quantities.
+2. **Map the data** so that product names appear on the x-axis and the total quantity on the y-axis.
+3. **Update the bar chart** to reflect these values.
+
+---
+
+### ** Updated `UserHomeComponent.ts`**
+```typescript
+import { Component, inject, OnInit } from '@angular/core';
+import { OrdersService } from '../../Services/orders.service';
+import { ChartData, ChartOptions } from 'chart.js';
+
+@Component({
+  selector: 'app-user-home',
+  standalone: false,
+  templateUrl: './user-home.component.html',
+  styleUrl: './user-home.component.css'
+})
+export class UserHomeComponent implements OnInit {
+
+  lineChartData!: ChartData<'line'>;
+  barChartData!: ChartData<'bar'>;
+
+  lineChartOptions: ChartOptions<'line'> = {
+    responsive: true,
+    plugins: { legend: { display: false } },
+  };
+
+  barChartOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    plugins: { legend: { display: false } },
+  };
+
+  orderService: OrdersService = inject(OrdersService);
+
+  ngOnInit(): void {
+    this.loadOrdersData();
+    this.loadUserProductData();
+  }
+
+  // Fetching and displaying number of orders per weekday
+  loadOrdersData() {
+    this.orderService.getOrders().subscribe(orders => {
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      let orderCounts = Array(7).fill(0);
+      
+      orders.forEach(order => {
+        const orderDate = new Date(order.orderDate);
+        const dayIndex = orderDate.getDay();
+        if (dayIndex > 0) {
+          orderCounts[dayIndex - 1] += 1;
+        }
+      });
+
+      this.lineChartData = {
+        labels: days,
+        datasets: [{
+          data: orderCounts,
+          borderColor: 'darkgreen',
+          backgroundColor: 'transparent',
+          pointBackgroundColor: 'darkgreen',
+          pointBorderColor: 'darkgreen',
+        }]
+      };
+    });
+  }
+
+  // Fetching and displaying total quantity of each product ordered by the user
+  loadUserProductData() {
+    this.orderService.getOrders().subscribe(orders => {
+      let productCountMap: { [productName: string]: number } = {};
+
+      orders.forEach(order => {
+        order.products.forEach((product: any) => {
+          if (productCountMap[product.name]) {
+            productCountMap[product.name] += product.quantity;
+          } else {
+            productCountMap[product.name] = product.quantity;
+          }
+        });
+      });
+
+      this.barChartData = {
+        labels: Object.keys(productCountMap),  // Product names
+        datasets: [{
+          label: 'Quantity Ordered',
+          data: Object.values(productCountMap),  // Total quantity per product
+          backgroundColor: 'blue'
+        }]
+      };
+    });
+  }
+}
+```
+
+---
+
+
+```html
+<div class="chart-container">
+  <h2>Order Trends</h2>
+  <p-chart type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
+</div>
+
+<div class="chart-container">
+  <h2>Product Quantity Ordered</h2>
+  <p-chart type="bar" [data]="barChartData" [options]="barChartOptions"></p-chart>
+</div>
+```
+
+---

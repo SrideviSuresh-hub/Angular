@@ -4,16 +4,16 @@ import { UsersService } from '../../../Services/users.service';
 import { MessageService } from 'primeng/api';
 import { OrderProducts } from '../../../Models/orderproducts';
 import { Order } from '../../../Models/orders';
-import { UnsubscriptionError } from 'rxjs';
+
 
 @Component({
   selector: 'app-home',
   standalone: false,
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls:['./home.component.css']
 })
 export class HomeComponent {
-  orders: any[] = [];
+  orders: Order[] = [];
   isLoading:boolean=false;
   orderService: OrdersService = inject(OrdersService);
   userService: UsersService = inject(UsersService);
@@ -26,6 +26,7 @@ export class HomeComponent {
   }
 
   loadOrders() { 
+    
     this.userService.getUsers().subscribe({
       next: (users) => {
         if (!users) {
@@ -37,6 +38,7 @@ export class HomeComponent {
         
         Object.values(users).forEach((user: any) => {
           if (user.orders) {
+            this.isLoading=true;
             Object.entries(user.orders).forEach(([keyId, order]: any) => {
               if (order.products) {
                 order.products.forEach((product: any, index: number) => {
@@ -45,10 +47,10 @@ export class HomeComponent {
                     orderId:order.orderId,
                     userId: user.id,
                     userName: user.username,
-                    firstName: user.firstName,
-                    lastName: user.lastName || '',
-                    email: user.email,
-                    mobile: user.mobile,
+                    // firstName: user.firstName,
+                    // lastName: user.lastName || '',
+                    // email: user.email,
+                    // mobile: user.mobile,
                     street1: user.address1,
                     street2: user.address2 || '',
                     state: user.states || '',
@@ -67,10 +69,12 @@ export class HomeComponent {
           }
         });
   
-        this.orders = [...this.orders, ...newOrders];
+        this.orders = newOrders ;
+        // [...this.orders, ...newOrders];
         console.log('Orders Loaded:', this.orders);
       },
       error: (error) => {
+        this.isLoading=false
         console.error('Error fetching users:', error);
       },
       complete: () => {
@@ -92,6 +96,8 @@ export class HomeComponent {
       next: () => {
         console.log(`Product ${productIndex} in order ${orderId} marked as Delivered`);
         this.updateOrderStatus(orderId, userId);
+        this.loadOrders();
+
       },
       error: (err) => {
         console.error("Error updating product delivery status:", err);
@@ -102,29 +108,28 @@ export class HomeComponent {
   updateOrderStatus(orderId: string, userId: string) {
     this.orderService.getOrderProducts(orderId).subscribe({
       next: (products) => {
-        if (!products) return;
+        if (!Array.isArray(products)) return;
 
         let allDelivered = products.every(p => p.deliveryStatus === "Delivered");
-        let someDelivered = products.some(p => p.deliveryStatus === "Delivered");
-
-        let newStatus = allDelivered ? "Delivered" : someDelivered ? "Partially Delivered" : "Pending";
+        let newStatus = allDelivered ? "Delivered"  : "Pending";
 
         console.log(`Updating order ${orderId} overall status to ${newStatus}`);
 
-        this.orderService.updateOrderStatus(orderId, userId, newStatus).subscribe({
-          next: () => {
-            console.log(`Order ${orderId} delivery status updated to ${newStatus}`);
-            this.loadOrders(); 
-          },
-          error: (err) => {
-            console.error("Error updating order delivery status:", err);
-          }
-        });
-      },
-      error: (err) => {
-        console.error("Error fetching updated products:", err);
+        this.orderService.updateOrderStatus(orderId, userId, newStatus).subscribe()
+      //   {
+      //     next: () => {
+      //       console.log(`Order ${orderId} delivery status updated to ${newStatus}`);
+      //     },
+      //     error: (err) => {
+      //       console.error("Error updating order delivery status:", err);
+      //     }
+      //   });
+      // },
+      // error: (err) => {
+      //   console.error("Error fetching updated products:", err);
+      // }
       }
-    });
+  });
   }
 
 
@@ -133,3 +138,4 @@ export class HomeComponent {
     return status === 'Delivered' ? 'success' : 'warn';
     }
   }
+  

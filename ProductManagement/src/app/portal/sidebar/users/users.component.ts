@@ -18,36 +18,29 @@ export class UsersComponent implements OnInit {
   selectedUser: User | null = null;
   displayDialog: boolean = false;
   isEditing: boolean = false;
-  // curUser=JSON.parse(localStorage.getItem('user'));
-  
-  defaultUser = {
-    id:'',
-    username: '',
-    firstName: '',
-    lastName: '',
-    gender: '',
-    dob: '',
-    email: '',
-    mobile: '',
-    address1: '',
-    address2: '',
-    country: '',
-    state: '',
-    zipCode: '',
-    timezone: '',
-    locale: '',
-    imageURL: '',
-    isAdmin: false
-  };
-  newUser={...this.defaultUser}
+  userInitials:string="";
+
+  generateIntials(fname:string,lname:string){
+    this.userInitials=`${fname.charAt(0).toUpperCase()}${lname.charAt(0).toUpperCase()}`
+  }
+
   ngOnInit() {
     this.loadUsers(); 
+   
   }
+
   loadUsers() {
     this.userService.getUsers().subscribe({
-     next:(user) => {
-        this.users = Object.keys(user).map(key => ({ ...user[key], id: key }));
-        this.users.forEach(user=>user.age=this.calculateAge(user.dob))
+     next:(users) => {
+      
+        // this.users = Object.keys(user).map(key => ({ ...user[key], id: key }));
+        users.forEach(user=>{
+          user.age=this.calculateAge(user.dob);
+          console.log(user.firstName,user.lastName);
+          
+          this.generateIntials(user.firstName,user.lastName);
+        });
+        this.users=users;
       },
       error:(error) => {
         console.error('Error loading users:', error);
@@ -55,6 +48,7 @@ export class UsersComponent implements OnInit {
       }
   });
   }
+
   calculateAge(dob: string): number {
     if (!dob) return 0;  
     const birthDate = new Date(dob);
@@ -63,72 +57,41 @@ export class UsersComponent implements OnInit {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
   
-  openUserDialog(user: any = null) {
-    this.isEditing = !!user;
-    this.displayDialog = true;
-    this.selectedUser = user ?{...user}:null;
-    this.newUser = user
-      ? { ...user }
-      : {...this.defaultUser}
-  }
+ addUserForm(){
+  this.selectedUser=null;
+  this.isEditing=false;
+  this.displayDialog=true;
+ }
+ editUser(user:User){
+  this.selectedUser={...user};
+  this.isEditing=true;
+  this.displayDialog=true;
+ }
 
-  confirmDeleteUser(userId: string) {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete this user?',
-      accept: () => {
-        this.deleteUser(userId);
-      },
-    });
-  }
-  
- 
-  deleteUser(id: string) {
-    this.userService.deleteUser(id).subscribe({
-      next: () => {
-        this.loadUsers();
-        this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'User deleted successfully!' });
-      },
-      error: (error) => {
-        console.error('Error deleting user:', error);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete user' });
-      },
-    });
-  }
   closeUserDialog() {
     this.displayDialog = false;
-    this.newUser = { ...this.defaultUser }; // Reset only on close
+    this.loadUsers();
   }
-  
-  saveUser() {
-    if (this.isEditing && this.selectedUser) {
-      console.log(this.selectedUser , this.isEditing)
-      this.userService.updateUser(this.selectedUser.id, this.newUser).subscribe({
-        next: () => {
-          console.log(this.selectedUser , this.isEditing)
-          this.loadUsers();
-          this.closeUserDialog();
-          this.messageService.add({ severity: 'success', summary: 'Updated', detail: 'User updated successfully!' });
-        },
-        error: (error) => {
-          console.error('Error updating user:', error);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update user' });
-        },
-      });
-    } else {
-      this.userService.addUser(this.newUser).subscribe({
-        next: () => {
-          this.loadUsers();
-          this.closeUserDialog();
-          this.messageService.add({ severity: 'success', summary: 'Added', detail: 'User added successfully!' });
-        },
-        error: (error) => {
-          console.error('Error adding user:', error);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to add user' });
-        },
-      });
-    }
+  confirmDelete(userId: string) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this user?',
+      header: 'Confirm Deletion',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteUser(userId);
+      }
+    });
+  }
+  deleteUser(userId:string){
+    this.userService.deleteUser(userId).subscribe({
+      next:()=>{
+      this.messageService.add({severity:'success',summary:'Deleted',detail:' deleted Successfully'});
+      this.loadUsers();
+    },
+  error:(error)=>{
+    this.messageService.add({severity:'error',summary:'error',detail:'Failed to delete User:'+error.message})
+  }
+})
   }
 }
- 
   
-

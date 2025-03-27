@@ -1,109 +1,116 @@
-<form #userForm="ngForm" class="user-form">
-  <div class="form-header">
-    <!-- <h2>Edit User</h2> -->
-    <button type="button" class="close-btn" (click)="cancelDailog()">&times;</button>
-  </div>
-
+<form #userForm="ngForm" class="user-form" (ngSubmit)="onSave(userForm)">  
   <div class="avatar-container">
-    <input type="file" id="fileInput" accept="image/png, image/jpeg" (change)="onFileSelected($event)" hidden />
-    <div class="avatar-wrapper" (click)="triggerFileInput()">
-      <img *ngIf="imageUrl; else defaultAvatar;  " [src]="imageUrl" alt="Avatar" class="avatar" [(ngModel)]="imageUrl"/>
-      <ng-template #defaultAvatar>
-        <img src="assets/images/defaultAvatar.png" alt="Default Avatar" class="avatar" />
-      </ng-template>
-      <!-- else initialsAvatar 
-      <ng-template #initialsAvatar>
-        <div class="avatar-initials">{{ userInitials }}</div>
-      </ng-template> -->
-
-      <div class="edit-icon">
-        <i class="pi pi-pencil"></i>
+      <input type="file" id="fileInput" accept="image/png, image/jpeg" (change)="onFileSelected($event)" hidden />
+      <div class="avatar-wrapper" (click)="triggerFileInput()">
+        <img *ngIf="imageUrl; else defaultAvatar;  " [src]="imageUrl" alt="Avatar" class="avatar" />
+        <ng-template #defaultAvatar>
+          <img src="assets/images/defaultAvatar.png" alt="Default Avatar" class="avatar" />
+        </ng-template>
+        <!-- <ng-template #initialsAvatar>
+          <div class="avatar-initials">{{ userInitials }}</div>
+        </ng-template> -->
+        <div class="edit-icon">
+          <i class="pi pi-pencil"></i>
+        </div>
       </div>
     </div>
-  </div>
+      <div class="input-box">
+        <label>User Name<span class="required">*</span></label>
+        <input type="text" placeholder="username" name="username" maxlength="20" [(ngModel)]="user.username"  required />
+      </div>
 
-  <div class="form-group-container">
-    <div class="form-group">
-      <label>Username</label>
-      <input type="text" [(ngModel)]="newUser.username" name="username" required maxlength="20" [disabled]="isEditing" class="form-control" />
-    </div>
+        <div class="column">
+            <div class="input-box">
+                <label>First Name<span class="required">*</span></label>
+                <input type="text" placeholder="First Name" name="firstname" [(ngModel)]="user.firstName"  maxlength="30" required />
 
-    <div class="form-group">
-      <label>First Name</label>
-      <input type="text" [(ngModel)]="newUser.firstName" name="firstName" required maxlength="30" class="form-control" />
-    </div>
+            </div>
 
-    <div class="form-group">
-      <label>Last Name</label>
-      <input type="text" [(ngModel)]="newUser.lastName" name="lastName" maxlength="30" class="form-control" />
-    </div>
-  </div>
+            <div class="input-box">
+                <label>Last Name</label>
+                <input type="text" placeholder="Last Name" name="lastname" [(ngModel)]="user.lastName" maxlength="30"  />
 
-  <div class="form-group-container">
-    <div class="form-group gender-group">
-      <label>Gender</label>
-      <p-selectButton [options]="genders" [(ngModel)]="newUser.gender" name="gender"></p-selectButton>
-    </div>
+            </div>
+        </div>
 
-    <div class="form-group">
-      <label>Date of Birth</label>
-      <input type="date" [(ngModel)]="newUser.dob" name="dob" required class="form-control" />
-    </div>
-  </div>
+        <div class="column">
+            <div class="gender">
+                <label>Gender<span class="required">*</span></label>
 
-  <div class="form-group-container">
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" [(ngModel)]="newUser.email" name="email" required maxlength="100" class="form-control" />
-    </div>
-    
-    <div class="form-group">
-      <label>Mobile Number</label>
-      <input type="text" [(ngModel)]="newUser.mobile" name="mobile" required maxlength="10" class="form-control" />
-    </div>
-  </div>
+                    <p-selectbutton [options]="genders" [(ngModel)]="user.gender"  name="gender" optionLabel="label" optionValue="gender" />
 
-  <div class="form-group-container">
-    <div class="form-group">
-      <label>Country</label>
-      <p-select [options]="countries" [(ngModel)]="newUser.country" name="country" (onChange)="onCountryChange()" required></p-select>
-    </div>
+            </div>
 
-    <div class="form-group">
-      <label>State</label>
-      <p-select [options]="states" [(ngModel)]="newUser.state" name="state" required></p-select>
-    </div>
-  </div>
+            <div class="input-box">
+                <label>DOB<span class="required">*</span></label>
+                <p-datepicker [(ngModel)]="user.dob" name="dob" required></p-datepicker>
+            </div>
+        </div>
+        <div class="input-box">
+            <label>Email ID<span class="required">*</span></label>
+            <input type="text" placeholder="Email" name="email" maxlength="100" [(ngModel)]="user.email" required email />
+        </div>
 
-  <div class="form-group-container">
-    <div class="form-group">
-      <label>Locale</label>
-      <p-select [options]="locales" [(ngModel)]="newUser.locale" name="locale"></p-select>
-    </div>
+        <div class="input-box">
+            <label>Mobile Number<span class="required">*</span></label>
+            <input type="number" placeholder="Phone Number" name="phone" [(ngModel)]="user.mobile" required />
+        </div>
+       
+        <div class="input-box address" ngModelGroup="address" #addr="ngModelGroup">
+            <label>Address<span class="required">*</span></label>
+            <input type="text" placeholder="Street address line 1" name="street1" [(ngModel)]="user.address1"  placeholder="Street Address line1" required />
+          </div>
+          <div class="input-box address" ngModelGroup="address" #addr="ngModelGroup">
+            <input type="text" placeholder="Street address line 2" name="street2" [(ngModel)]="user.address2" placeholder="Street Address line2" />
+          </div>
 
-    <div class="form-group">
-      <label>Is Admin</label>
-      <input type="checkbox" [(ngModel)]="newUser.isAdmin" name="isAdmin" [disabled]="isEditing" />
-    </div>
-  </div>
+            <div class="column">
+                <div class="select-box">
+                    <label>Country<span class="required">*</span></label>
+                    <select name="country" (change)="onCountryChange($event)" required [(ngModel)]="user.country">
+                        <option value="India">India</option>
+                        <option value="USA">USA</option>
+                    </select>
+                </div>
+                <div class="select-box">
+                    <label>State<span class="required">*</span></label>
+                    <select name="state" [(ngModel)]="user.state" required>
+                        <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+                    </select>
+                </div>
+            </div>
+            <br>
 
-  
-  <div class="form-group">
-    <label for="password">Password<span class="required">*</span></label>
-    <p-password [(ngModel)]="newUser.password" 
-                name="password" 
-                required
-                feedback="false" 
-                toggleMask="true" 
-                inputId="password"
-                inputStyleClass="w-full"
-                styleClass="w-full">
-    </p-password>
-  </div>
-  
-
+            <div class="column">
+                <div class="input-box">
+                    <label>Zip Code<span class="required">*</span></label>
+                    <input type="number" placeholder="Postal code" name="postal" [(ngModel)]="user.zipCode" required />
+                </div>
+                <div class="select-box">
+                    <label>TimeZone<span class="required">*</span></label>
+                    <select name="timezone" [(ngModel)]="user.timezone" required>
+                        <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
+                    </select>
+                </div>
+            </div>
+        <div class="column">
+            <div class="select-box">
+                <label for="locale">Locale<span class="required">*</span></label>
+                <select name="locale" [(ngModel)]="user.locale" required>
+                    <option *ngFor="let locale of locales" [value]="locale">{{ locale }}</option>
+                </select>
+            </div>
+            <div class="column">
+                <input type="checkbox" name="admin" [(ngModel)]="user.isAdmin" disabled>
+                <label for="admin">is Admin</label><br>
+            </div>
+        </div>
+        <div class="input-box">
+            <label for="password">Password<span class="required">*</span></label>
+            <p-password [(ngModel)]="user.password" [feedback]="false" [toggleMask]="true" name="password"  inputStyleClass="w-full" styleClass="w-full"  required></p-password>
+        </div>
   <div class="form-footer">
     <p-button label="Cancel" icon="pi pi-times" (click)="cancelDailog()" class="p-button-text" />
-    <p-button label="Save" icon="pi pi-check" (click)="saveUser()" />
+    <p-button label="Save" icon="pi pi-check" type="submit" />
   </div>
 </form>

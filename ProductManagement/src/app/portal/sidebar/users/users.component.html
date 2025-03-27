@@ -1,10 +1,10 @@
 <div class="user-container">
   <div class="head-content">
-    <h2>User Management</h2>
-  <p-button label="Add User" icon="pi pi-user-plus" (click)="openUserDialog()" />
+    <h2>User Data</h2>
+  <p-button label="Add User" icon="pi pi-user-plus" (click)="addUserForm()" />
 
   </div>
-<p-table [value]="users"  [paginator]="true" [rows]="5">
+<p-table [value]="users"  [paginator]="true" [rows]="10">
     <ng-template pTemplate="header">
       <tr>
         <th>User Image</th>
@@ -17,30 +17,43 @@
     </ng-template>
     <ng-template pTemplate="body" let-user>
       <tr>
-        <td>
-          <p-avatar [image]="user.userImage || 'assets/default-avatar.png'" shape="circle"></p-avatar>
+        <td><p-avatar *ngIf="user.userImage; else initialsAvatar" [image]="user.userImage"  class="mr-2" size="large" shape="circle"></p-avatar>
+         <ng-template  #initialsAvatar>
+            <div class="avatar-initials">{{ userInitials }}</div>
+          </ng-template>
         </td>
-        <!-- <td><img [src]="user.image" alt="User Image" width="50"></td> -->
         <td>{{ user.username }}</td>
         <td>{{ user.age }}</td>
         <td>{{ user.productsCount ||0}}</td>
         <td>{{ user.country }}</td>
-        <td>
-          <p-button  icon="pi pi-pencil" (click)="openUserDialog(user)" />
-          <p-button icon="pi pi-trash" severity="danger" #delete (click)="confirmDeleteUser(user.id)" />
-        </td> 
+        <td class="actions">
+            <i  class="fa-solid fa-pen"   (click)="editUser(user)"></i>
+            <i class="fa-solid fa-trash" severity="danger" #delte (click)="confirmDelete(user.id)"></i>
+        </td>
+
     </ng-template>
   </p-table>
   </div>
-  <!-- User Dialog -->
-<p-dialog [(visible)]="displayDialog" modal="modal" [closable]="false" [style]="{width: '500px'}">
+<p-dialog [(visible)]="displayDialog" modal="modal" [closable]="false" [style]="{width: '70%'}"
+[header]="isEditing? 'Edit User':'Add User'">
+  <app-user-form [user]="selectedUser" (closeForm)="closeUserDialog()"></app-user-form>
+</p-dialog>
+
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>
+
+
+
+
+
+
+
+
+<!-- <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="false" [style]="{width: '70%'}">
   <ng-template pTemplate="header">
     <h3>{{ isEditing ? 'Edit User' : 'Add User' }}</h3>
   </ng-template>
   <ng-template pTemplate="content">
     <app-user-form [newUser]="newUser" [isEditing]="isEditing" (save)="saveUser()" (cancel)="displayDialog = false"></app-user-form>
   </ng-template>
-</p-dialog>
-
-<p-confirmDialog></p-confirmDialog>
-<p-toast></p-toast>
+</p-dialog> -->

@@ -11,11 +11,12 @@ export interface User {
     address1: string;
     address2?: string;
     country: string;
-    states: string;
+    state: string;
     zipCode: string;
     timezone: string;
     locale: string;
-    image: string;
+    image?: string | ArrayBuffer | null;
     isAdmin: boolean;
     age?:number;
+    password:string;
 }

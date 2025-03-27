@@ -8,7 +8,7 @@ import { User } from '../../../Models/User';
   selector: 'app-orders',
   standalone: false,
   templateUrl: './orders.component.html',
-  styleUrl: './orders.component.css'
+  styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
   orders: any[]=[];
@@ -29,7 +29,10 @@ export class OrdersComponent implements OnInit {
       next: (data) => {
         if (data) {
           this.orders = data;
-          this.fetchUsersAndProducts();
+          this.fetchUsersAndProducts(0);
+        }
+        else{
+          this.isLoading=false;
         }
       },
       error: (err) => {
@@ -39,14 +42,19 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  fetchUsersAndProducts() {
-    let count=0;
-    this.orders.forEach((order, index) => {
-      this.userService.getUserbyUserId(order.userId).subscribe({
+  fetchUsersAndProducts(index:number) {
+    if (index >= this.orders.length) {
+      this.isLoading = false;
+      return;
+    }
+    let order=this.orders[index];
+    // let count=0;
+    // this.orders.forEach((order, index) => {
+      this.userService.getUserbyUserId(order.keyId).subscribe({
         next: (user) => {
           if (user) {
             this.orders[index] = {
-              ...this.orders[index],
+              ...order,
               userName: user.username || "Unknown",
               address1: user.address1 || "",
               address2: user.address2 || "",
@@ -55,31 +63,30 @@ export class OrdersComponent implements OnInit {
             };
           }
 
-          // Fetch Updated Product Status
-          this.fetchUpdatedProducts(order.keyId, index, order.userId);
+          this.fetchUpdatedProducts(index);
         },
         error: (err) => {
           console.error("Error fetching user details:", err);
+          this.fetchUpdatedProducts(index);
         },
-        complete:()=>{
-          count++;
-          if (count === this.orders.length) this.isLoading = false;
-        }
+       
       });
-    });
-  }
+    }
+  
 
-  fetchUpdatedProducts(orderId: string, orderIndex: number, userId: string) {
-    this.ordersService.getOrderProducts(orderId).subscribe({
+
+  fetchUpdatedProducts(index:number) {
+    let order=this.orders[index];
+    this.ordersService.getOrderProducts(order.keyId).subscribe({
       next: (products) => {
         if (products) {
           let allDelivered = products.every(p => p.deliveryStatus === 'Delivered');
-          let someDelivered = products.some(p => p.deliveryStatus === 'Delivered');
+          // let someDelivered = products.some(p => p.deliveryStatus === 'Delivered');
 
-          let newStatus = allDelivered ? 'Delivered' : someDelivered ? 'Partially Delivered' : 'Pending';
+          let newStatus = allDelivered ? 'Delivered' : 'Pending' ;
 
-          this.orders[orderIndex] = {
-            ...this.orders[orderIndex],
+          this.orders[index] = {
+            ...this.orders[index],
             products,
             deliveryStatus: newStatus
           };
@@ -87,23 +94,23 @@ export class OrdersComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching products for order:', err);
-      }
-    });
+      },
+       complete: () => {
+        this.fetchUsersAndProducts(index + 1); 
+    }
+  });
   }
-
-
- 
   
       confirmDelete(keyId: string) {
         this.confirmationService.confirm({
           key: 'deleteConfirm',
-          message: 'Do you really want to delete the selected item?',
-          header: 'Are You sure!?',
           icon: 'pi pi-times-circle',
-          acceptLabel: 'Delete',
+          header: 'Are You sure!?',
+          message: 'Do you really want to delete the selected item?',
           rejectLabel: 'Cancel',
-          acceptButtonStyleClass: 'custom-delete-btn',
-          rejectButtonStyleClass: 'custom-cancel-btn',
+          acceptLabel: 'Delete',
+          // acceptButtonStyleClass: 'custom-delete-btn',
+          // rejectButtonStyleClass: 'custom-cancel-btn',
           accept: () => {
             this.deleteOrder(keyId);
           }
@@ -136,5 +143,3 @@ viewOrder(order){
   this.showPopup=true;
 }
 }
-
-
