@@ -165,7 +165,7 @@ tr:hover .actions i {
   background-color: red !important;
   color: white !important;
 }
-:host ::ng-deep .p-confirmdialog
+/* :host ::ng-deep .p-confirmdialog */
 /* :host ::ng-deep .p-button {
         background-color: #2c2c6c !important;
         color: #fff !important;

@@ -15,7 +15,7 @@ import { MessageService } from 'primeng/api';
 export class UserFormComponent {
 
  
-   @Input() user: any = {};;
+  @Input() user: any = {};
   @Output() closeForm = new EventEmitter<void>();
   userService:UsersService=inject(UsersService);
   authService: AuthService = inject(AuthService);
