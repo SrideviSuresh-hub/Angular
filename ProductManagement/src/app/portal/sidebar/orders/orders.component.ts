@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { OrdersService } from '../../../Services/orders.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { UsersService } from '../../../Services/users.service';
-import { User } from '../../../Models/User';
+
 
 @Component({
   selector: 'app-orders',
@@ -15,14 +15,22 @@ export class OrdersComponent implements OnInit {
   showPopup:boolean=false;
   selectedOrder:any;
   isLoading:boolean=false;
+  selectedOrderKeyId: string; 
+
   ordersService:OrdersService=inject(OrdersService);
   userService:UsersService=inject(UsersService);
   messageService: MessageService = inject(MessageService);
   confirmationService: ConfirmationService = inject(ConfirmationService);
   curUser=JSON.parse(localStorage.getItem('user'));
+  visible: boolean = false;
+
+ 
   ngOnInit() {
       this.loadOrders()
   }
+  showDialog() {
+    this.visible = true;
+}
   loadOrders() {
     this.isLoading=true;
     this.ordersService.getOrders().subscribe({
@@ -50,7 +58,7 @@ export class OrdersComponent implements OnInit {
     let order=this.orders[index];
     // let count=0;
     // this.orders.forEach((order, index) => {
-      this.userService.getUserbyUserId(order.keyId).subscribe({
+      this.userService.getUserbyUserId(order.userId).subscribe({
         next: (user) => {
           if (user) {
             this.orders[index] = {
@@ -61,9 +69,11 @@ export class OrdersComponent implements OnInit {
               state: user.states || "",
               zipCode: user.zipCode || ""
             };
+            console.log(user);
           }
 
           this.fetchUpdatedProducts(index);
+          
         },
         error: (err) => {
           console.error("Error fetching user details:", err);
@@ -101,37 +111,23 @@ export class OrdersComponent implements OnInit {
   });
   }
   
-      confirmDelete(keyId: string) {
-        this.confirmationService.confirm({
-          key: 'deleteConfirm',
-          icon: 'pi pi-times-circle',
-          header: 'Are You sure!?',
-          message: 'Do you really want to delete the selected item?',
-          rejectLabel: 'Cancel',
-          acceptLabel: 'Delete',
-          // acceptButtonStyleClass: 'custom-delete-btn',
-          // rejectButtonStyleClass: 'custom-cancel-btn',
-          accept: () => {
-            this.deleteOrder(keyId);
-          }
-        });
-      }
-    
-
-
-  deleteOrder(keyId:string){
-    this.ordersService.deleteOrder(keyId).subscribe({
-      next:()=>{
-        this.loadOrders();
-        console.log("Order deleted Succesfully")
-  
-      },
-      error:(err)=>{
-        console.error("Error deleting order:",err);
-      }
-    }); 
+      deleteOrder(keyId:string){
+        this.selectedOrderKeyId = keyId;
+        console.log(this.selectedOrder)
+        this.visible=true;
    }
-
+   confirmDelete() {
+    this.ordersService.deleteOrder(this.selectedOrderKeyId).subscribe({
+        next: () => {
+            this.loadOrders();
+            this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Order deleted successfully' });
+            this.visible = false; 
+        },
+        error: (err) => {
+            console.error("Error deleting order:", err);
+        }
+    });
+}
 
   getSeverity(status: string) {
     return status=== 'Delivered'?'success':'warn';

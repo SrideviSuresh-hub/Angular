@@ -29,3 +29,36 @@ app-weather{
     align-content: center;
     text-align: center;    
 }
+:host ::ng-deep .p-menubar {
+    border-radius: 0px;
+}
+:host ::ng-deep .p-button {
+    border: none !important;
+    background-color: rgba(41, 165, 243, 1) !important;
+    border-radius: 5px !important;
+}
+.icon{
+    color: white;
+    background-color: rgba(20, 21, 105, 1);
+    padding: 8px;
+    border-radius: 50%;
+}
+@media (max-width: 320px) {
+   
+
+    .avatar-initials {
+        font-size: 20px;
+        height: 30px;
+        width: 30px;
+    }
+    .p-button {
+        font-size: 12px !important;
+        padding: 5px!important;
+    }
+img{
+    width: 80px;
+}
+  
+
+   
+}

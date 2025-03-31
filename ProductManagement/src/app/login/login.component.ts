@@ -17,21 +17,27 @@ authService:AuthService=inject(AuthService);
 
  isLoading:boolean=false;
  errorMessage: string | null = null;
- 
+ curUser=JSON.parse(localStorage.getItem('user'));
  onLogin(form:NgForm){
   if(form.invalid) return;
   const email=form.value.email;
   const password=form.value.password;
   this.isLoading=true;
   this.authService.login(email,password).subscribe({
-    next:(user)=>{
-      if(user){
-        this.isLoading=false;
-        this.router.navigate(['/portal'])
-      }
-      else{
-        this.isLoading=false;
-        this.errorMessage="Invalid data not found";
+    next: (user) => {
+      if (user) {
+        this.isLoading = false;
+          this.router.navigate(['/portal']);
+        // const currentUser = this.authService.getCurrentUser();
+        // console.log("Current User:", currentUser);
+        // if (currentUser && currentUser.isAdmin) {
+        //   this.router.navigate(['/portal/home']);
+        // } else {
+        //   this.router.navigate(['/portal/usersHome']);
+        // }
+      } else {
+        this.isLoading = false;
+        this.errorMessage = "Invalid credentials, user not found.";
       }
     },
     error:(errMsg)=>{

@@ -16,6 +16,13 @@ export const canActivate = (
    
     const isAdmin = authService.isAdmin();
     const requestedRoute = state.url;
+    // if (isAdmin && requestedRoute === '/portal') {
+    //     return route.createUrlTree(['/portal/home']);
+    // }
+
+    // if (!isAdmin && requestedRoute === '/portal') {
+    //     return route.createUrlTree(['/portal/usersHome']);
+    // }
     if(!isAdmin && (requestedRoute.includes('/portal/users') || requestedRoute.includes('portal/home'))){
         return route.createUrlTree(['/portal/usersHome']);
     }

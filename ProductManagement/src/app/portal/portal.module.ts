@@ -27,7 +27,6 @@ import { OrdersComponent } from "./sidebar/orders/orders.component";
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { UsersComponent } from "./sidebar/users/users.component";
-import { UserFormComponent } from "./sidebar/users/user-form/user-form.component";
 import { DialogModule } from 'primeng/dialog';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
@@ -37,6 +36,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { UserHomeComponent } from "./user-home/user-home.component";
 import { ChartModule } from 'primeng/chart';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { PasswordModule } from 'primeng/password';
 @NgModule({
     declarations:[
@@ -46,7 +47,6 @@ import { PasswordModule } from 'primeng/password';
         SidebarComponent,
         WeatherComponent,
         UsersComponent,
-        UserFormComponent,
         ProductsComponent,
         HomeComponent,
        CartComponent,
@@ -61,7 +61,6 @@ import { PasswordModule } from 'primeng/password';
         UsersComponent,
         WeatherComponent,
         CartComponent,
-        UserFormComponent,
         OrdersComponent,
         ButtonModule,
         MenubarModule,
@@ -83,12 +82,16 @@ import { PasswordModule } from 'primeng/password';
         DialogModule,
         SelectModule,
         CardModule,
+        InputGroupAddonModule,
+        InputGroupModule,
         PasswordModule
     ],
     imports:[
         RouterModule.forChild(routes2),
         HttpClientModule,
         MenubarModule,
+        InputGroupModule,
+        InputGroupAddonModule,
         PasswordModule,
         ButtonModule,
         PortalRouteModule,

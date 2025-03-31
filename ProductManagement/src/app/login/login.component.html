@@ -4,12 +4,12 @@
     </div>
     <div class="form-container flex justify-content-center align-items-center">
         <div class="form-content">
-            <h2 class="login-header">Login to Shopify... </h2>
+            <p class="login-header">LOGIN To Shopify... </p>
     <app-snackbar [errorMessage]="errorMessage" *ngIf="errorMessage"></app-snackbar>
-    <p-progress-spinner *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+    <p-progress-spinner  class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
     <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" *ngIf="!isLoading">
         <div class="field">
-            <label for="email">Email</label>
+            <label for="email">Email:</label>
                 <input type="text" pInputText 
                 [(ngModel)]="login.email" 
                 class="w-full"
@@ -22,7 +22,7 @@
            
         </div>
         <div class="field">
-            <label for="password">Password</label>
+            <label for="password">Password:</label>
             <p-password [(ngModel)]="login.password"
              [feedback]="false"
               [toggleMask]="true"
@@ -40,8 +40,8 @@
         [disabled]="loginForm.invalid"
         type="submit"></p-button>
        </div>
-       <div>Not Registered Yet?
-           <a routerLink="/signup">Signup</a>
+       <div class="center">Don’t have an account!?,
+           <a routerLink="/signup">SIGN UP</a>
         </div>
         
     </form>

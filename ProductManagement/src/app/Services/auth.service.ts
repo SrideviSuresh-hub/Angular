@@ -5,7 +5,6 @@ import { inject, Injectable } from "@angular/core";
 import { AuthResponse } from "../Models/authResponse";
 import { catchError, last, map, Observable, Subject, switchMap, tap, throwError } from "rxjs";
 import { Router } from "@angular/router";
-// import { User } from "../Models/User";
 
 @Injectable({
     providedIn: 'root'
@@ -55,9 +54,6 @@ export class AuthService {
         return this.http.get<{ [key: string]: any }>(`${this.baseUrluser}.json`).pipe(
             map((data) => {
                 if (data) {
-                    // console.log((data));
-                    // console.log(Object.keys(data));
-                    // console.log(Object.values(data))
                     const users = Object.keys(data).map(key => ({ id: key, ...data[key] }));
                     const user = users.find(u => u.email === email && u.password === password);
                     return user || null;
@@ -66,7 +62,19 @@ export class AuthService {
             }),
             tap(user => {
                 if (user) {
-                    localStorage.setItem('user', JSON.stringify({username:user.username,firstName:user.firstName,lastName:user.lastName,id:user.id,isAdmin:user.isAdmin}));
+                    localStorage.setItem('user', JSON.stringify({
+                        userName: user.username,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        id: user.id,
+                        isAdmin: user.isAdmin,
+                        address1: user.address1,
+                        address2: user.address2,
+                        country: user.country,
+                        zipCode: user.zipCode,
+                        image: user.image,
+                        state: user.states
+                    }));
                 }
 
             })
@@ -93,10 +101,7 @@ export class AuthService {
 
     isAdmin(): boolean {
         const user = this.getCurrentUser();
-        if (user) {
-            return user.isAdmin;
-        }
-        return false;
+        return user ? user.isAdmin : false;
     }
 
     isLoggedIn(): boolean {
@@ -106,101 +111,6 @@ export class AuthService {
 
 
 }
-
-
-
-
-
-
-// import { Injectable } from '@angular/core';
-// import { Router } from '@angular/router';
-
-// @Injectable({
-//   providedIn: 'root',
-// })
-// export class IdleTimeoutService {
-//   private timeout: any;
-//   private idleTimeLimit = 10 * 60 * 1000; // 10 minutes
-
-//   constructor(private router: Router) {
-//     this.resetTimeout();
-//     this.listenToUserActivity();
-//   }
-
-//   private listenToUserActivity() {
-//     document.addEventListener('mousemove', () => this.resetTimeout());
-//     document.addEventListener('keydown', () => this.resetTimeout());
-//     document.addEventListener('click', () => this.resetTimeout());
-//   }
-
-//   private resetTimeout() {
-//     if (this.timeout) {
-//       clearTimeout(this.timeout);
-//     }
-//     this.timeout = setTimeout(() => this.logoutUser(), this.idleTimeLimit);
-//   }
-
-//   private logoutUser() {
-//     alert('You have been logged out due to inactivity.');
-//     localStorage.clear(); // Clear user session
-//     this.router.navigate(['/login']); // Redirect to login page
-//   }
-// }
-
-
-
-
-
-
-
-
-
-
-
-// user=new Subject<User>();
-// signUp(email,password){
-//    const postData={
-//     email:email,
-//     password:password,
-//     returnSecureToken:true
-//    }
-//    return this.http.post<AuthResponse>(
-//     'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDKLjlRJW1wIEgAuyRPTedfUTUBDRK03SE'
-//     ,postData).pipe(catchError(this.handleError))
-// }
-// login(email,password){
-//     const data={
-//         email:email,
-//         password:password,
-//         returnSecureToken:true
-//     }
-// return  this.http.post<AuthResponse>(
-//     'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDKLjlRJW1wIEgAuyRPTedfUTUBDRK03SE'
-//     ,data).pipe(catchError(this.handleError))
-// }
-
-
-// handleError(err){
-//     let errorMessage='An Unknown error occured';
-//     console.log(err);
-//     if(!err.error || !err.error.error){
-//         return throwError(()=>errorMessage)
-//     }
-//     switch(err.error.error.message){
-//         case 'EMAIL_EXISTS':
-//             errorMessage ="This email already exists.";
-//             break;
-//         case 'OPERATION_NOT_ALLOWED':
-//             errorMessage = 'This operation is not allowed.';
-//             break;
-//         case 'INVALID_LOGIN_CREDENTIALS':
-//             errorMessage = 'The email ID or Password is not correct.';
-//             break;
-//     }
-//     return throwError(()=>errorMessage)
-
-// }
-
 
 
 

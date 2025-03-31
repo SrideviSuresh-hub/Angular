@@ -1,33 +1,13 @@
-/* body{
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+
+a{
+    color: rgba(51, 51, 51, 1);
 }
-.grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: 100vh;
-}
-.image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.image {
-    max-width: 100%;
-    height: auto;
-}
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
 
 body {
     margin: 0;
     padding: 0;
-    overflow: hidden; 
-    height: 100vh; 
+    overflow: hidden;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,12 +19,26 @@ body {
     height: 100vh;
     width: 100vw;
 }
+.login-header{
+    position: fixed;
 
-/* Image container */
+    top: 100px;
+    left:68%;
+    font-weight: 400;
+    font-size: 30px;
+    
+}
+/* .login-header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+    width: 100%;
+} */
 .image-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center; */
+    /* align-items: center; */
     /* padding: 20px; */
     overflow: hidden;
 }
@@ -54,24 +48,55 @@ body {
     height: auto;
 }
 
-/* Form container */
 .form-container {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
 }
-.login-header {
+
+.center{
     text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    width: 100%;
 }
+
+
 .form-content {
     width: 90%;
-    max-width: 400px;
+    max-width: 600px;
 }
+
+:host ::ng-deep .p-inputtext {
+    width: 100%;
+    background-color: rgba(243, 243, 243, 1) !important;
+    border-radius: 5px !important;
+    border: none !important;
+    font-family: 'Montserrat' !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 17px !important;
+    color: #000000 !important;
+    padding: 16px !important;
+}
+
+
+:host ::ng-deep .p-inputtext:hover {
+    border: 1px solid rgba(41, 165, 243, 1) !important;
+    background-color: rgba(243, 243, 243, 1) !important;
+}
+
+:host ::ng-deep .p-button {
+    border: none !important;
+    background-color: rgba(41, 165, 243, 1) !important;
+    border-radius: 5px !important;
+    padding: 16px !important;
+}
+/* :host ::ng-deep .p-button:hover{
+    border: none;
+    background-color: rgba(41, 165, 243, 1);
+    border-radius: 5px;
+} */
+
 /* Responsive Design */
 @media screen and (max-width: 600px) {
     .grid-container {
@@ -88,4 +113,3 @@ body {
         padding: 10px;
     }
 }
-

@@ -13,45 +13,41 @@ export class CartService {
   private baseUrluser = 'https://assignment-a22f7-default-rtdb.firebaseio.com/user';
   private baseURLProd = 'https://assignment-a22f7-default-rtdb.firebaseio.com/products';
 
-  // private baseUrlOrders = 'https://assignment-a22f7-default-rtdb.firebaseio.com/orders';
   private cart: OrderProducts[] = [];
   http: HttpClient = inject(HttpClient);
-  curUser=JSON.parse(localStorage.getItem('user')||'{}')
-  prodService:ProductService=inject(ProductService);
+  curUser = JSON.parse(localStorage.getItem('user') || '{}')
+  prodService: ProductService = inject(ProductService);
   constructor() {
     this.loadCart()
   }
 
   //fetch cart from firbase
-  
+
   getCart(): Observable<OrderProducts[]> {
     return this.http.get<OrderProducts[]>(`${this.baseUrlCart}/${this.curUser.id}.json`).pipe(
       map(cartData => {
         if (!cartData) return [];
         return Object.keys(cartData).map(key => ({
-           ...cartData[key]}));
-              // ,cartId: key
+          ...cartData[key]
+        }));
       })
     );
   }
-  
 
-  //load cart intially
+
+  //load cart 
   private loadCart() {
     this.getCart().subscribe(cartData => {
       this.cart = cartData;
       console.log("Cart Loaded:", this.cart);
     });
   }
-  // updating entire cart 
   updateCart(cart: OrderProducts[]): Observable<any> {
-    // this.cart = cart;
     return this.http.put(`${this.baseUrlCart}/${this.curUser.id}.json`, cart);
   }
 
   //add prod to cart
   addToCart(product: OrderProducts): void {
-    // if (!this.cart) this.cart = [];
     const existingProduct = this.cart.find(p => p.id === product.id);
     if (existingProduct) {
       existingProduct.quantity = product.quantity;
@@ -88,39 +84,12 @@ export class CartService {
     return this.http.delete(`${this.baseUrlCart}/${this.curUser.id}.json`);
   }
 
-  // checkOut(): Observable<any> {
-  //   if (!this.cart.length) {
-  //     alert('Cart is Empty Cannot Place Order!');
-  //     return new Observable();
-  //   }
-  //   const orderData:Order= {
-  //     orderId: new Date().getTime().toString(),
-  //     userId:this.curUser.id,
-  //     products:this.cart.map(item=>({
-  //       description:item.description,
-  //       id:item.id,
-  //       image:item.image,
-  //       name:item.name,
-  //       quantity:item.quantity
-  //     })),
-  //     productCount: this.cart.length,
-  //     orderDate: new Date().toISOString(),
-  //     deliveryStatus: 'Shipped',
-  //   }
-  //   return this.http.post(`${this.baseUrluser}/${this.curUser.id}/orders.json`,orderData).pipe(
-  //     switchMap(()=>{
-  //       const updateObservable=this.cart.map(item=>this.incrememtProdOrderCount(this.cart));
-  //     }),map(()=>{
-  //         this.clearCart().subscribe();
-  //       })
-  //   )
-  // }
   checkOut(): Observable<any> {
     if (!this.cart.length) {
       alert('Cart is Empty Cannot Place Order!');
       return new Observable();
     }
-  
+
     const orderData: Order = {
       orderId: new Date().getTime().toString(),
       userId: this.curUser.id,
@@ -135,7 +104,7 @@ export class CartService {
       orderDate: new Date().toISOString(),
       deliveryStatus: 'Shipped',
     };
-  
+
     return this.http.post(`${this.baseUrluser}/${this.curUser.id}/orders.json`, orderData).pipe(
       switchMap(() => {
         return this.incrementProductOrderCount(this.cart);
@@ -145,7 +114,7 @@ export class CartService {
       })
     );
   }
-  
+
   incrementProductOrderCount(products: OrderProducts[]): Observable<any> {
     return new Observable(observer => {
       let updatedCount = 0;
@@ -165,5 +134,4 @@ export class CartService {
       });
     });
   }
-  
 }

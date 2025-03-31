@@ -3,6 +3,7 @@ import { CartService } from '../../../Services/cart.service';
 import { OrderProducts } from '../../../Models/orderproducts';
 import { Router } from '@angular/router';
 import { ProductService } from '../../../Services/products.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-cart',
   standalone: false,
@@ -15,16 +16,22 @@ export class CartComponent {
   router: Router = inject(Router);
   cartItems: OrderProducts[] = [];
   searchText: string = '';
+  isLoading:boolean=false;
   productService: ProductService = inject(ProductService)
+  messageService:MessageService=inject(MessageService);
   ngOnInit() {
     this.loadCart()
   }
   loadCart() {
+    this.isLoading=true;
     this.cartService.getCart().subscribe(items => {
       this.cartItems = items;
-      console.log('cart items', this.cartItems)
+      this.isLoading=false;
     }
     )
+  }
+  showToast(severity: string, summary: string, detail: string) {
+    this.messageService.add({ severity, summary, detail });
   }
   getFilteredCartItems() {
     if (!this.searchText.trim()) {
@@ -39,8 +46,7 @@ export class CartComponent {
     product.quantity++;
     this.cartService.addToCart(product);
     this.productService.updateProduct(product.id, product).subscribe(() => {
-      console.log('prod updated')
-      setTimeout(() => this.loadCart(), 200);
+       setTimeout(() => this.loadCart(), 100);
     });
   }
 
@@ -49,8 +55,7 @@ export class CartComponent {
       product.quantity--;
       this.cartService.removeFromCart(product);
       this.productService.updateProduct(product.id, product).subscribe(() => {
-        console.log('prod updated');
-        setTimeout(() => this.loadCart(), 200);
+         setTimeout(() => this.loadCart(), 100);
       });
     } else {
       this.removeItem(product);
@@ -58,51 +63,45 @@ export class CartComponent {
   }
 
   removeItem(product: OrderProducts) {
+    product.quantity = 0;
     this.cartService.removeFromCart(product);
     this.productService.updateProduct(product.id, product).subscribe(() => {
-      console.log('Product Updated');
-      setTimeout(() => this.loadCart(), 200);
+       setTimeout(() => this.loadCart(), 200);
     })
   }
 
-  // clearCart() {
-  //   this.cartService.clearCart().subscribe(() => {
-  //     this.cartItems = [];
-  //     this.loadCart();
-  //     console.log('Cart cleared');
-  //   })
-  // }
+ 
 
   checkOut() {
     if (this.cartItems.length === 0) {
-      alert('your cart is empty');
-      return;
+      this.showToast('warn', 'Cart Empty', 'Your cart is empty');
+  return;
 
     }
     else {
-      console.log("procedding to checkOut.");
       this.cartItems.forEach(product=>{
         product.quantity=0;
-        this.productService.updateProduct(product.id,product).subscribe(()=>{
-          console.log("000000000000");
-        })
+        this.productService.updateProduct(product.id,product).subscribe();
       })
       this.cartService.checkOut().subscribe(()=>{
         this.loadCart();
-        alert('order Placed Successfully!');
+        this.showToast('success', 'Order Placed', 'Your order has been placed successfully!');
         this.router.navigate(['/orders']);
       });
     }
   }
 
+   removeFromCart(product) {
+      this.cartItems = this.cartItems.filter(item => item.id !== product.id);
+      product.quantity=0;
+      this.productService.updateProduct(product.id,product).subscribe();
+      this.cartService.updateCart(this.cartItems).subscribe(() => {
+       
+      })
+    }
 }
 
 
 
-// removeFromCart(product) {
-//   this.cartItems = this.cartItems.filter(item => item.id !== product.id);
-//   this.cartService.updateCart(this.cartItems).subscribe(() => {
-//     console.log('Product removed from cart')
-//   })
-// }
+
 

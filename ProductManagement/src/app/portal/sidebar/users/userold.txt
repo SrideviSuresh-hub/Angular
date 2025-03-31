@@ -1,0 +1,145 @@
+<div class="user-container">
+  <div class="head-content">
+    <h2>User Data</h2>
+    <p-button label="Add User" icon="pi pi-user-plus" (click)="addUserForm()" />
+  </div>
+
+  <p-table [value]="users" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>User Image</th>
+        <th>Username</th>
+        <th>Age</th>
+        <th>Country</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>
+          <p-avatar *ngIf="user.image; else initialsAvatar" [image]="user.image" class="mr-2" size="large" shape="circle"></p-avatar>
+          <ng-template #initialsAvatar>
+            <div class="avatar-initials">{{ userInitials }}</div>
+          </ng-template>
+        </td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.age }}</td>
+        <td>{{ user.country }}</td>
+        <td class="actions">
+          <i class="fa-solid fa-pen" (click)="editUser(user)"></i>
+          <i class="fa-solid fa-trash" (click)="confirmDelete(user.id)"></i>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- User Form Dialog -->
+<p-dialog [(visible)]="displayDialog" modal="modal" [closable]="false" [responsive]="true">
+  <h3>{{ isEditing ? 'Edit User' : 'Add User' }}</h3>
+  <form #userForm="ngForm" (ngSubmit)="onSave(userForm)">
+    <div class="form-container">
+      <!-- Profile Image Upload -->
+      <div class="image-upload">
+        <img [src]="imageUrl" alt="User Image" (click)="triggerFileInput()" />
+        <input id="fileInput" type="file" accept="image/*" (change)="onFileSelected($event)" hidden>
+      </div>
+
+      <div class="form-fields">
+        <!-- Username -->
+        <label>Username</label>
+        <input type="text" [(ngModel)]="selectedUser.username" name="username" required />
+
+        <!-- First & Last Name -->
+        <div class="flex">
+          <div>
+            <label>First Name</label>
+            <input type="text" [(ngModel)]="selectedUser.firstName" name="firstName" required />
+          </div>
+          <div>
+            <label>Last Name</label>
+            <input type="text" [(ngModel)]="selectedUser.lastName" name="lastName" required />
+          </div>
+        </div>
+
+        <!-- Gender & DOB -->
+        <div class="flex">
+          <div>
+            <label>Gender</label>
+            <select [(ngModel)]="selectedUser.gender" name="gender" required>
+              <option value="" disabled>Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label>Date of Birth</label>
+            <input type="date" [(ngModel)]="selectedUser.dob" name="dob" required />
+          </div>
+        </div>
+
+        <!-- Email & Mobile -->
+        <label>Email</label>
+        <input type="email" [(ngModel)]="selectedUser.email" name="email" required />
+
+        <label>Mobile</label>
+        <input type="tel" [(ngModel)]="selectedUser.mobile" name="mobile" required />
+
+        <!-- Address -->
+        <label>Address</label>
+        <input type="text" [(ngModel)]="selectedUser.address1" name="address1" required />
+
+        <label>Country</label>
+        <select [(ngModel)]="selectedUser.country" name="country" (change)="onCountryChange($event)" required>
+          <option value="" disabled>Select Country</option>
+          <option value="India">India</option>
+          <option value="USA">USA</option>
+        </select>
+
+        <label>State</label>
+        <select [(ngModel)]="selectedUser.state" name="state" required>
+          <option value="" disabled>Select State</option>
+          <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+        </select>
+
+        <label>Zip Code</label>
+        <input type="text" [(ngModel)]="selectedUser.zipCode" name="zipCode" required />
+
+        <!-- Timezone & Locale -->
+        <div class="flex">
+          <div>
+            <label>Timezone</label>
+            <input type="text" [(ngModel)]="selectedUser.timezone" name="timezone" required />
+          </div>
+          <div>
+            <label>Locale</label>
+            <select [(ngModel)]="selectedUser.locale" name="locale">
+              <option *ngFor="let loc of locales" [value]="loc">{{ loc }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Admin Role -->
+        <div class="checkbox">
+          <input type="checkbox" [(ngModel)]="selectedUser.isAdmin" name="isAdmin" [disabled]="isEditing" />
+          <label>Is Admin?</label>
+        </div>
+
+        <!-- Password -->
+        <label>Password</label>
+        <input type="password" [(ngModel)]="selectedUser.password" name="password" required />
+
+        <!-- Save & Cancel Buttons -->
+        <div class="actions">
+          <button type="submit" pButton label="Save" [disabled]="userForm.invalid"></button>
+          <button type="button" pButton label="Cancel" (click)="closeUserDialog()"></button>
+        </div>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Confirm Dialog -->
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>

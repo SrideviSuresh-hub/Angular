@@ -2,6 +2,7 @@ import { Component, inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../Services/auth.service';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-signup',
@@ -30,13 +31,18 @@ export class SignupComponent {
   IsAdmin: boolean = false;
   // statee: string = '';
   states: string[] = [];
-  state:string=''
+  state: string = ''
   password: string = '';
   imageUrl: string | ArrayBuffer | null = "assets/images/defaultAvatar.png";
   confirmpassword: string = '';
   locales: string[] = ['en-US', 'en-GB', 'fr-FR', 'de-DE', 'es-ES', 'zh-CN'];
   userInitials: string = "";
 
+  messageService:MessageService=inject(MessageService);
+
+  showToast(severity: string, summary: string, detail: string) {
+    this.messageService.add({ severity, summary, detail });
+  }
   triggerFileInput() {
     document.getElementById('fileInput')?.click();
   }
@@ -86,11 +92,11 @@ export class SignupComponent {
   onCountryChange(event: any) {
     const selectedCountry = event.target.value;
     if (selectedCountry === "India") {
-      this.states= ['Karnataka', ' Andhra Pradesh', 'Tamil Nadu', 'Delhi', 'Chennai'];
+      this.states = ['Karnataka', ' Andhra Pradesh', 'Tamil Nadu', 'Delhi', 'Chennai'];
     } else if (selectedCountry === "USA") {
       this.states = ['California', 'Texas', 'New York', 'Florida'];
     } else {
-      this.states= [];
+      this.states = [];
     }
   }
 
@@ -112,7 +118,7 @@ export class SignupComponent {
         const existingUser = users.find(user => user.username === this.username)
         if (existingUser) {
           this.isLoading = false;
-          alert('username ALready exists! please choose a diff username');
+          this.showToast('warn', 'Signup Failed', 'Username already exists! Please choose a different one.');
           return;
         }
         let userData = {
@@ -140,19 +146,20 @@ export class SignupComponent {
             next: (user) => {
               this.isLoading = false;
               console.log(user);
-              alert('Signup successful! You can now log in.');
+              this.showToast('success', 'Signup Successful', 'You can now log in.');
               this.router.navigate(['/login']);
             },
             error: (errMsg) => {
               this.isLoading = false;
-              this.errorMessage = 'Signup Failed. Try Again' + errMsg;
+              this.showToast('error', 'Signup Failed', 'Try Again. ' + errMsg);
             }
           });
 
       }
 
     })
-  }}
+  }
+}
 
 
 
@@ -166,64 +173,3 @@ export class SignupComponent {
 
 
 
-
-
-
-
-// onSignup(form: NgForm) {
-//   if (form.invalid || !this.passwordMatching) {
-//     return;
-//   }
-
-//   this.isLoading = true;
-//   this.errorMessage = '';
-
-//   this.authService.getAllUsers().subscribe({
-//     next: (users) => {
-//       const existingUser = users.find(user => user.username === this.username);
-
-//       if (existingUser) {
-//         this.isLoading = false;
-//         alert('Username already exists! Please choose a different username.');
-//       } else {
-//         // Proceed with signup if username is unique
-//         let userData = {
-//           username: this.username,
-//           firstName: this.firstName,
-//           lastName: this.lastName,
-//           genders: this.gender,
-//           dob: this.dob,
-//           email: this.emailAddress,
-//           mobile: this.phone,
-//           address1: this.street1,
-//           address2: this.street2,
-//           country: this.country,
-//           states: this.statee,
-//           zipCode: this.postal,
-//           timezones: this.timezones,
-//           locales: this.locales,
-//           image: this.imageUrl,
-//           isAdmin: this.IsAdmin,
-//           password: this.password
-//         };
-
-//         this.authService.signUp(userData).subscribe({
-//           next: () => {
-//             this.isLoading = false;
-//             alert('Signup successful! You can now log in.');
-//             this.router.navigate(['/login']);
-//           },
-//           error: (errMsg) => {
-//             this.isLoading = false;
-//             this.errorMessage = 'Signup Failed. Try Again ' + errMsg;
-//             console.error(errMsg);
-//           }
-//         });
-//       }
-//     },
-//     error: (err) => {
-//       this.isLoading = false;
-//       console.error("Error fetching users:", err);
-//     }
-//   });
-// }

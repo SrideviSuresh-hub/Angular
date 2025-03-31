@@ -1,8 +1,13 @@
-<div class="charts-container">
-    <p-chart type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
-    <p-chart type="bar" [data]="barChartData" [options]="barChartOptions"></p-chart>
+
+  <div class="charts-container col12">
+    <div class="container col6">
+      <h2>Orders in the current week</h2>
+      <div class="c1">
+        <p-chart class="c1" type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
+      </div>
+    </div>
+    <div class="container col6">
+      <h2>Quantity vs. Product Names</h2>
+      <p-chart class="c1" type="bar" [data]="barChartData" [options]="barChartOptions"></p-chart>
+    </div>
   </div>
-  <!-- <div>
-    <h2>Product Quantity Ordered</h2>
-    <p-chart type="bar" [data]="barChartData"></p-chart>
-</div> -->

@@ -42,20 +42,21 @@
 
 
 <!-- Order Details Popup -->
-<p-dialog header="Order Details" [(visible)]="showDialog" [modal]="true" [closable]="true">
+<p-dialog header="View Order" [(visible)]="showDialog" [modal]="true" [closable]="true">
   <ng-template pTemplate="content">
     <div class="product-item">
-      <img [src]="selectedProduct.productImage" alt="Product image" width="300px">
+      <img [src]="selectedProduct.productImage" alt="Product image" width="200px" height="150px">
       <div class="product-info">
+        <p style="color:rgba(20, 21, 105, 1);">Delivered on {{ selectedProduct.orderDate | date: 'mediumDate' }}</p>
         <h2>{{ selectedProduct.productName }}</h2>
-        <p><strong>Quantity:</strong> {{ selectedProduct.quantity }}</p>
-        <p><strong>Order ID:</strong> {{ selectedProduct.orderId }}</p>
+        <p><strong >Order ID:</strong> {{ selectedProduct.orderId }}</p>
         <p><strong>User Name:</strong> {{ selectedProduct.userName }}</p>
+        <p><strong>Quantity:</strong> {{ selectedProduct.quantity }}</p>
         <p><strong>Address:</strong> {{ selectedProduct.street1 }}, {{ selectedProduct.street2 }}</p>
-        <p><strong>State:</strong> {{ selectedProduct.state }}</p>
-        <p><strong>Country:</strong> {{ selectedProduct.country }}</p>
-        <p><strong>Post Code:</strong> {{ selectedProduct.pinCode }}</p>
-        <p><strong>Delivery Status:</strong> {{ selectedProduct.deliveryStatus }}</p>
+        <p>State: {{ selectedProduct.state }}</p>
+        <p>Country:{{ selectedProduct.country }}</p>
+        <p>Post Code: {{ selectedProduct.pinCode }}</p>
+        <!-- <p><strong>Delivery Status:</strong> {{ selectedProduct.deliveryStatus }}</p> -->
       </div>
     </div>
   </ng-template>

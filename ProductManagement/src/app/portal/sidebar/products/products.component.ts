@@ -28,6 +28,7 @@ export class ProductsComponent  {
   selectedImageFile:File|null=null;
   isDragging: boolean = false;
   isAdmin:boolean=false;
+  isLoading:boolean=false;
   curUser=JSON.parse(localStorage.getItem('user'));
   ngOnInit(){
       this.isAdmin=this.curUser.isAdmin;
@@ -37,9 +38,11 @@ export class ProductsComponent  {
   
 
   loadProducts() {
+    this.isLoading=true;
     this.prodService.getProducts().subscribe((res: OrderProducts[]) => {
         this.products = res;
         this.filteredProducts=[...this.products];
+        this.isLoading=false;
     });
   }
  
@@ -150,7 +153,10 @@ this.prodService.updateProduct(product.id,product).subscribe(()=>{
       reader.readAsDataURL(file);
     }
   }
-   
+  removeImage() {
+    this.imagePreview = null;
+    this.selectedImageFile = null;
+  }
    allowDrop(event:DragEvent){
 event.preventDefault();
 
