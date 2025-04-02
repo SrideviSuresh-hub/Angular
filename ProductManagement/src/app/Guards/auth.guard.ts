@@ -4,31 +4,33 @@ import { inject } from "@angular/core";
 import { Observable } from "rxjs";
 
 export const canActivate = (
-    router: ActivatedRouteSnapshot,
+    route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
     ): boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> => {
     const authService: AuthService = inject(AuthService);
     console.log(authService.isLoggedIn());
-    const route = inject(Router);
+    const  router= inject(Router);
     if (!authService.isLoggedIn()) {
-        return route.createUrlTree(['/login']);
+        router.navigate(['/login']);
+         return false;
     }
    
+ 
     const isAdmin = authService.isAdmin();
     const requestedRoute = state.url;
-    // if (isAdmin && requestedRoute === '/portal') {
-    //     return route.createUrlTree(['/portal/home']);
-    // }
-
-    // if (!isAdmin && requestedRoute === '/portal') {
-    //     return route.createUrlTree(['/portal/usersHome']);
-    // }
-    if(!isAdmin && (requestedRoute.includes('/portal/users') || requestedRoute.includes('portal/home'))){
-        return route.createUrlTree(['/portal/usersHome']);
+  
+    console.log('Requested route:', requestedRoute);
+  
+    if (isAdmin && requestedRoute.includes('portal/usersHome')) {
+      console.log('Admin already on usersHome, redirecting to home');
+      router.navigate(['/portal/home']);
+      return false; // Stop navigation
+    } else if (!isAdmin && requestedRoute.includes('portal/home')) {
+      console.log('Non-admin already on home, redirecting to usersHome');
+      router.navigate(['/portal/usersHome']);
+      return false; // Stop navigation
     }
-    if (isAdmin && (requestedRoute.includes('/portal/cart') || requestedRoute.includes('/portal/orders'))) {
-        return route.createUrlTree(['/portal/users']); 
-    }
+  
 
     return true;
 }

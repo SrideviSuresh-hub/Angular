@@ -20,7 +20,7 @@ export class UsersComponent implements OnInit {
   file: File | null = null;
   states: string[] = [];
   locales: string[] = ['en-US', 'en-GB', 'fr-FR', 'de-DE', 'es-ES', 'zh-CN'];
-  genders: any[] = [{ label: "Male", gender: 'male' }, { label: "Female", gender: 'female' }, { label: "Prefer not to say", gender: 'others' }]
+  genders: any[] = [{ label: "Male", gender: 'male' }, { label: "Female", gender: 'female' }, { label: "Others", gender: 'others' }]
   gender!: string;
   timezones: string[] = [
     'UTC-12:00', 'UTC-11:00', 'UTC-10:00', 'UTC-09:00', 'UTC-08:00', 'UTC-07:00',
@@ -36,26 +36,26 @@ export class UsersComponent implements OnInit {
   router: Router = inject(Router);
   confirmationService: ConfirmationService = inject(ConfirmationService); 
   userInitials: string = "";
-
-  
-
+  isLoading:boolean=false;
 
  ngOnInit(): void{
     this.loadUsers();
   }
   loadUsers(): void {
+    this.isLoading=true;
     this.userService.getUsers().subscribe({
-      next: (users) => {
       
+      next: (users) => {
         users.forEach(user=>{
           user.age=this.calculateAge(user.dob);
           console.log(user.firstName,user.lastName);
-          
           this.getUserInitials(user);
         });
         this.users=users;
+        this.isLoading=false
       },
       error: (err) => {
+        this.isLoading=false;
         console.error("Error fetching users:", err);
         this.msgService.add({ severity: 'error', detail: 'Error fetching users' });
       }
@@ -106,7 +106,35 @@ export class UsersComponent implements OnInit {
   }
 
   onSave(form: NgForm): void {
-    if (form.invalid) return;
+    if (form.invalid) {
+      if (!this.selectedUser?.username) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Username is required!' });
+      }
+      if (!this.selectedUser?.firstName) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'First Name is required!' });
+      }
+      if (!this.selectedUser?.email) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Email is required!' });
+      }
+      else {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(this.selectedUser?.email)) {
+          this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Email is not valid!' });
+
+        }
+      }
+      if (!this.selectedUser?.mobile) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Mobile number is required!' });
+      }
+      if (!this.selectedUser?.address1) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Address line1  is required!' });
+      }
+      if (!this.selectedUser?.password) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Password is required!' });
+      }
+      return; 
+    
+    }
 
     if (this.file) {
       setTimeout(() => {
@@ -197,7 +225,8 @@ export class UsersComponent implements OnInit {
       locale: '',
       isAdmin: false,
       password: '',
-      image: ''
+      image: '',
+      isFirstLogin:true
     };
   }
 

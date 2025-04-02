@@ -29,7 +29,7 @@ export class SignupComponent {
   city: string = '';
   postal: string = '';
   IsAdmin: boolean = false;
-  // statee: string = '';
+  isFirstLogin:boolean=true;
   states: string[] = [];
   state: string = ''
   password: string = '';
@@ -61,7 +61,7 @@ export class SignupComponent {
     this.userInitials = `${this.firstName.charAt(0).toUpperCase()}${this.lastName.charAt(0).toUpperCase()}`
   }
 
-  genders: any[] = [{ label: "Male", gender: 'male' }, { label: "Female", gender: 'female' }, { label: "Prefer not to say", gender: 'others' }]
+  genders: any[] = [{ label: "Male", gender: 'male' }, { label: "Female", gender: 'female' }, { label: "Others", gender: 'others' }]
   gender!: string;
   timezones: string[] = [
     'UTC-12:00', 'UTC-11:00', 'UTC-10:00', 'UTC-09:00', 'UTC-08:00', 'UTC-07:00',
@@ -98,6 +98,7 @@ export class SignupComponent {
     } else {
       this.states = [];
     }
+    // this.state=''
   }
 
   validatePassword(password, confirmpassword) {
@@ -106,7 +107,55 @@ export class SignupComponent {
 
 
   onSignup(form: NgForm) {
+    let hasError = false; // Flag to track if there's any missing field
+
+  if (!this.username) {
+    this.showToast('warn', 'Missing Field', 'Username is required.');
+    hasError = true;
+  }
+  if (!this.firstName) {
+    this.showToast('warn', 'Missing Field', 'First Name is required.');
+    hasError = true;
+  }
+  
+ 
+  if (!this.emailAddress) {
+    this.showToast('warn', 'Missing Field', 'Email is required.');
+    hasError = true;
+  }
+  else {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(this.emailAddress)) {
+      this.showToast('warn', 'Invalid Email', 'Please enter a valid email address.');
+      hasError = true;
+    }
+  }
+  if (!this.phone) {
+    this.showToast('warn', 'Missing Field', 'Phone Number is required.');
+    hasError = true;
+  }
+  if (!this.street1) {
+    this.showToast('warn', 'Missing Field', 'Address Line 1 is required.');
+    hasError = true;
+  }
+ 
+  if (!this.password) {
+    this.showToast('warn', 'Missing Field', 'Password is required.');
+    hasError = true;
+  }
+  if (!this.confirmpassword) {
+    this.showToast('warn', 'Missing Field', 'Confirm Password is required.');
+    hasError = true;
+  }
+
+  if (hasError) {
+    return; 
+  }
     if (form.invalid || !this.passwordMatching) {
+      return;
+    }
+    if (!this.passwordMatching) {
+      this.showToast('error', 'Password Mismatch', 'Passwords do not match.');
       return;
     }
 
@@ -132,13 +181,14 @@ export class SignupComponent {
           address1: this.street1,
           address2: this.street2,
           country: this.country,
-          state: this.states,
+          state: this.state,
           zipCode: this.postal,
           timezones: this.timezonee,
           locales: this.localee,
           image: this.imageUrl,
           isAdmin: this.IsAdmin,
-          password: this.password
+          password: this.password,
+          isFirstLogin:this.firstName
         };
 
         this.authService.signUp(userData).subscribe(
@@ -160,13 +210,6 @@ export class SignupComponent {
     })
   }
 }
-
-
-
-
-
-
-
 
 
 

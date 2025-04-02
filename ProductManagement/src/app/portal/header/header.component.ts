@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { AuthService } from '../../Services/auth.service';
 import { Router } from '@angular/router';
 
@@ -15,6 +15,8 @@ export class HeaderComponent {
   curUser=JSON.parse(localStorage.getItem('user'))
   userInitials:string="";
   imgURL=this.curUser.imageUrl || this.userInitials;
+
+  @Input() selectedLabel: string = '';  
 
   ngOnInit(){
     this.userInitials=this.generateIntials();

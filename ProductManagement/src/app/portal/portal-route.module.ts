@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { inject, NgModule } from "@angular/core";
 import { HomeComponent } from "./sidebar/home/home.component";
 import { ProductsComponent } from "./sidebar/products/products.component";
 import { CartComponent } from "./sidebar/cart/cart.component";
@@ -10,11 +10,11 @@ import { UsersComponent } from "./sidebar/users/users.component";
 import { UserHomeComponent } from "./user-home/user-home.component";
 
 export const routes2:Routes=[
-    {path:'',
+    {path:'portal',
         component:PortalComponent,
         canActivate:[canActivate], 
         children:[
-    {path:'home',component:HomeComponent},
+   {path:'home',component:HomeComponent},
     {path:'users',component:UsersComponent},
     {path:'products',component:ProductsComponent},
     {path:'cart',component:CartComponent},
@@ -29,5 +29,4 @@ exports:[RouterModule]
 })
 
 export class PortalRouteModule{
-
 }

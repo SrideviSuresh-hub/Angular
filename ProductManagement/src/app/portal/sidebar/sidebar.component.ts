@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, input, OnInit, Output, output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../Services/auth.service';
 
 @Component({
@@ -10,8 +10,9 @@ import { AuthService } from '../../Services/auth.service';
 export class SidebarComponent implements OnInit {
 
   @Input() isLeftSidebarCollapsed: boolean = false;
-  @Output() changeIsLeftSidebarCollapsed = new EventEmitter<boolean>();
-  
+  // @Output() changeIsLeftSidebarCollapsed = new EventEmitter<boolean>();
+  @Output() labelSelected = new EventEmitter<string>();  // Emit label to parent component
+
   authService:AuthService=inject(AuthService);
   isAdmin:boolean=false;
   items:any[]=[];
@@ -19,8 +20,10 @@ export class SidebarComponent implements OnInit {
   {
     this.isAdmin = this.authService.isAdmin();
     this.setSidebarItems();
+   
   }
 
+  
   setSidebarItems() {
     if (this.isAdmin) {
       this.items = [
@@ -38,8 +41,10 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-
-  
-
-
+  toggleLabel(item: any) {
+    this.labelSelected.emit(item.label);  
+  }
 }
+
+
+

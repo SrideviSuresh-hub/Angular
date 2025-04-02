@@ -7,12 +7,11 @@ import { Component, signal } from '@angular/core';
   styleUrl: './portal.component.css'
 })
 export class PortalComponent {
-  
+  selectedLabel: string = '';
 
-  
+  onLabelSelected(label: string) {
+    this.selectedLabel = label;
+    console.log("Selected Label: ", label);
+  }
 
-  // toggleSidebar() {
-  //   this.isLeftSidebarCollapsed = !this.isLeftSidebarCollapsed;
-  //   console.log(this.isLeftSidebarCollapsed);
-  // }
 }

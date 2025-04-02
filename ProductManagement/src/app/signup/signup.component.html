@@ -1,172 +1,194 @@
+<p-toast position="top-right"></p-toast>
 <div class="grid-container min-h-screen">
-  <div class="image-container">
-      <img src="assets/images/shopsy.png" alt="shopsy image" class="image">
-  </div>
-  <div class="form-container flex justify-content-center align-items-center">
-      <div class="form-box">
-          <h2 class="sign-header"><span class="return" routerLink="/login">↩</span> SIGN UP to Shopify...</h2>
-          <p-progress-spinner class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }"></p-progress-spinner>
-          
-          <form class="form" (ngSubmit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
-              <div *ngIf="currentStep === 1">
-                
-            <div class="avatar-container">
-                <input type="file" id="fileInput" accept="image/png, image/jpeg" (change)="onFileSelected($event)" hidden />
-                <div class="avatar-wrapper" (click)="triggerFileInput()">
-                  <img *ngIf="imageUrl; else defaultAvatar; else initialsAvatar  " [src]="imageUrl" alt="Avatar" class="avatar" />
-                  <ng-template #defaultAvatar>
-                    <img src="assets/images/defaultAvatar.png" alt="Default Avatar" class="avatar" />
-                  </ng-template>
+    <div class="image-container">
+        <img src="assets/images/shopsy.png" alt="shopsy image" class="image">
+    </div>
+    <div class="form-container flex justify-content-center align-items-center">
+        <div class="form-box">
+            <h2 class="sign-header"><span class="return" routerLink="/login">↩</span> SIGN UP to Shopify...</h2>
+            <p-progress-spinner class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent"
+                animationDuration=".5s" [style]="{ width: '50px', height: '50px' }"></p-progress-spinner>
 
-                  <ng-template #initialsAvatar>
-                    <div class="avatar-initials">{{ userInitials }}</div>
-                  </ng-template>
+            <form class="form" (ngSubmit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
+                <div *ngIf="currentStep === 1">
 
-                  <div class="edit-icon">
-                    <i class="pi pi-pencil"></i>
-                  </div>
-                </div>
-              </div>
-         
-                <div class="input-box">
-                  <label>User Name</label>
-                  <input type="text" name="username" #uname="ngModel" maxlength="20" [(ngModel)]="username" required />
-                  <small *ngIf="uname.invalid && uname.touched">*Username is required</small>
-                </div>
+                    <div class="avatar-container">
+                        <input type="file" id="fileInput" accept="image/png, image/jpeg"
+                            (change)="onFileSelected($event)" hidden />
+                        <div class="avatar-wrapper" (click)="triggerFileInput()">
+                            <img *ngIf="imageUrl; else defaultAvatar; else initialsAvatar  " [src]="imageUrl"
+                                alt="Avatar" class="avatar" />
+                            <ng-template #defaultAvatar>
+                                <img src="assets/images/defaultAvatar.png" alt="Default Avatar" class="avatar" />
+                            </ng-template>
 
-                  <div class="column">
-                      <div class="input-box">
-                          <label>First Name</label>
-                          <input type="text"  name="firstname" [(ngModel)]="firstName" #fname="ngModel" maxlength="30" required />
-                          <div>
-                              <small *ngIf="fname.invalid && fname.touched">*First Name is a Required Field</small>
-                          </div>
-                      </div>
+                            <ng-template #initialsAvatar>
+                                <div class="avatar-initials">{{ userInitials }}</div>
+                            </ng-template>
 
-                      <div class="input-box">
-                          <label>Last Name</label>
-                          <input type="text"  name="lastname" [(ngModel)]="lastName" maxlength="30" #lname="ngModel" />
-                          <div>
-                              <small *ngIf="lname.invalid && lname.touched">*Last Name is a Required Field</small>
-                          </div>
-                      </div>
-                  </div>
-
-                  <div class="column">
-                      <div class="gender">
-                          <label>Gender</label>
-                          <div class="gender-option">
-                              <p-selectbutton [options]="genders" [(ngModel)]="gender" name="gender" optionLabel="label" optionValue="gender" />
-                          </div>
-                      </div>
-
-                      <div class="input-box">
-                          <label>DOB</label>
-                          <p-datepicker [(ngModel)]="dob" name="dob" required></p-datepicker>
-                      </div>
-                  </div>
-                  <div class="input-box">
-                      <label>Email ID</label>
-                      <input type="text" name="email" maxlength="100" #email="ngModel" [(ngModel)]="emailAddress" required email />
-                      <div>
-                          <small *ngIf="email.invalid && email.touched">*Entered Email is not valid</small>
-                      </div>
-                  </div>
-
-                  <div class="input-box">
-                    <label>Mobile Number</label>
-                    <p-inputgroup>
-                        <p-inputgroup-addon>
-                          <span>+91</span>
-                        </p-inputgroup-addon>
-                        <input type="tel" [(ngModel)]="phone" name="mobile" required pattern="\d{10}" maxlength="10" />
-                    </p-inputgroup>
-                  </div>
-                  <!-- <p-button label="Next" class="float-but" type="button" (click)="nextStep()"></p-button> -->
-              </div>
-
-              <div *ngIf="currentStep === 2">
-                  <div class="input-box address" ngModelGroup="address" #addr="ngModelGroup">
-                      <label>Address</label>
-                      <input type="text"  name="street1" [(ngModel)]="street1" required />
-                    </div>
-                    <div class="input-box address" ngModelGroup="address" #addr="ngModelGroup">
-                      <input type="text"  name="street2" [(ngModel)]="street2" />
+                            <div class="edit-icon">
+                                <i class="pi pi-pencil"></i>
+                            </div>
+                        </div>
                     </div>
 
-                      <div class="column">
-                          <div class="select-box">
-                              <label>Country</label>
-                              <select name="country" (change)="onCountryChange($event)" required [(ngModel)]="country">
-                                  <option value="India">India</option>
-                                  <option value="USA">USA</option>
-                              </select>
-                          </div>
-                          <div class="select-box">
-                              <label>State</label>
-                              <select name="state" [(ngModel)]="states" required>
-                                  <option *ngFor="let state of states" [value]="state">{{ state }}</option>
-                              </select>
-                          </div>
-                      </div>
-                      <br>
+                    <div class="input-box">
+                        <label>User Name</label>
+                        <input type="text" name="username"  maxlength="20" [(ngModel)]="username"
+                            required />
+                            <!-- #uname="ngModel" -->
+                        <!-- <small *ngIf="uname.invalid && uname.touched">*Username is required</small> -->
+                    </div>
 
-                      <div class="column">
-                          <div class="input-box">
-                              <label>Zip Code</label>
-                              <input type="number" placeholder="Postal code" name="postal" [(ngModel)]="postal" required />
-                          </div>
-                          <div class="select-box">
-                              <label>TimeZone</label>
-                              <select name="timezone" [(ngModel)]="timezonee" required>
-                                  <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
-                              </select>
-                          </div>
-                      </div>
-                  <div class="column">
-                      <div class="select-box">
-                          <label for="locale">Locale</label>
-                          <select name="locale" [(ngModel)]="localee" required>
-                              <option *ngFor="let locale of locales" [value]="locale">{{ locale }}</option>
-                          </select>
-                      </div>
-                      <div class="column checkbox">
-                          <input type="checkbox" name="admin" [(ngModel)]="IsAdmin" disabled>
-                          <label for="admin">is Admin</label><br>
-                      </div>
-                  </div>
-                  <div class="input-box">
-                      <label for="password">Password</label>
-                      <p-password [(ngModel)]="password" [feedback]="false" [toggleMask]="true" inputId="password" name="password" #passwords="ngModel" inputStyleClass="w-full" styleClass="w-full" (ngModelChange)="validatePassword(password, confirmpassword)" required></p-password>
-                  </div>
-                  <div class="input-box">
-                      <label for="cpassword">Confirm Password</label>
-                      <p-password [(ngModel)]="confirmpassword" [feedback]="false" [toggleMask]="true" inputId="cpassword" name="cpassword" #cpassword="ngModel" inputStyleClass="w-full" styleClass="w-full" (ngModelChange)="validatePassword(password, confirmpassword)" required></p-password>
-                  </div>
+                    <div class="column">
+                        <div class="input-box">
+                            <label>First Name</label>
+                            <input type="text" name="firstname" [(ngModel)]="firstName" maxlength="30"
+                                required />
+                            <div>
+                                <!-- #fname="ngModel"
+                                <small *ngIf="fname.invalid && fname.touched">*First Name is a Required Field</small> -->
+                            </div>
+                        </div>
 
-                  <small *ngIf="!passwordMatching && cpassword.dirty">Passwords Didn't match</small>
+                        <div class="input-box">
+                            <label>Last Name</label>
+                            <input type="text" name="lastname" [(ngModel)]="lastName" maxlength="30" />
+                            <div>
+                                <!-- #lname="ngModel"
+                                <small *ngIf="lname.invalid && lname.touched">*Last Name is a Required Field</small> -->
+                            </div>
+                        </div>
+                    </div>
 
-              </div>
+                    <div class="column">
+                        <div class="gender">
+                            <label>Gender</label>
+                            <div class="gender-option">
+                                <p-selectbutton [options]="genders" [(ngModel)]="gender" name="gender"
+                                    optionLabel="label" optionValue="gender" />
+                            </div>
+                        </div>
 
-              <div class="input-box" *ngIf="currentStep === 2">
-                  <p-button label="Sign Up" styleClass="w-full background-color-rgb(200, 200, 219)" [disabled]="!signupForm.valid " type="submit"></p-button>
-              </div>
-              <div class="pagination-container">
-               
-                <i  class="fa-solid fa-angle-left pagination-icon" (click)="previousStep()" [class.disabled]="currentStep === 1"></i>
+                        <div class="input-box">
+                            <label>DOB</label>
+                            <p-datepicker [(ngModel)]="dob" name="dob" ></p-datepicker>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Email ID</label>
+                        <input type="text" name="email" maxlength="100"  [(ngModel)]="emailAddress"
+                            required email />
+                        <div>
+                              </div>
+                    </div>
 
-                <div class="step-indicator" icon="fa-regular fa-diamond">
-                    <span [class.active]="currentStep === 1"></span>
-                    <span [class.active]="currentStep === 2"></span>
+                    <div class="input-box">
+                        <label>Mobile Number</label>
+                        <p-inputgroup>
+                            <p-inputgroup-addon>
+                                <span>+91</span>
+                            </p-inputgroup-addon>
+                            <input type="tel" [(ngModel)]="phone" name="mobile" required pattern="\d{10}"
+                                maxlength="10" />
+                        </p-inputgroup>
+                    </div>
                 </div>
 
-                <i class="fa-solid fa-angle-right pagination-icon" (click)="nextStep()" [class.disabled]="currentStep === 2 && !signupForm.valid"></i>
-            </div>
-          </form>
-          <!-- <div class="float-but"> Already have an account?
+                <div *ngIf="currentStep === 2">
+                    <div class="input-box address"  >
+                        <label>Address line1</label>
+                        <textarea  pTextarea type="text" name="street2"  rows="2" cols="15" [(ngModel)]="street1"  required></textarea>
+                    </div>
+                    <div class="input-box address">
+                        <label>Address line2</label>
+                        <textarea pTextarea type="text" name="street2"  rows="2" cols="15" [(ngModel)]="street2" ></textarea>
+                    </div>
+
+                    <div class="column">
+                        <div class="select-box">
+                            <label>Country</label>
+                            <select name="country" (change)="onCountryChange($event)" required [(ngModel)]="country">
+                                <option value="India">India</option>
+                                <option value="USA">USA</option>
+                            </select>
+                        </div>
+                        <div class="select-box">
+                            <label>State</label>
+                            <select name="state" [(ngModel)]="state" required>
+                                <option *ngFor="let stateOpt of states" [value]="stateOpt">{{ stateOpt }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="column">
+                        <div class="input-box">
+                            <label>Zip Code</label>
+                            <input type="number" placeholder="Postal code" name="postal" [(ngModel)]="postal"
+                                maxlength="20" />
+                        </div>
+                        <div class="select-box">
+                            <label>TimeZone</label>
+                            <select name="timezone" [(ngModel)]="timezonee" >
+                                <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="select-box">
+                            <label for="locale">Locale</label>
+                            <select name="locale" [(ngModel)]="localee" >
+                                <option *ngFor="let locale of locales" [value]="locale">{{ locale }}</option>
+                            </select>
+                        </div>
+                        <div class="column checkbox">
+                            <input type="checkbox" name="admin" [(ngModel)]="IsAdmin" disabled>
+                            <label for="admin">is Admin</label><br>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label for="password">Password</label>
+                        <p-password [(ngModel)]="password" [feedback]="false" [toggleMask]="true" inputId="password"
+                            name="password" inputStyleClass="w-full" styleClass="w-full"
+                            (ngModelChange)="validatePassword(password, confirmpassword)" required></p-password>
+                    </div>
+                    <div class="input-box">
+                        <label for="cpassword">Confirm Password</label>
+                        <p-password [(ngModel)]="confirmpassword" [feedback]="false" [toggleMask]="true"
+                            inputId="cpassword" name="cpassword"  inputStyleClass="w-full"
+                            styleClass="w-full" (ngModelChange)="validatePassword(password, confirmpassword)"
+                            required></p-password>
+                    </div>
+                    <!-- #passwords="ngModel" #cpassword="ngModel"
+                    <small *ngIf="!passwordMatching && cpassword.dirty">Passwords Didn't match</small> -->
+
+                </div>
+
+                <div class="input-box" *ngIf="currentStep === 2">
+                    <p-button label="Sign Up" styleClass="w-full background-color-rgb(200, 200, 219)"
+                     type="submit"></p-button>
+                </div>
+                <div class="pagination-container">
+
+                    <i class="fa-solid fa-angle-left pagination-icon" (click)="previousStep()"
+                        [class.disabled]="currentStep === 1"></i>
+
+                    <div class="step-indicator" icon="fa-regular fa-diamond">
+                        <span [class.active]="currentStep === 1"></span>
+                        <span [class.active]="currentStep === 2"></span>
+                    </div>
+
+                    <i class="fa-solid fa-angle-right pagination-icon" (click)="nextStep()"
+                        [class.disabled]="currentStep === 2"></i>
+                </div>
+            </form>
+            <!--     [disabled]="!signupForm.valid " -->
+            <!--  && !signupForm.valid -->
+            <!-- <div class="float-but"> Already have an account?
               <a routerLink="/login">Login</a>
           </div> -->
-      </div>
-  </div>
+        </div>
+    </div>
 </div>
 <p-toast position="top-right"></p-toast>

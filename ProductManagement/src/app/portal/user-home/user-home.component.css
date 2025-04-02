@@ -1,60 +1,55 @@
 
-
-
-.charts-container{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 2fr)); 
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+.charts-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
 }
 
-:host ::ng-deep .c1{
-  height: 800px;
+.container {
+  flex: 1;
+  min-width: 300px; 
+  padding: 10px;
 }
-.c1{
-  height: 800px;
+
+:host ::ng-deep .p-chart {
+  width: 100% !important;
+  /* height: 00vh!important; */
+}
+.col6 {
+  width: 50%;
+  height: 100%;
+}
+h2 {
+  font-size: 20px;
+  text-align: center;
+  color: #333; /* Adjust to match your template */
+  margin-bottom: 10px;
 }
 .container{
-  /* overflow: hidden; */
   background-color: white;
   border-radius: 5px;
   padding: 16px;
   box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
   margin: 20px;
   width: 90%;
-  height: 100%;
+  /* height: 100%; */
   }
-  /*  
-  .charts-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-wrap: wrap;
-   }
-
-  p-chart {
-    width: 50%;
-  height: 100%;
-  min-width: 300px; 
-}
-
-h2 {
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 600;
-font-size: 16px;
-line-height: 20px;
-
-}
 @media (max-width: 768px) {
-  p-chart {
-      width: 100%;
-      margin-bottom: 20px; 
+  .charts-container {
+    flex-direction: column;
   }
 }
-  */
- 
- 
- 
- 
+@media (max-width: 340px) {
+  .container {
+    width: 100%;
+    padding: 5px;
+  }
+
+  :host ::ng-deep .p-chart {
+    height: 400px !important; 
+  }
+  h2 {
+    font-size: 18px; 
+  }
+}

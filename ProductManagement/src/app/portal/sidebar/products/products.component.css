@@ -6,7 +6,7 @@
   border-radius: 8px;
   padding: 16px;
   box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
-  padding-bottom: 100px;
+  padding-bottom: 140px;
   
 }
 
@@ -254,8 +254,8 @@ color: #141569;
   position: relative;
 }
 .remove-image-btn {
-  position: absolute;
-  top: 10px;
+  position: relative;
+  top: -60px;
   right: 10px;
   background-color: rgba(255, 255, 255, 0.7);
   border: none;

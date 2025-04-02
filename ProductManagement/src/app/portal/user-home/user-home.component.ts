@@ -16,11 +16,11 @@ export class UserHomeComponent implements OnInit {
     responsive: true,
     scales: {
       y: {
-        suggestedMin: 10,
-        suggestedMax: 70,  
+        min: 10,
+        max: 70,  
         ticks: {
           stepSize: 10,
-         
+         padding:20,
           callback: function(value) {
             return value;
           }
@@ -48,10 +48,11 @@ export class UserHomeComponent implements OnInit {
     responsive: true,
     scales: {
       y: {
-        suggestedMin: 10,
-        suggestedMax: 70,  
+        min: 10,
+        max: 70,  
         ticks: {
           stepSize: 10,
+          padding:20,
           callback: function(value) {
             return value;
           }
@@ -88,9 +89,10 @@ export class UserHomeComponent implements OnInit {
         orders.forEach(order => {
           const orderDate = new Date(order.orderDate);
           const dayIndex = orderDate.getDay();
-          if (dayIndex > 0) {
-            orderCounts[dayIndex - 1] += 1;
-          }
+            orderCounts[dayIndex ] += 1;
+          // if (dayIndex > 0) {
+          //   orderCounts[dayIndex - 1] += 1;
+          // }
         });
 
         this.lineChartData = {

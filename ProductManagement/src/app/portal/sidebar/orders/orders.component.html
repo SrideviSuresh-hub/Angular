@@ -1,6 +1,7 @@
 
-<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '526px', height: '300px' }">
-    
+<!-- <p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '526px', height: '300px' }"> -->
+    <p-dialog [(visible)]="visible" [modal]="true" [style]="{'width': '90%', 'max-width': '400px'}">
+ 
     <ng-template #content [style]="{padding:0}">
         <div class="disp">
             <div class=" col-12">     
@@ -17,6 +18,7 @@
 </p-dialog>
 
 
+
 <div class="order-container">
     <h2>My Orders</h2>
     <div *ngIf="isLoading" class="spinner-container">
@@ -29,8 +31,7 @@
                 <th>Orders Count</th>
                 <th>Order Date Time</th>
                 <th>Delivery Status</th>
-                <th>Actions</th>
-                <!-- <th></th> -->
+                <th> </th>
             </tr>
         </ng-template>
         <ng-template #body let-order>
@@ -51,10 +52,10 @@
     </p-table>
 
 </div>
-<p-dialog header="View Order" [modal]="true" [(visible)]="showPopup" [style]="{width: '679px',hieght:'auto'}">
-    <ng-template pTemplate="content">
-        <ng-container *ngIf="selectedOrder">
+<p-dialog header="View Order" [(visible)]="showPopup" [modal]="true" [style]="{'width': '95%', 'max-width': '550px', 'height': 'auto', 'max-height': '90vh','overflow-y': 'auto'}">
 
+    <!-- <ng-template pTemplate="content"> -->
+        <ng-container *ngIf="selectedOrder">
             <div *ngFor="let product of selectedOrder.products" class="product-info">
                 <div class="order-details">
                     <img [src]="product.image" >
@@ -72,7 +73,7 @@
                 </div>
             </div>
         </ng-container>
-    </ng-template>
+    <!-- </ng-template> -->
 </p-dialog>
 
 

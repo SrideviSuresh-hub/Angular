@@ -91,13 +91,45 @@ body {
     border-radius: 5px !important;
     padding: 16px !important;
 }
-/* :host ::ng-deep .p-button:hover{
-    border: none;
-    background-color: rgba(41, 165, 243, 1);
-    border-radius: 5px;
-} */
 
-/* Responsive Design */
+:host ::ng-deep.p-button-text.p-button-secondary{
+    background-color:white !important;
+    color: #000000 !important;
+
+}
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  :host ::ng-deep .p-dialog {
+    /* text-align: center; */
+    border-radius: 5px !important;
+  }
+  
+  p-dialog input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .dialog-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+  
+
+  
+  .password-change-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
 @media screen and (max-width: 600px) {
     .grid-container {
         grid-template-columns: 1fr;

@@ -35,6 +35,7 @@ export class AuthService {
     }
 
     signUp(user: any): Observable<any> {
+        // user.isFirstLogin=true;
         return this.http.post(`${this.baseUrluser}.json`, user);
     }
 
@@ -105,10 +106,14 @@ export class AuthService {
     }
 
     isLoggedIn(): boolean {
-        console.log(!!this.getCurrentUser());
         return !!this.getCurrentUser();
     }
-
+    updatePassword(userId: string, newPassword: string) {
+        return this.http.patch(`${this.baseUrluser}/${userId}.json`, {
+            password: newPassword,
+            isFirstLogin: false 
+        });
+      }
 
 }
 

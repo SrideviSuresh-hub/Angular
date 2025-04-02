@@ -1,3 +1,4 @@
+<p-toast ></p-toast>
 <div class="grid-container min-h-screen">
     <div class="image-container">
         <img src="assets\images\shopsy.png" alt="shopsy image" class="image">
@@ -5,7 +6,7 @@
     <div class="form-container flex justify-content-center align-items-center">
         <div class="form-content">
             <p class="login-header">LOGIN To Shopify... </p>
-    <app-snackbar [errorMessage]="errorMessage" *ngIf="errorMessage"></app-snackbar>
+   
     <p-progress-spinner  class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
     <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" *ngIf="!isLoading">
         <div class="field">
@@ -15,10 +16,10 @@
                 class="w-full"
                 id="email"
                 name="email"
-                #email="ngModel"
                 required
                 email/>
-                <small *ngIf="email.invalid && email.touched">*Enter Valid Email</small>
+                <!-- #email="ngModel" -->
+                <!-- <small *ngIf="email.invalid && email.touched">*Enter Valid Email</small> -->
            
         </div>
         <div class="field">
@@ -28,18 +29,19 @@
               [toggleMask]="true"
               inputId="password"
               name="password"
-              #password="ngModel"
               inputStyleClass="w-full"
               styleClass="w-full"
               required/>
             </div>
+            <!-- #password="ngModel" -->
+            <!-- <small *ngIf="password.touched || password.dirty">*Enter valid Password</small> -->
             
             <div class="field">
                 <p-button label="LOGIN"
         styleClass="w-full background-color-rgb(183, 145, 219)"
-        [disabled]="loginForm.invalid"
         type="submit"></p-button>
-       </div>
+    </div>
+    <!-- [disabled]="loginForm.invalid" -->
        <div class="center">Don’t have an account!?,
            <a routerLink="/signup">SIGN UP</a>
         </div>
@@ -48,4 +50,31 @@
 </div>
 </div>
 </div>
-<!-- <small *ngIf="password.touched || password.dirty">*Enter valid Password</small> -->
+<p-dialog [(visible)]="showPasswordDialog" modal="true" header="Change Password" [style]="{ width: '400px' }">
+    <div class="password-change-container">
+        <label>New Password</label>
+        <p-password [(ngModel)]="newPassword"
+            name="newPassword"
+            [feedback]="false"
+            [toggleMask]="true"
+            inputStyleClass="w-full"
+            styleClass="w-full"
+            required />
+        
+        <label>Confirm Password</label>
+        <p-password [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            [feedback]="false"
+            [toggleMask]="true"
+            inputStyleClass="w-full"
+              styleClass="w-full"
+            required />
+        
+        <div *ngIf="passwordError" class="error">{{ passwordError }}</div>
+
+        <div class="dialog-buttons">
+            <p-button label="Cancel"  class="p-button-secondary" (click)="showPasswordDialog = false"></p-button>
+            <p-button label="Change Password" (click)="changePassword()"></p-button>
+        </div>
+    </div>
+</p-dialog>

@@ -19,4 +19,6 @@ export interface User {
     isAdmin: boolean;
     age?:number;
     password:string;
+    isFirstLogin: true; 
+
 }

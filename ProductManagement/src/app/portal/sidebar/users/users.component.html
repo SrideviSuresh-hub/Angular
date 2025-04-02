@@ -1,3 +1,5 @@
+<p-toast position="top-right"></p-toast>
+
 <div class="user-container">
   <div class="head-content">
     <h2>User Data</h2>
@@ -14,8 +16,9 @@
         <th>actions</th>
       </tr>
     </ng-template>
+    <p-progress-spinner  class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
     <ng-template pTemplate="body" let-user>
-      <tr>
+      <tr *ngIf="!isLoading">
         <td>
           <p-avatar *ngIf="user.image; else initialsAvatar" [image]="user.image" class="mr-2" size="large" shape="circle"></p-avatar>
           <ng-template #initialsAvatar>
@@ -30,6 +33,12 @@
           <i class="fa-solid fa-trash" (click)="confirmDelete(user.id)"></i>
         </td>
       </tr>
+      <tr *ngIf="isLoading">
+        <td colspan="5" class="spinner-container">
+          <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }"></p-progress-spinner>
+        </td>
+        </tr>
+  
     </ng-template>
   </p-table>
 </div>
@@ -53,27 +62,31 @@
       <div class="form-fields">
         <div class="column input-box">
           <label>Username</label><br>
-          <input type="text" [(ngModel)]="selectedUser.username" name="username"  [disabled]="isEditing"required />
+          <input type="text" [(ngModel)]="selectedUser.username" name="username"  [disabled]="isEditing" required />
         </div>
         <div class="flex">
           <div class="input-box">
             <label>First Name</label><br>
-            <input type="text" [(ngModel)]="selectedUser.firstName" name="firstName" required />
+            <input type="text"  inputStyleClass="w-full"
+            styleClass="w-full" [(ngModel)]="selectedUser.firstName" name="firstName" required />
           </div>
           <div class="input-box">
             <label>Last Name</label><br>
-            <input type="text" [(ngModel)]="selectedUser.lastName" name="lastName" required />
+            <input type="text"   inputStyleClass="w-full"
+            styleClass="w-full"[(ngModel)]="selectedUser.lastName" name="lastName"  />
           </div>
         </div>
         <div class="flex">
             <div class="gender">
-              <div class="gender-option">
-                  <p-selectbutton [options]="genders" [(ngModel)]="selectedUser.gender" name="gender" optionLabel="label" optionValue="gender" />
-              </div>
+              <label>Gender</label>
+                            <div class="gender-option">
+                                <p-selectbutton [options]="genders" [(ngModel)]="selectedUser.gender" name="gender"
+                                    optionLabel="label" optionValue="gender" />
+                            </div>
           </div>
           <div class="input-box">
             <label>Date of Birth</label><br>
-            <p-datepicker [(ngModel)]="selectedUser.dob" name="dob" required></p-datepicker>
+            <p-datepicker [(ngModel)]="selectedUser.dob" name="dob" ></p-datepicker>
           </div>
         </div>
         <div class="input-box">
@@ -87,13 +100,14 @@
       <div>
       <div class="input-box">
         <label>Address Line 1</label><br>
-        <input type="text" [(ngModel)]="selectedUser.address1" name="address1" required />
+        <textarea  pTextarea type="text" name="street2"  rows="1" cols="30" [(ngModel)]="selectedUser.address1"required></textarea>
       </div>
       <div class="input-box">
         <label>Address Line 2</label><br>
-        <input type="text" [(ngModel)]="selectedUser.address2" name="address2" />
+        <textarea pTextarea type="text" name="street2"  rows="1" cols="30" [(ngModel)]="selectedUser.address2"  ></textarea>
       </div>
-      </div>
+    </div>
+    <br>
       <div class="flex">
         <div class="select-box">
           <label>Country</label><br>
@@ -105,7 +119,7 @@
         </div>
         <div class="select-box">
           <label>State</label><br>
-          <select [(ngModel)]="selectedUser.state" name="state" required>
+          <select [(ngModel)]="selectedUser.state" name="state" >
             <option value="" disabled>Select State</option>
             <option *ngFor="let state of states" [value]="state">{{ state }}</option>
           </select>
@@ -114,11 +128,11 @@
       <div class="flex">
         <div class="input-box">
           <label>Zip Code</label><br>
-          <input type="number" [(ngModel)]="selectedUser.zipCode" name="zipCode" required />
+          <input type="number" [(ngModel)]="selectedUser.zipCode" name="zipCode"  />
         </div>
         <div class="select-box">
           <label>TimeZone</label><br>
-          <select name="timezone" [(ngModel)]="selectedUser.timezone" required>
+          <select name="timezone" [(ngModel)]="selectedUser.timezone" >
               <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
           </select>
       </div>
@@ -126,7 +140,7 @@
       <div class="flex">
         <div class="select-box">
           <label>Locale</label><br>
-          <select [(ngModel)]="selectedUser.locale" name="locale">
+          <select [(ngModel)]="selectedUser.locale"  style="width: 50%;" name="locale">
             <option *ngFor="let loc of locales" [value]="loc">{{ loc }}</option>
           </select>
         </div>
@@ -157,7 +171,8 @@
       
       <div class="actionsdialog">
         <button type="button" class="p-button-secondary-ss" pButton label="Cancel" (click)="closeUserDialog()"></button>
-        <button type="submit" pButton  class="p-button-primary" label="Save" [disabled]="userForm.invalid" ></button>
+        <button type="submit" pButton  class="p-button-primary" label="Save"  ></button>
+        <!-- [disabled]="userForm.invalid" -->
       </div>
     </div>
   </div>
@@ -165,4 +180,3 @@
 </p-dialog>
 
 <p-confirmDialog>
-  <p-toast position="top-right"></p-toast>

@@ -26,12 +26,13 @@ app-header {
 }
 
 
-/* .sidebar {
+.sidebar {
   top: 60px; 
   left: 0;
   bottom: 0;
   overflow: hidden;
-} */
+  
+}
 
 
 .content-wrapper {
