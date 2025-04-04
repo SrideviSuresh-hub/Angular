@@ -7,7 +7,7 @@
       <li *ngFor="let item of items" class="sidenav-nav-item">
         <a class="sidenav-nav-link" [routerLink]="item.routeLink" 
            routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-           (click)="toggleLabel(item)">
+           (click)="selectLabel(item)">
           <i class="sidenav-link-icon" [class]="item.icon"></i>
           <span *ngIf="!isLeftSidebarCollapsed" class="sidenav-link-text">{{ item.label }}</span>
         </a>

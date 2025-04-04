@@ -265,8 +265,13 @@ p-password {
 }
 input:-internal-autofill-selected {
   background-color:none ;
-
 }
+.input-box input :hover{
+    border: 1px solid rgba(41, 165, 243, 1) !important;
+    background-color: rgba(243, 243, 243, 1) !important;
+}
+
+
 textarea{
   width: 100%;
   background-color: rgba(243, 243, 243, 1) !important;

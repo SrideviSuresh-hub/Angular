@@ -21,8 +21,6 @@ import { CalendarModule } from 'primeng/calendar';
 import { FileUploadModule } from 'primeng/fileupload';
 import { PasswordModule} from 'primeng/password';
 import { HttpClientModule } from '@angular/common/http';
-import { SnackbarComponent } from './utility/snackbar/snackbar.component';
-
 import { Ripple } from 'primeng/ripple';
 import { AvatarModule } from 'primeng/avatar';
 import { StyleClass } from 'primeng/styleclass';
@@ -35,7 +33,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   AppComponent,
   LoginComponent,
   SignupComponent,
-  SnackbarComponent,
   PageNotFoundComponent,
   
   

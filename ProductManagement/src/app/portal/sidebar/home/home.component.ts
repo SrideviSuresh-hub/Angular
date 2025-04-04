@@ -4,6 +4,7 @@ import { UsersService } from '../../../Services/users.service';
 import { MessageService } from 'primeng/api';
 import { OrderProducts } from '../../../Models/orderproducts';
 import { Order } from '../../../Models/orders';
+import { PaginatorState } from 'primeng/paginator';
 
 
 @Component({
@@ -21,10 +22,12 @@ export class HomeComponent {
   showDialog: boolean = false;
   msgService: MessageService = inject(MessageService);
 
+
+ 
+
   ngOnInit() {
     this.loadOrders();
   }
-
   loadOrders() { 
     
     this.userService.getUsers().subscribe({

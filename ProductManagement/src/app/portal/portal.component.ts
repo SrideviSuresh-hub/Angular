@@ -10,8 +10,14 @@ export class PortalComponent {
   selectedLabel: string = '';
 
   onLabelSelected(label: string) {
-    this.selectedLabel = label;
-    console.log("Selected Label: ", label);
+    if(label!== 'Home')
+    {
+    this.selectedLabel = `Home > ${label}`;
+    }
+    else{
+      this.selectedLabel="";
+    }
+    console.log("Selected Label: ", this.selectedLabel);
   }
 
 }

@@ -86,7 +86,7 @@ export class CartComponent {
       this.cartService.checkOut().subscribe(()=>{
         this.loadCart();
         this.showToast('success', 'Order Placed', 'Your order has been placed successfully!');
-        this.router.navigate(['/orders']);
+        this.router.navigate(['/portal/orders']);
       });
     }
   }

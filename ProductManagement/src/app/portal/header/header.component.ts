@@ -33,10 +33,3 @@ export class HeaderComponent {
   }
 }
 
-
-
-// @Output() sidebarToggle = new EventEmitter<void>();
-
-  // toggleSidebar() {
-  //   this.sidebarToggle.emit();
-  // }

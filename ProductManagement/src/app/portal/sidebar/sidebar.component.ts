@@ -23,7 +23,6 @@ export class SidebarComponent implements OnInit {
    
   }
 
-  
   setSidebarItems() {
     if (this.isAdmin) {
       this.items = [
@@ -41,7 +40,7 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  toggleLabel(item: any) {
+  selectLabel(item: any) {
     this.labelSelected.emit(item.label);  
   }
 }

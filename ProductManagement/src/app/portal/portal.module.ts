@@ -16,10 +16,8 @@ import { HomeComponent } from "./sidebar/home/home.component";
 import { CardModule } from "primeng/card";
 import { DataView } from 'primeng/dataview';
 import { Tag } from 'primeng/tag';
-import { Rating } from 'primeng/rating';
 import { SelectModule } from 'primeng/select';
 import { SelectButton } from 'primeng/selectbutton';
-import { Select } from "primeng/select";
 import { HttpClientModule } from "@angular/common/http";
 import { CartComponent } from "./sidebar/cart/cart.component";
 import { TableModule } from 'primeng/table';
@@ -39,6 +37,8 @@ import { ChartModule } from 'primeng/chart';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { PasswordModule } from 'primeng/password';
+import { PaginatorModule } from 'primeng/paginator';
+
 @NgModule({
     declarations:[
         PortalComponent,
@@ -84,7 +84,8 @@ import { PasswordModule } from 'primeng/password';
         CardModule,
         InputGroupAddonModule,
         InputGroupModule,
-        PasswordModule
+        PasswordModule,
+        PaginatorModule
     ],
     imports:[
         RouterModule.forChild(routes2),
@@ -112,7 +113,8 @@ import { PasswordModule } from 'primeng/password';
         SelectButton,
         TableModule,
         ConfirmDialogModule,
-        ToastModule
+        ToastModule,
+        PaginatorModule
 
         
     ],

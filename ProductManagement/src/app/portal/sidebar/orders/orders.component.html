@@ -27,8 +27,8 @@
     <p-table *ngIf="!isLoading" [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="8">
         <ng-template #header>
             <tr>
-                <th>Order Id</th>
-                <th>Orders Count</th>
+                <th>Order ID</th>
+                <th>Product Count</th>
                 <th>Order Date Time</th>
                 <th>Delivery Status</th>
                 <th> </th>
@@ -44,7 +44,7 @@
                 </td>
                 <td class="actions">
                     <i  class="fa-solid fa-eye"   (click)="viewOrder(order)"></i>
-                    <i class="fa-solid fa-trash" (click)="deleteOrder(order.keyI)"></i>                    
+                    <i class="fa-solid fa-trash" (click)="deleteOrder(order.keyId)"></i>                    
                     <!-- "confirmDelete(order.keyId) -->
                 </td>
             </tr>

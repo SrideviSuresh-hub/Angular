@@ -7,40 +7,44 @@
   box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
   padding-bottom: 100px;
   /* margin: 16px auto; */
- 
+
 }
- 
-.head-content{
+
+.head-content {
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin-bottom: 20px;
 }
- 
-h2{
-  margin-top:10px;
+
+h2 {
+  margin-top: 10px;
   color: rgb(4, 4, 119);
 }
-.p-button{
+
+.p-button {
   margin-top: 20px;
   padding: 10px;
 }
+
 .column .input-box,
 .column .select-box {
   width: 50%;
 }
+
 .image-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .avatar-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 160px;
 }
- 
+
 .avatar-wrapper {
   position: relative;
   width: 100px;
@@ -50,73 +54,82 @@ h2{
   cursor: pointer;
   /* border: 2px solid #ddd; */
 }
- 
+
 .avatar {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
- 
+
 .edit-icon:hover {
   border: #007bff;
 }
- 
+
 .edit-icon {
   position: absolute;
   top: 20px;
   right: 10px;
   color: white;
 }
-.avatar-initials{
+
+.avatar-initials {
   background-color: rgb(207, 203, 203);
   border-radius: 50%;
   font-size: 15px;
   height: 30px;
-  width:30px;
-  font-style:normal;
+  width: 30px;
+  font-style: normal;
   font-weight: 500;
   align-content: center;
-  text-align: center;    
+  text-align: center;
 }
- 
+
 p-table {
   margin-top: 15px;
   width: 100%;
 }
- 
+
 p-avatar {
   width: 30px;
   height: 30px;
 }
-.actions i{
+
+.actions i {
   visibility: hidden;
 }
-tr:hover .actions i{
+
+tr:hover .actions i {
   visibility: visible;
 }
-:host ::ng-deep .p-button-primary{
+
+:host ::ng-deep .p-button-primary {
   background-color: #141569 !important;
   border: none !important;
 }
-:host ::ng-deep .p-button-browse{
+
+:host ::ng-deep .p-button-browse {
   background-color: #141569 !important;
   border: none !important;
   padding: 5px 10px;
 }
+
 :host ::ng-deep .p-button-secondary-ss {
-  border:1px solid #141569 !important;
+  border: 1px solid #141569 !important;
   background-color: rgba(243, 243, 243, 1) !important;
   color: #141569;
 }
+
 :host ::ng-deep .p-datatable table {
   border-radius: 5px !important;
   overflow: hidden !important;
   border-collapse: separate !important;
   border-spacing: 0px 1px !important;
 }
-:host ::ng-deep .p-datatable-tbody > tr > td {
+
+:host ::ng-deep .p-datatable-tbody>tr>td {
   padding: 10px;
 }
+
 :host ::ng-deep .p-datatable thead th {
   background-color: #f4f4f4 !important;
   color: #333 !important;
@@ -125,58 +138,70 @@ tr:hover .actions i{
   padding: 12px !important;
   border-top-width: 2px !important;
   border-bottom-width: 2px !important;
-  border-color:rgba(243, 243, 243, 1)  !important;
+  border-color: rgba(243, 243, 243, 1) !important;
 }
-:host ::ng-deep .p-datatable{
+
+:host ::ng-deep .p-datatable {
   border-collapse: separate;
   row-gap: 20px;
 }
-:host ::ng-deep .p-datatable  tr td:first-child {
+
+:host ::ng-deep .p-datatable tr td:first-child {
   border-left-width: 1px;
   /* border-radius: 5px 0 0 5px; */
 }
-:host ::ng-deep .p-datatable  tr td:last-child {
+
+:host ::ng-deep .p-datatable tr td:last-child {
   border-right-width: 1px;
   /* border-radius: 0 5px  5px 0; */
 }
-:host ::ng-deep .p-datatable  th:first-child {
+
+:host ::ng-deep .p-datatable th:first-child {
   border-left-width: 1px;
-  border-radius: 5px 0  0 0;
+  border-radius: 5px 0 0 0;
 }
+
 :host ::ng-deep .p-datatable th:last-child {
   border-right-width: 1px;
   border-radius: 0 5px 0 0;
 }
-:host ::ng-deep .p-datatable tbody tr:hover{
+
+:host ::ng-deep .p-datatable tbody tr:hover {
   background-color: #e6e6ff !important;
 }
+
 :host ::ng-deep .p-datatable tbody td {
   border-top-width: 1px !important;
   border-bottom-width: 1px !important;
-  border-color:rgba(250, 250, 250, 1)!important;
-  border-style: solid  !important;
+  border-color: rgba(250, 250, 250, 1) !important;
+  border-style: solid !important;
   color: #000000 !important;
-} 
+}
+
 :host ::ng-deep .p-datatable tbody td i {
   cursor: pointer !important;
   font-size: 18px !important;
   margin-right: 20px !important;
-} 
+}
+
 :host ::ng-deep .p-datatable tbody td .fa-pen {
   color: rgba(20, 21, 105, 1)
 }
- 
+
 :host ::ng-deep .p-datatable tbody td .fa-trash {
   color: rgba(90, 90, 90, 1);
 }
-.form-container{
+
+.form-container {
   display: flex;
   column-gap: 20px;
 }
-.form-container1{
+
+.form-container1 {
   height: 150px;
 }
-.flex{
+
+.flex {
   display: grid;
   flex-direction: row;
   gap: 20px;
@@ -184,48 +209,62 @@ tr:hover .actions i{
   grid-column-gap: 2%;
   height: 80px;
 }
-.column{
+
+.column {
   height: 80px;
 }
-.form-container2>div:first-child{
+
+.form-container2>div:first-child {
   height: 160px;
   overflow: hidden;
 }
-.form-container2>div:first-child>div{
+
+.form-container2>div:first-child>div {
   margin-top: 10px;
 }
-label{
+
+label {
   padding-top: 5px;
   padding-bottom: 10px;
 }
+
 input-box:hover {
   border: 1px solid rgba(41, 165, 243, 1) !important;
   background-color: rgba(243, 243, 243, 1) !important;
 }
+
 .custom-cancel-btn {
-  color: rgba(20, 21, 105, 1) ;
+  color: rgba(20, 21, 105, 1);
   background: rgba(243, 243, 243, 1);
-  border: 1px solid rgba(20, 21, 105, 1) ;
-  font-weight: bold ;
+  border: 1px solid rgba(20, 21, 105, 1);
+  font-weight: bold;
   width: 120px;
-  border-radius: 5px ;
-  text-align: center;
-}
-.spinner-container {
+  border-radius: 5px;
   text-align: center;
 }
 
-.checkbox{
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.checkbox {
   display: flex;
   align-items: center;
+  margin-left: -200px;
+  margin-right: 100px;
 }
-.checkbox input{
+
+.checkbox input {
   width: 100%;
   height: auto;
   display: flex;
   align-items: center;
 }
-textarea{
+
+textarea {
   width: 100%;
   background-color: rgba(243, 243, 243, 1) !important;
   border-radius: 5px !important;
@@ -239,7 +278,8 @@ textarea{
   padding: 12px !important;
   margin-top: 5px;
 }
-.actionsdialog{
+
+.actionsdialog {
   display: flex;
   justify-content: end;
   align-items: center;
@@ -251,40 +291,52 @@ textarea{
   width: 100% !important;
   border: none;
   line-height: 100%;
-  margin-top:5px;
-} 
-:host ::ng-deep .p-inputgroupaddon:first-child{
+  margin-top: 5px;
+}
+
+:host ::ng-deep .p-inputgroupaddon:first-child {
   background-color: rgba(243, 243, 243, 1);
   border: none;
- border-radius: 5px ;
- color: #000000;
+  border-radius: 5px;
+  color: #000000;
 }
-:host::ng-deep.p-dialog-header{
+
+:host::ng-deep.p-dialog-header {
   padding: 0;
 }
+
 .input-box,
 .select-box {
   width: 100%;
   margin-bottom: 15px;
 }
-h3{
-  margin-top: 0px };
+
+h3 {
+  margin-top: 0px
+}
+
 :host ::ng-deep .p-selectbutton .p-togglebutton {
   background-color: none !important;
-  border-radius: 5px !important;
-  margin-right: 10px;
-  margin-top: 10px;
   line-height: 100%;
 }
-:host ::ng-deep .p-selectbutton .p-togglebutton{
+
+:host ::ng-deep .p-selectbutton .p-togglebutton {
   background-color: rgba(243, 243, 243, 1) !important;
+  border-radius: 5px !important;
+  margin-right: 10px !important;
+  margin-top: 10px !important;
 }
-:host ::ng-deep .p-selectbutton .p-togglebutton-checked{
-  background-color:rgba(41, 165, 243, 1) !important;
+
+:host ::ng-deep .p-selectbutton .p-togglebutton-checked {
+  background-color: rgba(20, 21, 105, 1) !important;
+  color: white !important;
 }
-:host ::ng-deep .p-togglebutton.p-togglebutton-checked::before{
-  background-color: rgba(41, 165, 243, 1) !important;
+
+:host ::ng-deep .p-togglebutton.p-togglebutton-checked::before {
+  background-color: rgba(20, 21, 105, 1) !important;
+  color: white !important;
 }
+
 .input-box input,
 .select-box select {
   width: 100%;
@@ -294,17 +346,21 @@ h3{
   background-color: rgba(243, 243, 243, 1);
   border: none;
 }
+
 p-datepicker {
   background-color: none;
   border: none;
 }
+
 :host ::ng-deep .p-inputtext:hover {
   border: 1px solid rgba(41, 165, 243, 1) !important;
   background-color: rgba(243, 243, 243, 1) !important;
 }
+
 p-password {
   background-color: none;
 }
+
 :host ::ng-deep .p-inputtext {
   width: 100%;
   background-color: rgba(243, 243, 243, 1) !important;
@@ -319,14 +375,16 @@ p-password {
   padding: 12px !important;
 }
 
-:host ::ng-deep.p-confirmdialog .p-dialog-content{
-font-weight:500  !important;
+:host ::ng-deep.p-confirmdialog .p-dialog-content {
+  font-weight: 500 !important;
 }
-:host ::ng-deep .p-dialog-footer{
-justify-content: space-around !important;
+
+:host ::ng-deep .p-dialog-footer {
+  justify-content: space-around !important;
 }
+
 @media (max-width: 800px) {
-  :host ::ng-deep .p-dialog{
+  :host ::ng-deep .p-dialog {
     width: 80% !important;
   }
 

@@ -129,6 +129,9 @@ body {
     flex-direction: column;
     gap: 10px;
   }
+input:-internal-autofill-selected {
+    background-color:rgba(243, 243, 243, 1) !important;
+  }
   
 @media screen and (max-width: 600px) {
     .grid-container {

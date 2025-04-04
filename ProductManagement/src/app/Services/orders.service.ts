@@ -1,8 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { map, Observable, switchMap, tap } from "rxjs";
-import { OrderProducts } from "../Models/orderproducts";
-import { Order } from "../Models/orders";
+import { catchError, map, Observable, switchMap, tap } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +22,10 @@ export class OrdersService {
                         ...orderData[key],
                         keyId: key,
                     }));
+                }),
+                catchError(err=>{
+                    console.error("Error fetching orders:", err);
+                    return[];
                 })
             )
     }

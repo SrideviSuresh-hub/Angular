@@ -52,8 +52,11 @@
         <button *ngIf="imagePreview" class="remove-image-btn"
          (click)="removeImage()">X</button>
         <div class="flex" *ngIf="!imagePreview" >
-          <span class="upload-icon">
-            <i class="fa-light fa-folder-arrow-up"></i>Drag & Drop here</span>
+        <div> <i class="fa-solid fa-folder-arrow-up"></i>
+        </div>
+                   <span class="upload-icon">
+            Drag & Drop here <br>or</span>
+          
           <button pButton label="Browse File" class="p-button-browse" (click)="fileInput.click()"></button>
         </div>
       </div>

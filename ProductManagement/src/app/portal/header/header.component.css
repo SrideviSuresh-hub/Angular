@@ -21,7 +21,7 @@ app-weather{
 .avatar-initials{
     background-color: rgb(187, 176, 176);
     border-radius: 50%;
-    font-size: 25px;
+    font-size: 20px;
     height: 40px;
     width:40px;
     font-style:normal;
@@ -43,6 +43,14 @@ app-weather{
     padding: 8px;
     border-radius: 50%;
 }
+.routeHead{
+    font-size: 13px;
+    font-weight: 400;
+    color: #030303;
+    margin-top: 15px;
+    margin-left: 0px;
+  }
+  
 @media (max-width: 320px) {
    
 

@@ -95,7 +95,7 @@ a.sidenav-nav-link.active {
 /* Smaller screen adjustments */
 @media screen and (min-width: 1024px) {
   .sidenav {
-    top: 68px;
+    top: 67px;
     bottom:0 ;
   }
 }
