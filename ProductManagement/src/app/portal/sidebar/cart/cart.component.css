@@ -7,18 +7,14 @@
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
     padding-bottom: 100px;
     display: flex;
-    flex-direction: column;
-    /* margin: 16px auto; */
-    
+    flex-direction: column; 
   }
 
-
   h1{
-    font-family: 'Montserrat';
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
-    line-height: 24px;
+    line-height: 100%;
     color: #141569;
     }
     .title {
@@ -65,15 +61,10 @@
     
     }
     
-    .actions i{
-      visibility: hidden;
-    }
-    .cart-card .actions i{
-      visibility: visible;
-    }
+    
 .cart-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); /* Responsive columns */
+  grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); /* Responsive columns */
   gap: 15px;
   padding: 10px;
   overflow-y: auto;
@@ -91,7 +82,7 @@
   border-radius: 5px;
   border: 1px solid #ddd;
   padding: 8px;
-
+padding-right: 0px;
 }
 
 .cart-img {
@@ -139,13 +130,7 @@
   /* margin: 10px 0;  */
 }
 
-.quantity-controls .trash{
-  /* margin-right: -80px;
-  margin-bottom: 10px; */
-  cursor: pointer;
-  color: rgba(20, 21, 105, 1);
 
-  }
 
 .p-button-text {
   background: transparent;
@@ -177,7 +162,7 @@
   position: relative;
   width: 100%;
   display: flex;
-  justify-content: flex-end; /* Aligns to the right */
+  justify-content: flex-end; 
 
 }
 
@@ -185,11 +170,28 @@
   background: rgb(2, 20, 101);
   
 }
+.trash{
+  padding: 10px;
+  padding-right: -5px;
+  cursor: pointer;
+  color: rgba(20, 21, 105, 1);
 
-/* RESPONSIVENESS */
+  }
+.actions i{
+  visibility: hidden;
+  margin-right: 5px;
+}
+
+.cart-card:hover .actions i{
+  visibility: visible;
+  background-color:#F0ECFD ;
+  border-radius: 50%;
+}
+
+
 @media (max-width: 1024px) {
   .cart-grid {
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
      }
   .cart-card {
     height: auto;

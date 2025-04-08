@@ -1,0 +1,61 @@
+
+<div class="container">
+
+    <div class="user-container">
+  <div class="grid">
+    <h1 class="heading">User Service</h1>
+<p-button class="pi pi-plus add" (click)="showDailog()"></p-button>
+  </div>
+
+        <div class="card">
+            <p-table [value]="users" [tableStyle]="{'min-width': '60rem'}">
+                <ng-template #header>
+                    <tr>
+                        <th pSortableColumn="name" style="width:14%">
+                            Name <p-sortIcon field="name" />
+                        </th>
+                        <th pSortableColumn="fname" style="width:14%">
+                            First Name <p-sortIcon field="fname" />
+                        </th>
+                        <th pSortableColumn="lname" style="width:14%">
+                            LastName <p-sortIcon field="lname" />
+                        </th>
+                        <th pSortableColumn="email" style="width:18%">
+                            Eail ID <p-sortIcon field="email" />
+                        </th>
+                        <th pSortableColumn="status" style="width:12%">
+                            Status <p-sortIcon field="status" />
+                        </th>
+                        <th pSortableColumn="admin" style="width:12%">
+                             Is Admin <p-sortIcon field="admin" />
+                        </th>
+                        <th pSortableColumn="datetime" style="width:25%">
+                             Created Date Time <p-sortIcon field="datetime" />
+                        </th>
+                        <th style="width:5%">
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-user>
+                    <tr>
+                        <td>{{ user.username  }}</td>
+                        <td>{{ user.fname }}</td>
+                        <td>{{ user.lname }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <p-tag [value]="user.status" [severity]="getSeverity(user.status)" />
+
+                        </td>
+                        <td>{{ user.isAdmin }}</td>
+                        <td>{{ user.datetime | date:"MM/dd/YYYY  HH:MM a"}}</td>
+                        <td><i class="fa-regular fa-trash-can"></i></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+</div>
+
+</div>
+<p-dialog header="Edit Profile"  [modal]="true" [(visible)]="visible" [style]="{width:'65rem'}">
+
+</p-dialog>

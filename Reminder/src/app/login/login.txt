@@ -1,0 +1,124 @@
+.login-wrapper {
+  height: 100vh;
+  background: url('assets/rlogin.png') no-repeat center center / cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  &::before {
+    content: '';
+    background-color: rgba(102, 90, 158, 0.7); // purple overlay
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.login-card {
+  z-index: 1;
+  background: #fff;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .login-icon {
+      width: 50px;
+      height: 50px;
+    }
+
+    .app-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.3rem;
+      color: #2b2b9c;
+    }
+  }
+
+  .title {
+    margin: 0.5rem 0;
+    font-size: 1.4rem;
+  }
+
+  .subtitle {
+    margin-bottom: 1.5rem;
+    color: gray;
+
+    .username {
+      color: #2b2b9c;
+      font-weight: 500;
+    }
+  }
+
+  .password-field {
+    position: relative;
+
+    .forgot-password {
+      color: red;
+      font-size: 0.8rem;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      margin-top: 0.2rem;
+    }
+  }
+
+  .login-btn {
+    margin-top: 1rem;
+    background-color: #101f3c;
+    border: none;
+    width: 100%;
+  }
+
+  .signup-link {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #999;
+
+    a {
+      color: #2b2b9c;
+      text-decoration: underline;
+    }
+  }
+}
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="logo">
+      <img src="assets/rlogin.png" alt="logo" class="login-icon" />
+      <h2 class="app-name">Remind Master</h2>
+    </div>
+    <h3 class="title">Sign In</h3>
+    <p class="subtitle">Welcome Back <span class="username">John!</span></p>
+
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="username">User Name *</label>
+        <input id="username" type="text" pInputText [(ngModel)]="username" />
+      </div>
+
+      <div class="p-field password-field">
+        <label for="password">Password *</label>
+        <div class="p-inputgroup">
+          <input [type]="showPassword ? 'text' : 'password'" id="password" pInputText [(ngModel)]="password" />
+          <button pButton type="button" icon="{{ showPassword ? 'pi pi-eye-slash' : 'pi pi-eye' }}" class="p-button-text" (click)="togglePassword()"></button>
+        </div>
+        <small class="forgot-password">Forget Password?</small>
+      </div>
+
+      <button pButton type="button" label="LOGIN" class="login-btn"></button>
+    </div>
+
+    <p class="signup-link">Don't have an account? <a href="#">Sign Up</a></p>
+  </div>
+</div>
+

@@ -40,14 +40,15 @@ app-weather{
 .icon{
     color: white;
     background-color: rgba(20, 21, 105, 1);
-    padding: 8px;
+    padding: 6px;
     border-radius: 50%;
+    margin-top: 10px;
 }
 .routeHead{
     font-size: 13px;
     font-weight: 400;
     color: #030303;
-    margin-top: 15px;
+    margin-top: 35px;
     margin-left: 0px;
   }
   

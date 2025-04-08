@@ -35,7 +35,6 @@ export class AuthService {
     }
 
     signUp(user: any): Observable<any> {
-        // user.isFirstLogin=true;
         return this.http.post(`${this.baseUrluser}.json`, user);
     }
 

@@ -1,0 +1,74 @@
+
+<div  class="wrapper">
+  <div class="login-card">
+    <div class="logo">
+      <img src="assets/images/logo.png" alt="">
+    </div>
+    <h2>Sign In</h2>
+    <p>Welcome Back <span style="color: rgba(59, 94, 200, 1);">User!</span></p>
+    <form #loginForm="ngForm">
+    <div class='input-box'>
+      <label for="uname">User Name*</label><br>
+      <input type="text" id="uname" pInputText [(ngModel)]="username" />
+    </div>
+    <div class="input-box">
+      <label for="password">Password*</label><br>
+      <p-password id="password" [(ngModel)]="password" [toggleMask]="true" />
+    </div>
+   <div class="card flex justify-center">
+    <p-button label="Login" type="submit"/>
+</div>
+
+</form>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="login-wrapper">
+    <div class="login-card">
+      <div class="logo">
+        <img src="/assets/images/logo.png" alt="logo" class="login-icon" />
+        <h2 class="app-name">Remind Master</h2>
+      </div>
+      <h3 class="title">Sign In</h3>
+      <p class="subtitle">Welcome Back <span class="username">John!</span></p>
+  
+      <div class="p-fluid">
+        <div class="p-field">
+          <label for="username">User Name *</label>
+          <input id="username" type="text" pInputText [(ngModel)]="username" />
+        </div>
+  
+        <div class="p-field password-field">
+          <label for="password">Password *</label>
+          <div class="p-inputgroup">
+            <p-password [(ngModel)]="password" [toggleMask]="true" />
+         </div>
+          <small class="forgot-password">Forget Password?</small>
+        </div>
+  
+        <button pButton type="button" label="LOGIN" class="login-btn"></button>
+        <p class="signup-link">Don't have an account? <a href="#">Sign Up</a></p>
+      </div>
+  
+    </div>
+  </div>
+   -->

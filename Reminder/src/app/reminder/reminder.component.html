@@ -1,0 +1,68 @@
+
+<div class="container">
+    <div class="reminder-container">
+  <div class="grid">
+    <h1 class="heading">Reminder Service</h1>
+<div class="pi pi-plus add" (click)="showDailog()"></div>
+  </div>
+
+        <div class="card">
+            <p-table [value]="reminders" [tableStyle]="{'min-width': '60rem'}">
+                <ng-template #header>
+                    <tr>
+                        <th pSortableColumn="title" style="width:18%">
+                            Name <p-sortIcon field="title" />
+                        </th>
+                        <th pSortableColumn="rdt" style="width:18%">
+                            Reminder Date Time <p-sortIcon field="rdt" />
+                        </th>
+                        <th pSortableColumn="cdt" style="width:18%">
+                            Created Date Time    <p-sortIcon field="cdt" />
+                        </th>
+                      
+                        <th pSortableColumn="status" style="width:12%">
+                            Status <p-sortIcon field="status" />
+                        </th>
+                        
+                        
+                        <th style="width:10%">
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-reminder>
+                    <tr>
+                        <td>{{ reminder.title  }}</td>
+                        <td>{{ reminder.reminderdt | date:"MM/dd/YYYY  HH:MM a"}}</td>
+                        <td>{{ reminder.createdatetime |date:"MM/dd/YYYY  HH:MM a"}}</td>
+                        <td>
+                            <p-tag [value]="reminder.status" [severity]="getSeverity(reminder.status)" />
+
+                        </td>
+                        <td><i class="fa-regular fa-trash-can"></i></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+</div>
+</div>
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }">
+    <ng-template #header>
+        Reminder Details
+    </ng-template>
+    <div class="input-box">
+        <label for="username" class="font-semibold w-24">Username</label>
+        <input pInputText id="username" class="input-box-auto" autocomplete="off" />
+    </div>
+    <div class="input-box">
+        <label for="detail" class="font-semibold w-24">Detail</label>
+        <input pInputText id="detail" class="input-box-auto" autocomplete="off" />
+    </div>
+    <div class="input-box">
+        <label for="datetime" class="font-semibold w-24">DAte Time</label>
+        <input pInputText id="datetime" class="input-box-auto" autocomplete="off" />
+    </div>
+    <ng-template #footer>
+        <p-button label="Cancel" [text]="true" severity="secondary" (click)="visible = false" />
+        <p-button label="Save" [outlined]="true" severity="primary" (click)="visible = false" />
+    </ng-template>
+</p-dialog>

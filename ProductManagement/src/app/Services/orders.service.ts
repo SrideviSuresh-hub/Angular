@@ -30,6 +30,28 @@ export class OrdersService {
             )
     }
 
+    getOrdersChartData(): Observable<any[]> {
+        return this.getOrders().pipe(
+            map(orders => {
+                const weekdayMap: Record<string, number> = {
+                    Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0, Sun: 0
+                };
+    
+                orders.forEach(order => {
+                    const date = new Date(order.date);
+                    const day = date.toLocaleDateString('en-US', { weekday: 'short' });
+                    if (weekdayMap[day] !== undefined) {
+                        weekdayMap[day]++;
+                    }
+                });
+                return Object.keys(weekdayMap).map(day => ({
+                    day,
+                    orders: weekdayMap[day]
+                }));
+            })
+        );
+    }
+    
     updateOrderStatus(orderId: string, userId: string, newStatus: string) {
         const url = `${this.baseUrluser}/${userId}/orders/${orderId}.json`;
         return this.http.patch(url, { status: newStatus });

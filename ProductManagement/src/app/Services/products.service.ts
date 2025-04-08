@@ -34,6 +34,7 @@ export class ProductService {
         }))
     );
 }
+
   updateProduct(productId: string, product:OrderProducts): Observable<any> {
     return this.http.put<void>(`${this.baseURLProd}/${productId}.json`, product);
   }

@@ -1,6 +1,6 @@
 <div class="cart-container">
   <div class="search-container">
-    <h1 class="title"> My cart </h1>
+    <h1 class="title"> My Cart </h1>
     <div class="search-bar">
       <input type="text" pInputText [(ngModel)]="searchText" (input)="getFilteredCartItems()" />
       <i class="pi pi-search search-icon"></i>
@@ -8,7 +8,7 @@
   </div>
   <p-progress-spinner class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent"
     animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
-  <div *ngIf="cartItems.length>0 ;  else emptyCart">
+  <div *ngIf="cartItems.length>0;  else emptyCart">
     <div class="cart-grid">
       <div *ngFor="let item of getFilteredCartItems()" class="cart-card">
         <div class="details">
@@ -16,13 +16,15 @@
           <div class="cart-details">
             <h3>{{ item.name }}</h3>
             <p>{{ item.description }}</p>
+            <div class="flex">
             <div class="quantity-controls">
               <button pButton icon="pi pi-minus" (click)="decrementQuantity(item)" class="p-button-text"></button>
               <span>{{ item.quantity }}</span>
               <button pButton icon="pi pi-plus" (click)="incrementQuantity(item)" class="p-button-text"></button>
-              <span class="actions">
-                <i class="fa-solid fa-trash-can trash" (click)="removeFromCart(item)"></i>
-              </span>
+            </div>
+            <span class="actions">
+              <i class="fa-solid fa-trash-can trash" (click)="removeFromCart(item)"></i>
+            </span>
             </div>
           </div>
         </div>
