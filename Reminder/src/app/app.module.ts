@@ -1,62 +1,39 @@
 import { NgModule } from '@angular/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
+import Aura from '@primeng/themes/aura'
+import { AppRoutingModule, routes1 } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { providePrimeNG } from 'primeng/config';
 import { LoginComponent } from './login/login.component';
-import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
-import { ReminderComponent } from './reminder/reminder.component';
-import { UsersComponent } from './users/users.component';
-import { CardModule } from 'primeng/card';
-import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
-import { PasswordModule } from 'primeng/password';
-import { ButtonModule } from 'primeng/button';
-import { MenubarModule } from 'primeng/menubar';
-import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { DialogModule } from 'primeng/dialog';
-import { CommonModule } from '@angular/common';
+import { PortalComponent } from './portal/portal.component';
+import { PortalModule } from './portal/portal.module';
+import { RouterModule } from '@angular/router';
+import { PortalRouteModule } from './portal/portals-route.module';
+
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HeaderComponent,
-    HomeComponent,
-    ReminderComponent,
-    UsersComponent,
-    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CardModule,
-    InputTextModule,
-    FormsModule,
-    PasswordModule,
-    ButtonModule,
-    MenubarModule,
-    TableModule,
-    TagModule,
-    DialogModule,
-    CommonModule,
-    FormsModule
-   
+    PortalModule,
+    PortalRouteModule,
+    RouterModule.forRoot(routes1)
   ],
-  exports:[
-    CardModule,
-    InputTextModule,
-    FormsModule,
-    PasswordModule,
-    ButtonModule,
-    MenubarModule,
-    TableModule,
-    TagModule,
-    DialogModule,
-    CommonModule,
-    FormsModule
+  exports: [
+
   ],
-  providers: [],
+  providers: [provideAnimationsAsync(),
+  providePrimeNG({
+    theme: {
+      preset: Aura
+    }
+  })],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

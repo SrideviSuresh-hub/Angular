@@ -37,8 +37,6 @@
     </ng-template>
   </p-table>
 </div>
-
-
 <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="true" [responsive]="true">
   <h3>{{ isEditing ? 'Edit User' : 'Add User' }}</h3>
   <form #userForm="ngForm" (ngSubmit)="onSave(userForm)">

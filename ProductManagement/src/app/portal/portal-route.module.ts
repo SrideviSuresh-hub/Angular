@@ -1,4 +1,4 @@
-import { inject, NgModule } from "@angular/core";
+import {  NgModule } from "@angular/core";
 import { HomeComponent } from "./sidebar/home/home.component";
 import { ProductsComponent } from "./sidebar/products/products.component";
 import { CartComponent } from "./sidebar/cart/cart.component";

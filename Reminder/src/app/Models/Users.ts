@@ -1,3 +1,5 @@
+import { Reminder } from "./reminder";
+
 export interface User{
     username:string;
     fname:string;
@@ -17,5 +19,7 @@ export interface User{
     isAdmin:boolean;
     datetime:string|number|Date;
     permissions?:string;
-    status:string
+    status:string;
+    password:string;
+    reminders:Reminder[];
 }

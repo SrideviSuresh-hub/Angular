@@ -52,7 +52,7 @@ export class UserHomeComponent implements OnInit {
               ticks: {
                 stepSize: 10,
                 callback: function(value: number) {
-          return value === 0 ? '' : value; // Hide 0 from labels
+          return value === 0 ? '' : value; 
         }
               },
               grid: { display: false }
@@ -61,8 +61,7 @@ export class UserHomeComponent implements OnInit {
               offset: true,
 
               ticks: {
-                // padding:20,
-                // autoSkip: false,
+                autoSkip: false,
                 maxRotation: 45,
                 minRotation: 45
               },
@@ -131,7 +130,7 @@ export class UserHomeComponent implements OnInit {
           },
           plugins: {
             legend: { display: false },
-            title: { display: false }
+            // title: { display: false }
           }
         };
 

@@ -71,7 +71,7 @@ export class SignupComponent {
     'UTC+12:00'
   ];
 
-  @ViewChild('signupForm') form: NgForm;
+  // @ViewChild('signupForm') form: NgForm;
 
   currentStep = 1;
   passwordMatching = true;
@@ -98,7 +98,6 @@ export class SignupComponent {
     } else {
       this.states = [];
     }
-    // this.state=''
   }
 
   validatePassword(password, confirmpassword) {

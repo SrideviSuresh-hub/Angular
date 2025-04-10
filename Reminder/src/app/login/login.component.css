@@ -1,11 +1,4 @@
-.login-wrapper {
-  height: 100vh;
-  background: url('/assets/images/backgroundImg.png') no-repeat center center / cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
+/* 
 
 
 .wrapper {
@@ -19,7 +12,7 @@
 }
 
 .login-card {
-  position: absolute;
+  position: relative;
   max-width: 532px;
   width: 100%;
   height: 584px;
@@ -45,7 +38,6 @@ label {
   font-weight: 400;
   font-size: 15px;
   color: #333333;
-  /* display: flex; */
   position: absolute;
 
   left: calc(50% - 452px/2);
@@ -77,7 +69,7 @@ border: 1px solid #D9D8D8;
 border-radius: 10px;
 }
 
-:host ::ng-deep .p-button{
+:host ::ng-deep .p-button {
 position: absolute;
 width: 452px;
 height: 60px;
@@ -112,4 +104,103 @@ color: #FFFFFF;
     color: #2b2b9c;
     text-decoration: underline;
   }
+} */
+.wrapper {
+  background: url('/assets/images/backgroundImg.png') no-repeat center center / cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.login-card {
+  width: 532px;
+  height: 584px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+}
+
+.logo img {
+  height: 100px;
+  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* .app-name {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 18px;
+  color: #202060;
+} */
+
+.title {
+  font-family:'Poppins';
+  font-size: 24px;
+  /* font-weight: 600; */
+  line-height: 100%;
+  letter-spacing: 0%;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  
+  font-family:'Poppins';
+  font-size: 15px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #A09F9F;
+  margin-bottom: 2rem;
+}
+
+.username {
+  color: #3B5EC8;
+  font-weight: 500;
+}
+
+.input-box {
+  margin-bottom: 1.5rem;
+  text-align: left;
+  width: 100%;
+}
+
+.input-box label {
+  font-family: 'Poppins';
+  font-size: 15px;
+line-height: 100%;
+  color: #333333;
+}
+
+.input-box input,
+:host ::ng-deep .p-inputtext {
+  width: 100%;
+  margin-top: 0.5rem;
+  height: 55px;
+  background: #f1f1f1;
+  border: 1px solid #d9d8d8;
+  border-radius: 10px;
+  padding: 0 1rem;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+:host ::ng-deep .p-password {
+  display: block;
+}
+
+:host ::ng-deep .p-button {
+  width: 100% !important;
+  height: 55px !important;
+  background: #162541  !important;
+  border: 1px solid#162541 !important;
+  border-radius: 10px !important;
+  color: white !important;
+  font-size: 16px !important;
+  font-weight: 600 Im !important ;
+  font-family: 'Poppins' !important;
+  margin-top: 1rem !important;
 }

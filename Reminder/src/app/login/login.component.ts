@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { UserService } from '../Services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,9 @@ export class LoginComponent {
   password = '';
   showPassword = false;
 
-  togglePassword() {
-    this.showPassword = !this.showPassword;
-  }
-
+ userService:UserService=inject(UserService);
+ onLogin(){
+ console.log(this.username+""+this.password);
+ 
+ }
 }
