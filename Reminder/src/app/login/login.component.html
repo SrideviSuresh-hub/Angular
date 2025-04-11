@@ -1,5 +1,4 @@
-
-<div  class="wrapper">
+<div class="wrapper">
   <div class="login-card">
     <div class="logo">
       <img src="assets/images/logo.png" alt="">
@@ -7,27 +6,17 @@
     <h4 class="title">Sign In</h4>
     <p class="subtitle">Welcome Back <span class="username">John!</span></p>
     <form #loginForm="ngForm" (ngSubmit)="onLogin()">
-    <div class='input-box'>
-      <label for="uname">User Name *</label><br>
-      <input type="text" 
-      id="uname" 
-      name="uname"
-       pInputText 
-       [(ngModel)]="username" 
-       required/>
-    </div>
-    <div class="input-box">
-      <label for="password">Password *</label>
-      <p-password
-      name="password"
-       [(ngModel)]="password" 
-       [toggleMask]="true"
-       id="password"></p-password>
-    </div>
-    <button pButton label="LOGIN" type="submit" class="login-btn"></button>
+      <div class='input-box'>
+        <label for="uname">User Name *</label><br>
+        <input type="text" id="uname" name="uname" pInputText [(ngModel)]="username" required autofocus />
+      </div>
+      <div class="input-box">
+        <label for="password">Password *</label>
+        <p-password name="password" [(ngModel)]="password" [toggleMask]="true" id="password"></p-password>
+      </div>
+      <button pButton label="LOGIN" type="submit" class="login-btn"></button>
 
-</form>
+    </form>
+  </div>
 </div>
-</div>
-
-
+<p-toast></p-toast>

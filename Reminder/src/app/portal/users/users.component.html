@@ -2,7 +2,9 @@
     <div class="user-container">
         <div class="grid">
             <h1 class="heading">User Service</h1>
-            <p-button class="p-button-add"  (click)="showDialog()"><i class="pi pi-plus add"></i></p-button>
+            <p-button class="p-button-add"  (click)="showDialog()">
+              <i class="pi pi-plus add"></i>
+            </p-button>
         </div>
 
         <div class="card">
@@ -35,7 +37,7 @@
                     </tr>
                 </ng-template>
                 <ng-template #body let-user>
-                    <tr>
+                    <tr (click)="editUser(user)">
                         <td>{{ user.username }}</td>
                         <td>{{ user.fname }}</td>
                         <td>{{ user.lname }}</td>
@@ -46,7 +48,7 @@
                         </td>
                         <td>{{ user.isAdmin }}</td>
                         <td>{{ user.datetime | date :"MM/dd/YYYY HH:MM a"}}</td>
-                        <td><i class="fa-regular fa-trash-can"></i></td>
+                        <td><i class="fa-regular fa-trash-can" (click)="confirmDelete(user)"></i></td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -135,7 +137,6 @@
        <div class="input-box">
           <label>Upload User Image</label>
           <p-button class="p-button-upload" label="Upload" (change)="onImageUpload($event)" severity="secondary" />
-
         </div>
         <div class="input-box">
           <label>Is Admin</label>

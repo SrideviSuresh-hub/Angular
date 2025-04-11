@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { PortalComponent } from './portal/portal.component';
 import { PortalRouteModule } from './portal/portals-route.module';
+// import { PortalComponent } from './portal/portal.component';
+// import { PortalRouteModule } from './portal/portals-route.module';
 
  export const routes1: Routes = [
   {path:'',redirectTo:'login',pathMatch:'full'},

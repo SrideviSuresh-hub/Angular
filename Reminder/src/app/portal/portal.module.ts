@@ -23,7 +23,9 @@ import { Select } from 'primeng/select';
 import { RouterModule } from "@angular/router";
 import { routes2 } from "./portals-route.module";
 import { DatePipe } from "@angular/common";
-
+import { MessageService } from "primeng/api";
+import { ToastModule } from 'primeng/toast';
+import { Ripple } from "primeng/ripple";
 @NgModule({
     declarations: [
         HeaderComponent,
@@ -50,6 +52,8 @@ import { DatePipe } from "@angular/common";
         DatePickerModule,
         DropdownModule,
         DatePipe,
+        ToastModule,
+        Ripple,
         RouterModule.forChild(routes2),
       ],
       exports:[
@@ -68,8 +72,11 @@ import { DatePipe } from "@angular/common";
          HttpClientModule,
         CheckboxModule,
         DatePickerModule,
-        DropdownModule
-      ]
+        DropdownModule,
+        Ripple,
+        ToastModule
+      ],
+      providers:[MessageService]
 })
  export class PortalModule{
 

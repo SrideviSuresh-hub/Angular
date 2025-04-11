@@ -7,12 +7,14 @@ import { HeaderComponent } from "./header/header.component";
 import { PortalComponent } from "./portal.component";
 
 export const routes2:Routes=[
-    {path:'portal',component:PortalComponent,
+    {path:'',component:PortalComponent,
         children:[
             {path:'users',component:UsersComponent},
             {path:'reminder',component:ReminderComponent},
             {path:'home',component:HomeComponent},
-            {path:'header',component:HeaderComponent}]
+            {path:'header',component:HeaderComponent},
+            { path: '', redirectTo: 'home', pathMatch: 'full' }
+        ]
     }
 ];
 @NgModule({
