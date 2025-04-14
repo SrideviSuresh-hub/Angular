@@ -22,4 +22,5 @@ export interface User{
     status:string;
     password:string;
     reminders:Reminder[];
+    id?:string|number|Date;
 }

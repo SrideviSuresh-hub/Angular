@@ -9,7 +9,7 @@ import { map, Observable } from "rxjs";
 export class UserService {
     url = 'http://localhost:3000/users';
     http: HttpClient = inject(HttpClient);
-
+       
     getUsers(): Observable<User[]> {
         return this.http.get<User[]>(this.url);
     }
@@ -17,14 +17,18 @@ export class UserService {
         return this.http.get<User[]>(`${this.url}?username=${username}`)
         .pipe(map(users=>users[0]));
     }
-
     addUser(user: User): Observable<User> {
         return this.http.post<User>(this.url, user)
     }
-    updateUser(username: string, updateUser: User) {
-        return this.http.put<User>(`${this.url}?username=${username}`, updateUser);
+    updateUser(id: string, updateUser: User) {
+        return this.http.put<User>(`${this.url}/${id}`, updateUser);
     }
-    deleteUser(username: string) {
-        return this.http.delete(`${this.url}?username=${username}`);
+    deleteUser(id: string) {
+        return this.http.delete(`${this.url}/${id}`);
+    }  
+    getUserById(id: number): Observable<User> {
+        return this.http.get<User>(`${this.url}/${id}`);
     }
 }
+
+

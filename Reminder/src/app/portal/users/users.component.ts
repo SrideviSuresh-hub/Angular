@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { User } from '../../Models/Users';
 import { UserService } from '../../Services/user.service';
 import { NgForm } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-users',
@@ -10,13 +11,17 @@ import { NgForm } from '@angular/forms';
   styleUrl: './users.component.css'
 })
 export class UsersComponent {
-  showDialogs: boolean = false;
-  user:any={};
-  // user: User = this.getEmptyUser();
-  users: User[] = [];
-  states: string[] = [];
-
+  messageService:MessageService=inject(MessageService)
   userService: UserService = inject(UserService);
+  users: User[] = [];
+  user:any={};
+  states: string[] = [];
+  showDialogs: boolean = false;
+  editMode:boolean=false;
+  viewMode:boolean=false;
+  // isAddUserMode:boolean=false;
+  uploadedFileName: string | null = null;
+
   locales: string[] =
    ['en-US', 'en-GB', 'fr-FR',
      'de-DE', 'es-ES', 'zh-CN'];
@@ -36,7 +41,15 @@ export class UsersComponent {
     { label: 'India', value: 'India' },
     { label: 'USA', value: 'USA' }
   ];
-
+  ngOnInit() {
+    this.fetchUsers()
+    
+      }
+      fetchUsers():void{
+        this.userService.getUsers().subscribe((data:any[])=>{
+          this.users=data;
+        })
+      }
   onCountryChange(event: any) {
     const selectedCountry = event.value||event.target?.value;
     console.log(selectedCountry);
@@ -49,69 +62,79 @@ export class UsersComponent {
       this.states = [];
     }
   }
-  ngOnInit() {
-this.fetchUsers()
-
-  }
-  fetchUsers():void{
-    this.userService.getUsers().subscribe((data:any[])=>{
-      this.users=data;
-    })
-  }
-  //  getEmptyUser(): User {
-  //   return {
-  //     username: '',
-  //     fname: '',
-  //     lname: '',
-  //     gender: '',
-  //     dob: '',
-  //     email: '',
-  //     mobile:0,
-  //     address1: '',
-  //     address2: '',
-  //     country: '',
-  //     state: '',
-  //     zipcode: '',
-  //     timezone: '',
-  //     locale: '',
-  //     image: '',
-  //     isAdmin: false,
-  //     permissions: '',
-  //     datetime: new Date(),
-  //     status: 'Active',
-  //     password: '12345',
-  //     reminders:[]
-  //   };
-  // }
-
-
  
-  showDialog(): void {
-    this.user={};
-    this.states=[];
-    this.showDialogs = true;
+   getDefaultUser(): User {
+    return {
+      username: '',
+      fname: '',
+      lname: '',
+      gender: '',
+      dob: '',
+      email: '',
+      mobile:0,
+      address1: '',
+      address2: '',
+      country: '',
+      state: '',
+      zipcode: '',
+      timezone: '',
+      locale: '',
+      image: '',
+      isAdmin: false,
+      permissions: '',
+      datetime: new Date(),
+      status: 'Active',
+      password: '12345',
+      reminders:[],
+      id:new Date()
+    };
   }
-  editUser(selectedUser:any){
-    this.user={...selectedUser};
-    this.onCountryChange({value:selectedUser.country});
+
+  onRowCLick(user:User){
+    this.user={...user};
+    this.onCountryChange({value:user.country});
+    this.viewMode=true;
+    this.editMode=false;
     this.showDialogs=true;
+    // this.isAddUserMode=false;
   }
-  confirmDelete(user:any){
-    const confirmed=window.confirm('Are you sure u want to dlt the user')
-    if(confirmed){
-      this.deleteUser(user.username);
+
+  showAddUser():void{
+    this.user=this.getDefaultUser();
+      this.states=[];
+      // this.isAddUserMode=true;
+      this.editMode=true;
+      this.viewMode=false;
+      this.showDialogs=true;
+  }
+  enableEdit():void{
+    this.editMode=true;
+    this.viewMode=false;
+  }
+  confirmDelete(user: any) {
+    const confirmed = window.confirm('Are you sure you want to delete this user?');
+    if (confirmed && user?.id) {
+      this.userService.deleteUser(user.id.toString()).subscribe(() => {
+        this.users = this.users.filter(u => u.id !== user.id);
+      });
     }
   }
-  deleteUser(username:string){
-    this.userService.deleteUser(username).subscribe(()=>{
-      this.users=this.users.filter(user=>user.username!== username);
-    })
-  }
+  // confirmDelete(user:any){
+  //   const confirmed=window.confirm('Are you sure u want to dlt the user')
+  //   if(confirmed && user){
+  //     this.deleteUser(user.id);
+  //   }
+  // }
+  // deleteUser(id:string){
+  //   this.userService.deleteUser(id).subscribe(()=>{
+  //   this.users=this.users.filter(user=>user.id!== id);
+  //   })
+  // }
   saveUser(userForm: NgForm): void {
     this.user.datetime = new Date();
-
-    if(this.user.username && this.users.some(u=>u.username===this.user.username)){
-      this.userService.updateUser(this.user.username,this.user).subscribe((updatedUser:any)=>{
+    
+    if(this.user.username && this.editMode && !this.viewMode){
+      this.userService.updateUser(this.user.id,this.user).subscribe((updatedUser:any)=>{
         const index=this.users.findIndex(u=>u.username===updatedUser.username);
         if(index!==-1){
           this.users[index]=updatedUser;
@@ -119,42 +142,52 @@ this.fetchUsers()
         this.closeDialog(userForm);
       })
     }else{
-    this.userService.addUser(this.user).subscribe((newUser) => {
+    this.userService.addUser(this.user).subscribe((newUser:User) => {
       this.users.push(newUser);
-      this.closeDialog(userForm);
-      
+      this.closeDialog(userForm);  
     })
   }
   }
   closeDialog(form:NgForm){
     this.showDialogs=false;
     form.resetForm();
+    this.user={};
+    this.editMode=false;
   }
- 
- onImageUpload(event: any) {
-    const file = event.target.files[0];
+  onImageUpload(event: any) {
+    const file: File = event.target.files[0];
     if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        alert('Image size should be less than 2MB');
+      if (file.size > 2 * 1024 * 1024) { // Ensure the file is less than 2MB
+        this.messageService.add({
+          severity: 'error',
+          summary: 'File Too Large',
+          detail: 'Image must be less than 2MB'
+        });
         return;
       }
 
+      this.uploadedFileName = file.name;  // Update the file name display
+
       const reader = new FileReader();
       reader.onload = () => {
-        this.user.image = reader.result as string;
+        this.user.image = reader.result as string; // Store base64 or file URL
       };
       reader.readAsDataURL(file);
     }
   }
-  getSeverity(status: String) {
+  removeImage() {
+    this.uploadedFileName = null;
+    this.user.image = null;
+  }
+  getSeverity(status: string): string {
     switch (status) {
-      case "Active":
-        return 'success';
-      case 'Disabled':
-        return 'secondary';
-      default:
-        return 'secondary';
+      case 'Active': return 'success';
+      case 'Disabled': return 'secondary';
+      default: return 'secondary';
     }
   }
-
+  isFieldDisabled(): boolean {
+    return this.viewMode && !this.editMode;
+  }
+  
 }

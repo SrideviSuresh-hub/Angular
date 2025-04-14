@@ -33,8 +33,21 @@
 
 .card {
     height: auto;
+/*     width: 100%;
+        max-width: 100%;
+        padding: 1rem;
+        box-sizing: border-box;
+     */
+    
 }
 
+:host ::ng-deep .p-card {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    box-sizing: border-box;
+}
 
 
 .fa-trash-can {
@@ -49,17 +62,20 @@
 :host ::ng-deep .p-datatable-thead>tr>th {
     padding: 5px 20px !important;
     border: none;
-   
     border-bottom: 1px solid #E1E1E1 !important;
-height: 42px;
-left: 78px;
-top: 148px;
-
-background: #EAEAEA;
-
+    height: 42px;
+    left: 78px;
+    top: 148px;
+    background: #EAEAEA;
+    font-family: "poppins";
 }
 
-:host ::ng-deep .p-datatable-thead > tr > th.p-datatable-column-sorted {
+:host ::ng-deep .p-datatable-tbody>tr>td {
+
+    font-family: 'Poppins';
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th.p-datatable-column-sorted {
     padding: 5px 20px !important;
     border: none;
     border-bottom: 1px solid #E1E1E1 !important;
@@ -72,9 +88,19 @@ background: #EAEAEA;
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
-
 }
-.grid{
+
+:host ::ng-deep .p-dialog-header {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    color: #333333;
+    padding: 1rem 1.5rem;
+}
+
+.grid {
     display: flex;
     justify-content: space-between;
 }
@@ -83,7 +109,7 @@ background: #EAEAEA;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
-    padding: 1rem 1.5rem;
+    padding: 0 .5rem;
 }
 
 .input-box {
@@ -91,17 +117,33 @@ background: #EAEAEA;
     flex-direction: column;
     width: 400px;
     gap: 5px;
+    font-family: "poppins";
 }
 
 label {
     width: 400px;
     height: 20px;
-    font-family: 'Poppins';
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
     line-height: 20px;
     color: #333333;
+}
+
+.uploaded-file-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: #f44336;
+    cursor: pointer;
+    font-size: 1.2rem;
 }
 
 :host ::ng-deep .p-inputtext {
@@ -111,6 +153,10 @@ label {
     border-radius: 6px;
     border: none;
     box-shadow: none;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 20px;
+    color: #000000;
 }
 
 :host ::ng-deep .p-select {
@@ -133,7 +179,12 @@ textarea {
     border-radius: 6px;
     border: none;
     box-shadow: none;
-    border: none;
+    font-family: "poppins";
+    padding: .75rem;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 20px;
+    color: #000000;
 }
 
 .input[type="file" i] {
@@ -141,7 +192,7 @@ textarea {
 }
 
 :host ::ng-deep .p-button-upload {
-    width: 400px;
+    /* width: 400px; */
     height: 35px;
     background: #F1F1F1;
     border-radius: 6px;
@@ -162,7 +213,6 @@ textarea {
     color: #FFFFFF;
 }
 
-
 :host ::ng-deep .p-selectbutton .p-togglebutton {
     background-color: none !important;
     border-radius: 6px !important;
@@ -176,9 +226,6 @@ textarea {
     color: #333333;
     width: 90px;
     height: 35px;
-    /* flex: none;
-    order: 1;
-    flex-grow: 0; */
 }
 
 :host ::ng-deep .p-selectbutton .p-togglebutton {
@@ -193,8 +240,6 @@ textarea {
     font-size: 12px;
     line-height: 18px;
     color: #FFFFFF;
-
-
 }
 
 :host ::ng-deep .p-togglebutton.p-togglebutton-checked::before {
@@ -225,7 +270,6 @@ textarea {
 :host ::ng-deep .p-button {
     background: none !important;
     border: none !important;
-    /* color:none  !important; */
 }
 
 :host ::ng-deep .p-dialog-footer .p-button {
@@ -236,7 +280,6 @@ textarea {
     font-weight: 400 !important;
     font-size: 13px I !important;
     line-height: 20px !important;
-
 }
 
 :host ::ng-deep .p-dialog-footer .p-button-primary {
@@ -246,7 +289,6 @@ textarea {
     background: #162541 !important;
     border: 1px solid #162541 !important;
     border-radius: 6px !important;
-
 }
 
 :host ::ng-deep .p-dialog-footer .p-button-secondary-ss {
@@ -261,4 +303,101 @@ textarea {
 
 :host ::ng-deep .p-dialog-footer .p-button-secondary-ss .p-button-label {
     color: #333333 !important;
+}
+
+@media (max-width: 1200px) {
+    .form-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .input-box {
+        width: 100% !important;
+    }
+
+    label,
+    :host ::ng-deep .p-inputtext,
+    :host ::ng-deep .p-select,
+    textarea {
+        width: 100% !important;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .grid {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding-left: 1.2rem;
+    }
+
+    .user-container {
+        width: 95vw;
+        left: 2.5vw;
+        top: 90px;
+        padding: 1rem;
+        height: auto;
+    }
+
+    :host ::ng-deep .p-dialog {
+        width: 70vw !important;
+        height: 70vh;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    :host ::ng-deep .p-datatable-thead>tr>th,
+    :host ::ng-deep .p-datatable-tbody>tr>td {
+        padding: 5px !important;
+        font-size: 12px;
+    }
+}
+
+:host ::ng-deep .p-datatable-wrapper {
+    overflow-x: auto;
+}
+
+:host ::ng-deep .p-datatable-table {
+    width: 100%;
+    min-width: 600px;
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th {
+    padding: 10px !important;
+    font-size: 14px;
+}
+
+@media (max-width: 480px) {
+
+    :host ::ng-deep .p-datatable-thead>tr>th,
+    :host ::ng-deep .p-datatable-tbody>tr>td {
+        padding: 3px !important;
+        font-size: 11px;
+    }
+
+    .heading {
+        font-size: 16px;
+        padding-left: 0.5rem;
+    }
+
+    :host ::ng-deep .p-dialog {
+        width: 90vw !important;
+        height: 70vh;
+    }
+
+    .input-box {
+        gap: 3px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+    .uploaded-file-display {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

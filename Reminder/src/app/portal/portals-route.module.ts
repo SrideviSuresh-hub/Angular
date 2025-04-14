@@ -13,7 +13,7 @@ export const routes2:Routes=[
             {path:'reminder',component:ReminderComponent},
             {path:'home',component:HomeComponent},
             {path:'header',component:HeaderComponent},
-            { path: '', redirectTo: 'home', pathMatch: 'full' }
+            // { path: '', redirectTo: 'home', pathMatch: 'full' }
         ]
     }
 ];
