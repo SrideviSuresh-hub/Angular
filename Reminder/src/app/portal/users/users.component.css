@@ -130,20 +130,16 @@ label {
     color: #333333;
 }
 
-.uploaded-file-display {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 8px;
-    font-weight: 500;
-}
+
 
 .remove-btn {
+    float: right;
     background: none;
     border: none;
-    color: #f44336;
     cursor: pointer;
     font-size: 1.2rem;
+    padding-right: .2rem;
+    padding-top: .2rem;
 }
 
 :host ::ng-deep .p-inputtext {
@@ -168,6 +164,14 @@ label {
     border: none;
 }
 
+:host ::ng-deep .p-multiselect {
+    height: 35px;
+    background: #F1F1F1;
+    border-radius: 6px;
+    border: none;
+}
+
+
 .no-resize {
     resize: none;
     overflow: hidden;
@@ -190,8 +194,7 @@ textarea {
 .input[type="file" i] {
     background-color: #333333;
 }
-
-:host ::ng-deep .p-button-upload {
+.upload {
     /* width: 400px; */
     height: 35px;
     background: #F1F1F1;
@@ -255,8 +258,9 @@ textarea {
 }
 
 :host ::ng-deep .p-button {
-    padding: 5px !important;
     border: none !important;
+    background: none !important;
+
 }
 
 :host ::ng-deep .p-button-add {
@@ -264,7 +268,9 @@ textarea {
     border: none !important;
     border-radius: 3px;
     margin-bottom: 1rem;
-    margin-right: 1.5rem;
+    margin-right: 1.5rem;   
+    color: white !important;
+    font-weight: 800 !important;
 }
 
 :host ::ng-deep .p-button {
@@ -273,13 +279,14 @@ textarea {
 }
 
 :host ::ng-deep .p-dialog-footer .p-button {
-    margin-left: 10px !important;
     box-sizing: border-box !important;
     font-family: 'Poppins' !important;
     font-style: normal !important;
     font-weight: 400 !important;
     font-size: 13px I !important;
-    line-height: 20px !important;
+    line-height: 100% !important;
+    letter-spacing: 0% !important;
+    text-align: center;
 }
 
 :host ::ng-deep .p-dialog-footer .p-button-primary {
@@ -289,6 +296,8 @@ textarea {
     background: #162541 !important;
     border: 1px solid #162541 !important;
     border-radius: 6px !important;
+    text-align: center;
+
 }
 
 :host ::ng-deep .p-dialog-footer .p-button-secondary-ss {
@@ -298,13 +307,54 @@ textarea {
     background: #FFFFFF !important;
     border: 1px solid #E1E1E1 !important;
     border-radius: 6px !important;
-    padding-right: 10px;
+    text-align: center;
+
 }
 
 :host ::ng-deep .p-dialog-footer .p-button-secondary-ss .p-button-label {
     color: #333333 !important;
 }
 
+ ::ng-deep .p-checkbox-checked .p-checkbox-box {
+background: #194F72 !important;
+border: 1px solid #194F72 !important;
+}
+.ad{
+display: flex;
+flex-direction: row;
+gap:0;
+width: 400px;
+}
+.chec{
+    width:70px;
+    gap: 0;
+}
+
+.ad label{
+    width:auto
+}
+.per{
+    width: 328px;
+    gap:0;
+}
+/* .custom-multiselect-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 300px; 
+  }
+  
+  .custom-multiselect-panel {
+    position: absolute !important;
+    z-index: 1000 !important;
+    width: 100% !important;
+    top: 100% !important;
+    left: 0 !important;
+  }
+  
+  .custom-multiselect-panel .p-multiselect-items-wrapper {
+    max-height: 200px;
+    overflow-y: auto;
+  } */
 @media (max-width: 1200px) {
     .form-grid {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

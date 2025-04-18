@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { UserService } from '../Services/user.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent {
   router:Router=inject(Router);
  userService:UserService=inject(UserService);
 msgService:MessageService=inject(MessageService)
+authService:AuthService=inject(AuthService);
 ngOnInit(){
   setTimeout(() => {
     // Focus the username input after the component loads
@@ -23,22 +25,19 @@ ngOnInit(){
 }
  onLogin(){
  console.log(this.username+" "+this.password);
- this.userService.getUserByUsername(this.username).subscribe({
+this.authService.login(this.username,this.password).subscribe({
   next:(user)=>{
-    console.log(user);
-    
-    if(user && user.password===this.password){
-      this.router.navigate(['/portal/home']);
+    if(user.isAdmin){
+
+      this.router.navigate(['portal/home']);
     }
     else{
-      this.msgService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Credentials' });
-
+      this.router.navigate(['portal/userhome'])
     }
   },
   error:(err)=>{
-    this.msgService.add({ severity: 'error', summary: 'Error', detail:err.message});
-
+    this.msgService.add({severity:'error',summary:'login failed',detail:err.mesaage})
   }
- })
+})
 }
 }

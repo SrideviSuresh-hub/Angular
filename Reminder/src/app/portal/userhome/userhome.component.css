@@ -1,0 +1,236 @@
+.container {
+    background-color: rgba(225, 234, 245, 1);
+    position: absolute;
+    top: 70px;
+    height: calc(100vh - 70px);
+    width: 100vw;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+:host ::ng-deep p-chart {
+    width: 100% !important;
+}
+
+:host ::ng-deep .content .p-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 65vh;
+}
+
+.chart-labels {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #333333;
+}
+
+.chart-labels .label-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.chart-labels .label-item .color-box {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.chart-labels .label-item .label-text {
+    font-size: 14px;
+}
+
+.main {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    position: absolute;
+    top: 102px;
+}
+
+:host ::ng-deep .main .p-card {
+    width: 95vw;
+    height: 60px;
+    background: #3443A0;
+    border-radius: 10px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.psg {
+    position: absolute;
+    top: 70px;
+    left: 2.5vw;
+}
+
+.main i {
+    position: absolute;
+    top: 23px;
+    padding-left: 2px;
+    color: rgba(255, 163, 51, 1);
+}
+
+.content {
+    position: absolute;
+    display: flex;
+    top: 200px;
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+    gap: -30px;
+
+}
+
+:host ::ng-deep .p-card {
+    top: 180px;
+    background: #fefffc;
+    border-radius: 10px;
+    width: 95vw;
+    height: 65vh;
+    /* left: 80px; */
+    top: 180px;
+
+}
+
+:host ::ng-deep .p-overlay-mask {
+    background: none;
+    position: none;
+}
+
+:host ::ng-deep .p-dialog-mask .p-overlay-mask {
+    position: none;
+
+
+}
+
+:host ::ng-deep .p-dialog {
+    position: absolute;
+    width: 700px;
+    max-height: 604px;
+    left: 56vw;
+    top: 68px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    border: none
+}
+
+:host ::ng-deep .p-dialog-header {
+    padding: 25px 15px 0px 25px;
+}
+
+:host ::ng-deep .p-dialog-close-button {
+    width: 14.44px;
+    height: 13.44px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border: none !important;
+}
+
+:host ::ng-deep .p-button-secondary {
+    border: none !important;
+    border-color: none;
+}
+
+:host ::ng-deep .p-button-icon-only.p-button-rounded {
+    border-radius: 0;
+}
+
+:host ::ng-deep p-button {
+    border: none !important;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 600px;
+}
+
+.header h3 {
+    height: 30px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    color: #333333;
+}
+
+.header h6 {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    text-decoration-line: underline;
+    color: #162541;
+    width: 68px;
+    height: 20px;
+}
+
+li {
+    list-style-type: none;
+    width: 100%;
+    padding: 15px 25px 15px 25px;
+
+}
+
+li h4 {
+    height: 20px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 20px;
+    color: #333333;
+}
+
+li:hover {
+    background: #F1F1F1;
+}
+
+li div {
+    display: flex;
+}
+
+li div p {
+    width: 600px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    color: #333333;
+}
+
+:host ::ng-deep .p-dialog-content {
+    padding: 0;
+}
+
+li i {
+    color: black;
+    visibility: hidden;
+}
+
+li:hover i {
+    visibility: visible;
+}

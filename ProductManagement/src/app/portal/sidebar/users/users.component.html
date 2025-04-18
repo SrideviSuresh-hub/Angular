@@ -38,7 +38,9 @@
   </p-table>
 </div>
 <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="true" [responsive]="true">
+<ng-template pTemplate="header">
   <h3>{{ isEditing ? 'Edit User' : 'Add User' }}</h3>
+</ng-template>
   <form #userForm="ngForm" (ngSubmit)="onSave(userForm)">
     <div class="form-container">
     <div class="form-container1" *ngIf="selectedUser">

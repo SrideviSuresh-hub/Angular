@@ -1,189 +1,181 @@
 <div class="container">
-    <div class="user-container">
-        <div class="grid">
-            <h1 class="heading">User Service</h1>
-            <p-button class="p-button-add"  (click)="showAddUser()">
-              <i class="pi pi-plus add"></i>
-            </p-button>
-        </div>
-        <div class="card">
-            <p-table [value]="users" [tableStyle]="{'min-width': '60rem'}">
-                <ng-template #header>
-                    <tr>
-                        <th pSortableColumn="name" style="width:14%">
-                            Name <p-sortIcon field="name" />
-                        </th>
-                        <th pSortableColumn="fname" style="width:14%">
-                            First Name <p-sortIcon field="fname" />
-                        </th>
-                        <th pSortableColumn="lname" style="width:14%">
-                            LastName <p-sortIcon field="lname" />
-                        </th>
-                        <th pSortableColumn="email" style="width:18%">
-                            Eail ID <p-sortIcon field="email" />
-                        </th>
-                        <th pSortableColumn="status" style="width:12%">
-                            Status <p-sortIcon field="status" />
-                        </th>
-                        <th pSortableColumn="admin" style="width:12%">
-                            Is Admin <p-sortIcon field="admin" />
-                        </th>
-                        <th pSortableColumn="datetime" style="width:25%">
-                            Created Date Time <p-sortIcon field="datetime" />
-                        </th>
-                        <th style="width:5%">
-                        </th>
-                    </tr>
-                </ng-template>
-                <ng-template #body let-user>
-                    <tr (click)="onRowCLick(user)">
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.fname }}</td>
-                        <td>{{ user.lname }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>
-                            <p-tag [value]="user.status" [severity]="'success'" />
-                        </td>
-                        <td>{{ user.isAdmin }}</td>
-                        <td>{{ user.datetime | date :"MM/dd/YYYY HH:MM a"}}</td>
-                        <td><i class="fa-regular fa-trash-can" (click)="confirmDelete(user)"></i></td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
+  <div class="user-container">
+    <div class="grid">
+      <h1 class="heading">User Service</h1>
+      <p-button class="p-button-add" (click)="showDailog(null,'add')">
+        <i class="pi pi-plus add"></i>
+      </p-button>
     </div>
+    <div class="card">
+      <p-table [value]="users" [tableStyle]="{'min-width': '60rem'}">
+        <ng-template #header>
+          <tr>
+            <th pSortableColumn="name" style="width:14%">
+              Name <p-sortIcon field="name" />
+            </th>
+            <th pSortableColumn="fname" style="width:14%">
+              First Name <p-sortIcon field="fname" />
+            </th>
+            <th pSortableColumn="lname" style="width:14%">
+              LastName <p-sortIcon field="lname" />
+            </th>
+            <th pSortableColumn="email" style="width:18%">
+              Email ID <p-sortIcon field="email" />
+            </th>
+            <th pSortableColumn="status" style="width:12%">
+              Status <p-sortIcon field="status" />
+            </th>
+            <th pSortableColumn="admin" style="width:12%">
+              Is Admin <p-sortIcon field="admin" />
+            </th>
+            <th pSortableColumn="datetime" style="width:25%">
+              Created Date Time <p-sortIcon field="datetime" />
+            </th>
+            <th style="width:5%">
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+          <tr (click)="showDailog(user,'view')">
+            <td>{{ user.username }}</td>
+            <td>{{ user.fname }}</td>
+            <td>{{ user.lname }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <p-tag [value]="user.status" [severity]="'success'" />
+            </td>
+            <td>{{ user.isAdmin ? 'Yes' : 'No' }}</td>
+            <td>{{ user.datetime | date :"MM/dd/yyy hh:mm a"}}</td>
+            <td><i class="fa-regular fa-trash-can" (click)="confirmDelete(user) ; $event.stopPropagation()"></i></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
 
 </div>
-<p-dialog  [(visible)]="showDialogs" [modal]="true" [style]="{ width: '25rem' }">
-  <ng-template #header>
-<div>User Details  <span><i class="pi pi-user-edit" (click)="enableEdit()"></i></span></div>
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '25rem' }">
+  <ng-template pTemplate="header">
+    <div>User Details</div>
   </ng-template>
-  <form #userForm="ngForm" (ngSubmit)="saveUser(userForm)" >
+  <form #userForm="ngForm" (ngSubmit)="saveUser(userForm)">
     <div class="form-grid">
-        
-        <div class="input-box">
-          <label>User Name</label>
-          <input pInputText name="username" [(ngModel)]="user.username" required  [disabled]="isFieldDisabled()"/>
+
+      <div class="input-box">
+        <label>User Name</label>
+        <input pInputText name="username" [(ngModel)]="newUser.username" required [disabled]="mode==='view'" />
+      </div>
+      <div class="input-box">
+        <label>First Name</label>
+        <input pInputText name="firstName" [(ngModel)]="newUser.fname" required [disabled]="mode==='view'" />
+      </div>
+      <div class="input-box">
+        <label>Last Name</label>
+        <input pInputText name="lastName" [(ngModel)]="newUser.lname" required [disabled]="mode==='view'" />
+      </div>
+      <div class="input-box">
+        <div class="gender">
+          <label>Gender</label>
+          <div class="gender-option">
+            <p-selectbutton [options]="genders" [(ngModel)]="newUser.gender" name="gender" optionLabel="label"
+              optionValue="gender" [disabled]="mode==='view'" />
+          </div>
         </div>
-       <div class="input-box">
-          <label>First Name</label>
-          <input pInputText name="firstName" [(ngModel)]="user.fname" required [disabled]="isFieldDisabled()" />
-        </div>
-       <div class="input-box">
-          <label>Last Name</label>
-          <input pInputText name="lastName" [(ngModel)]="user.lname" required [disabled]="isFieldDisabled()"/>
-        </div>
-        <div class="input-box">
-          <div class="gender">
-            <label>Gender</label>
-            <div class="gender-option">
-                <p-selectbutton [options]="genders" [(ngModel)]="user.gender" name="gender"
-                    optionLabel="label" optionValue="gender" [disabled]="isFieldDisabled()"/>
-            </div>
-            </div>
-       
-        </div>
-       <div class="input-box">
-          <label>DOB</label>
-          <p-datepicker [(ngModel)]="user.dob" [iconDisplay]="'input'" [showIcon]="true" name="dob" inputId="templatedisplay" [disabled]="isFieldDisabled()">
-            <ng-template #inputicon let-clickCallBack="clickCallBack" >
-              <i class="fa-solid fa-calendar-days"  (click)="clickCallBack($event)" ></i>
-            </ng-template>
+      </div>
+      <div class="input-box">
+        <label>DOB</label>
+        <p-datepicker [(ngModel)]="newUser.dob" [iconDisplay]="'input'" [showIcon]="true" name="dob"
+          inputId="templatedisplay" [disabled]="mode==='view'" appendTo="body">
+          <ng-template #inputicon let-clickCallBack="clickCallBack">
+            <i class="fa-solid fa-calendar-days" (click)="clickCallBack($event)"></i>
+          </ng-template>
         </p-datepicker>
-        </div>
-       <div class="input-box">
-          <label>Email ID</label>
-          <input pInputText name="email" [(ngModel)]="user.email" type="email" required [disabled]="isFieldDisabled()" />
-        </div>
-   
-           <div class="input-box">
-            <label>Address Field 1</label>
-            <textarea id="address1" class="no-resize" pInputTextarea rows="3"  [(ngModel)]="user.address1" name="address1" [disabled]="isFieldDisabled()"></textarea>
-          </div>
-         <div class="input-box">
-            <label>Address Field 2</label>
-           <textarea id="address2" class="no-resize" pInputTextarea rows="3"  [(ngModel)]="user.address2" name="address2"[disabled]="isFieldDisabled()"></textarea>
-          </div>
-         <div class="input-box">
-            <label>Country</label>
-          <p-select [options]="countries" [(ngModel)]="user.country"  (change)="onCountryChange($event)"  name="country" [disabled]="isFieldDisabled()"/>
-          
-        </div>
-  
-        <div class="input-box">
-          <label>State</label>
-        <p-select [options]="states" [(ngModel)]="user.state"  name="state" [disabled]="isFieldDisabled()" />
-          
-        <!-- <p-select [(ngModel)]="user.state" name="state">
-          <option *ngFor="let stateOpt of states" [value]="stateOpt">{{ stateOpt }}</option> -->
+      </div>
+      <div class="input-box">
+        <label>Email ID</label>
+        <input pInputText name="email" [(ngModel)]="newUser.email" type="email" required [disabled]="mode==='view'" />
+      </div>
 
-        <!-- </p-select> -->
-        </div>
-       <div class="input-box">
-          <label>Zipcode</label>
-          <input pInputText name="zipcode" [(ngModel)]="user.zipcode" [disabled]="isFieldDisabled()"/>
-        </div>
-       <div class="input-box">
-          <label>Time Zone</label>
-          <p-select [options]="timezones" [(ngModel)]="user.timezone"  name="timezone" [disabled]="isFieldDisabled()"/>
+      <div class="input-box">
+        <label>Address Field 1</label>
+        <textarea id="address1" class="no-resize" pInputTextarea rows="3" [(ngModel)]="newUser.address1" name="address1"
+          [disabled]="mode==='view'"></textarea>
+      </div>
+      <div class="input-box">
+        <label>Address Field 2</label>
+        <textarea id="address2" class="no-resize" pInputTextarea rows="3" [(ngModel)]="newUser.address2" name="address2"
+          [disabled]="mode==='view'"></textarea>
+      </div>
+      <div class="input-box">
+        <label>Country</label>
+        <p-select [options]="countries" [(ngModel)]="newUser.country" (change)="onCountryChange($event)" name="country"
+          [disabled]="mode==='view'" />
+      </div>
 
-        </div>
- 
-        <div class="input-box">
-          <label>Locale</label>
-          <p-select [options]="locales" [(ngModel)]="user.locale"  name="locale" [disabled]="isFieldDisabled()"/>
+      <div class="input-box">
+        <label>State</label>
+        <p-select id="state" [options]="states" [(ngModel)]="newUser.state" name="state" [disabled]="mode==='view'"
+          appendTo="body" />
+      </div>
+      <div class="input-box">
+        <label>Zipcode</label>
+        <input pInputText name="zipcode" [(ngModel)]="newUser.zipcode" [disabled]="mode==='view'" appendTo="body" />
+      </div>
+      <div class="input-box">
+        <label>Time Zone</label>
+        <p-select [options]="timezones" [(ngModel)]="newUser.timezone" name="timezone" [disabled]="mode==='view'"
+          appendTo="body" />
+      </div>
 
-        </div>
-       <!-- <div class="input-box">
-          <label>Upload User Image</label>
-          <p-button class="p-button-upload" label="Upload" (change)="onImageUpload($event)" severity="secondary" [disabled]="isFieldDisabled()" />
-        </div> -->
-        <div class="input-box">
-          <label>Upload User Image</label>
-          <!-- icon="pi pi-upload" -->
-          <p-button
-            class="p-button-upload"
-            label="Upload"
-            (click)="fileInput.click()"
-            severity="secondary"
-            [disabled]="isFieldDisabled()"
-          ></p-button>
-    
-          <!-- Hidden File Input -->
-          <input
-            type="file"
-            accept="image/*"
-            #fileInput
-            (change)="onImageUpload($event)"
-            hidden
-            [disabled]="isFieldDisabled()"
-          />
-    
-          <!-- Display Uploaded File Name -->
-          <div *ngIf="uploadedFileName" class="uploaded-file-display">
-            <span>{{ uploadedFileName }}</span>
-            <button
-              type="button"
-              class="remove-btn"
-              (click)="removeImage()"
-              [disabled]="isFieldDisabled()"
-            >
-              <i class="pi pi-times"></i>
+      <div class="input-box">
+        <label>Locale</label>
+        <p-select [options]="locales" [(ngModel)]="newUser.locale" name="locale" [disabled]="mode==='view'"
+          appendTo="body" />
+      </div>
+
+      <div class="input-box">
+        <label>Upload User Image</label>
+        <div class="upload">
+          <p-button class="p-button-upload" label="Upload" (click)="fileInput.click()" severity="secondary"
+            [disabled]="mode==='view'"> </p-button>
+          <span *ngIf="uploadedFileName">{{ uploadedFileName }}
+            <button type="button" class="remove-btn" [disabled]="mode==='view'" (click)="removeImage()">
+              <i class="pi pi-trash"></i>
             </button>
-          </div>
+          </span>
+          <input type="file" accept="image/*" #fileInput (change)="onImageUpload($event)" hidden
+            [disabled]="mode==='view'" />
         </div>
-        
-        <div class="input-box">
-          <label>Is Admin</label>
-          <p-checkbox [(ngModel)]="user.isAdmin" [binary]="true" name="isAdmin" [disabled]="isFieldDisabled()"></p-checkbox>
-        </div>
-    </div>
-    </form>
-    
-    <ng-template #footer>
-      <p-button label="Cancel" class="p-button-secondary-ss" (click)="showDialogs = false" />
-      <p-button label="Save"  type="submit" class="p-button-primary" (click)="saveUser(userForm)"/>
+      </div>
 
-    </ng-template>
+      <div class="input-box ad">
+        <div class="input-box chec">
+          <label>Is Admin</label>
+          <p-checkbox [(ngModel)]="newUser.isAdmin" binary="true" name="isadmin"
+            [disabled]="mode==='view'" ></p-checkbox>
+        </div>
+        <div class="input-box per" *ngIf="newUser.isAdmin">
+          <label for="permission"> Assign Permission</label>
+          <p-multiselect name="permisions"
+           [options]="permissions"
+            [(ngModel)]="newUser.permissions" 
+            (onChange)="onPermissionChange()" 
+            appendTo="body"
+             display="chip"
+             optionLabel="label"
+             optionValue="value"
+             [disabled]="mode === 'view'" />
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Back" *ngIf="mode==='view'" class="p-button-secondary-ss" [text]="true" (click)="visible=false" />
+    <p-button label="Edit" *ngIf="mode==='view'" class="p-button-primary" (click)="mode='edit'" />
+    <p-button label="Cancel" *ngIf="mode!=='view'" class="p-button-secondary-ss" [text]="true" (click)="onCancel()" />
+    <p-button label="Save" type="submit" class="p-button-primary" *ngIf="mode!=='view'" (click)="saveUser(userForm)" />
+
+  </ng-template>
 </p-dialog>
-  
+<p-toast></p-toast>

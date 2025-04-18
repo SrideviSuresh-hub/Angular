@@ -39,44 +39,80 @@
     background-color: #EAEAEA;
 }
 
-:host ::ng-deep .p-datatable-thead>tr>th {
-    padding: 5px 20px !important;
-    border: none;
-    border-bottom: 1px solid #E1E1E1 !important;
-}
-
-:host ::ng-deep .p-datatable-tbody>tr>td {
-    padding: 5px 20px !important;
-    border: none;
-    border-bottom: 1px solid #E1E1E1 !important;
-}
 
 .grid {
     display: flex;
     padding: 10px;
     justify-content: space-between;
 }
-
-:host ::ng-deep .p-button-add {
-    background: #3443A0 !important;
-    border: none !important;
-    border-radius: 3px;
-    padding: 5px;
-    color: white !important;
-    font-weight: 800 !important;
-}
-
 :host ::ng-deep .p-button {
     background: none !important;
     border: none !important;
 }
+:host ::ng-deep .p-button-add {
+    background: #3443A0 !important;
+    border: none !important;
+    border-radius: 3px;
+    color: white !important;
+    font-weight: 800 !important;
+}
+
+:host ::ng-deep .p-dialog-footer .p-button {
+    box-sizing: border-box !important;
+    font-family: 'Poppins' !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 13px !important;
+    line-height: 100% !important;
+    letter-spacing: 0% !important;
+}
+
+:host ::ng-deep .p-dialog-footer .p-button-primary {
+    color: #FFFFFF !important;
+    width: 60px !important;
+    height: 30px !important;
+    background: #162541 !important;
+    border: 1px solid #162541 !important;
+    border-radius: 6px !important;
+    text-align: center;
+}
+
+:host ::ng-deep .p-dialog-footer .p-button-secondary-ss {
+    box-sizing: border-box !important;
+    width: 70px !important;
+    height: 30px !important;
+    background: #FFFFFF !important;
+    border: 1px solid #E1E1E1 !important;
+    border-radius: 6px !important;
+    text-align: center;
+}
+
+:host ::ng-deep .p-button-outlined {
+    color: #FFFFFF !important;
+}
+
 
 .input-box {
     display: flex;
     flex-direction: column;
     width: 500px;
     gap: 5px;
-    margin-bottom: 1.5rem;
+    height: 60px;
+    margin-bottom: 25px;
+
+}
+
+.detail-box {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    gap: 5px;
+    height: 95px;
+    margin-bottom: 25px;
+}
+
+textarea {
+    height: 70px;
 }
 
 .fa-trash-can {
@@ -85,12 +121,32 @@
 
 :host ::ng-deep .p-inputtext,
 textarea {
-    background: #F1F1F1;
+    background: #F1F1F1 ;
     border: none;
-    opacity: 0.55;
+    font-family: 'poppins';
+    font-size: 13px;
+    font-weight: 500;
     border-radius: 6px;
     width: 500px;
     box-shadow: none;
+    color: rgba(0, 0, 0, 1);
+}
+textarea{
+    padding: .5rem .75rem;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 20px;
+}
+::ng-deep .p-inputtext:disabled {
+    background-color:#e2e8f0   ;
+    opacity: 1;
+}
+::ng-deep textarea:disabled{
+    background-color:#e2e8f0  ;
+    opacity: 1;
+}
+:host ::ng-deep .p-inputtext {
+    height: 35px;
 }
 
 .no-resize {
@@ -105,12 +161,12 @@ label {
     font-weight: 400;
     font-size: 13px;
     line-height: 20px;
-    color: #333333;
+    color:rgba(51, 51, 51, 1);
 }
 
 :host ::ng-deep .p-dialog {
     width: 546px;
-    height: 432px;
+    height: 428px;
     left: 687px;
     top: 110px;
     background: #FFFFFF;
@@ -125,6 +181,7 @@ label {
     font-size: 15px;
     line-height: 22px;
     color: #000000;
+    padding: 25px;
 }
 
 :host ::ng-deep .p-dialog-footer {
@@ -135,49 +192,51 @@ label {
     padding-top: 10px;
 }
 
-:host ::ng-deep .p-dialog-footer .p-button {
-    box-sizing: border-box !important;
-    font-family: 'Poppins' !important;
-    font-style: normal !important;
-    font-weight: 400 !important;
-    font-size: 13px !important;
-    line-height: 20px !important;
-}
-
-:host ::ng-deep .p-dialog-footer .p-button-primary {
-    color: #FFFFFF !important;
-    width: 60px !important;
-    height: 30px !important;
-    background: #162541 !important;
-    border: 1px solid #162541 !important;
-    border-radius: 6px !important;
-}
-
-:host ::ng-deep .p-dialog-footer .p-button-secondary-ss {
-    box-sizing: border-box !important;
-    width: 70px !important;
-    height: 30px !important;
-    background: #FFFFFF !important;
-    border: 1px solid #E1E1E1 !important;
-    border-radius: 6px !important;
-}
-
-:host ::ng-deep .p-button-outlined {
-    color: #FFFFFF !important;
-}
-
 :host ::ng-deep .p-button-text {
     color: #333333 !important;
     text-align: center;
 }
 
-.p-datepicker-input-icon-container {
-    position: relative;
-    top: 15px;
-    left: -25px;
+:host ::ng-deep .p-dialog-content {
+    overflow-y: hidden;
+    padding: 25px;
+    padding-top: 0;
+
 }
 
-.ui-datepicker {
-    position: absolute;
-    top: -100px;
+
+
+
+:host ::ng-deep .p-datatable-thead>tr>th {
+    padding: 5px 20px !important;
+    border: none;
+    border-bottom: 1px solid #E1E1E1 !important;
+    height: 42px;
+    left: 78px;
+    top: 148px;
+    background: #EAEAEA;
+    font-family: "poppins";
+}
+
+:host ::ng-deep .p-datatable-tbody>tr>td {
+    font-family: 'Poppins';
+
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th.p-datatable-column-sorted {
+    padding: 5px 20px !important;
+    border: none;
+    border-bottom: 1px solid #E1E1E1 !important;
+}
+
+.go-to-page-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+.go-input {
+    width: 70px;
+    padding: 0.25rem 0.5rem;
 }

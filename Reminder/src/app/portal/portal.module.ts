@@ -22,10 +22,14 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { Select } from 'primeng/select';
 import { RouterModule } from "@angular/router";
 import { routes2 } from "./portals-route.module";
-import { DatePipe } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import { MessageService } from "primeng/api";
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from "primeng/ripple";
+import { UserhomeComponent } from "./userhome/userhome.component";
+import { ChartModule } from 'primeng/chart';
+import { GoogleChartsModule } from 'angular-google-charts';
+import { MultiSelectModule } from 'primeng/multiselect';
 @NgModule({
     declarations: [
         HeaderComponent,
@@ -33,8 +37,10 @@ import { Ripple } from "primeng/ripple";
         ReminderComponent,
         UsersComponent,
         PortalComponent,
+        UserhomeComponent
       ],
       imports: [
+        CommonModule,
         CardModule,
         InputTextModule,
         FormsModule,
@@ -54,6 +60,9 @@ import { Ripple } from "primeng/ripple";
         DatePipe,
         ToastModule,
         Ripple,
+        ChartModule,
+        MultiSelectModule,
+        GoogleChartsModule,
         RouterModule.forChild(routes2),
       ],
       exports:[
@@ -74,6 +83,9 @@ import { Ripple } from "primeng/ripple";
         DatePickerModule,
         DropdownModule,
         Ripple,
+        ChartModule,
+        MultiSelectModule,
+        GoogleChartsModule,
         ToastModule
       ],
       providers:[MessageService]

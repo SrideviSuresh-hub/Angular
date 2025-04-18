@@ -1,0 +1,81 @@
+<div class="container">
+    <div>
+        <div class="psg">Home</div>
+    </div>
+    <div class="main">
+        <p-card (click)="navigate()" class="cursor-pointer grid" >
+            Go to Reminder Service <i class="pi pi-angle-double-right"></i>
+        </p-card>
+    </div>
+    <div class="content">
+        <p-card class="flex">
+            <p-chart type="doughnut" [data]="chartData" [options]="chartOption"  height="400"></p-chart>
+        <div class="chart-labels">
+            <div class="label-item">
+                <div class="color-box" style="background-color: #B8AFFC;"></div>
+                <div class="label-text">Future</div>
+            </div>
+            <div class="label-item">
+                <div class="color-box" style="background-color: #0000B0;"></div>
+                <div class="label-text">Unread</div>
+            </div>
+            <div class="label-item">
+                <div class="color-box" style="background-color: #5240DA;"></div>
+                <div class="label-text">Inactive</div>
+            </div>
+        </div>
+        </p-card>
+</div>
+
+
+    <p-dialog  [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"  [draggable]="false" [resizable]="false">
+        <ng-template pTemplate="header">
+            <div class="header">
+                <h3>Today’s Reminders</h3>
+                <h6 (click)="dismissAllReminders()">Dismiss All</h6>
+            </div>
+        </ng-template>
+            <div *ngFor="let reminder of popupReminders" class="rem-item">
+               <li>
+                <h4>{{reminder.title}}</h4>
+               <div>
+                <p>{{reminder.detail}}</p>
+                <i class="pi pi-trash" (click)="dismissReminder(reminder)" ></i>
+               </div>  
+            </li>
+            </div>
+            <div class="footer">
+            </div>
+    </p-dialog>
+
+
+    <!-- futureReminders = 0;
+    unreadReminders = 0;
+    inactiveReminders =0;
+    title='';
+   type:ChartType=ChartType.PieChart;
+   data:any[]=[];
+   options={
+     piehole:.4
+   };
+   width=300;
+   height=300;
+   updateChartData(){
+     
+   this.futureReminders = this.reminders.filter(r => r.status.toLowerCase() === 'active').length;
+    this.unreadReminders = this.reminders.filter(r => r.status.toLowerCase() === 'unread').length;
+    this.inactiveReminders = this.reminders.filter(r => r.status.toLowerCase() === 'inactive').length;
+     this.data=[
+       ['Future',this.futureReminders],
+       ['UnRead',this.unreadReminders],
+       ['InActice',this.inactiveReminders]
+     ];
+ 
+   } -->
+     <!--             <google-chart 
+            [title]="title"
+            [type]="type"
+            [data]="data"
+            [options]="options"
+            [width]="width"
+            [height]="height"></google-chart> -->

@@ -309,6 +309,9 @@ textarea {
 .select-box {
   width: 100%;
   margin-bottom: 15px;
+
+
+
 }
 
 h3 {
@@ -374,7 +377,12 @@ p-password {
   color: #000000 !important;
   padding: 12px !important;
 }
-
+:host ::ng-deep .p-dialog {
+position: absolute;
+width: 72vw;
+height: 624px;
+top: 107px;
+}
 :host ::ng-deep.p-confirmdialog .p-dialog-content {
   font-weight: 500 !important;
 }

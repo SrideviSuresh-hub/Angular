@@ -5,16 +5,35 @@
         <p>Home</p>
     </div>
     <div class="main">
-        <p-card  (click)="navigate()" class="cursor-pointer" grid>
+        <p-card  (click)="navigate()" class="cursor-pointer grid" >
             Go to User Service <i class="pi pi-angle-double-right"></i>
         </p-card>
     </div>
     <div class="content">
         <div class="col-6">
-            <p-card ></p-card>
+            <p-card >
+                <p-chart type="line" [data]="lineChartData" [responsive]="true" [options]="options"></p-chart>
+               
+            </p-card>
         </div>
         <div class="col-6">
-            <p-card></p-card>
+            <p-card>
+                <p-chart type="doughnut" [data]="doughnutChartData"  [options]="chartOption" [responsive]="true"></p-chart>
+                <div class="chart-labels">
+                    <div class="label-item">
+                        <div class="color-box" style="background-color: #B8AFFC;"></div>
+                        <div class="label-text">Future</div>
+                    </div>
+                    <div class="label-item">
+                        <div class="color-box" style="background-color: #0000B0;"></div>
+                        <div class="label-text">Unread</div>
+                    </div>
+                    <div class="label-item">
+                        <div class="color-box" style="background-color: #5240DA;"></div>
+                        <div class="label-text">Inactive</div>
+                    </div>
+                </div>
+            </p-card>
         </div>
     </div>
 </div>

@@ -1,11 +1,10 @@
-import { Reminder } from "./reminder";
 
 export interface User{
     username:string;
     fname:string;
     lname:string;
     gender:string;
-    dob:string;
+    dob:string|Date;
     email:string;
     mobile:number;
     address1:string;
@@ -15,12 +14,11 @@ export interface User{
     zipcode:string;
     timezone:string;
     locale:string;
-    image:string;
+    image:string |null;
     isAdmin:boolean;
-    datetime:string|number|Date;
-    permissions?:string;
+    datetime:Date|string;
+    permissions?:string[];
     status:string;
     password:string;
-    reminders:Reminder[];
-    id?:string|number|Date;
+     id?:string|number|Date;
 }

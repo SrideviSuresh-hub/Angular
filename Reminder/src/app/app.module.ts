@@ -7,7 +7,6 @@ import { AppRoutingModule, routes1 } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { providePrimeNG } from 'primeng/config';
 import { LoginComponent } from './login/login.component';
-import { PortalComponent } from './portal/portal.component';
 import { PortalModule } from './portal/portal.module';
 import { RouterModule } from '@angular/router';
 import { PortalRouteModule } from './portal/portals-route.module';
@@ -16,8 +15,8 @@ import { PortalRouteModule } from './portal/portals-route.module';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-  ],
+    LoginComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

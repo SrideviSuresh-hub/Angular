@@ -1,33 +1,37 @@
-.col1 {
-    /* position: absolute; */
-    width: 45%;
-    height: 793px;
-    left: 80px;
-    top: 180px;
-    background: #0e0a0a;
-    border-radius: 10px;
-}
-
-
 
 .container {
-    /* display: grid; */
     background-color: rgba(225, 234, 245, 1);
     position: absolute;
     top: 70px;
-    height:89vh;
+    height: calc(100vh - 70px);
     width: 100vw;
     overflow: hidden;
     padding: 0;
     margin: 0;
 }
 
-:host ::ng-deep .main .p-card {
+.main{
+    display: flex;
+    width: 100%;
     position: absolute;
-    width: 90%;
-    height: 60px;
-    left: 80px;
     top: 102px;
+    left: 80px;
+    right: 80px;
+}
+.content {
+    position: absolute;
+    display: flex;
+    top: 200px;
+    width: 100%;
+    height: 100%;
+    left: 80px;
+    right: 80px;
+    gap: 20px;
+}
+
+:host ::ng-deep .main .p-card {
+    width: calc(100vw - 160px);
+    height: 60px;
     background: #3443A0;
     border-radius: 10px;
     color: white;
@@ -38,7 +42,6 @@
     line-height: 24px;
     text-align: center;
     color: #FFFFFF;
-    /* align-content: center; */
     justify-content: center;
 }
 
@@ -49,25 +52,55 @@ p {
 }
 
 i {
+    position: absolute;
     top: 23px;
     padding-left: 2px;
     color: rgba(255, 163, 51, 1);
 }
 
-.content {
-    position: absolute;
-    display: flex;
-    top: 200px;
-    width: 100%;
-    height: 100%;
-    justify-content: space-around;
-    gap: -30px;
-}
+
 
 :host ::ng-deep .p-card{
-    width: 47vw;
+    width: calc(50vw - 92px);
     height: 65vh;
     top: 180px;
     background: #fefffc;
     border-radius: 10px;
+}
+/* :host ::ng-deep p-chart {
+    width: 100% !important;
+} */
+
+:host ::ng-deep .content .p-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 65vh;
+}
+
+.chart-labels {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #333333;
+}
+
+.chart-labels .label-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.chart-labels .label-item .color-box {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.chart-labels .label-item .label-text {
+    font-size: 14px;
 }

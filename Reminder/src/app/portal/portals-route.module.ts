@@ -5,6 +5,7 @@ import { ReminderComponent } from "./reminder/reminder.component";
 import { HomeComponent } from "./home/home.component";
 import { HeaderComponent } from "./header/header.component";
 import { PortalComponent } from "./portal.component";
+import { UserhomeComponent } from "./userhome/userhome.component";
 
 export const routes2:Routes=[
     {path:'',component:PortalComponent,
@@ -13,6 +14,7 @@ export const routes2:Routes=[
             {path:'reminder',component:ReminderComponent},
             {path:'home',component:HomeComponent},
             {path:'header',component:HeaderComponent},
+            {path:'userhome',component:UserhomeComponent},
             // { path: '', redirectTo: 'home', pathMatch: 'full' }
         ]
     }

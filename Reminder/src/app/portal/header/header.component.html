@@ -6,10 +6,10 @@
         <ng-template #end>
            
             <div  class="flex items-center gap-2 end">
-                <i class="pi pi-home"></i>
-                <i class="pi pi-bell"></i>
-                <i class="pi pi-moon"></i>
-                <i class="pi pi-power-off"></i>
+                <i class="pi pi-home" (click)="navigateToHome()"></i>
+                <i class="pi pi-bell" *ngIf="!curUser?.isAdmin"></i>
+                <i class="pi pi-moon" (click)="changeTheme()"></i>
+                <i class="pi pi-power-off" (click)="onLogout()"></i>
             </div>
         </ng-template>
     </p-menubar>

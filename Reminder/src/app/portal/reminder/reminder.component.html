@@ -1,13 +1,20 @@
-
 <div class="container">
     <div class="reminder-container">
-  <div class="grid">
-    <h1 class="heading">Reminder Service</h1>
-    <p-button class="p-button-add" (click)="showDailog()"><i class="pi pi-plus add"></i></p-button>
-</div>
+        <div class="grid">
+            <h1 class="heading">Reminder Service</h1>
+            <p-button class="p-button-add" (click)="showDailog(null, 'add')"><i class="pi pi-plus add"></i></p-button>
+        </div>
         <div class="card">
-            <p-table [value]="reminders" [tableStyle]="{'min-width': '60rem'}">
-                <ng-template #header>
+            <p-table #dt [value]="reminders"
+             [tableStyle]="{'min-width': '60rem'}"
+             [paginator]="true"
+             [rows]="2"
+             [first]="first"
+             [paginatorPosition]="'bottom'"
+             (onPage)="onPageChange($event)"
+             currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+             >
+             <ng-template pTemplate="header">
                     <tr>
                         <th pSortableColumn="title" style="width:18%">
                             Name <p-sortIcon field="title" />
@@ -16,56 +23,82 @@
                             Reminder Date Time <p-sortIcon field="rdt" />
                         </th>
                         <th pSortableColumn="cdt" style="width:18%">
-                            Created Date Time    <p-sortIcon field="cdt" />
+                            Created Date Time <p-sortIcon field="cdt" />
                         </th>
-                      
+
                         <th pSortableColumn="status" style="width:12%">
                             Status <p-sortIcon field="status" />
                         </th>
-                        
-                        
                         <th style="width:10%">
                         </th>
                     </tr>
                 </ng-template>
                 <ng-template #body let-reminder>
-                    <tr>
-                        <td>{{ reminder.title  }}</td>
-                        <td>{{ reminder.reminderdt | date:"MM/dd/YYYY  HH:MM a"}}</td>
-                        <td>{{ reminder.createdatetime |date:"MM/dd/YYYY  HH:MM a"}}</td>
+                    <tr (click)="showDailog(reminder,'view')">
+                        <td>{{ reminder.title }}</td>
+                        <td>{{ reminder.reminderdt | date:"MM/dd/YYYY hh:mm a"}}</td>
+                        <td>{{ reminder.createdatetime |date:"MM/dd/YYYY hh:mm a"}}</td>
                         <td>
                             <p-tag [value]="reminder.status" [severity]="getSeverity(reminder.status)" />
-
                         </td>
-                        <td><i class="fa-regular fa-trash-can"></i></td>
+                        <td>
+                            <i class="fa-regular fa-trash-can"
+                                (click)="deleteReminder(reminder.id);  $event.stopPropagation()"></i>
+                        </td>
                     </tr>
                 </ng-template>
+                <ng-template pTemplate="paginatorleft">
+                    <div class="go-to-page-container">
+                      <input
+                        type="number"
+                        [(ngModel)]="curPageInput"
+                        [min]="1"
+                        [max]="maxPage"
+                        class="go-input"
+                      />
+                      <button type="button" pButton label="Go" (click)="goToPage(dt)"></button>
+                    </div>
+                  </ng-template>
             </p-table>
+        
         </div>
+    </div>
 </div>
-</div>
-<p-dialog [(visible)]="visible" [modal]="true" >
-   <ng-template #header>
-    Reminder Details
-</ng-template>
-<div class="input-box">
-    <label for="title" >Title</label>
-    <input pInputText id="title"  />
-</div>
-<div   class="input-box">
-    <label for="detail" >Detail</label>
-    <textarea id="address2" class="no-resize" pInputTextarea rows="4"  name="address2"></textarea>
-</div>
-<div class="input-box">
-    <label for="datetime" >Date Time</label>
-    <p-datepicker  [iconDisplay]="'input'" [showIcon]="true" name="dob" inputId="templatedisplay">
-        <ng-template #inputicon let-clickCallBack="clickCallBack">
-          <i class="fa-solid fa-calendar-days"  (click)="clickCallBack($event)"></i>
-        </ng-template>
-    </p-datepicker>
-</div>
-<ng-template #footer>
-          <p-button label="Cancel" [text]="true" class="p-button-secondary-ss" (click)="visible = false" />
-        <p-button label="Save" class="p-button-primary" (click)="visible = false" />
- </ng-template>
+<p-dialog [(visible)]="visible" [modal]="true">
+    <ng-template pTemplate="header">
+        Reminder Details
+    </ng-template>
+    <form #reminderForm="ngForm">
+        <div class="input-box">
+            <label for="title">Title</label>
+            <input pInputText id="title" name="title" [(ngModel)]="newReminder.title" required
+                [disabled]="mode==='view'" maxlength="50" /> 
+        </div>
+        <div class="detail-box">
+            <label for="detail">Detail</label>
+            <textarea id="detail" class="no-resize" pInputTextarea  name="detail"
+                [(ngModel)]="newReminder.detail" required [disabled]="mode==='view'" maxlength="150"></textarea>
+        </div>
+        <div class="input-box">
+            <label for="datetime">Date Time</label>
+
+            <p-datepicker [iconDisplay]="'input'" [showIcon]="true" name="reminderdt" inputId="calendar-24h"
+                [hourFormat]="'24'" [showTime]="true" [(ngModel)]="newReminder.reminderdt" [disabled]="mode === 'view'"
+                required  appendTo="body">
+                <ng-template let-clickCallBack="clickCallBack">
+                    <i class="fa-solid fa-calendar-days" (click)="clickCallBack($event)"></i>
+                </ng-template>
+            </p-datepicker>
+        </div>
+
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button label="Back" *ngIf="mode==='view'" (click)="visible=false" [text]="true"
+            class="p-button-secondary-ss"></p-button>
+        <p-button label="Edit" *ngIf="mode==='view'" (click)="mode='edit'" class="p-button-primary"></p-button>
+        <p-button label="Cancel" *ngIf="mode!=='view'" [text]="true" class="p-button-secondary-ss"
+            (click)="onCancel()"></p-button>
+        <p-button label="Save" *ngIf="mode!=='view'" class="p-button-primary" type="submit"
+            (click)="onSubmit(reminderForm)"></p-button>
+    </ng-template>
 </p-dialog>

@@ -10,9 +10,7 @@ import { AuthService } from '../../Services/auth.service';
 export class SidebarComponent implements OnInit {
 
   @Input() isLeftSidebarCollapsed: boolean = false;
-  // @Output() changeIsLeftSidebarCollapsed = new EventEmitter<boolean>();
-  @Output() labelSelected = new EventEmitter<string>();  // Emit label to parent component
-
+  @Output() labelSelected = new EventEmitter<string>();  
   authService:AuthService=inject(AuthService);
   isAdmin:boolean=false;
   items:any[]=[];
@@ -20,7 +18,6 @@ export class SidebarComponent implements OnInit {
   {
     this.isAdmin = this.authService.isAdmin();
     this.setSidebarItems();
-   
   }
 
   setSidebarItems() {

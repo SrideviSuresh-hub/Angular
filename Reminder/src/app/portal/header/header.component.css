@@ -1,17 +1,18 @@
 .card {
   position: fixed;
   width: 100vw;
-  height: 70px;
-  left: 0px;
-  top: 0px;
-  border-radius: 0;
+  /* height: 60px; */
+  /* left: 0px;
+  top: 0px; */
+  /* border-radius: 0; */
   background: #FFFFFF;
   box-shadow: 3px 1px 4px rgba(65, 64, 64, 0.25);
+
 
 }
 
 img {
-  height: 50px;
+  height: 40px;
   width: 133px;
   top: 10px;
   left: 80px;
@@ -43,17 +44,25 @@ img {
 
 }
 
-
+i{
+  cursor: pointer;
+}
 
 .end i:first-child {
   color: rgba(61, 31, 119, 1);
+}
+
+:host ::ng-deep .p-menubar{
+  border: none !important;
+  border-radius: none !important;
+  height: 70px !important;
 }
 
 @media (max-width: 600px) {
   .card {
     flex-direction: column;
     height: auto;
-    padding: 0.5rem;
+    /* padding: 0.5rem; */
   }
 
   img {
