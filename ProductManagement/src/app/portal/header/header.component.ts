@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { AuthService } from '../../Services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterState, RouterStateSnapshot } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -17,16 +17,17 @@ export class HeaderComponent {
   imgURL=this.curUser.imageUrl || this.userInitials;
 
   @Input() selectedLabel: string = '';  
-
+ 
   ngOnInit(){
     this.userInitials=this.generateIntials();
     console.log(this.imgURL);
-
   }
-   
+ 
+
   generateIntials() {
     return  this.userInitials = `${this.curUser.firstName.charAt(0).toUpperCase()}${this.curUser.lastName.charAt(0).toUpperCase()}`
   }
+
   onLogout(){
     this.authService.logout();
     this.router.navigate(['/login'])

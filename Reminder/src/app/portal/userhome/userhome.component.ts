@@ -5,7 +5,10 @@ import { Reminder } from '../../Models/reminder';
 import { ReminderService } from '../../Services/reminder.service';
 import { User } from '../../Models/Users';
 import { MessageService } from 'primeng/api';
-import { interval } from 'rxjs';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Chart } from 'chart.js';
+Chart.register(ChartDataLabels);
+
 
 @Component({
   selector: 'app-userhome',
@@ -14,6 +17,7 @@ import { interval } from 'rxjs';
   styleUrl: './userhome.component.css'
 })
 export class UserhomeComponent implements OnInit {
+
   router: Router = inject(Router);
   visible: boolean = true;
   popupReminders: Reminder[] = [];
@@ -25,16 +29,23 @@ export class UserhomeComponent implements OnInit {
   chartOption: any;
   reminders: Reminder[] = [];
   intervalId: any;
+  isPopupManuallyClosed: boolean = false;
   navigate() {
     this.router.navigate(['portal/reminder'])
   }
   ngOnInit() {
     this.loadReminders();
+    this.reminderService.popupVisible$.subscribe(isVisible => {
+      this.visible = isVisible; 
+    });
+    localStorage.setItem('curPath','portal/userhome')
     this.loadPopupReminders()
     this.intervalId = setInterval(() => {
       this.loadPopupReminders();
     }, 10000);
+   
   }
+
   ngOnDestroy() {
     if (this.intervalId) {
       clearInterval(this.intervalId);
@@ -48,6 +59,9 @@ export class UserhomeComponent implements OnInit {
       this.reminderChart();
     })
   }
+  handlePopupClose() {
+    this.isPopupManuallyClosed = true;
+}
   reminderChart() {
     const futureReminders = this.reminders.filter(r => r.status.toLowerCase() === 'active').length;
     const unreadReminders = this.reminders.filter(r => r.status.toLowerCase() === 'unread').length;
@@ -71,11 +85,29 @@ export class UserhomeComponent implements OnInit {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: {
-          display: false
+          legend: {
+              display: false 
+          },
+          datalabels: {
+            anchor: 'center', 
+            align: 'center',
+            font: {
+                family: 'Roboto',
+                weight: '500',
+                size: 16,
+                style:'italic'
+            },
+            color:'white',
+          formatter: (_:any, ctx:any) => {
+              const labels = ['Future', 'Unread', 'Inactive']; 
+              return labels[ctx.dataIndex];
+          }
         },
+          tooltip: {
+            enabled: true
+          }
       }
-    }
+  };
   }
 
   updateStatusAndDissmiss(reminder: Reminder) {
@@ -96,20 +128,24 @@ export class UserhomeComponent implements OnInit {
     }
     return reminder;
   }
+
   loadPopupReminders() {
+    if (this.isPopupManuallyClosed) return;
     const now = new Date();
     if (!this.user?.id) return;
     this.reminderService.getReminderbyuserId(this.user.id).subscribe((reminders: Reminder[]) => {
       reminders.forEach(reminder => {
         const updatedReminder = this.updateStatusAndDissmiss(reminder);
         this.reminderService.updateReminder(updatedReminder).subscribe()
+        
       })
 
       this.popupReminders = reminders.filter(r =>
         !r.dismissed && new Date(r.reminderdt) <= now
       );
       this.visible = this.popupReminders.length > 0;
-    });
+      console.log(this.popupReminders.length);
+      this.reminderService.updatePopupCount(this.popupReminders.length);    });
   }
 
   dismissReminder(reminder: Reminder) {

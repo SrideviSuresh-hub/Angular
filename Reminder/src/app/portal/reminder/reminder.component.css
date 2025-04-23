@@ -10,6 +10,23 @@
     border-radius: 6px;
 }
 
+p {
+    position: absolute;
+    top: 78px;
+    left: 80px;
+    height: 18px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    color: #747474;
+}
+
+p>span {
+    color: #000000;
+}
+
 .container {
     background-color: rgba(225, 234, 245, 1);
     height: 100vh;
@@ -45,10 +62,12 @@
     padding: 10px;
     justify-content: space-between;
 }
+
 :host ::ng-deep .p-button {
     background: none !important;
     border: none !important;
 }
+
 :host ::ng-deep .p-button-add {
     background: #3443A0 !important;
     border: none !important;
@@ -121,7 +140,7 @@ textarea {
 
 :host ::ng-deep .p-inputtext,
 textarea {
-    background: #F1F1F1 ;
+    background: #F1F1F1;
     border: none;
     font-family: 'poppins';
     font-size: 13px;
@@ -131,20 +150,24 @@ textarea {
     box-shadow: none;
     color: rgba(0, 0, 0, 1);
 }
-textarea{
+
+textarea {
     padding: .5rem .75rem;
     font-weight: 500;
     font-size: 13px;
     line-height: 20px;
 }
+
 ::ng-deep .p-inputtext:disabled {
-    background-color:#e2e8f0   ;
+    background-color: #e2e8f0;
     opacity: 1;
 }
-::ng-deep textarea:disabled{
-    background-color:#e2e8f0  ;
+
+::ng-deep textarea:disabled {
+    background-color: #e2e8f0;
     opacity: 1;
 }
+
 :host ::ng-deep .p-inputtext {
     height: 35px;
 }
@@ -161,7 +184,7 @@ label {
     font-weight: 400;
     font-size: 13px;
     line-height: 20px;
-    color:rgba(51, 51, 51, 1);
+    color: rgba(51, 51, 51, 1);
 }
 
 :host ::ng-deep .p-dialog {
@@ -208,18 +231,27 @@ label {
 
 
 :host ::ng-deep .p-datatable-thead>tr>th {
-    padding: 5px 20px !important;
     border: none;
     border-bottom: 1px solid #E1E1E1 !important;
     height: 42px;
-    left: 78px;
-    top: 148px;
-    background: #EAEAEA;
-    font-family: "poppins";
+    background: #EAEAEA !important;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 20px;
+    color: #333333;
 }
 
 :host ::ng-deep .p-datatable-tbody>tr>td {
     font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    color: #333333;
+    height: 42px;
+    padding: 5px 20px !important;
 
 }
 
@@ -229,14 +261,274 @@ label {
     border-bottom: 1px solid #E1E1E1 !important;
 }
 
-.go-to-page-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-left: 1rem;
+
+.tag-active {
+    background: #28693D;
+    border-radius: 10px;
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #FFFFFF;
+    height: 16px;
 }
 
+.tag-inactive {
+    background: #B9B9B9;
+    border-radius: 10px;
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #FFFFFF;
+    height: 16px;
+}
+
+.tag-unread {
+    background: tomato;
+    border-radius: 10px;
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #FFFFFF;
+    height: 16px;
+}
+
+.tag-default {
+    background: #B9B9B9;
+    border-radius: 10px;
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #FFFFFF;
+    height: 16px;
+}
+
+:host ::ng-deep .go-to-page .p-button-label {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+    color: #FFFFFF;
+    background: #3443A0;
+    border-radius: 6px;
+    width: 35px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+:host ::ng-deep .customSortIcon sortalticon:before {
+    content: '\f0dc' !important;
+    font-family: 'FontAwesome';
+    /* color: #ffffff; */
+    margin-left: 0.2rem !important;
+    margin-right: 0.3rem !important;
+}
+:host ::ng-deep .customSortIcon sortalticon:hover::before {
+    color: #ffffff !important;
+}
+
+:host ::ng-deep .customSortIcon .p-icon {
+    visibility: hidden !important;
+}
+
+:host ::ng-deep .customSortIcon sortamountupalticon:before {
+    content: '\f0dd' !important;
+    font-family: 'FontAwesome';
+    margin-left: 0.7rem !important;
+}
+
+:host ::ng-deep .customSortIcon sortamountdownicon:before {
+    content: '\f0de' !important;
+    font-family: 'FontAwesome';
+    margin-left: 0.7rem !important;
+}
+
+:host ::ng-deep .customSortIcon .p-datatable .p-sortable-column .p-sortable-column-icon {
+    display: none !important;
+}
+  
+::ng-deep .p-datatable{
+    width: 100%;
+    height:80vh;
+    border-radius: 5px !important;
+    overflow: hidden;
+    /* background-color: #ffffff !important; */
+}
+::ng-deep.p-datatable-thead > tr > th{
+    padding: 8px 4.7px !important;
+}
+::ng-deep.p-datatable-tbody > tr > td  {
+    padding: 5.7px !important;
+}
+::ng-deep.p-datatable-thead > tr > th:first-child{
+    padding-left: 16px !important;
+}
+::ng-deep.p-datatable-tbody > tr > td:first-child{
+    padding-left: 16px !important;
+}
+
+
+::ng-deep.p-paginator-current{
+    position: absolute !important;
+    left: 12px !important;
+
+}
+::ng-deep.p-paginator{
+    justify-content: flex-end !important;
+    align-items: center !important;
+    border-radius: 0 0 5px 5px !important;
+}
+
+::ng-deep.p-paginator-page{
+    min-width: 20px !important;
+    height: 20px !important;
+}
+::ng-deep.p-paginator-page.p-paginator-page-selected {
+    background: #3443A0 !important;
+    color: #ffffff !important;
+    border-radius: 5px !important;
+    padding: 5px !important;
+    height: 30px;
+    width: 25px;
+}
+ :host ::ng-deep.p-paginator{
+    position: absolute;
+    top: 69vh;
+    gap: 0 !important;
+    right: 0;
+    height: 50px;
+    padding-top: 0;
+}
+:host ::ng-deep .p-paginator-page,
+:host ::ng-deep.p-paginator-next,
+:host ::ng-deep .p-paginator-last,
+:host ::ng-deep .p-paginator-first,
+:host ::ng-deep .p-paginator-prev {
+    border-radius: 0 !important;
+    box-sizing: border-box;
+    border: 1px solid #E1E1E1 !important;
+    height: 30px !important;
+    width: 25px !important;
+}
+
+:host ::ng-deep .p-paginator-page {
+    border-left: none !important;
+border-right: none !important;
+    /* border: none !important; */
+}
+
+:host ::ng-deep.p-paginator-next,
+:host ::ng-deep .p-paginator-prev {
+    border-left: none !important;
+    border-right: none !important;
+}
+
+:host ::ng-deep .p-paginator-first {
+    border-right: none !important;
+    border-top-left-radius: 6px !important;
+    border-bottom-left-radius: 6px !important;
+}
+
+:host ::ng-deep .p-paginator-last {
+    border-left: none !important;
+    border-top-right-radius: 6px !important;
+    border-bottom-right-radius: 6px !important;
+}
+
+:host ::ng-deep angledoublelefticon {
+    font-family: 'FontAwesome' !important;
+    /* margin-left: 0.7rem  !important */
+    padding: 0;
+    margin: 0;
+}
+
+
+body.dark-mode :host ::ng-deep .p-datatable{
+    background: #1e1e1e !important;
+    }
+    body.dark-mode :host ::ng-deep .p-paginator {
+        background: black !important;
+        border: #000000 !important;
+    }
 .go-input {
-    width: 70px;
-    padding: 0.25rem 0.5rem;
+    width: 40px;
+    text-align: center;
+    background: #FFFFFF;
+    border: 1px solid #E1E1E1;
+    border-radius: 6px;
+    height: 30px;
+}
+body.dark-mode.card {
+    background: none !important;
+}
+@media (max-width: 1490px) {
+
+    :host ::ng-deep .p-paginator {
+        top: 68vh;
+    }
+}
+@media (max-width: 1200px) {
+    ::ng-deep.p-datatable {
+        width: 100%;
+        height: 70vh;
+    }
+
+    .reminder-container {
+        height: 80vh;
+    }
+
+    .p-datatable {
+        height: 75vh;
+    }
+
+    :host ::ng-deep .p-paginator {
+        top: 64vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .reminder-container {
+        width: 95vw;
+        left: 2.5vw;
+        padding: 1rem;
+        height: auto;
+    }
+
+    :host ::ng-deep .p-datatable-thead>tr>th,
+    :host ::ng-deep .p-datatable-tbody>tr>td {
+        padding: 5px !important;
+        font-size: 12px;
+    }
+}
+@media (max-width: 435px) {
+    :host ::ng-deep .p-dialog{
+        width: 400px !important;
+    }
+    :host ::ng-deep.p-inputtext,textarea{
+        width: 350px !important;
+    }
+    :host ::ng-deep .p-dialog-content{
+        overflow: hidden;
+    }
+}
+@media (max-width:376px) {
+    :host ::ng-deep .p-dialog{
+        width: 300px !important;
+    }
+    :host ::ng-deep.p-inputtext,textarea{
+        width: 250px !important;
+    }
+    :host ::ng-deep .p-dialog-content{
+        overflow: hidden;
+    }
 }

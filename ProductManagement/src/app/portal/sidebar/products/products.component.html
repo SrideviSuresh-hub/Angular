@@ -2,8 +2,8 @@
   <div class="search-container">
     <h1 class="title">Available Products </h1>
     <div class="search-bar">
-      <input type="text" pInputText [(ngModel)]="searchText" (input)="searchProducts()" />
-      <i class="pi pi-search search-icon"></i>
+      <input type="text" pInputText [(ngModel)]="searchText"/>
+      <i class="pi pi-search search-icon" (click)="searchProducts()"></i>
     </div>
   </div>
 
@@ -30,11 +30,10 @@
             <p>Available Quantity: <strong>{{ product.totalCount }}</strong></p>
             <p>Ordered Quantity: <strong>{{product.orderCount}}</strong></p>
           </div>
-          <!-- <button pButton icon="pi pi-trash" class="p-button-danger" (click)="deleteProduct(product.id)"></button> -->
         </div>
       </div>
     </div>
-    <div *ngIf="isAdmin" class="product-card add-product" (click)="showAddPopup()">
+    <div *ngIf="isAdmin && !isLoading" class="product-card add-product" (click)="showAddPopup()">
       <div class="add-icon">
         <i class="pi  pi-plus"></i>
       </div>
@@ -42,8 +41,9 @@
     </div>
   </div>
 </div>
-<p-dialog header="Add Product" [modal]="true" [(visible)]="showPopup" [style]="{ width: '500px' }">
+<p-dialog header="Add Product"   [modal]="true" [(visible)]="showPopup" >
   <div class="dailog-content">
+    <div class="imgdialog-feild">
     <label>Add Image</label>
     <div class="image-upload">
       <div class="image-container" [ngClass]="{ 'drag-over': isDragging }" (dragover)="onDragOver($event)"
@@ -52,16 +52,17 @@
         <button *ngIf="imagePreview" class="remove-image-btn"
          (click)="removeImage()">X</button>
         <div class="flex" *ngIf="!imagePreview" >
-        <div> <i class="fa-solid fa-folder-arrow-up"></i>
-        </div>
+        <div> <i class="fa-solid fa-folder-open"></i><br>
                    <span class="upload-icon">
             Drag & Drop here <br>or</span>
+        </div>
           
           <button pButton label="Browse File" class="p-button-browse" (click)="fileInput.click()"></button>
         </div>
       </div>
       <input type="file" #fileInput accept="image/*" (change)="onImageUpload($event)" hidden />
     </div>
+  </div>
     <div class="dialog-field">
       <label for="productName">Product Name</label>
       <input id="productName" type="text" [(ngModel)]="newProduct.name"  />
@@ -72,7 +73,8 @@
     </div>
     <p-footer class="footer">
       <button pButton label="Cancel" class="p-button-secondary-ss" (click)="closePopup()"></button>
-      <button pButton label="Add Product" class="p-button-primary" (click)="addNewProduct()"></button>
+      <button pButton label="Save" class="p-button-primary" (click)="addNewProduct()"></button>
     </p-footer>
   </div>
 </p-dialog>
+<p-toast></p-toast>

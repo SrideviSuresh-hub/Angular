@@ -6,16 +6,17 @@ import { HomeComponent } from "./home/home.component";
 import { HeaderComponent } from "./header/header.component";
 import { PortalComponent } from "./portal.component";
 import { UserhomeComponent } from "./userhome/userhome.component";
+import { canActivate } from "../Models/authguard.guard";
 
 export const routes2:Routes=[
-    {path:'',component:PortalComponent,
+    {path:'',component:PortalComponent,canActivate:[canActivate],
         children:[
+            {path:'',redirectTo:'home',pathMatch:'full'},
             {path:'users',component:UsersComponent},
             {path:'reminder',component:ReminderComponent},
             {path:'home',component:HomeComponent},
             {path:'header',component:HeaderComponent},
             {path:'userhome',component:UserhomeComponent},
-            // { path: '', redirectTo: 'home', pathMatch: 'full' }
         ]
     }
 ];

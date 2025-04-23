@@ -5,7 +5,7 @@ export interface User {
     firstName: string;
     lastName?: string;
     gender: string;
-    dob: string;
+    dob: string|Date;
     email: string;
     mobile: string;
     address1: string;
@@ -20,5 +20,6 @@ export interface User {
     age?:number;
     password:string;
     isFirstLogin: true; 
+    productCount?:number;
 
 }

@@ -17,7 +17,6 @@ export class PortalComponent {
     else{
       this.selectedLabel="";
     }
-    console.log("Selected Label: ", this.selectedLabel);
   }
 
 }

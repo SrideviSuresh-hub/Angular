@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { User } from '../../Models/Users';
 import { UserService } from '../../Services/user.service';
 import { NgForm } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from '../../Services/auth.service';
 
 @Component({
@@ -19,6 +19,12 @@ export class UsersComponent {
   states: string[] = [];
   visible: boolean = false;
   mode: 'view' | 'edit' | 'add' = 'view';
+  first = 0;
+  rows = 10;
+  totalRecords = 0;
+  curPageInput: number = 1;
+  confirmationService:ConfirmationService=inject(ConfirmationService);
+  maxPage: number = Math.ceil(this.totalRecords / this.rows); 
   curUser = this.authService.getcurUser();
   uploadedFileName: string = '';
   locales: string[] =
@@ -47,8 +53,7 @@ export class UsersComponent {
     label,
     value: label.toLowerCase()
   }));
-
-
+  
   newUser: User = {
     username: '',
     fname: '',
@@ -67,7 +72,7 @@ export class UsersComponent {
     image: '',
     isAdmin: false,
     permissions: [],
-    datetime: new Date(),
+    datetime: new Date().toISOString(),
     status: 'Active',
     password: '12345'
   };
@@ -80,37 +85,20 @@ export class UsersComponent {
     this.newUser.permissions = Array.from(permissionsSet);
   }
 
-  // toggleAdmin() {
-  //   // if (this.newUser.isAdmin) {
-  //   //   this.newUser.permissions = ['add', 'delete', 'view', 'edit']; // Default full access
-  //   // } else {
-  //   //   this.newUser.permissions = []; // Reset permissions if unchecked
-  //   // }
-  // }
+
 
   hasPermission(action: string): boolean | undefined {
     console.log('Checking permission for:', action);
-    console.log('Permissions available:', this.permissions); // Make sure it's populated correctly
+    console.log('Permissions available:', this.curUser?.permissions); // Make sure it's populated correctly
     if (!this.curUser?.permissions) {
-      return false; // No permissions assigned, deny action
+      return false;
     }
-  
-    // Directly check if the action exists in the permissions array
     return this.curUser.permissions.includes(action);
   }
   showPermissionError(action: string) {
     this.messageService.add({ severity: 'warn', summary: "Permission Denied", detail: `You don't have permission to ${action}` })
   }
 
-  ngOnInit() {
-    this.fetchUsers()
-  }
-
-  fetchUsers(): void {
-    this.userService.getUsers().subscribe((data: any[]) => {
-      this.users = data;
-    })
-  }
   onCountryChange(event: any) {
     const selectedCountry = event.value || event.target?.value;
     this.states = this.getStatesByCountry(selectedCountry);
@@ -123,12 +111,59 @@ export class UsersComponent {
       return ['California', 'Texas', 'New York'];
     return [];
   }
+  ngOnInit() {
+    this.fetchUsers();
+    localStorage.setItem('curPath','portal/users')
+
+  }
+  onPageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
+    this.maxPage = Math.ceil(this.totalRecords / this.rows);
+    this.curPageInput = event.page + 1
+  }
+
+  goToPage(table: any) {
+    const targetPage = this.curPageInput;
+    if (targetPage >= 1 && targetPage <= this.maxPage) {
+      this.first = (targetPage - 1) * this.rows;
+      table.first = this.first;
+      table.paginate({ first: (this.curPageInput - 1) * 5, rows: 5 });
+
+    }
+    else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Invalid Page',
+        detail: 'Invalid page number'
+      });
+    }
+  }
+
+  fetchUsers(): void {
+    this.userService.getUsers().subscribe((data: any[]) => {
+      this.users = data;
+      this.totalRecords = this.users.length; 
+    this.maxPage = Math.ceil(this.totalRecords / this.rows);
+    })
+  }
+  
+  switchToEditMode(): boolean {
+    if (!this.hasPermission('edit')) {
+      this.showPermissionError('edit');
+      return false;
+    }
+
+    this.mode = 'edit';
+    return true;
+  }
+
 
   showDailog(user: User | null, mode: 'view' | 'add' | 'edit' = 'add') {
 
     this.mode = mode;
     if (!this.hasPermission(this.mode)) {
-      console.log(!this.hasPermission(this.mode));    
+      console.log(!this.hasPermission(this.mode));
       console.log(this.mode);
       this.showPermissionError(this.mode);
       return;
@@ -169,38 +204,124 @@ export class UsersComponent {
       this.showPermissionError('delete');
       return;
     }
-    const confirmed = window.confirm('Are you sure you want to delete this user?');
-    if (confirmed && user?.id) {
-      this.userService.deleteUser(user.id).subscribe(() => {
-        this.users = this.users.filter(u => u.id !== user.id);
-      });
-    }
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this reminder?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.userService.deleteUser(user.id).subscribe(() => {
+          this.users = this.users.filter(u => u.id !== user.id);
+              this.messageService.add({
+            severity: 'success',
+            summary: 'Deleted',
+            detail: 'Reminder deleted successfully'
+          });
+        });
+ 
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Cancelled',
+          detail: 'Deletion cancelled'
+        });
+      }
+    });
   }
+  
 
   saveUser(userForm: NgForm): void {
-
-
+    console.log(userForm);
+    
+    const usernameControl = userForm.controls['userName'];
+    if (this.mode === 'add' && (usernameControl.value.trim() === '' || !/^[a-zA-Z0-9]*$/.test(usernameControl.value))) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Invalid Username',
+        detail: 'Username is required, alphanumeric, and max length of 20 characters.'
+      });
+      return;
+    }
+  
+    const firstNameControl = userForm.controls['firstName'];
+    if (firstNameControl.value.trim() === '' || !/^[a-zA-Z0-9 ]*$/.test(firstNameControl.value)) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Invalid First Name',
+        detail: 'First Name is required, alphanumeric, and max length of 30 characters.'
+      });
+      return;
+    }
+  
+    const lastNameControl = userForm.controls['lastName'];
+    if (lastNameControl.value.trim() !== '' && !/^[a-zA-Z0-9 ]*$/.test(lastNameControl.value)) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Invalid Last Name',
+        detail: 'Last Name can only contain alphanumeric characters and spaces (max length 30).'
+      });
+      return;
+    } 
+     const emailControl = userForm.controls['email'];
+    if (emailControl.value.trim() === '' || !/\S+@\S+\.\S+/.test(emailControl.value) || emailControl.value.length > 100) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Invalid Email',
+        detail: 'Please provide a valid email address (max 100 characters).'
+      });
+      return;
+    }
+    const addressField1Control = userForm.controls['address1'];
+    if (addressField1Control.value.trim() === '' || addressField1Control.value.length > 100) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Invalid AddressField1',
+        detail: 'AddressField1 is required and can have a maximum length of 100 characters.'
+      });
+      return;
+    }
+  
+    const addressField2Control = userForm.controls['address2'];
+    if (addressField2Control.value.length > 100) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Invalid AddressField2',
+        detail: 'AddressField2 can have a maximum length of 100 characters.'
+      });
+      return;
+    }
     if (userForm.valid) {
       this.newUser.datetime = new Date();
       const duplicate = this.users.find(user =>
         user.username === this.newUser.username && (this.mode === 'add' || user.id !== this.newUser.id)
       )
       if (duplicate) {
-        alert('username already exists!!');
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Duplicate Username',
+          detail: 'Username already exists!'
+        });
         return;
       }
       if (this.mode === 'edit') {
+        this.onCountryChange({ target: { value: this.newUser.country } });
         this.userService.updateUser(this.newUser).subscribe(() => {
-          alert('reminder updated')
-          this.fetchUsers();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'User Updated',
+            detail: 'User details updated successfully.'
+          });          this.fetchUsers();
           this.mode = 'view';
           this.visible = false;
         })
       } else {
         this.userService.addUser(this.newUser).subscribe((newUser: User) => {
           this.users.push(newUser);
-          alert('userinder added succesfully');
-          this.fetchUsers();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'User Added',
+            detail: 'User added successfully.'
+          });          this.fetchUsers();
           this.mode = 'view';
           this.visible = false;
         })
@@ -211,7 +332,16 @@ export class UsersComponent {
   }
   onImageUpload(event: any) {
     const file: File = event.target.files[0];
-    if (file) {
+  const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    if (file && !validTypes.includes(file.type)) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Invalid File',
+        detail: 'Only PNG, JPEG, and JPG formats are allowed.'
+      });
+      return;
+    }
+
       if (file.size > 2 * 1024 * 1024) {
         this.messageService.add({
           severity: 'error',
@@ -229,7 +359,7 @@ export class UsersComponent {
       };
       reader.readAsDataURL(file);
     }
-  }
+  
   removeImage() {
     this.uploadedFileName = '';
     this.newUser.image = null;
@@ -252,3 +382,25 @@ export class UsersComponent {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   const confirmed = window.confirm('Are you sure you want to delete this user?');
+  //   if (confirmed && user?.id) {
+  //     this.userService.deleteUser(user.id).subscribe(() => {
+  //       this.users = this.users.filter(u => u.id !== user.id);
+  //     });
+  //   }
+  // }

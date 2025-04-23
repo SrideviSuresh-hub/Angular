@@ -4,6 +4,7 @@ import { AuthService } from '../../../Services/auth.service';
 import { CartService } from '../../../Services/cart.service';
 import { ProductService } from '../../../Services/products.service';
 import { OrdersService } from '../../../Services/orders.service';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class ProductsComponent  {
   cartService: CartService = inject(CartService);
   prodService: ProductService = inject(ProductService);
   orderService:OrdersService=inject(OrdersService);
+  msgService:MessageService=inject(MessageService);
   searchText: string = '';
   products: OrderProducts[] = [];
   filteredProducts:OrderProducts[]=[];
@@ -33,6 +35,7 @@ export class ProductsComponent  {
   ngOnInit(){
       this.isAdmin=this.curUser.isAdmin;
       this.loadProducts();
+      localStorage.setItem('curPath','portal/products')
   }
   
   
@@ -95,17 +98,25 @@ this.prodService.updateProduct(product.id,product).subscribe(()=>{
                   totalCount: 100 
               };
   
-              // Add product and capture Firebase-generated ID
               this.prodService.addProduct(prodToAdd).subscribe(response => {
                 const generatedId = response.name;  
-                // prodToAdd.orderCount=this.getTotalOrderedCount(generatedId)
                   this.prodService.updateProduct(generatedId, { ...prodToAdd,id: generatedId }).subscribe(() => {
+                    console.log(prodToAdd);
+                    
+                    this.closePopup();
                       this.loadProducts();
-                      this.closePopup();
                   });
               });
           };
           reader.readAsDataURL(this.selectedImageFile);
+      }
+      else{
+        if (!this.newProduct.name) {
+          this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Product name is required!' });
+        }
+        if (!this.selectedImageFile) {
+          this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'image is required!' });
+        }
       }
   }
   

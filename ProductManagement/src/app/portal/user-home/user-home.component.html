@@ -1,5 +1,7 @@
 <div class="charts-container">
-  <div class="chart-box">
+  <p-progress-spinner  class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+
+  <div class="chart-box" *ngIf="!isLoading">
     <h2>Orders in Weekdays</h2>
     <p-chart type="line" 
     [data]="lineChartData"
@@ -8,13 +10,12 @@
   </div>
   
 
-  <div class="chart-box">
+  <div class="chart-box" *ngIf="!isLoading">
     <h2>Quantity vs Product Names</h2>
     <p-chart type="bar"
      [data]="barChartData"
      [options]="lineChartOptions"
-
-     class="chart"></p-chart>
+     class="chart chart2"></p-chart>
   </div>
 </div>
 

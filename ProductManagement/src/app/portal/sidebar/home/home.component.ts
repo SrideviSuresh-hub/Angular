@@ -27,9 +27,11 @@ export class HomeComponent {
 
   ngOnInit() {
     this.loadOrders();
+    localStorage.setItem('curPath','portal/home')
+
   }
   loadOrders() { 
-    
+    this.isLoading=true;
     this.userService.getUsers().subscribe({
       next: (users) => {
         if (!users) {
@@ -41,7 +43,7 @@ export class HomeComponent {
         
         Object.values(users).forEach((user: any) => {
           if (user.orders) {
-            this.isLoading=true;
+            
             Object.entries(user.orders).forEach(([keyId, order]: any) => {
               if (order.products) {
                 order.products.forEach((product: any, index: number) => {
@@ -50,10 +52,6 @@ export class HomeComponent {
                     orderId:order.orderId,
                     userId: user.id,
                     userName: user.username,
-                    // firstName: user.firstName,
-                    // lastName: user.lastName || '',
-                    // email: user.email,
-                    // mobile: user.mobile,
                     street1: user.address1,
                     street2: user.address2 || '',
                     state: user.states || '',
@@ -73,7 +71,6 @@ export class HomeComponent {
         });
   
         this.orders = newOrders ;
-        // [...this.orders, ...newOrders];
         console.log('Orders Loaded:', this.orders);
       },
       error: (error) => {
@@ -95,12 +92,12 @@ export class HomeComponent {
   
  
   markProductAsDelivered(orderId: string, userId: string, productIndex: number) {
+    
     this.orderService.updateDeliveryStatus(orderId, userId, productIndex, "Delivered").subscribe({
       next: () => {
         console.log(`Product ${productIndex} in order ${orderId} marked as Delivered`);
         this.updateOrderStatus(orderId, userId);
         this.loadOrders();
-
       },
       error: (err) => {
         console.error("Error updating product delivery status:", err);
@@ -118,19 +115,7 @@ export class HomeComponent {
 
         console.log(`Updating order ${orderId} overall status to ${newStatus}`);
 
-        this.orderService.updateOrderStatus(orderId, userId, newStatus).subscribe()
-      //   {
-      //     next: () => {
-      //       console.log(`Order ${orderId} delivery status updated to ${newStatus}`);
-      //     },
-      //     error: (err) => {
-      //       console.error("Error updating order delivery status:", err);
-      //     }
-      //   });
-      // },
-      // error: (err) => {
-      //   console.error("Error fetching updated products:", err);
-      // }
+        this.orderService.updateOrderStatus(orderId, userId, newStatus).subscribe();
       }
   });
   }

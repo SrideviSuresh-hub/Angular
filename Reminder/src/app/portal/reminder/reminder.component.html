@@ -1,66 +1,73 @@
 <div class="container">
+    <p>Home / <span >Reminder Service</span></p>
     <div class="reminder-container">
         <div class="grid">
             <h1 class="heading">Reminder Service</h1>
             <p-button class="p-button-add" (click)="showDailog(null, 'add')"><i class="pi pi-plus add"></i></p-button>
         </div>
-        <div class="card">
-            <p-table #dt [value]="reminders"
-             [tableStyle]="{'min-width': '60rem'}"
-             [paginator]="true"
-             [rows]="2"
-             [first]="first"
-             [paginatorPosition]="'bottom'"
-             (onPage)="onPageChange($event)"
-             currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-             >
-             <ng-template pTemplate="header">
+        <div class="card table-container">
+            <p-table #dt [value]="reminders" class="" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="rows"
+                [first]="first" [paginatorPosition]="'bottom'" (onPage)="onPageChange($event)"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" [responsiveLayout]="'scroll'">
+                <ng-template pTemplate="header">
                     <tr>
                         <th pSortableColumn="title" style="width:18%">
-                            Name <p-sortIcon field="title" />
+                            Name <p-sortIcon class="customSortIcon" field="title"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="rdt" style="width:18%">
-                            Reminder Date Time <p-sortIcon field="rdt" />
+                        <th pSortableColumn="reminderdt" style="width:18%">
+                            Reminder Date Time  <p-sortIcon class="customSortIcon" field="reminderdt"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="cdt" style="width:18%">
-                            Created Date Time <p-sortIcon field="cdt" />
+                        <th pSortableColumn="createdatetime" style="width:18%">
+                            Created Date Time  <p-sortIcon class="customSortIcon" field="createdatetime"></p-sortIcon>
                         </th>
 
                         <th pSortableColumn="status" style="width:12%">
-                            Status <p-sortIcon field="status" />
+                            Status  <p-sortIcon class="customSortIcon" field="status"></p-sortIcon>
                         </th>
                         <th style="width:10%">
                         </th>
                     </tr>
                 </ng-template>
                 <ng-template #body let-reminder>
-                    <tr (click)="showDailog(reminder,'view')">
+                    <tr (click)="showDailog(reminder,'view')" style="cursor: pointer;">
                         <td>{{ reminder.title }}</td>
                         <td>{{ reminder.reminderdt | date:"MM/dd/YYYY hh:mm a"}}</td>
                         <td>{{ reminder.createdatetime |date:"MM/dd/YYYY hh:mm a"}}</td>
                         <td>
-                            <p-tag [value]="reminder.status" [severity]="getSeverity(reminder.status)" />
+                            <p-tag [value]="reminder.status" [ngClass]="getSeverity(reminder.status)" />
                         </td>
                         <td>
-                            <i class="fa-regular fa-trash-can"
-                                (click)="deleteReminder(reminder.id);  $event.stopPropagation()"></i>
+                            <p-button  icon="pi"
+                                (click)="deleteReminder(reminder.id); $event.stopPropagation()">
+                                <ng-template pTemplate="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
+                                        width="20px" fill="#75767C">
+                                        <path
+                                            d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm72-144h72v-336h-72v336Zm120 0h72v-336h-72v336Z" />
+                                    </svg>
+                                </ng-template>
+                            </p-button>
                         </td>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="paginatorleft">
-                    <div class="go-to-page-container">
-                      <input
+                <ng-template pTemplate="paginatorright">
+                    <div class="paginator-custom">
+                    <span class="go-to-page">
+                        <input
+                        #pageInput
+                        id="pageInput"
                         type="number"
                         [(ngModel)]="curPageInput"
                         [min]="1"
                         [max]="maxPage"
                         class="go-input"
-                      />
-                      <button type="button" pButton label="Go" (click)="goToPage(dt)"></button>
-                    </div>
-                  </ng-template>
+                        />
+                        <button type="button" pButton label="Go" style="color: black;" (click)="goToPage(dt)"></button>
+                      </span>
+                      </div>
+                </ng-template>
             </p-table>
-        
+
         </div>
     </div>
 </div>
@@ -70,27 +77,26 @@
     </ng-template>
     <form #reminderForm="ngForm">
         <div class="input-box">
-            <label for="title">Title</label>
+            <label for="title">Title *</label>
             <input pInputText id="title" name="title" [(ngModel)]="newReminder.title" required
-                [disabled]="mode==='view'" maxlength="50" /> 
+                [disabled]="mode==='view'" [readOnly]="mode==='edit'" pattern="^[a-zA-Z0-9]*$" maxlength="50" #titleInput/>
         </div>
         <div class="detail-box">
-            <label for="detail">Detail</label>
-            <textarea id="detail" class="no-resize" pInputTextarea  name="detail"
-                [(ngModel)]="newReminder.detail" required [disabled]="mode==='view'" maxlength="150"></textarea>
+            <label for="detail">Detail *</label>
+            <textarea id="detail" class="no-resize" pInputTextarea name="detail" [(ngModel)]="newReminder.detail"
+                required [disabled]="mode==='view'" maxlength="150" pattern="^[a-zA-Z0-9 ]*$"> </textarea>
         </div>
         <div class="input-box">
-            <label for="datetime">Date Time</label>
+            <label for="datetime">Date Time </label>
 
             <p-datepicker [iconDisplay]="'input'" [showIcon]="true" name="reminderdt" inputId="calendar-24h"
                 [hourFormat]="'24'" [showTime]="true" [(ngModel)]="newReminder.reminderdt" [disabled]="mode === 'view'"
-                required  appendTo="body">
+                 appendTo="body">
                 <ng-template let-clickCallBack="clickCallBack">
                     <i class="fa-solid fa-calendar-days" (click)="clickCallBack($event)"></i>
                 </ng-template>
             </p-datepicker>
         </div>
-
     </form>
     <ng-template pTemplate="footer">
         <p-button label="Back" *ngIf="mode==='view'" (click)="visible=false" [text]="true"
@@ -102,3 +108,7 @@
             (click)="onSubmit(reminderForm)"></p-button>
     </ng-template>
 </p-dialog>
+
+
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>

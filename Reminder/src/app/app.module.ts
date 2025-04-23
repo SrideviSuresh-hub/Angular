@@ -10,12 +10,14 @@ import { LoginComponent } from './login/login.component';
 import { PortalModule } from './portal/portal.module';
 import { RouterModule } from '@angular/router';
 import { PortalRouteModule } from './portal/portals-route.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    PageNotFoundComponent,
     ],
   imports: [
     BrowserModule,

@@ -5,19 +5,22 @@
     <h2>User Data</h2>
     <button label="Add" pButton class="p-button-browse" (click)="addUserForm()"></button>
   </div>
+  <p-progress-spinner  class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
 
-  <p-table [value]="users" [paginator]="true" [rows]="10">
+  <p-table *ngIf="!isLoading" [value]="users" [paginator]="true" [rows]="10">
     <ng-template pTemplate="header">
       <tr>
         <th>User Image</th>
         <th>Username</th>
         <th>Age</th>
         <th>Country</th>
+        <th>Product Count</th>
         <th></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-user>
-      <tr *ngIf="!isLoading">
+   
+    <ng-template pTemplate="body"  let-user>
+      <tr>
         <td>
           <p-avatar *ngIf="user.image; else initialsAvatar" [image]="user.image" class="mr-2" size="large" shape="circle"></p-avatar>
           <ng-template #initialsAvatar>
@@ -27,9 +30,10 @@
         <td>{{ user.username }}</td>
         <td>{{ user.age }}</td>
         <td>{{ user.country }}</td>
+        <td>{{user.productCount}}</td>
         <td class="actions">
           <i class="fa-solid fa-pen" (click)="editUser(user)"></i>
-          <i class="fa-solid fa-trash" (click)="confirmDelete(user.id)"></i>
+          <i class="fa-solid fa-trash" (click)="deleteUser(user.id)"></i>
         </td>
       </tr>
     
@@ -56,18 +60,18 @@
 
       <div class="form-fields">
         <div class="column input-box">
-          <label>Username</label><br>
-          <input type="text" [(ngModel)]="selectedUser.username" name="username"  [disabled]="isEditing" required />
+          <label>Username *</label>
+          <input type="text" [(ngModel)]="selectedUser.username" name="username"  [disabled]="isEditing" pattern="^[a-zA-Z0-9]*" maxlength="20" required />
         </div>
         <div class="flex">
           <div class="input-box">
-            <label>First Name</label><br>
-            <input type="text"  inputStyleClass="w-full"
+            <label>First Name *</label>
+            <input type="text" pattern="^[a-zA-Z0-9]*" maxlength="30" inputStyleClass="w-full"
             styleClass="w-full" [(ngModel)]="selectedUser.firstName" name="firstName" required />
           </div>
           <div class="input-box">
-            <label>Last Name</label><br>
-            <input type="text"   inputStyleClass="w-full"
+            <label>Last Name</label>
+            <input type="text"  pattern="^[a-zA-Z0-9]*" maxlength="30" inputStyleClass="w-full"
             styleClass="w-full"[(ngModel)]="selectedUser.lastName" name="lastName"  />
           </div>
         </div>
@@ -80,13 +84,13 @@
                             </div>
           </div>
           <div class="input-box">
-            <label>Date of Birth</label><br>
-            <p-datepicker [(ngModel)]="selectedUser.dob" name="dob" ></p-datepicker>
+            <label>Date of Birth</label>
+            <p-datepicker [(ngModel)]="selectedUser.dob" name="dob" appendTo="body" ></p-datepicker>
           </div>
         </div>
         <div class="input-box">
-          <label>Email</label><br>
-          <input type="email" [(ngModel)]="selectedUser.email" name="email" required />
+          <label>Email *</label>
+          <input type="email" [(ngModel)]="selectedUser.email" name="email" maxlength="100" required />
         </div>
       </div>
     </div>
@@ -94,39 +98,37 @@
     <div class="form-container2" *ngIf="selectedUser">
       <div>
       <div class="input-box">
-        <label>Address Line 1</label><br>
-        <textarea  pTextarea type="text" name="street2"  rows="1" cols="30" [(ngModel)]="selectedUser.address1"required></textarea>
+        <label>Address Line 1 *</label>
+        <textarea  pInputTextarea class="no-resize" type="text" name="street2"  maxlength="100" [(ngModel)]="selectedUser.address1" required></textarea>
       </div>
       <div class="input-box">
-        <label>Address Line 2</label><br>
-        <textarea pTextarea type="text" name="street2"  rows="1" cols="30" [(ngModel)]="selectedUser.address2"  ></textarea>
+        <label>Address Line 2</label>
+        <textarea pInputTextarea class="no-resize" type="text" name="street2" maxlength="100" [(ngModel)]="selectedUser.address2"  ></textarea>
       </div>
     </div>
-    <br>
+    
       <div class="flex">
         <div class="select-box">
-          <label>Country</label><br>
-          <select [(ngModel)]="selectedUser.country" name="country" (change)="onCountryChange($event)" required>
-            <option value="" disabled>Select Country</option>
+          <label>Country</label>
+          <select [(ngModel)]="selectedUser.country" name="country" (change)="onCountryChange($event)" >
             <option value="India">India</option>
             <option value="USA">USA</option>
           </select>
         </div>
         <div class="select-box">
-          <label>State</label><br>
+          <label>State</label>
           <select [(ngModel)]="selectedUser.state" name="state" >
-            <option value="" disabled>Select State</option>
             <option *ngFor="let state of states" [value]="state">{{ state }}</option>
           </select>
         </div>
       </div>
       <div class="flex">
         <div class="input-box">
-          <label>Zip Code</label><br>
-          <input type="number" [(ngModel)]="selectedUser.zipCode" name="zipCode"  />
+          <label>Zip Code</label>
+          <textarea pInputTextarea class="no-resize" type="text" name="zipCode" maxlength="20" [(ngModel)]="selectedUser.zipCode"  ></textarea>
         </div>
         <div class="select-box">
-          <label>TimeZone</label><br>
+          <label>TimeZone</label>
           <select name="timezone" [(ngModel)]="selectedUser.timezone" >
               <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
           </select>
@@ -134,20 +136,21 @@
       </div>
       <div class="flex">
         <div class="select-box">
-          <label>Locale</label><br>
-          <select [(ngModel)]="selectedUser.locale"  style="width: 50%;" name="locale">
+          <label>Locale</label>
+          <select [(ngModel)]="selectedUser.locale"   name="locale">
             <option *ngFor="let loc of locales" [value]="loc">{{ loc }}</option>
           </select>
         </div>
-          <div class="checkbox">  
-            <input type="checkbox" [(ngModel)]="selectedUser.isAdmin" name="isAdmin" [disabled]="isEditing" />
-            <label>Is Admin</label><br>
+          <div class=" input-box checkbox">
+            <p-checkbox [(ngModel)]="selectedUser.isAdmin" name="isAdmin" [disabled]="isEditing"  binary="true"></p-checkbox>  
+
+            <label>Is Admin</label>
           </div>
         </div>
 
         <div class="flex">
           <div class="input-box">
-          <label>Mobile</label><br>
+          <label>Mobile *</label>
           
             <p-inputgroup>
               <p-inputgroup-addon>
@@ -158,12 +161,10 @@
             
           </div>
           <div class="input-box">
-            <label>Password</label><br>
-            <input type="password" [(ngModel)]="selectedUser.password" name="password" required />
+            <label>Password *</label>
+            <p-password name="password" [(ngModel)]="selectedUser.password" [toggleMask]="true" id="password" required [feedback]="false" ></p-password>
           </div>
         </div>
-        
-      
       <div class="actionsdialog">
         <button type="button" class="p-button-secondary-ss" pButton label="Cancel" (click)="closeUserDialog()"></button>
         <button type="submit" pButton  class="p-button-primary" label="Save"  ></button>
@@ -173,7 +174,21 @@
   </form>
 </p-dialog>
 
-<p-confirmDialog>
+<p-dialog class="delete-dialog" [(visible)]="visible" [modal]="true" [style]="{ 'width': '450px', 'height':'279px'}">
+  <ng-template #content [style]="{padding:0}">
+      <div class="disp">
+          <div class=" col-12">
+              <i class="pi pi-times-circle error-icon"></i>
+          </div>
+          <h3 class="dialog-title">Are You sure!??</h3>
+          <p>Do you really want to delete the selected item?</p>
+      </div>
+  </ng-template>
+  <ng-template #footer>
+      <p-button label="Cancel" severity="secondary" class="custom-cancel-btn" (click)="visible = false" />
+      <p-button label="Delete" class="custom-delete-btn" severity="primary" (click)="confirmDelete()" />
+  </ng-template>
+</p-dialog>
 
 
 
@@ -187,11 +202,3 @@
 
 
 
-  <!--
-      <p-progress-spinner  class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
-
-  <tr *ngIf="isLoading">
-        <td colspan="5"  class="spinner-container">
-          <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }"></p-progress-spinner>
-        </td>
-        </tr>  -->

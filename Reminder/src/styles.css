@@ -1,5 +1,166 @@
 @import "primeicons/primeicons.css";
-*{
+
+* {
     padding: 0;
     margin: 0;
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+
+:host ::ng-deep .dark-mode.p-card {
+    background: #1e1e1e ;
+}
+
+body.dark-mode .p-menubar {
+    background-color: #212020;
+    color: #fff;
+}
+
+
+
+/* :host ::ng-deep body.dark-mode .p-button {
+    background-color: #f0f3f8 !important;
+} */
+
+body.dark-mode .p-datatable-thead>tr>th {
+    background: #1e1e1e !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .p-datatable-tbody>tr {
+    background-color: #1e1e1e !important;
+}
+
+body.dark-mode .p-datatable-tbody>tr>td {
+    color: white !important;
+
+}
+
+body.dark-mode .p-dialog {
+    background-color: #2c2c2c;
+}
+
+body.dark-mode .p-dialog-header {
+    color: #ffffff;
+}
+
+body.dark-mode label {
+    color: white;
+}
+
+
+body.dark-mode .container {
+    background: #121212;
+}
+
+body.dark-mode p {
+    color: #cccccc;
+}
+
+body.dark-mode .main .p-card {
+    background: #1f2b5b;
+    color: #ffffff;
+}
+
+
+
+body.dark-mode .p-card {
+    background: #1e1e1e;
+    color: #ffffff;
+}
+
+body.dark-mode .content .p-card-content {
+    background: transparent;
+    color: #ffffff;
+}
+
+body.dark-mode .chart-labels {
+    color: #ffffff;
+}
+
+body.dark-mode .chart-labels .label-item .label-text {
+    color: #ffffff;
+}
+
+body.dark-mode .user-container {
+    background: #2C2C2C;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode p {
+    color: #D1D1D1;
+}
+
+body.dark-mode p>span {
+    color: #FFFFFF !important;
+}
+
+body.dark-mode .heading {
+    color: #D1D1D1;
+}
+
+/* body.dark-mode .card {
+    background:black;
+} */
+
+body.dark-mode :host ::ng-deep .p-card {
+    background: #444444;
+}
+
+body.dark-mode :host ::ng-deep thead {
+    background: #333333;
+}
+
+body.dark-mode :host ::ng-deep .p-datatable-thead>tr>th {
+    background: #555555;
+    color: #D1D1D1;
+}
+
+body.dark-mode :host ::ng-deep .p-dialog {
+    background: #2C2C2C;
+}
+
+body.dark-mode :host ::ng-deep .p-inputtext {
+    background: #444444;
+    color: #D1D1D1;
+}
+
+body.dark-mode :host ::ng-deep .p-select,
+body.dark-mode :host ::ng-deep .p-multiselect {
+    background: #444444;
+    color: #D1D1D1;
+}
+
+body.dark-mode :host ::ng-deep .p-button {
+    background: #555555;
+    color: #FFFFFF;
+}
+
+body.dark-mode .grid {
+    background: #2c2c2c;
+    color: white !important;
+}
+body.dark-mode :host ::ng-deep .p-datatable{
+background: #1e1e1e !important;
+}
+body.dark-mode :host ::ng-deep .p-paginator {
+    background: black !important;
+}
+input:-webkit-autofill,
+textarea:-webkit-autofill ,select:-webkit-autofill {
+  background-color: F3F3F3 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #F3F3F3 inset !important;
+  box-shadow: 0 0 0px 1000px #F3F3F3 inset !important;
+}
+:host ::ng-deep .p-datepicker-input:-webkit-autofill ,:host ::ng-deep .p-inputtext:-webkit-autofill,
+:host ::ng-deep .p-password-input:-webkit-autofill,
+:host ::ng-deep .p-select-dropdown:-webkit-autofill {
+  background-color: #F3F3F3 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #F3F3F3 inset !important;
+  box-shadow: 0 0 0px 1000px #F3F3F3 inset !important;
 }

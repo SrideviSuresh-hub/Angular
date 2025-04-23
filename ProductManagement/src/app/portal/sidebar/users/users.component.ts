@@ -22,47 +22,52 @@ export class UsersComponent implements OnInit {
   locales: string[] = ['en-US', 'en-GB', 'fr-FR', 'de-DE', 'es-ES', 'zh-CN'];
   genders: any[] = [{ label: "Male", gender: 'male' }, { label: "Female", gender: 'female' }, { label: "Others", gender: 'others' }]
   gender!: string;
-  timezones: string[] = [
-    'UTC-12:00', 'UTC-11:00', 'UTC-10:00', 'UTC-09:00', 'UTC-08:00', 'UTC-07:00',
-    'UTC-06:00', 'UTC-05:00', 'UTC-04:00', 'UTC-03:00', 'UTC-02:00', 'UTC-01:00',
-    'UTC+00:00', 'UTC+01:00', 'UTC+02:00', 'UTC+03:00', 'UTC+04:00', 'UTC+05:00',
-    'UTC+06:00', 'UTC+07:00', 'UTC+08:00', 'UTC+09:00', 'UTC+10:00', 'UTC+11:00',
-    'UTC+12:00'
-  ];
+  visible: boolean = false;
+  selectedUserKeyId: string;
+  timezones: string[] =
+    ["IST - UTC+5:30", "PST - UTC-8", "EST - UTC-5",
+      "CST - UTC-6", "MST - UTC-7", "AKST - UTC-9"];
 
   userService: UsersService = inject(UsersService);
   authService: AuthService = inject(AuthService);
   msgService: MessageService = inject(MessageService);
   router: Router = inject(Router);
-  confirmationService: ConfirmationService = inject(ConfirmationService); 
+  confirmationService: ConfirmationService = inject(ConfirmationService);
   userInitials: string = "";
-  isLoading:boolean=false;
+  isLoading: boolean = false;
 
- ngOnInit(): void{
+  ngOnInit(): void {
     this.loadUsers();
+
   }
   loadUsers(): void {
-    this.isLoading=true;
+    this.isLoading = true;
     this.userService.getUsers().subscribe({
-      
       next: (users) => {
-        users.forEach(user=>{
-          user.age=this.calculateAge(user.dob);
-          console.log(user.firstName,user.lastName);
+        users.forEach(user => {
+          user.age = this.calculateAge(user.dob);
+          console.log(user.firstName, user.lastName);
           this.getUserInitials(user);
+          this.userService.getTotalOrderProductCount(user.id).subscribe({
+            next: (count) => {
+              user.productCount = count;
+            },
+            error: () => user.productCount = 0
+          });
         });
-        this.users=users;
-        this.isLoading=false
+          this.users = users; 
+        
+        this.isLoading=false;
       },
       error: (err) => {
-        this.isLoading=false;
         console.error("Error fetching users:", err);
         this.msgService.add({ severity: 'error', detail: 'Error fetching users' });
+        this.isLoading = false;
       }
     });
   }
-  calculateAge(dob: string): number {
-    if (!dob) return 0;  
+  calculateAge(dob: string | Date): number {
+    if (!dob) return 0;
     const birthDate = new Date(dob);
     const ageDifMs = Date.now() - birthDate.getTime();
     const ageDate = new Date(ageDifMs);
@@ -78,6 +83,15 @@ export class UsersComponent implements OnInit {
 
   editUser(user: User): void {
     this.selectedUser = { ...user };
+    if (user.dob) {
+      this.selectedUser.dob = new Date(user.dob);
+    }
+
+    this.onCountryChange({ target: { value: user.country } });
+
+    this.selectedUser.timezone = this.timezones.includes(user.timezone) ? user.timezone : "";
+    this.selectedUser.locale = this.locales.includes(user.locale) ? user.locale : "";
+
     this.isEditing = true;
     this.imageUrl = user.image || 'assets/images/defaultAvatar.png';
     this.displayDialog = true;
@@ -100,12 +114,15 @@ export class UsersComponent implements OnInit {
 
   onCountryChange(event: any): void {
     const selectedCountry = event.target.value;
-    this.states = selectedCountry === "India" ? ['Karnataka', 'Tamil Nadu', 'Delhi', 'Chennai']
-      : selectedCountry === "USA" ? ['California', 'Texas', 'New York']
-      : [];
+    this.states = selectedCountry === "India" ? ['Karnataka', 'Tamil Nadu', 'Delhi', "Madhya Pradesh", "Maharashtra", 'Kerala', "Haryana", "Himachal Pradesh"]
+      : selectedCountry === "USA" ? ["California", "New York", "Texas", "Florida", "Illinois", "Pennsylvania", "Ohio", "Georgia", "Washington", "Massachusetts"]
+        : [];
   }
 
   onSave(form: NgForm): void {
+    console.log('Form Valid:', form.valid);
+    console.log('Selected User:', this.selectedUser);
+
     if (form.invalid) {
       if (!this.selectedUser?.username) {
         this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Username is required!' });
@@ -116,15 +133,15 @@ export class UsersComponent implements OnInit {
       if (!this.selectedUser?.email) {
         this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Email is required!' });
       }
+
       else {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(this.selectedUser?.email)) {
           this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Email is not valid!' });
-
         }
       }
-      if (!this.selectedUser?.mobile) {
-        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Mobile number is required!' });
+      if (!this.selectedUser?.mobile || this.selectedUser.mobile.length !== 10) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Mobile number is required and must be exactly 10digit number!' });
       }
       if (!this.selectedUser?.address1) {
         this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Address line1  is required!' });
@@ -132,8 +149,8 @@ export class UsersComponent implements OnInit {
       if (!this.selectedUser?.password) {
         this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Password is required!' });
       }
-      return; 
-    
+      return;
+
     }
 
     if (this.file) {
@@ -145,12 +162,15 @@ export class UsersComponent implements OnInit {
       this.saveUser(form);
     }
   }
-  
+
 
   saveUser(form: NgForm): void {
     if (this.isEditing) {
+      console.log('editing');
+
       this.userService.updateUser(this.selectedUser!).subscribe({
         next: (resp) => {
+          console.log('User updated successfully.');
           this.msgService.add({ severity: 'success', detail: 'User Updated Successfully!' });
           this.displayDialog = false;
           this.loadUsers();
@@ -187,26 +207,26 @@ export class UsersComponent implements OnInit {
       });
     }
   }
-  
 
-  confirmDelete(id: string): void {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete this user?',
-      accept: () => {
-        this.userService.deleteUser(id).subscribe({
-          next: () => {
-            this.users = this.users.filter(user => user.id !== id);
-            this.msgService.add({ severity: 'warn', detail: 'User Deleted' });
-          },
-          error: (err) => {
-            this.msgService.add({ severity: 'error', detail: 'Error Deleting User' });
-            console.error('Error deleting user:', err);
-          }
-        });
-      }
-    });
+  deleteUser(keyId: string) {
+    this.selectedUserKeyId = keyId;
+    this.visible = true;
   }
 
+  confirmDelete() {
+    console.log(this.selectedUserKeyId);
+
+    this.userService.deleteUser(this.selectedUserKeyId).subscribe({
+      next: () => {
+        this.loadUsers()
+        this.msgService.add({ severity: 'warn', detail: 'User Deleted' });
+        this.visible = false;
+      },
+      error: (err) => {
+        this.msgService.add({ severity: 'error', detail: 'Error Deleting User', summary: err });
+      }
+    })
+  }
   getEmptyUser(): User {
     return {
       username: '',
@@ -226,7 +246,7 @@ export class UsersComponent implements OnInit {
       isAdmin: false,
       password: '',
       image: '',
-      isFirstLogin:true
+      isFirstLogin: true
     };
   }
 
@@ -242,4 +262,6 @@ export class UsersComponent implements OnInit {
     const lastInitial = user.lastName.charAt(0).toUpperCase();
     return `${firstInitial}${lastInitial}`;
   }
+
+
 }

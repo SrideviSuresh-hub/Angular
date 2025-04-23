@@ -1,23 +1,23 @@
-
 .product-container {
   overflow: hidden;
   height: 100%;
   background-color: white;
   border-radius: 8px;
-  padding: 16px;
+  padding: 20px;
   box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
   padding-bottom: 140px;
-  
+
 }
 
-h1{
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 600;
-font-size: 20px;
-line-height: 24px;
-color: #141569;
+h1 {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #141569;
 }
+
 .title {
   display: flex;
   font-size: 24px;
@@ -25,29 +25,31 @@ color: #141569;
   margin-top: 10px;
   margin-left: 0px;
 }
+
 .search-container {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 35px;
 }
 
 .search-bar {
   position: relative;
   width: 100%;
-  max-width: 400px; 
+  max-width: 400px;
 
- 
+
 }
 
 .search-bar input {
   width: 100%;
-  padding: 10px 40px 10px 15px; 
+  padding: 10px 40px 10px 15px;
   border: none;
-  background-color:rgba(243, 243, 243, 1);
+  background-color: rgba(243, 243, 243, 1);
   border-radius: 6px;
   font-size: 16px;
   outline: none;
+  height: 34px;
 }
 
 .search-icon {
@@ -65,10 +67,10 @@ color: #141569;
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 2fr)); 
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 2fr));
+  gap: 15px;
   overflow: auto;
-  height:100%;
+  height: 100%;
 }
 
 .product-card {
@@ -99,25 +101,25 @@ color: #141569;
   left: 0;
   width: 100%;
   height: 100%;
-  /* opacity: 75%; */
   color: white;
   display: flex;
   align-items: flex-end;
   padding: 15px;
 }
+
 .admin-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 100%;
-   opacity: 70%;
-   /* background: rgba(0, 0, 0, 0.5); */
+  opacity: 90%;
   color: white;
   display: flex;
   align-items: flex-end;
-  padding: 15px;
+  padding: 20px;
 }
+
 .admin-overlay .acontent {
   width: 100%;
   margin-bottom: 100px;
@@ -125,8 +127,19 @@ color: #141569;
   font-weight: 400;
   letter-spacing: 0%;
   line-height: 100%;
-  color:rgba(20, 21, 105, 1) ;
+  color: rgba(20, 21, 105, 1);
 }
+
+.admin-overlay h3 {
+  height: 24px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000000;
+}
+
 .overlay .content {
   width: 100%;
   margin-bottom: 150px;
@@ -134,14 +147,19 @@ color: #141569;
   font-weight: 400;
   letter-spacing: 0%;
   line-height: 100%;
-  color:rgba(20, 21, 105, 1) ;
+  color: rgba(20, 21, 105, 1);
 }
-.overlay .content h3{
+
+.overlay .content h3 {
   font-weight: 700;
   font-size: 20px;
   color: rgba(0, 0, 0, 1);
   line-height: 100%;
+  font-family: 'Montserrat';
+  font-style: normal;
+  line-height: 24px;
 }
+
 .product-title {
   font-size: 18px;
   font-weight: bold;
@@ -164,22 +182,22 @@ color: #141569;
 }
 
 .quantity-controls button {
-  background:white;
+  background: white;
   color: black;
   border-radius: 3px;
   font-size: 10px;
-  height: 25px;
-  width: 25px;
+  height: 24px;
+  width: 24px;
   color: rgba(20, 21, 105, 1);
 
-
 }
+
 .quantity-controls span {
   background: white;
   color: rgba(0, 0, 0, 1);
   border-radius: 3px;
-  height: 25px;
-  width: 25px;
+  height: 24px;
+  width: 24px;
   font-weight: 400;
   font-size: 20px;
   text-align: center;
@@ -194,7 +212,7 @@ color: #141569;
   text-align: center;
   cursor: pointer;
   flex-direction: column;
-  
+
 }
 
 .add-icon {
@@ -203,11 +221,46 @@ color: #141569;
   padding: 7px 8px;
   border-radius: 5px;
 }
-.add-icon i{
+
+.add-icon i {
   font-size: larger;
   font-weight: 600;
 }
 
+:host ::ng-deep .p-dialog-content {
+  margin: 25px;
+  padding: 0;
+}
+
+:host ::ng-deep .p-dialog {
+  width: 600px;
+  height: 537px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  position: relative;
+  top:-120px;
+}
+
+:host ::ng-deep .p-overlay-mask{
+  top:68px  !important;
+}
+:host ::ng-deep .p-dialog-header {
+  margin: 0;
+  padding: 0;
+}
+
+:host ::ng-deep .p-dialog-title {
+  height: 20px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
+  margin: 25px;
+  margin-bottom: 0;
+}
 
 .dialog-content {
   display: flex;
@@ -218,22 +271,35 @@ color: #141569;
 .dialog-field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
-    gap: 10px; 
+  margin-top: 25px;
+  height: 61px;
 }
-.dialog-field label {
+
+.imgdialog-feild {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  width: 105px;
+  height: 17px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
   font-size: 14px;
-  font-weight: bold;
-  color: #333;
+  line-height: 17px;
+  color: #000000;
+  margin-bottom: 10px;
 }
 
 .dialog-field input {
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
   font-size: 14px;
-  background-color:  rgba(243, 243, 243, 1);
+  background-color: rgba(243, 243, 243, 1);
   border: none;
+  height: 34px;
+  background: #F3F3F3;
+  border-radius: 5px;
 
 
 }
@@ -244,40 +310,48 @@ color: #141569;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  
+
 }
+
 .spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px;
+  height: calc(100vh - 250px);
+  width: calc(100vw - 400px);
 }
+
 .image-container {
-  width:100%;
-  height: 150px;
-  background-color: rgba(243, 243, 243, 1) ;
+  width: 100%;
+  height: 182px;
+  background-color: rgba(243, 243, 243, 1);
   border: none;
-  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: border 0.3s ease-in-out;
+  background: #F3F3F3;
+  border-radius: 5px;
+
 }
-.footer{
+
+.footer {
   display: flex;
   justify-content: flex-end;
-  gap:10px
+  margin-top: 25px;
+  gap: 10px;
 }
+
 .image-container img {
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
   position: relative;
 }
+
 .remove-image-btn {
   position: relative;
-  top: -60px;
+  top: -90px;
   right: 10px;
   background-color: rgba(255, 255, 255, 0.7);
   border: none;
@@ -294,13 +368,20 @@ color: #141569;
   background-color: rgba(255, 0, 0, 0.7);
   color: white;
 }
+
 .upload-icon {
-  
   color: #141569;
-  font-family: 'Roboto' sans-serif;
+  font-family: 'Roboto';
+
 }
 
-.flex{
+.fa-solid {
+  color: #141569;
+
+
+}
+
+.flex {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -308,38 +389,89 @@ color: #141569;
   font-size: 13px;
   font-weight: 500;
 }
-.addbtn{
-  background-color:#141569 ;
+
+.addbtn {
+  background-color: #141569;
 }
+
 .p-footer {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
 
 }
-:host ::ng-deep .p-button-primary{
-  background-color: #141569 !important;
+
+:host ::ng-deep .p-button-text.p-button-secondary {
+  background-color: none !important;
   border: none !important;
 }
-:host ::ng-deep .p-button-browse{
+
+:host ::ng-deep .p-button-primary {
+  background: #141569 !important;
+  border: none !important;
+  width: 150px;
+  height: 34px;
+  border-radius: 5px !important;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #FFFFFF;
+
+}
+
+:host ::ng-deep .p-button-browse {
   background-color: #141569 !important;
   border: none !important;
-  padding: 5px 0;
-  width: 100%;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  color: #FFFFFF;
+  width: 103px;
+  height: 30px;
+  border-radius: 6px !important;
+
+
+
 }
+
 :host ::ng-deep .p-button-secondary-ss {
-  border:1px solid #141569 !important;
-  background-color: rgba(243, 243, 243, 1) !important;
-  color: #141569;
+  border: 1px solid #141569 !important;
+  background: rgba(243, 243, 243, 1) !important;
+  color: #141569 !important;
+  box-sizing: border-box;
+  width: 150px;
+  height: 34px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  border-radius: 5px !important;
+
 }
+
+@media (min-width: 1444px) {
+  
+  .overlay .content {
+    margin-bottom: 150px !important;
+  }
+
+}
+
 @media (min-width: 1024px) {
   .product-grid {
     grid-template-columns: repeat(3, 1fr);
   }
- 
+
+  .overlay .content {
+    margin-bottom: 130px;
+  }
+
 }
+
 @media (max-width: 768px) {
   .product-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Reduce grid size */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    /* Reduce grid size */
   }
 
   .quantity-controls {
@@ -348,13 +480,40 @@ color: #141569;
   }
 
   .quantity-controls button {
-    font-size: 5px; 
+    font-size: 5px;
     padding: 3px;
   }
 
-  
+  .overlay .content {
+    margin-bottom: 120px;
+  }
+  .admin-overlay .acontent{
+    margin-bottom: 80px;
+  }
+
+  .title {
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .search-bar {
+    max-width: 100%;
+  }
+
+  .search-icon {
+    top: 17px;
+    right: 10px;
+    font-size: 14px;
+  }
+  :host ::ng-deep .p-dialog {
+
+    height: 450px;
+  }
+
 }
-@media (max-width: 480px) {
+
+@media (max-width: 426px) {
   .title {
     font-size: 16px;
   }
@@ -366,18 +525,49 @@ color: #141569;
   }
 
   .title {
-    font-size: 18px; 
-    text-align: center; 
+    font-size: 18px;
+    text-align: center;
     width: 100%;
   }
 
   .search-bar {
-    max-width: 100%; 
+    max-width: 100%;
   }
 
   .search-icon {
     top: 17px;
     right: 10px;
-    font-size: 14px; 
+    font-size: 14px;
   }
+
+  .overlay .content {
+    margin-bottom: 130px;
+  }
+  :host ::ng-deep .p-dialog {
+    width: 400px;
+    height: 400px;
+  }
+  .admin-overlay .acontent {
+    margin-bottom: 100px;
+}
+
+}
+@media (max-width: 380px) {
+:host ::ng-deep .p-dialog {
+  width: 300px;
+  height: 400px;
+}
+.admin-overlay .acontent {
+  margin-bottom: 90px;
+}
+}
+
+@media (max-width: 320px) {
+  .overlay .content {
+    margin-bottom: 110px;
+  }
+  .admin-overlay .acontent {
+    margin-bottom: 80px;
+  }
+
 }

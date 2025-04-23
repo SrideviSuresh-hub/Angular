@@ -1,14 +1,15 @@
 <div class="container">
-    <div>
-        <div class="psg">Home</div>
-    </div>
+    <p class="p">Home</p>
     <div class="main">
-        <p-card (click)="navigate()" class="cursor-pointer grid" >
+        <div  (click)="navigate()"> 
+        <p-card class="cursor-pointer grid" >
             Go to Reminder Service <i class="pi pi-angle-double-right"></i>
         </p-card>
     </div>
+    </div>
     <div class="content">
         <p-card class="flex">
+            <p>Reminders</p>
             <p-chart type="doughnut" [data]="chartData" [options]="chartOption"  height="400"></p-chart>
         <div class="chart-labels">
             <div class="label-item">
@@ -27,20 +28,21 @@
         </p-card>
 </div>
 
-
-    <p-dialog  [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"  [draggable]="false" [resizable]="false">
+    <p-dialog  [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"  [draggable]="false" [resizable]="false" (onHide)="handlePopupClose()">
         <ng-template pTemplate="header">
             <div class="header">
                 <h3>Today’s Reminders</h3>
-                <h6 (click)="dismissAllReminders()">Dismiss All</h6>
+                <h6 (click)="dismissAllReminders()" style="cursor: pointer;">Dismiss All</h6>
             </div>
         </ng-template>
             <div *ngFor="let reminder of popupReminders" class="rem-item">
                <li>
                 <h4>{{reminder.title}}</h4>
                <div>
-                <p>{{reminder.detail}}</p>
-                <i class="pi pi-trash" (click)="dismissReminder(reminder)" ></i>
+                <p clas>{{reminder.detail}}</p>
+                      <span (click)="dismissReminder(reminder)" class="dismiss" ><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#162541">
+                        <path d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm72-144h72v-336h-72v336Zm120 0h72v-336h-72v336Z"/>
+                      </svg></span>
                </div>  
             </li>
             </div>
@@ -48,34 +50,3 @@
             </div>
     </p-dialog>
 
-
-    <!-- futureReminders = 0;
-    unreadReminders = 0;
-    inactiveReminders =0;
-    title='';
-   type:ChartType=ChartType.PieChart;
-   data:any[]=[];
-   options={
-     piehole:.4
-   };
-   width=300;
-   height=300;
-   updateChartData(){
-     
-   this.futureReminders = this.reminders.filter(r => r.status.toLowerCase() === 'active').length;
-    this.unreadReminders = this.reminders.filter(r => r.status.toLowerCase() === 'unread').length;
-    this.inactiveReminders = this.reminders.filter(r => r.status.toLowerCase() === 'inactive').length;
-     this.data=[
-       ['Future',this.futureReminders],
-       ['UnRead',this.unreadReminders],
-       ['InActice',this.inactiveReminders]
-     ];
- 
-   } -->
-     <!--             <google-chart 
-            [title]="title"
-            [type]="type"
-            [data]="data"
-            [options]="options"
-            [width]="width"
-            [height]="height"></google-chart> -->

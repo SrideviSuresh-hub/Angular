@@ -2,8 +2,8 @@
   <div class="search-container">
     <h1 class="title"> My Cart </h1>
     <div class="search-bar">
-      <input type="text" pInputText [(ngModel)]="searchText" (input)="getFilteredCartItems()" />
-      <i class="pi pi-search search-icon"></i>
+      <input type="text" pInputText [(ngModel)]="searchText"  />
+      <i class="pi pi-search search-icon" (click)="getFilteredCartItems()"></i>
     </div>
   </div>
   <p-progress-spinner class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent"
@@ -31,11 +31,11 @@
       </div>
     </div>
 
-    <div class="cart-summary">
+    <div  class="cart-summary">
       <button pButton label="Place Order" class="checkout-btn" (click)="checkOut()"></button>
     </div>
   </div>
-  <ng-template #emptyCart>
-    <p>Your cart is Empty</p>
+  <ng-template  #emptyCart>
+    <p *ngIf="!isLoading">Your cart is Empty</p>
   </ng-template>
   <p-toast position="top-right"></p-toast>

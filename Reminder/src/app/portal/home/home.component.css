@@ -1,27 +1,70 @@
-
 .container {
     background-color: rgba(225, 234, 245, 1);
     position: absolute;
     top: 70px;
     height: calc(100vh - 70px);
-    width: 100vw;
+    width: 100%;
     overflow: hidden;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.main{
+.home {
+    position: absolute;
+    top: 10px;
+    left: 80px;
+    height: 18px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.class1 h4 {
+    position: absolute;
+    height: 24px;
+    left: 10px;
+    top: 10px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.class2 .piechart h4 {
+    position: absolute;
+    height: 24px;
+    left: 47vw;
+    top: 10px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+
+.main {
     display: flex;
     width: 100%;
     position: absolute;
-    top: 102px;
+    top: 34px;
     left: 80px;
     right: 80px;
 }
+
 .content {
     position: absolute;
     display: flex;
-    top: 200px;
+    top: 120px;
     width: 100%;
     height: 100%;
     left: 80px;
@@ -43,13 +86,11 @@
     text-align: center;
     color: #FFFFFF;
     justify-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-p {
-    position: absolute;
-    top: 70px;
-    left: 80px;
-}
 
 i {
     position: absolute;
@@ -60,26 +101,38 @@ i {
 
 
 
-:host ::ng-deep .p-card{
+:host ::ng-deep .p-card {
     width: calc(50vw - 92px);
-    height: 65vh;
+    height: 74vh;
     top: 180px;
     background: #fefffc;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-/* :host ::ng-deep p-chart {
-    width: 100% !important;
-} */
+
+
+:host ::ng-deep .content .class1 .p-card-content {
+
+    flex-direction: column;
+}
 
 :host ::ng-deep .content .p-card-content {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    height: 65vh;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+    gap: 80px !important;
+}
+
+:host ::ng-deep .content .class1 .p-card-content {
+    gap: 0 !important;
 }
 
 .chart-labels {
-    width: 50%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -87,6 +140,12 @@ i {
     font-size: 14px;
     color: #333333;
 }
+
+.c1 {
+    align-items: center;
+    margin-top: 20px;
+}
+
 
 .chart-labels .label-item {
     display: flex;
@@ -103,4 +162,190 @@ i {
 
 .chart-labels .label-item .label-text {
     font-size: 14px;
+}
+
+:host ::ng-deep .chart>div,
+:host ::ng-deep .chart canvas {
+    height: 450px !important;
+    width: 550px !important;
+}
+
+.chart-container {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+}
+:host ::ng-deep canvas{
+    height: 400px !important;
+    width: 400px !important;
+}
+
+@media screen and (max-width: 1025px) {
+    .class2 .piechart h4 {
+        left: 44vw;
+    }
+
+    :host ::ng-deep .chart>div,
+    :host ::ng-deep .chart canvas {
+
+        width: 400px !important;
+        height: 300px !important;
+    }
+    :host ::ng-deep .content .p-card-content{
+        gap: 0px !important;
+    }
+    :host ::ng-deep .content .p-card{
+        height: 70vh !important;
+    }
+    :host ::ng-deep canvas{
+        height: 300px !important;
+        width: 250px !important;
+    }
+    
+}
+
+@media screen and (max-width: 769px) {
+    :host ::ng-deep .content .p-card-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .chart-labels {
+        flex-direction: row;
+        gap: 20px;
+
+    }
+
+    .content {
+        flex-direction: column;
+        width: 80%;
+        height: 68vh;
+        overflow: auto;
+    }
+
+    :host ::ng-deep .p-card {
+        width: 100%;
+        height: 40vh;
+    }
+
+    .main {
+        width: 100%;
+    }
+
+    :host ::ng-deep .chart>div,
+    :host ::ng-deep .chart canvas {
+        height: 280px !important;
+    }
+
+    .class2 .piechart h4 {
+        top: 75vh;
+        left: 2vw;
+    }
+}
+
+
+@media screen and (max-width: 450px) {
+    .content {
+        flex-direction: column;
+        width: 100%;
+        padding: 10px;
+        gap: 12px;
+        top: 100px;
+        left: 10px;
+        /* right: auto; */
+        height: 68vh;
+    }
+
+    :host ::ng-deep .chart>div,
+    :host ::ng-deep .chart canvas {
+        height: 200px !important;
+        width: 300px !important;
+    }
+
+    :host ::ng-deep .content .p-card {
+        height: 50vh !important;
+        width: 95% !important;
+    }
+
+    :host ::ng-deep .p-card {
+        width: 95% !important;
+    }
+
+    :host ::ng-deep .content .p-card-content {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .chart-labels .label-item .label-text {
+        font-size: 10px;
+    }
+
+    .chart-labels .label-item .color-box {
+        width: 14px;
+        height: 14px;
+    }
+
+    p {
+        left: 10px;
+        font-size: 10px;
+    }
+
+    .main {
+        flex-direction: column;
+        left: 10px;
+        right: 10px;
+        width: 100%;
+    }
+
+    i {
+        font-size: 11px;
+    }
+
+    .class1 h4 {
+        top: 22px;
+        left: 25px;
+    }
+
+    .class2 .piechart h4 {
+        top: 55vh;
+        left: 5vw;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .content {
+        /* top: 30px; */
+        left: 10px;
+        height: 68vh;
+    }
+
+    :host ::ng-deep .content .p-card-content {
+        flex-direction: column;
+        align-items: center;
+        width: 80vw;
+    }
+
+    :host ::ng-deep p-chart {
+        width: 100%;
+        height: auto;
+        max-height: 400px;
+    }
+
+    .chart-labels {
+        flex-direction: column;
+        gap: 0px;
+    }
+
+    :host ::ng-deep .chart>div,
+    :host ::ng-deep .chart canvas {
+        height: 150px !important;
+        width: 250px !important;
+    }
+  
+    :host ::ng-deep canvas{
+        height: 200px !important ;
+    }
 }

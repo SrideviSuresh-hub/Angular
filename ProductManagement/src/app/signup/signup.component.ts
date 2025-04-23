@@ -29,7 +29,7 @@ export class SignupComponent {
   city: string = '';
   postal: string = '';
   IsAdmin: boolean = false;
-  isFirstLogin:boolean=true;
+  isFirstLogin: boolean = true;
   states: string[] = [];
   state: string = ''
   password: string = '';
@@ -38,7 +38,7 @@ export class SignupComponent {
   locales: string[] = ['en-US', 'en-GB', 'fr-FR', 'de-DE', 'es-ES', 'zh-CN'];
   userInitials: string = "";
 
-  messageService:MessageService=inject(MessageService);
+  messageService: MessageService = inject(MessageService);
 
   showToast(severity: string, summary: string, detail: string) {
     this.messageService.add({ severity, summary, detail });
@@ -63,16 +63,9 @@ export class SignupComponent {
 
   genders: any[] = [{ label: "Male", gender: 'male' }, { label: "Female", gender: 'female' }, { label: "Others", gender: 'others' }]
   gender!: string;
-  timezones: string[] = [
-    'UTC-12:00', 'UTC-11:00', 'UTC-10:00', 'UTC-09:00', 'UTC-08:00', 'UTC-07:00',
-    'UTC-06:00', 'UTC-05:00', 'UTC-04:00', 'UTC-03:00', 'UTC-02:00', 'UTC-01:00',
-    'UTC+00:00', 'UTC+01:00', 'UTC+02:00', 'UTC+03:00', 'UTC+04:00', 'UTC+05:00',
-    'UTC+06:00', 'UTC+07:00', 'UTC+08:00', 'UTC+09:00', 'UTC+10:00', 'UTC+11:00',
-    'UTC+12:00'
-  ];
-
-  // @ViewChild('signupForm') form: NgForm;
-
+  timezones: string[] =
+    ["IST - UTC+5:30", "PST - UTC-8", "EST - UTC-5",
+      "CST - UTC-6", "MST - UTC-7", "AKST - UTC-9"];
   currentStep = 1;
   passwordMatching = true;
 
@@ -92,9 +85,9 @@ export class SignupComponent {
   onCountryChange(event: any) {
     const selectedCountry = event.target.value;
     if (selectedCountry === "India") {
-      this.states = ['Karnataka', ' Andhra Pradesh', 'Tamil Nadu', 'Delhi', 'Chennai'];
+      this.states = ['Karnataka', 'Tamil Nadu', 'Delhi', "Madhya Pradesh", "Maharashtra", 'Kerala', "Haryana", "Himachal Pradesh"];
     } else if (selectedCountry === "USA") {
-      this.states = ['California', 'Texas', 'New York', 'Florida'];
+      this.states = ["California", "New York", "Texas", "Florida", "Illinois", "Pennsylvania", "Ohio", "Georgia", "Washington", "Massachusetts"]
     } else {
       this.states = [];
     }
@@ -106,50 +99,50 @@ export class SignupComponent {
 
 
   onSignup(form: NgForm) {
-    let hasError = false; // Flag to track if there's any missing field
+    let hasError = false; 
 
-  if (!this.username) {
-    this.showToast('warn', 'Missing Field', 'Username is required.');
-    hasError = true;
-  }
-  if (!this.firstName) {
-    this.showToast('warn', 'Missing Field', 'First Name is required.');
-    hasError = true;
-  }
-  
- 
-  if (!this.emailAddress) {
-    this.showToast('warn', 'Missing Field', 'Email is required.');
-    hasError = true;
-  }
-  else {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(this.emailAddress)) {
-      this.showToast('warn', 'Invalid Email', 'Please enter a valid email address.');
+    if (!this.username) {
+      this.showToast('warn', 'Missing Field', 'Username is required.');
       hasError = true;
     }
-  }
-  if (!this.phone) {
-    this.showToast('warn', 'Missing Field', 'Phone Number is required.');
-    hasError = true;
-  }
-  if (!this.street1) {
-    this.showToast('warn', 'Missing Field', 'Address Line 1 is required.');
-    hasError = true;
-  }
- 
-  if (!this.password) {
-    this.showToast('warn', 'Missing Field', 'Password is required.');
-    hasError = true;
-  }
-  if (!this.confirmpassword) {
-    this.showToast('warn', 'Missing Field', 'Confirm Password is required.');
-    hasError = true;
-  }
+    if (!this.firstName) {
+      this.showToast('warn', 'Missing Field', 'First Name is required.');
+      hasError = true;
+    }
 
-  if (hasError) {
-    return; 
-  }
+
+    if (!this.emailAddress) {
+      this.showToast('warn', 'Missing Field', 'Email is required.');
+      hasError = true;
+    }
+    else {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(this.emailAddress)) {
+        this.showToast('warn', 'Invalid Email', 'Please enter a valid email address.');
+        hasError = true;
+      }
+    }
+    if (!this.phone) {
+      this.showToast('warn', 'Missing Field', 'Phone Number is required.');
+      hasError = true;
+    }
+    if (!this.street1) {
+      this.showToast('warn', 'Missing Field', 'Address Line 1 is required.');
+      hasError = true;
+    }
+
+    if (!this.password) {
+      this.showToast('warn', 'Missing Field', 'Password is required.');
+      hasError = true;
+    }
+    if (!this.confirmpassword) {
+      this.showToast('warn', 'Missing Field', 'Confirm Password is required.');
+      hasError = true;
+    }
+
+    if (hasError) {
+      return;
+    }
     if (form.invalid || !this.passwordMatching) {
       return;
     }
@@ -187,7 +180,7 @@ export class SignupComponent {
           image: this.imageUrl,
           isAdmin: this.IsAdmin,
           password: this.password,
-          isFirstLogin:this.firstName
+          isFirstLogin: this.firstName
         };
 
         this.authService.signUp(userData).subscribe(

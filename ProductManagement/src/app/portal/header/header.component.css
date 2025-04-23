@@ -1,73 +1,138 @@
-body{
+body {
     height: 50px;
 }
-.start-content{
+
+.start-content {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.end-content{
-    display:flex;
-    align-items: center;
-    gap:20px
-}
-app-weather{
+
+.end-content {
     display: flex;
-    align-items: center;  
+    align-items: center;
+    gap: 20px
 }
-.p-menu{
+
+app-weather {
+    display: flex;
+    align-items: center;
+}
+
+.p-menu {
     border-bottom-left-radius: 0px !important;
 }
-.avatar-initials{
+
+.avatar-initials {
     background-color: rgb(187, 176, 176);
     border-radius: 50%;
     font-size: 20px;
     height: 40px;
-    width:40px;
-    font-style:normal;
+    width: 40px;
+    font-style: normal;
     font-weight: 500;
     align-content: center;
-    text-align: center;    
+    text-align: center;
 }
+
 :host ::ng-deep .p-menubar {
     border-radius: 0px;
+    height: 68px;
 }
+
 :host ::ng-deep .p-button {
     border: none !important;
     background-color: rgba(41, 165, 243, 1) !important;
     border-radius: 5px !important;
 }
-.icon{
+
+.icon {
     color: white;
     background-color: rgba(20, 21, 105, 1);
     padding: 6px;
     border-radius: 50%;
-    margin-top: 10px;
+    margin-top: 25px;
 }
-.routeHead{
+
+.routeHead {
     font-size: 13px;
     font-weight: 400;
     color: #030303;
     margin-top: 35px;
     margin-left: 0px;
-  }
-  
-@media (max-width: 320px) {
-   
+}
 
+@media (max-width: 426px) {
     .avatar-initials {
         font-size: 20px;
         height: 30px;
         width: 30px;
     }
+
     .p-button {
         font-size: 12px !important;
-        padding: 5px!important;
+        padding: 5px !important;
     }
-img{
-    width: 80px;
-}
-  
+
+    img {
+        width: 60px;
+    }
+
+    :host::ng-deep .p-menubar-mobile {
+        gap: 0;
+    }
+
+    .end-content {
+        gap: 10px;
+    }
 
    
+}
+
+@media (max-width: 320px) {
+    .end-content {
+        gap: 7px
+    }
+.routeHead{
+    font-size: 10px;
+    
+}
+    .avatar-initials {
+        font-size: 20px;
+        height: 30px;
+        width: 30px;
+    }
+
+    .p-button {
+        font-size: 10px !important;
+        padding: 5px !important;
+        width: 40px;
+    }
+
+    img {
+        width: 80px;
+        height: 30px;
+    }
+
+    .icon {
+        font-size: 10px;
+        padding: 5px;
+        margin-left: -5px;
+    }
+
+    app-weather {
+        width: 90px;
+        margin-right: 10px;
+    }
+
+    app-weather>div {
+        font-size: 10px;
+    }
+
+    .avatar-initials {
+        font-size: 15px;
+        height: 25px;
+        width: 25px;
+    }
+
 }

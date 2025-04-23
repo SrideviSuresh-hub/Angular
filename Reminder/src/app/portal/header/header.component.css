@@ -1,24 +1,13 @@
 .card {
   position: fixed;
   width: 100vw;
-  /* height: 60px; */
-  /* left: 0px;
-  top: 0px; */
-  /* border-radius: 0; */
   background: #FFFFFF;
   box-shadow: 3px 1px 4px rgba(65, 64, 64, 0.25);
 
 
 }
 
-img {
-  height: 40px;
-  width: 133px;
-  top: 10px;
-  left: 80px;
-  position: absolute;
 
-}
 
 .end {
   width: 173px;
@@ -44,7 +33,7 @@ img {
 
 }
 
-i{
+i {
   cursor: pointer;
 }
 
@@ -52,10 +41,110 @@ i{
   color: rgba(61, 31, 119, 1);
 }
 
-:host ::ng-deep .p-menubar{
+:host ::ng-deep .p-menubar {
   border: none !important;
-  border-radius: none !important;
+  border-radius: 0px !important;
   height: 70px !important;
+  align-items: center;
+  display: flex;
+  width: 100vw;
+}
+
+:host ::ng-deep .p-menubar>div {
+  /* flex: 1; */
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+img {
+  height: auto;
+
+  width: 133px;
+  height: 50px;
+  min-width: 80px;
+  left: 20px;
+  position: relative;
+}
+
+.pi-bell {
+  position: relative;
+  font-size: 24px;
+  color: #000;
+  /* adjust as needed */
+}
+
+.pi-bell .badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  color: white;
+  border-radius: 50%;
+
+  width: 19px;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  width: 19px;
+  height: 19px;
+  background: #FFA333;
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 100%;
+  letter-spacing: 0%;
+
+
+
+
+}
+
+@media (max-width: 768px) {
+  img {
+    width: 25%;
+    max-width: 120px;
+  }
+    .end{
+    margin-top:0px;
+}
+
+}
+
+@media (max-width: 600px) {
+  img {
+    width: 30%;
+    max-width: 100px;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height: auto;
+    padding: 10px 0;
+  }
+
+
+  .end {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .end i {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -63,13 +152,6 @@ i{
     flex-direction: column;
     height: auto;
     /* padding: 0.5rem; */
-  }
-
-  img {
-    margin-bottom: 0.5rem;
-    height: 40px;
-    width: auto;
-    position: relative;
   }
 
   .end {

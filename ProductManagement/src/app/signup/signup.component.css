@@ -1,63 +1,63 @@
 body {
   margin: 0;
-    padding: 0;
-    overflow: hidden;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  padding: 0;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
 }
 
 .grid-container {
   overflow: auto;
   left: 0;
-  top: 0; 
+  top: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-
- height: 100vh;
- width: 100vw;
+  height: 100vh;
+  width: 100vw;
 }
 
 .image-container {
   display: flex;
-  /* justify-content: center;
-  align-items: center; */
-  overflow: hidden;
+  overflow-x: hidden;
+  width: 50vw;
 }
 
-.sign-header{
+.sign-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-top: 80px;
+  height: 37px;
+  font-family: 'Montserrat';
+  font-style: normal;
   font-weight: 400;
-    font-size: 30px;
+  font-size: 30px;
+  line-height: 37px;
+  color: #000000;
+  margin-bottom: 0;
 }
+
 .column {
   display: flex;
   flex-direction: row;
   gap: 20px;
 }
+
 .image {
   max-width: 100%;
   height: auto;
 }
 
-.return{
+.return {
   cursor: pointer;
 }
-
-
 
 .spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100px;
-}
-input-box:hover {
-  border: 1px solid rgba(41, 165, 243, 1) !important;
-  background-color: rgba(243, 243, 243, 1) !important;
 }
 
 :host ::ng-deep .p-datepicker-input {
@@ -66,6 +66,7 @@ input-box:hover {
   border: none;
   line-height: 100%;
 }
+
 :host ::ng-deep .p-button {
   border: none !important;
   background-color: rgba(41, 165, 243, 1) !important;
@@ -73,21 +74,38 @@ input-box:hover {
   padding: 16px !important;
   cursor: pointer;
 }
-:host ::ng-deep .p-inputgroupaddon:first-child{
+
+:host ::ng-deep .p-inputgroupaddon:first-child {
   background-color: rgba(243, 243, 243, 1);
   border: none;
- border-radius: 5px ;
- color: #000000;
+  border-radius: 5px;
+  color: #000000;
 }
+
 .input-box,
 .select-box {
-  margin-bottom: 15px;
+  margin-top: 25px;
+  height: 84px;
+
+}
+
+.btn {
+  height: 50px !important;
 }
 
 .input-box label,
 .select-box label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+
+  height: 24px;
+
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #333333;
 
 }
 
@@ -97,31 +115,54 @@ input-box:hover {
   margin-right: 10px;
   margin-top: 10px;
   line-height: 100%;
+
+  width: 98px;
+  height: 50px;
+}
+
+:host ::ng-deep .p-checkbox-box {
+  border: 2px solid rgba(90, 90, 90, 1)
+}
+
+:host ::ng-deep .p-checkbox.p-disabled .p-checkbox-box {
+  border: 2px solid rgba(90, 90, 90, 1)
+}
+
+.no-resize {
+  resize: none;
+  overflow: hidden;
 }
 
 .input-box input,
 .select-box select {
   width: 100%;
-  padding: 15px;
+  padding: 10px;
   border-radius: 5px;
   box-sizing: border-box;
   background-color: rgba(243, 243, 243, 1);
   border: none;
+  height: 50px;
+  background: #F3F3F3;
+  border-radius: 5px;
+
+}
+
+.gender {
+  margin-top: 25px;
+  height: 50px;
 }
 
 .address {
   display: flex;
   flex-direction: column;
+  height: 100px;
 }
 
-.column {
-  display: flex;
-  /* justify-content: space-between; */
-}
+
 
 .column .input-box,
 .column .select-box {
-  width: 50%;
+  width: 100%;
 }
 
 .avatar-container {
@@ -132,8 +173,8 @@ input-box:hover {
 
 .avatar-wrapper {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 126px;
+  height: 126px;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
@@ -152,18 +193,20 @@ input-box:hover {
 .edit-icon {
   position: absolute;
   top: 20px;
-  right: 10px;
+  right: 20px;
   color: white;
 
 }
-:host ::ng-deep .flex{
-  display: block !important ;
-  margin-left: 200px !important;
-  margin-right: 200px !important;
-  margin-top: 100px !important;
-  margin-bottom: 0px !important;
+
+:host ::ng-deep .flex {
+  margin-left: 120px !important;
+  margin-right: 120px !important;
 }
 
+.form-box {
+  width: 100%;
+  height: 100%;
+}
 
 .float-but {
   display: block;
@@ -180,11 +223,17 @@ input-box:hover {
 
 ::ng-deep .p-datepicker {
   display: block !important;
+
+  height: 50px;
+  background: #F3F3F3;
+  border-radius: 5px;
+
 }
 
 p-password {
   background-color: none;
 }
+
 .pagination-container {
   display: flex;
   justify-content: center;
@@ -219,16 +268,18 @@ p-password {
 }
 
 .step-indicator .active {
-  background:rgba(41, 165, 243, 1);
+  background: rgba(41, 165, 243, 1);
 }
 
-:host ::ng-deep .p-selectbutton .p-togglebutton{
+:host ::ng-deep .p-selectbutton .p-togglebutton {
   background-color: rgba(243, 243, 243, 1) !important;
 }
-:host ::ng-deep .p-selectbutton .p-togglebutton-checked{
-  background-color:rgba(41, 165, 243, 1) !important;
+
+:host ::ng-deep .p-selectbutton .p-togglebutton-checked {
+  background-color: rgba(41, 165, 243, 1) !important;
 }
-:host ::ng-deep .p-togglebutton.p-togglebutton-checked::before{
+
+:host ::ng-deep .p-togglebutton.p-togglebutton-checked::before {
   background-color: rgba(41, 165, 243, 1) !important;
 }
 
@@ -244,36 +295,46 @@ p-password {
   line-height: 17px !important;
   color: #000000 !important;
   padding: 12px !important;
-  margin-top: 5px;
+  margin-top: 10px;
+  height: 50px;
 }
-
 
 :host ::ng-deep .p-inputtext:hover {
   border: 1px solid rgba(41, 165, 243, 1) !important;
   background-color: rgba(243, 243, 243, 1) !important;
 }
 
-.checkbox{
+.checkbox {
   display: flex;
   align-items: center;
+  width: 100%;
+  padding-top: 40px;
 }
-.checkbox input{
+
+.checkbox input {
   width: 20px;
   height: 20px;
   display: flex;
   margin: -5px;
 }
+
+.column .checkbox {
+  gap: 10px;
+}
+
 input:-internal-autofill-selected {
-  background-color:none ;
+  background-color: none;
 }
-.input-box input :hover{
-    border: 1px solid rgba(41, 165, 243, 1) !important;
-    background-color: rgba(243, 243, 243, 1) !important;
+
+.input-box input :hover {
+  border: 1px solid rgba(41, 165, 243, 1) !important;
+  background-color: rgba(243, 243, 243, 1) !important;
 }
 
 
-textarea{
+textarea {
   width: 100%;
+  height: 100px;
   background-color: rgba(243, 243, 243, 1) !important;
   border-radius: 5px !important;
   border: none !important;
@@ -284,18 +345,23 @@ textarea{
   line-height: 17px !important;
   color: #000000 !important;
   padding: 12px !important;
-  /* margin-top: px; */
 }
+
+:host ::ng-deep .p-password-toggle-mask-icon {
+  top: 60%;
+}
+
 @media (max-width:1024px) {
-  :host ::ng-deep .flex{
-    display: block !important ;
+  :host ::ng-deep .flex {
+    display: block !important;
     margin-left: 100px !important;
     margin-right: 100px !important;
     margin-top: 0px !important;
     margin-bottom: 0px !important;
   }
-  
+
 }
+
 @media (max-width: 768px) {
   .grid-container {
     grid-template-columns: 1fr;
@@ -310,13 +376,41 @@ textarea{
     width: 100%;
   }
 }
+
 @media (max-width: 480px) {
   .form-wrapper {
     padding: 10px;
   }
 
   .input-box input,
-  .select-box select,textarea {
+  .select-box select,
+  textarea {
     padding: 10px;
   }
+}
+
+.p-inputtext:focus,
+.p-inputtext:active {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 480px) {
+  .form-wrapper {
+    padding: 10px;
+  }
+
+  .input-box input,
+  .select-box select,
+  textarea {
+    padding: 10px;
+  }
+}
+
+.p-inputtext:focus,
+.p-inputtext:active {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }

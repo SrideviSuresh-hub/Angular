@@ -23,6 +23,7 @@
     "@swimlane/ngx-charts": "^22.0.0-alpha.1",
     "angular-google-charts": "^16.0.2",
     "chart.js": "^4.4.8",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.10",

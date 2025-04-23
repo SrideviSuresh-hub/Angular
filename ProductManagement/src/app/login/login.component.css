@@ -1,5 +1,4 @@
-
-a{
+a {
     color: rgba(51, 51, 51, 1);
 }
 
@@ -18,28 +17,27 @@ body {
     grid-template-columns: 1fr 1fr;
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
 }
-.login-header{
-    position: fixed;
 
-    top: 100px;
-    left:68%;
+.login-header {
     font-weight: 400;
     font-size: 30px;
-    
+    height: 37px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 37px;
+    color: #000000;
+    position: relative;
+    left: calc(100vw - 89vw);
+    top: calc(80vh - 100vh);
+
 }
-/* .login-header {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 20px;
-    width: 100%;
-} */
+
 .image-container {
     display: flex;
-    /* justify-content: center; */
-    /* align-items: center; */
-    /* padding: 20px; */
     overflow: hidden;
 }
 
@@ -55,8 +53,17 @@ body {
     padding: 20px;
 }
 
-.center{
+.center {
     text-align: center;
+    height: 18px;
+    left: 1313px;
+    top: 635px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #333333;
 }
 
 
@@ -67,7 +74,7 @@ body {
 
 :host ::ng-deep .p-inputtext {
     width: 100%;
-    background-color: rgba(243, 243, 243, 1) !important;
+    background: rgba(243, 243, 243, 1) !important;
     border-radius: 5px !important;
     border: none !important;
     font-family: 'Montserrat' !important;
@@ -77,6 +84,12 @@ body {
     line-height: 17px !important;
     color: #000000 !important;
     padding: 16px !important;
+
+    box-sizing: border-box;
+    height: 50px;
+    background: #F3F3F3;
+    border-radius: 5px;
+
 }
 
 
@@ -92,47 +105,56 @@ body {
     padding: 16px !important;
 }
 
-:host ::ng-deep.p-button-text.p-button-secondary{
-    background-color:white !important;
+:host ::ng-deep.p-button-text.p-button-secondary {
+    background-color: white !important;
     color: #000000 !important;
 
 }
+
 .error {
     color: red;
     font-size: 14px;
     margin-top: 5px;
-  }
-  
-  :host ::ng-deep .p-dialog {
-    /* text-align: center; */
+}
+
+:host ::ng-deep .p-dialog {
     border-radius: 5px !important;
-  }
-  
-  p-dialog input {
+}
+
+p-dialog input {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  .dialog-buttons {
+}
+
+.dialog-buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
-  }
-  
+}
 
-  
-  .password-change-container {
+.field {
+    height: 84px;
+    margin-top: 25px;
+    margin-bottom: 0;
+}
+
+.field>label {
+    margin-bottom: 10px;
+}
+
+.password-change-container {
     display: flex;
     flex-direction: column;
     gap: 10px;
-  }
+}
+
 input:-internal-autofill-selected {
-    background-color:rgba(243, 243, 243, 1) !important;
-  }
-  
+    background-color: rgba(243, 243, 243, 1) !important;
+}
+
 @media screen and (max-width: 600px) {
     .grid-container {
         grid-template-columns: 1fr;
@@ -146,5 +168,33 @@ input:-internal-autofill-selected {
 
     .form-container {
         padding: 10px;
+    }
+}
+@media screen and (max-width: 2560px) {
+    .login-header{
+        left: calc(100vw - 93vw);
+    }
+}
+@media screen and (max-width: 1024px) {
+    .login-header{
+        left: calc(100vw - 93vw);
+    }
+}
+@media screen and (max-width: 768px) {
+    .login-header{
+        left: calc(100vw - 99vw);
+    }
+}
+@media screen and (max-width: 430px) {
+    .login-header{
+        left:30px;
+        top: -20px;
+    }
+}
+@media screen and (max-width: 330px) {
+    .login-header{
+        left:20px;
+        top: -20px;
+        font-size: 25px;
     }
 }

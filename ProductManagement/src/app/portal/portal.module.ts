@@ -39,6 +39,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { PasswordModule } from 'primeng/password';
 import { PaginatorModule } from 'primeng/paginator';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
     declarations:[
@@ -86,6 +87,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
         InputGroupAddonModule,
         InputGroupModule,
         PasswordModule,
+        CheckboxModule,
         PaginatorModule,
         NgxChartsModule
     ],
@@ -116,6 +118,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
         TableModule,
         ConfirmDialogModule,
         ToastModule,
+        CheckboxModule,
         PaginatorModule,
         NgxChartsModule
 

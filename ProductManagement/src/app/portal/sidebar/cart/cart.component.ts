@@ -16,17 +16,18 @@ export class CartComponent {
   router: Router = inject(Router);
   cartItems: OrderProducts[] = [];
   searchText: string = '';
-  isLoading:boolean=false;
+  isLoading: boolean = false;
   productService: ProductService = inject(ProductService)
-  messageService:MessageService=inject(MessageService);
+  messageService: MessageService = inject(MessageService);
   ngOnInit() {
-    this.loadCart()
+    this.loadCart();
+    localStorage.setItem('curPath', 'portal/cart')
   }
   loadCart() {
-    this.isLoading=true;
+    this.isLoading = true;
     this.cartService.getCart().subscribe(items => {
       this.cartItems = items;
-      this.isLoading=false;
+      this.isLoading = false;
     }
     )
   }
@@ -35,7 +36,7 @@ export class CartComponent {
   }
   getFilteredCartItems() {
     if (!this.searchText.trim()) {
-      return this.cartItems; 
+      return this.cartItems;
     }
     return this.cartItems.filter((item) =>
       item.name.toLowerCase().includes(this.searchText.toLowerCase())
@@ -46,7 +47,7 @@ export class CartComponent {
     product.quantity++;
     this.cartService.addToCart(product);
     this.productService.updateProduct(product.id, product).subscribe(() => {
-       setTimeout(() => this.loadCart(), 100);
+      setTimeout(() => this.loadCart(), 100);
     });
   }
 
@@ -55,7 +56,7 @@ export class CartComponent {
       product.quantity--;
       this.cartService.removeFromCart(product);
       this.productService.updateProduct(product.id, product).subscribe(() => {
-         setTimeout(() => this.loadCart(), 100);
+        setTimeout(() => this.loadCart(), 100);
       });
     } else {
       this.removeItem(product);
@@ -66,24 +67,24 @@ export class CartComponent {
     product.quantity = 0;
     this.cartService.removeFromCart(product);
     this.productService.updateProduct(product.id, product).subscribe(() => {
-       setTimeout(() => this.loadCart(), 200);
+      setTimeout(() => this.loadCart(), 200);
     })
   }
 
- 
+
 
   checkOut() {
     if (this.cartItems.length === 0) {
       this.showToast('warn', 'Cart Empty', 'Your cart is empty');
-  return;
+      return;
 
     }
     else {
-      this.cartItems.forEach(product=>{
-        product.quantity=0;
-        this.productService.updateProduct(product.id,product).subscribe();
+      this.cartItems.forEach(product => {
+        product.quantity = 0;
+        this.productService.updateProduct(product.id, product).subscribe();
       })
-      this.cartService.checkOut().subscribe(()=>{
+      this.cartService.checkOut().subscribe(() => {
         this.loadCart();
         this.showToast('success', 'Order Placed', 'Your order has been placed successfully!');
         this.router.navigate(['/portal/orders']);
@@ -91,17 +92,27 @@ export class CartComponent {
     }
   }
 
-   removeFromCart(product) {
-      this.cartItems = this.cartItems.filter(item => item.id !== product.id);
-      product.quantity=0;
-      this.productService.updateProduct(product.id,product).subscribe();
-      this.cartService.updateCart(this.cartItems).subscribe(() => {
-       
-      })
-    }
+  removeFromCart(product) {
+    this.cartItems = this.cartItems.filter(item => item.id !== product.id);
+    product.quantity = 0;
+    this.productService.updateProduct(product.id, product).subscribe();
+    this.cartService.updateCart(this.cartItems).subscribe(() => {
+    })
+  }
 }
 
 
 
 
 
+
+
+
+// getFilteredCartItems() {
+//   if (!this.searchText.trim()) {
+//     return this.cartItems;
+//   }
+//   return this.cartItems.filter((item) =>
+//     item.name.toLowerCase().includes(this.searchText.toLowerCase())
+//   );
+// }

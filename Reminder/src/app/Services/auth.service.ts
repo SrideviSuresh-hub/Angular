@@ -5,60 +5,65 @@ import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { UserService } from "./user.service";
 @Injectable({
-    providedIn:'root'
+    providedIn: 'root'
 })
 export class AuthService {
     private curUserSubject: BehaviorSubject<User | null>;
     public curUser: Observable<User | null>;
-    userService:UserService=inject(UserService);
+    userService: UserService = inject(UserService);
     http: HttpClient = inject(HttpClient);
-    router:Router=inject(Router);
-
+    router: Router = inject(Router);
+    private timeOut: any;
+    private idleTimeOut: number = 10 * 60 * 1000;
     constructor() {
         const user = JSON.parse(localStorage.getItem('curUser') || 'null');
         this.curUserSubject = new BehaviorSubject<User | null>(user)
         this.curUser = this.curUserSubject.asObservable();
+        this.resetTimeOut();
+        this.userActivity();
+    }
+    resetTimeOut() {
+        if (this.timeOut) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(() => { this.logout() }, this.idleTimeOut);
+    }
+
+    userActivity() {
+        document.addEventListener('click', () => this.resetTimeOut());
+        document.addEventListener('mousemove', () => this.resetTimeOut());
+        document.addEventListener('keydown', () => this.resetTimeOut());
     }
 
     public getcurUser(): User | null {
-        return this.curUserSubject.value;
-    }
+        const userString = localStorage.getItem('curUser');
+        const user = userString ? JSON.parse(userString) : null;
+        return user;
+            }
 
     login(username: string, password: string) {
-        return this.userService.getUserByUsername(username).pipe(map(user => {
-            if (user && user.password === password) {
-                localStorage.setItem('curUser', JSON.stringify(user));
-                this.curUserSubject.next(user);
-                return user;
-            } else {
-                throw new Error('Invalid Credentials');
-            }
-        })
+        return this.userService.getUserByUsername(username).pipe(
+            map(user => {
+                if (user && user.password === password) {
+                    localStorage.setItem('curUser', JSON.stringify(user));
+                    return user;
+                } else {
+                    throw new Error('Invalid Credentials');
+                }
+            })
         );
     }
-    logout(){
+    isAdmin(): boolean {
+        const user = this.getcurUser();
+        return user ? user.isAdmin : false
+    }
+    isLoggedIn(): boolean {
+        return Boolean(localStorage.getItem('isLoggedIn'));
+        // return !!this.getcurUser();
+    }
+    logout() {
         localStorage.removeItem('curUser');
-        this.curUserSubject.next(null);
+        localStorage.removeItem('isLoggedIn');
         this.router.navigate(['/login'])
     }
-    
 }
-
-
-
-// getUsers(): Observable<User[]> {
-    //     return this.http.get<User[]>(this.url);
-    // }
-    // getUserByUsername(username: string): Observable<User> {
-    //     return this.http.get<User[]>(`${this.url}?username=${username}`)
-    //         .pipe(map(users => users[0]));
-    // }
-    // addUser(user: User): Observable<User> {
-    //     return this.http.post<User>(this.url, user)
-    // }
-    // updateUser(username: string, updateUser: User) {
-    //     return this.http.put<User>(`${this.url}?username=${username}`, updateUser);
-    // }
-    // deleteUser(username: string) {
-    //     return this.http.delete(`${this.url}?username=${username}`);
-    // }

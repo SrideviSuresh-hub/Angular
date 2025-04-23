@@ -2,6 +2,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReminderService } from '../../Services/reminder.service';
 import { UserService } from '../../Services/user.service';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Chart } from 'chart.js';
+Chart.register(ChartDataLabels);
 
 @Component({
   selector: 'app-home',
@@ -9,17 +12,20 @@ import { UserService } from '../../Services/user.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
+
 export class HomeComponent implements OnInit {
   router: Router = inject(Router);
   reminderService: ReminderService = inject(ReminderService);
-  userService:UserService=inject(UserService);
+  userService: UserService = inject(UserService);
   doughnutChartData: any;
-  lineChartData:any;
-  chartOption:any;
-  options:any;
+  lineChartData: any;
+  chartOption: any;
+  options: any;
+
   ngOnInit(): void {
     this.reminderDoughnutChart();
     this.userLineChart();
+    localStorage.setItem('curPath', 'portal/home')
   }
 
   navigate() {
@@ -38,13 +44,13 @@ export class HomeComponent implements OnInit {
             data: [futureReminders, unreadReminders, inactiveReminders],
             backgroundColor: ['#B8AFFC', '#0000B0', '#5240DA'],
             hoverBackgroundColor: ['#B8AFFC', '#0000B0', '#5240DA'],
-            // boxshadow: ['0px 4px 4px rgba(0, 0, 0, 0.25)', '0px 4px 4px rgba(0, 0, 0, 0.25)', '0px 4px 4px rgba(0, 0, 0, 0.25)']
+
             borderWidth: 0,
             borderColor: 'transparent',
             hoverBorderColor: 'transparent',
-          },
-        ],
-      },
+          }
+        ]
+      };
       this.chartOption = {
         responsive: true,
         maintainAspectRatio: false,
@@ -52,29 +58,24 @@ export class HomeComponent implements OnInit {
           legend: {
             display: false
           },
-        },cales: {
-          y: {
-            beginAtZero:true,
-            ticks: {
-              stepSize: 10,
-              callback: function(value: number) {
-        return value === 0 ? '' : value; 
-      }
+          datalabels: {
+            anchor: 'center', 
+            align: 'center',
+            font: {
+                family: 'Roboto',
+                weight: '500',
+                size: 16,
+                style:'italic'
             },
-            grid: { display: false }
-          },
-          x: {
-            offset: true,
-
-            ticks: {
-              autoSkip: false,
-              maxRotation: 45,
-              minRotation: 45
-            },
-            grid: { display: false }
+            color:'white',
+          formatter: (_:any, ctx:any) => {
+              const labels = ['Future', 'Unread', 'Inactive']; 
+              return labels[ctx.dataIndex];
           }
-        },
+        }
       }
+      }
+      
     })
   }
 
@@ -85,37 +86,95 @@ export class HomeComponent implements OnInit {
     for (let i = 6; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
-      const daysOfWeek=weekdays[date.getDay()]
+      const daysOfWeek = weekdays[date.getDay()]
       last7Days.push(daysOfWeek);
-      userCountByDate[daysOfWeek]=0;
+      userCountByDate[daysOfWeek] = 0;
     }
-    this.userService.getUsers().subscribe(users=>{
-      users.forEach(user=>{
-        const createdDate=new Date(user.datetime);
-        const daysOfWeek=weekdays[createdDate.getDay()];
-        if(userCountByDate.hasOwnProperty(daysOfWeek)){
+    this.userService.getUsers().subscribe(users => {
+      users.forEach(user => {
+        const createdDate = new Date(user.datetime);
+        const daysOfWeek = weekdays[createdDate.getDay()];
+        if (userCountByDate.hasOwnProperty(daysOfWeek)) {
           userCountByDate[daysOfWeek]++;
         }
       });
-      
-      this.lineChartData={
-        labels:last7Days,
-        datasets:[
-          {
-          label:'User Created',
-          data:last7Days.map(date=>userCountByDate[date]),
-          borderColor:'#43A5F5',
-          fill:false
-        },
+      console.log([...last7Days.map(date => userCountByDate[date])]);
 
-      ]
+      this.lineChartData = {
+        labels: [, ...last7Days],
+        datasets: [
+          {
+            data: last7Days.map(date => userCountByDate[date]),
+            borderColor: '#0000B0',
+            backgroundColor: '#43A5F5',
+            borderWidth: 3,
+            fill: false
+          },
+
+        ]
       }
-      this.options={
-        responsive:true,
-        maintainAspectRatio:false,
-      
-        
-      }
+      this.options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            min: 0,
+            max: 10,
+            ticks: {
+              stepSize: 2
+            },
+            grid: {
+              display: false
+            },
+            border:{
+              color:'#666666'
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            },
+            border:{
+              color:'#666666'
+            },
+            font: {
+              family: 'Poppins', 
+              weight: '400', 
+              size: 13 
+          },
+            ticks: {
+              color: '#7A7A7A',
+              maxRotation: 90,  
+              minRotation: 45  
+          }
+
+          }
+        },
+        elements: {
+          point: {
+            radius: 0
+          },
+          line: {
+            tension: 0.4
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            enabled: true
+          },
+          datalabels:{
+            display:false
+          }
+        }
+      };
+
     })
   }
 }
+
+
+
+

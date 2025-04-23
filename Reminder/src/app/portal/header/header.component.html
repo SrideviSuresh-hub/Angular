@@ -1,14 +1,15 @@
 <div class="card">
     <p-menubar >
-        <ng-template #start>
+        <ng-template #start >
             <img src="assets/images/logo.png" alt="">
         </ng-template>
         <ng-template #end>
-           
+          
             <div  class="flex items-center gap-2 end">
                 <i class="pi pi-home" (click)="navigateToHome()"></i>
-                <i class="pi pi-bell" *ngIf="!curUser?.isAdmin"></i>
-                <i class="pi pi-moon" (click)="changeTheme()"></i>
+                <i class="pi pi-bell" *ngIf="!curUser?.isAdmin  && !isReminderPage()" (click)="onNotify()"><span class="badge">{{ popupCount }}</span>
+                </i>
+                <i [ngClass]="isDarkMode ?'pi pi-sun' :'pi pi-moon'" (click)="changeTheme()"></i>
                 <i class="pi pi-power-off" (click)="onLogout()"></i>
             </div>
         </ng-template>

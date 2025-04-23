@@ -23,14 +23,24 @@ export class LoginComponent {
   userId: string = '';
   passwordError: string = '';
 
+  ngOnInit(){
+    if(Boolean(localStorage.getItem('isLoggedIn'))){
+      this.router.navigate([localStorage.getItem('curPath')]);
+    }
+  }
   onLogin(form: NgForm) {
     if (form.invalid){
       if (!form.value.email) {
-        this.showError("Email is required!");
-      } else if (!form.value.password) {
+        this.showError('Please enter a valid email address.');
+      }
+      else {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(form.value.email)) {
+          this.showError('Please enter a valid email address.');
+        }
+      }
+       if (!form.value.password) {
         this.showError("Password is required!");
-      } else {
-        this.showError("Please fill in all required fields correctly.");
       }
       return;
     }
@@ -50,11 +60,10 @@ export class LoginComponent {
           if (user.isFirstLogin) {
             this.showPasswordDialog = true;
           } else {
-            // this.router.navigate(['/portal']);
             if (user.isAdmin) {
               this.router.navigate(['/portal/home']);
+
             } else {
-              // If the user is not an admin, navigate to the users' home
               this.router.navigate(['/portal/usersHome']);
             }
           }

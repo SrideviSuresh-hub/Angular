@@ -1,6 +1,6 @@
 .container {
     background-color: rgba(225, 234, 245, 1);
-    position: absolute;
+    position: relative;
     top: 70px;
     height: calc(100vh - 70px);
     width: 100vw;
@@ -14,6 +14,20 @@
     box-sizing: border-box;
 }
 
+
+.p {
+    position: absolute;
+    top:10px;
+    left: 50px;
+    height: 18px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+
 :host ::ng-deep p-chart {
     width: 100% !important;
 }
@@ -22,7 +36,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    height: 65vh;
+    height:78vh;
 }
 
 .chart-labels {
@@ -57,7 +71,7 @@
     width: 100%;
     justify-content: space-around;
     position: absolute;
-    top: 102px;
+    top: 34px;
 }
 
 :host ::ng-deep .main .p-card {
@@ -76,11 +90,7 @@
     justify-content: center;
 }
 
-.psg {
-    position: absolute;
-    top: 70px;
-    left: 2.5vw;
-}
+
 
 .main i {
     position: absolute;
@@ -92,7 +102,7 @@
 .content {
     position: absolute;
     display: flex;
-    top: 200px;
+    top: 120px;
     width: 100%;
     height: 100%;
     justify-content: space-around;
@@ -101,11 +111,11 @@
 }
 
 :host ::ng-deep .p-card {
-    top: 180px;
+    /* top: 120px; */
     background: #fefffc;
     border-radius: 10px;
     width: 95vw;
-    height: 65vh;
+    height: 78vh;
     /* left: 80px; */
     top: 180px;
 
@@ -172,7 +182,7 @@
     font-weight: 600;
     font-size: 20px;
     line-height: 30px;
-    color: #333333;
+    /* color: #333333; */
 }
 
 .header h6 {
@@ -182,7 +192,7 @@
     font-size: 13px;
     line-height: 20px;
     text-decoration-line: underline;
-    color: #162541;
+    /* color: #162541; */
     width: 68px;
     height: 20px;
 }
@@ -201,7 +211,7 @@ li h4 {
     font-weight: 700;
     font-size: 13px;
     line-height: 20px;
-    color: #333333;
+    /* color: #333333; */
 }
 
 li:hover {
@@ -219,7 +229,6 @@ li div p {
     font-weight: 400;
     font-size: 13px;
     line-height: 20px;
-    color: #333333;
 }
 
 :host ::ng-deep .p-dialog-content {
@@ -233,4 +242,137 @@ li i {
 
 li:hover i {
     visibility: visible;
+}
+
+.dismiss{
+    color: #162541;
+}
+
+.flex p{
+    position: absolute;
+    height: 24px;
+    left: 55px;
+    top: 15px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+@media screen and (max-width: 800px) {
+    :host ::ng-deep .content .p-card-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    .chart-labels{
+        flex-direction: row;
+        gap: 20px;
+    }
+}
+@media screen and (max-width: 350px) {
+    :host ::ng-deep .content .p-card-content {
+        flex-direction: column;
+        align-items: center;
+        width: 80vw;
+    }
+    .chart-labels{
+        flex-direction: column;
+        gap: 0px;
+    }
+    .header h3{
+        height: auto;
+    }
+}
+
+
+:host ::ng-deep p-chart {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+} 
+
+@media screen and (max-width: 1024px) {
+    :host ::ng-deep p-chart {
+        max-height: 350px;
+      
+    }
+
+}
+
+
+@media screen and (max-width: 600px) {
+    :host ::ng-deep p-chart {
+        max-height: 300px;
+        width: 80px;
+    }
+}
+
+
+
+:host ::ng-deep .p-card {
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 1024px) {
+    :host ::ng-deep .p-card {
+        width: 90vw;
+
+    }
+}
+
+@media screen and (max-width: 600px) {
+    :host ::ng-deep .p-card {
+        width: 90vw;
+        flex-wrap: wrap;
+    }
+}
+:host ::ng-deep .p-dialog {
+    width: 70vw;
+    max-width: 700px;
+    height: auto;
+    overflow-y: auto;
+    left: 68%;
+    transform: translateX(-50%);
+}
+
+@media screen and (max-width: 1024px) {
+    :host ::ng-deep .p-dialog {
+        width: 85vw;
+        left:60%
+    }
+}
+
+@media screen and (max-width: 600px) {
+    :host ::ng-deep .p-dialog {
+        width: 95vw;
+        max-height: 80vh;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+
+:host ::ng-deep .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+@media screen and (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 100%;
+        padding: 10px;
+    }
 }

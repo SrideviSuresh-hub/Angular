@@ -1,24 +1,28 @@
-
-
 <div class="container">
-    <div>
-        <p>Home</p>
-    </div>
+    <p class="home">Home</p>
     <div class="main">
-        <p-card  (click)="navigate()" class="cursor-pointer grid" >
+        <p-card (click)="navigate()" class="cursor-pointer grid">
             Go to User Service <i class="pi pi-angle-double-right"></i>
         </p-card>
     </div>
     <div class="content">
-        <div class="col-6">
-            <p-card >
-                <p-chart type="line" [data]="lineChartData" [responsive]="true" [options]="options"></p-chart>
-               
+        <div class="col-6 class1">
+            <p-card class="flex">
+                    <h4>Number of Users VS Days</h4>
+                <p-chart *ngIf="lineChartData" type="line" [data]="lineChartData" [responsive]="true" [options]="options" class='chart'></p-chart>
+                <div class="chart-labels c1">
+                    <div class="label-item">
+                        <div class="color-box" style="background-color: #0000B0;"></div>
+                        <div class="label-text">Number of Users</div>
+                    </div>
+                    </div>
             </p-card>
         </div>
-        <div class="col-6">
-            <p-card>
-                <p-chart type="doughnut" [data]="doughnutChartData"  [options]="chartOption" [responsive]="true"></p-chart>
+        <div class="col-6 class2">
+            <p-card class="piechart">
+                    <h4>Reminders</h4>
+                <p-chart *ngIf="doughnutChartData"  type="doughnut" [data]="doughnutChartData" [options]="chartOption"
+                    [responsive]="true"></p-chart>
                 <div class="chart-labels">
                     <div class="label-item">
                         <div class="color-box" style="background-color: #B8AFFC;"></div>

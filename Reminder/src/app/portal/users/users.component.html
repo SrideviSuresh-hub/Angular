@@ -1,53 +1,77 @@
 <div class="container">
+  <p>Home / <span>User Service</span></p>
   <div class="user-container">
     <div class="grid">
       <h1 class="heading">User Service</h1>
-      <p-button class="p-button-add" (click)="showDailog(null,'add')">
+      <p-button class="p-button-add" icon="" (click)="showDailog(null,'add')">
         <i class="pi pi-plus add"></i>
       </p-button>
     </div>
     <div class="card">
-      <p-table [value]="users" [tableStyle]="{'min-width': '60rem'}">
-        <ng-template #header>
+      <p-table #dt [value]="users" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="rows"
+        [first]="first" [paginatorPosition]="'bottom'" (onPage)="onPageChange($event)" 
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" [responsiveLayout]="'scroll'">
+        <ng-template pTemplate="header">
           <tr>
-            <th pSortableColumn="name" style="width:14%">
-              Name <p-sortIcon field="name" />
+            <th pSortableColumn="username" style="width:14%">
+              Name <p-sortIcon class="customSortIcon" field="username"></p-sortIcon>
             </th>
             <th pSortableColumn="fname" style="width:14%">
-              First Name <p-sortIcon field="fname" />
+              First Name <p-sortIcon class=" customSortIcon" field="fname"></p-sortIcon>
             </th>
             <th pSortableColumn="lname" style="width:14%">
-              LastName <p-sortIcon field="lname" />
+              LastName <p-sortIcon class=" customSortIcon" field="lname"></p-sortIcon>
             </th>
             <th pSortableColumn="email" style="width:18%">
-              Email ID <p-sortIcon field="email" />
+              Email ID <p-sortIcon class=" customSortIcon" field="email"></p-sortIcon>
             </th>
             <th pSortableColumn="status" style="width:12%">
-              Status <p-sortIcon field="status" />
+              Status <p-sortIcon class=" customSortIcon" field="status"></p-sortIcon>
             </th>
-            <th pSortableColumn="admin" style="width:12%">
-              Is Admin <p-sortIcon field="admin" />
+            <th pSortableColumn="isAdmin" style="width:11%">
+              Is Admin <p-sortIcon class=" customSortIcon" field="isAdmin"></p-sortIcon>
             </th>
-            <th pSortableColumn="datetime" style="width:25%">
-              Created Date Time <p-sortIcon field="datetime" />
+            <th pSortableColumn="datetime" style="width:26%">
+              Created Date Time <p-sortIcon class=" customSortIcon" field="datetime"></p-sortIcon>
             </th>
             <th style="width:5%">
             </th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-user>
-          <tr (click)="showDailog(user,'view')">
+          <tr (click)="showDailog(user,'view')" style="cursor: pointer;">
             <td>{{ user.username }}</td>
             <td>{{ user.fname }}</td>
             <td>{{ user.lname }}</td>
             <td>{{ user.email }}</td>
             <td>
-              <p-tag [value]="user.status" [severity]="'success'" />
+              <p-tag [value]="user.status" ngClass="tag-active" />
             </td>
             <td>{{ user.isAdmin ? 'Yes' : 'No' }}</td>
-            <td>{{ user.datetime | date :"MM/dd/yyy hh:mm a"}}</td>
-            <td><i class="fa-regular fa-trash-can" (click)="confirmDelete(user) ; $event.stopPropagation()"></i></td>
+            <td>{{ user.datetime | date :'MM/dd/yyy hh:mm a'}}</td>
+            <td>
+              <p-button icon="pi" (click)="confirmDelete(user); $event.stopPropagation()">
+                <ng-template pTemplate="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+                    fill="#75767C">
+                    <path
+                      d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm72-144h72v-336h-72v336Zm120 0h72v-336h-72v336Z" />
+                  </svg>
+                </ng-template>
+              </p-button>
+            </td>
           </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+          <div class="page-temp">
+            <div class="paginator-custom">
+              <span class="go-to-page">
+                <input #pageInput id="pageInput" type="number" [(ngModel)]="curPageInput" [min]="1" [max]="maxPage"
+                  class="go-input" />
+                <button type="button" pButton label="Go" style="color: black;" (click)="goToPage(dt)"></button>
+              </span>
+            </div>
+          </div>
         </ng-template>
       </p-table>
     </div>
@@ -62,16 +86,19 @@
     <div class="form-grid">
 
       <div class="input-box">
-        <label>User Name</label>
-        <input pInputText name="username" [(ngModel)]="newUser.username" required [disabled]="mode==='view'" />
+        <label>User Name *</label>
+        <input pInputText name="userName" [(ngModel)]="newUser.username" maxlength="20" pattern="^[a-zA-Z0-9]*" required
+          [disabled]="mode==='view'"/>
       </div>
       <div class="input-box">
-        <label>First Name</label>
-        <input pInputText name="firstName" [(ngModel)]="newUser.fname" required [disabled]="mode==='view'" />
+        <label>First Name *</label>
+        <input pInputText name="firstName" [(ngModel)]="newUser.fname" required maxlength="30" pattern="^[a-zA-Z0-9]*"
+          [disabled]="mode==='view'"/>
       </div>
       <div class="input-box">
         <label>Last Name</label>
-        <input pInputText name="lastName" [(ngModel)]="newUser.lname" required [disabled]="mode==='view'" />
+        <input pInputText name="lastName" [(ngModel)]="newUser.lname" maxlength="20" pattern="^[a-zA-Z0-9]*"
+          [disabled]="mode==='view'"/>
       </div>
       <div class="input-box">
         <div class="gender">
@@ -93,23 +120,24 @@
       </div>
       <div class="input-box">
         <label>Email ID</label>
-        <input pInputText name="email" [(ngModel)]="newUser.email" type="email" required [disabled]="mode==='view'" />
+        <input pInputText name="email" [(ngModel)]="newUser.email" type="email" maxlength="100"
+          [disabled]="mode==='view'" email />
       </div>
 
       <div class="input-box">
-        <label>Address Field 1</label>
+        <label>Address Field 1 *</label>
         <textarea id="address1" class="no-resize" pInputTextarea rows="3" [(ngModel)]="newUser.address1" name="address1"
-          [disabled]="mode==='view'"></textarea>
+          [disabled]="mode==='view'" maxlength="100" required=""></textarea>
       </div>
       <div class="input-box">
         <label>Address Field 2</label>
         <textarea id="address2" class="no-resize" pInputTextarea rows="3" [(ngModel)]="newUser.address2" name="address2"
-          [disabled]="mode==='view'"></textarea>
+          [disabled]="mode==='view'" maxlength="100"></textarea>
       </div>
       <div class="input-box">
         <label>Country</label>
-        <p-select [options]="countries" [(ngModel)]="newUser.country" (change)="onCountryChange($event)" name="country"
-          [disabled]="mode==='view'" />
+        <p-select [options]="countries" [(ngModel)]="newUser.country" (onChange)="onCountryChange($event)" name="country"
+          optionLabel="label" optionValue="value" appendTo="body" [disabled]="mode==='view'" />
       </div>
 
       <div class="input-box">
@@ -119,7 +147,8 @@
       </div>
       <div class="input-box">
         <label>Zipcode</label>
-        <input pInputText name="zipcode" [(ngModel)]="newUser.zipcode" [disabled]="mode==='view'" appendTo="body" />
+        <input pInputText name="zipcode" [(ngModel)]="newUser.zipcode" [disabled]="mode==='view'" maxlength="20"
+          appendTo="body" />
       </div>
       <div class="input-box">
         <label>Time Zone</label>
@@ -139,9 +168,15 @@
           <p-button class="p-button-upload" label="Upload" (click)="fileInput.click()" severity="secondary"
             [disabled]="mode==='view'"> </p-button>
           <span *ngIf="uploadedFileName">{{ uploadedFileName }}
-            <button type="button" class="remove-btn" [disabled]="mode==='view'" (click)="removeImage()">
-              <i class="pi pi-trash"></i>
-            </button>
+            <p-button type="button" icon="pi" class="remove-btn" [disabled]="mode==='view'" (click)="removeImage()">
+              <ng-template pTemplate="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+                  fill="#75767C">
+                  <path
+                    d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm72-144h72v-336h-72v336Zm120 0h72v-336h-72v336Z" />
+                </svg>
+              </ng-template>
+            </p-button>
           </span>
           <input type="file" accept="image/*" #fileInput (change)="onImageUpload($event)" hidden
             [disabled]="mode==='view'" />
@@ -152,19 +187,13 @@
         <div class="input-box chec">
           <label>Is Admin</label>
           <p-checkbox [(ngModel)]="newUser.isAdmin" binary="true" name="isadmin"
-            [disabled]="mode==='view'" ></p-checkbox>
+            [disabled]="mode==='view'"></p-checkbox>
         </div>
         <div class="input-box per" *ngIf="newUser.isAdmin">
           <label for="permission"> Assign Permission</label>
-          <p-multiselect name="permisions"
-           [options]="permissions"
-            [(ngModel)]="newUser.permissions" 
-            (onChange)="onPermissionChange()" 
-            appendTo="body"
-             display="chip"
-             optionLabel="label"
-             optionValue="value"
-             [disabled]="mode === 'view'" />
+          <p-multiselect name="permisions" [options]="permissions" [(ngModel)]="newUser.permissions"
+            (onChange)="onPermissionChange()" appendTo="body" display="chip" optionLabel="label" optionValue="value"
+            [disabled]="mode === 'view'" />
         </div>
       </div>
     </div>
@@ -172,10 +201,10 @@
 
   <ng-template pTemplate="footer">
     <p-button label="Back" *ngIf="mode==='view'" class="p-button-secondary-ss" [text]="true" (click)="visible=false" />
-    <p-button label="Edit" *ngIf="mode==='view'" class="p-button-primary" (click)="mode='edit'" />
+    <p-button label="Edit" *ngIf="mode==='view'" (click)="switchToEditMode()" class="p-button-primary" />
     <p-button label="Cancel" *ngIf="mode!=='view'" class="p-button-secondary-ss" [text]="true" (click)="onCancel()" />
     <p-button label="Save" type="submit" class="p-button-primary" *ngIf="mode!=='view'" (click)="saveUser(userForm)" />
-
   </ng-template>
 </p-dialog>
 <p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>

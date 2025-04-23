@@ -1,19 +1,16 @@
-
-<!-- <p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '526px', height: '300px' }"> -->
-    <p-dialog [(visible)]="visible" [modal]="true" [style]="{'width': '90%', 'max-width': '400px'}">
- 
+<p-dialog class="delete-dialog" [(visible)]="visible" [modal]="true" [style]="{ 'width': '450px', 'height':'279px'}">
     <ng-template #content [style]="{padding:0}">
         <div class="disp">
-            <div class=" col-12">     
+            <div class=" col-12">
                 <i class="pi pi-times-circle error-icon"></i>
             </div>
             <h3 class="dialog-title">Are You sure!??</h3>
-          <p>Do you really want to delete the selected item?</p>
+            <p>Do you really want to delete the selected item?</p>
         </div>
     </ng-template>
     <ng-template #footer>
-        <p-button label="Cancel" severity="secondary"  class="custom-cancel-btn"(click)="visible = false" />
-        <p-button label="Delete"  class="custom-delete-btn" severity="primary"(click)="confirmDelete()" />
+        <p-button label="Cancel" severity="secondary" class="custom-cancel-btn" (click)="visible = false" />
+        <p-button label="Delete" class="custom-delete-btn" severity="primary" (click)="confirmDelete()" />
     </ng-template>
 </p-dialog>
 
@@ -22,7 +19,8 @@
 <div class="order-container">
     <h2>My Orders</h2>
     <div *ngIf="isLoading" class="spinner-container">
-        <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+        <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s"
+            [style]="{ width: '50px', height: '50px' }" />
     </div>
     <p-table *ngIf="!isLoading" [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="8">
         <ng-template #header>
@@ -43,8 +41,8 @@
                     <p-tag [value]="order.deliveryStatus" [severity]="getSeverity(order.deliveryStatus)" />
                 </td>
                 <td class="actions">
-                    <i  class="fa-solid fa-eye"   (click)="viewOrder(order)"></i>
-                    <i class="fa-solid fa-trash" (click)="deleteOrder(order.keyId)"></i>                    
+                    <i class="fa-solid fa-eye" (click)="viewOrder(order)"></i>
+                    <i class="fa-solid fa-trash" (click)="deleteOrder(order.keyId)"></i>
                     <!-- "confirmDelete(order.keyId) -->
                 </td>
             </tr>
@@ -52,32 +50,27 @@
     </p-table>
 
 </div>
-<p-dialog header="View Order" [(visible)]="showPopup" [modal]="true" [style]="{'width': '95%', 'max-width': '550px', 'height': 'auto', 'max-height': '90vh','overflow-y': 'auto'}">
+<p-dialog header="View Order" [(visible)]="showPopup" [modal]="true">
 
     <!-- <ng-template pTemplate="content"> -->
-        <ng-container *ngIf="selectedOrder">
-            <div *ngFor="let product of selectedOrder.products" class="product-info">
-                <div class="order-details">
-                    <img [src]="product.image" >
-                    <div class="product-info">
-                        <p style="color: rgba(20, 21, 105, 1);">Delivered on {{ selectedOrder.orderDate | date:'shortDate'}}</p>
-                        <h3>{{product.name}}</h3>
-                        <p>Quantity: {{ product.quantity }}</p>
-                        <p>Order ID: {{ selectedOrder.orderId }}</p>
-                        <p>Address Line 1: {{ curUser.address1}}</p>
-                        <p>Address Line 2: {{ curUser.address2 }}</p>
-                        <p>State: {{ curUser.states }}</p>
-                        <p>Zip Code: {{ curUser.zipCode }}</p>
-                        <p>Delivery Status: {{product.deliveryStatus|| 'pending' }}</p>
-                    </div>
+    <ng-container *ngIf="selectedOrder">
+        <div *ngFor="let product of selectedOrder.products" class="product-info">
+            <div class="order-details">
+                <img [src]="product.image">
+                <div class="product-info">
+                    <p style="color: rgba(20, 21, 105, 1);">Delivered on {{ selectedOrder.orderDate | date:'shortDate'}}
+                    </p>
+                    <h3>{{product.name}}</h3>
+                    <p>Quantity: {{ product.quantity }}</p>
+                    <p>Order ID: {{ selectedOrder.orderId }}</p>
+                    <p>Address Line 1: {{ curUser.address1}}</p>
+                    <p>Address Line 2: {{ curUser.address2 }}</p>
+                    <p>State: {{ curUser.state }}</p>
+                    <p>Zip Code: {{ curUser.zipCode }}</p>
+                    <p>Delivery Status: {{product.deliveryStatus|| 'pending' }}</p>
                 </div>
             </div>
-        </ng-container>
+        </div>
+    </ng-container>
     <!-- </ng-template> -->
 </p-dialog>
-
-
-
-
-
-

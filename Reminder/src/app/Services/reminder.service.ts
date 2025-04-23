@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { Reminder } from "../Models/reminder";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({
@@ -9,6 +9,22 @@ import { HttpClient } from "@angular/common/http";
 export class ReminderService{
     private url='http://localhost:3000/reminders';
     http:HttpClient=inject(HttpClient);
+    private popupCountSubject = new BehaviorSubject<number>(0);
+    popupReminderCount$ = this.popupCountSubject.asObservable();
+    private popupVisibleSubject = new BehaviorSubject<boolean>(false);     
+    popupVisible$ = this.popupVisibleSubject.asObservable();
+   
+    setPopupVisible(isVisible: boolean) {
+      this.popupVisibleSubject.next(isVisible);
+    }
+   
+      updatePopupCount(count: number) {
+        this.popupCountSubject.next(count);
+    }
+
+    ngOnInit(){
+    console.log(this.popupReminderCount$);
+   }
     addReminder(reminder:Reminder):Observable<Reminder>{
         return this.http.post<Reminder>(this.url,reminder);
     }
@@ -26,4 +42,7 @@ export class ReminderService{
         return this.http.get<Reminder[]>(`${this.url}?${userId}=${userId}`);
         
     }
+
+    
+
 }

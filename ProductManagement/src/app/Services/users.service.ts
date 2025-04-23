@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { map, Observable } from "rxjs";
+import { catchError, map, Observable } from "rxjs";
 import { User } from "../Models/User";
 
 @Injectable({
@@ -39,4 +39,25 @@ export class UsersService {
         return this.http.get(`${this.baseUrluser}/${userId}.json`);
 
     }
+    getTotalOrderProductCount(userId: string): Observable<number> {
+        return this.http.get<any>(`${this.baseUrluser}/${userId}/orders.json`).pipe(
+            map(orderData => {
+                if (!orderData) return 0;
+    
+                let totalProducts = 0;
+    
+                for (let orderKey in orderData) {
+                    const order = orderData[orderKey];
+                    if (order.productCount) {
+                        totalProducts += order.productCount; // Sum up productCount directly
+                    }
+                }
+    
+                return totalProducts;
+            }),
+            catchError(() => [0]) // Handle errors gracefully
+        );
+    }
+    
+    
 }

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { AuthService } from '../Services/auth.service';
 
 @Component({
@@ -15,5 +15,6 @@ ngOnInit(){
   if(Boolean(localStorage.getItem('isLoggedIn'))){
     this.router.navigate([localStorage.getItem('curPath')])
   }
+ 
 }
 }

@@ -18,13 +18,15 @@ export class UserHomeComponent implements OnInit {
 
   orderService: OrdersService = inject(OrdersService);
   productService: ProductService = inject(ProductService);
-
+  isLoading:boolean=false;
   ngOnInit(): void {
     this.loadOrdersData();
     this.loadUsersProductData();
+    localStorage.setItem('curPath','portal/usersHome')
   }
 
   loadOrdersData() {
+    this.isLoading=true
     this.orderService.getOrders().subscribe({
       next: (orders) => {
         const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -69,8 +71,7 @@ export class UserHomeComponent implements OnInit {
             }
           },
           plugins: {
-            legend: { display: false },
-            // title: { display: false }
+            legend: { display: false }
           }
         };
 
@@ -84,14 +85,17 @@ export class UserHomeComponent implements OnInit {
             pointBorderColor: 'darkgreen'
           }]
         };
+        this.isLoading=false
       },
       error: (err) => {
         console.error('Error fetching orders:', err);
+        this.isLoading=false
       }
     });
   }
 
   loadUsersProductData() {
+    this.isLoading=true
     this.orderService.getOrders().subscribe({
       next: (orders) => {
         let prodCount: { [prodName: string]: number } = {};
@@ -142,9 +146,11 @@ export class UserHomeComponent implements OnInit {
             backgroundColor: 'blue'
           }]
         };
+        this.isLoading=false;
       },
       error: (err) => {
         console.error('Error fetching product data:', err);
+        this.isLoading=false
       }
     });
   }

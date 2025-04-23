@@ -9,10 +9,14 @@ export const canActivate = (
     ): boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> => {
     const authService: AuthService = inject(AuthService);
     console.log(authService.isLoggedIn());
+
+    if(authService.isLoggedIn()){
+        localStorage.setItem('isLoggedIn','true')
+    }
     const  router= inject(Router);
     if (!authService.isLoggedIn()) {
         router.navigate(['/login']);
-         return false;
+         return true;
     }
    
  
@@ -20,17 +24,15 @@ export const canActivate = (
     const requestedRoute = state.url;
   
     console.log('Requested route:', requestedRoute);
-  
-    if (isAdmin && requestedRoute.includes('portal/usersHome')) {
+    if (isAdmin && (requestedRoute.includes('portal/usersHome') )) {
       console.log('Admin already on usersHome, redirecting to home');
       router.navigate(['/portal/home']);
-      return false; // Stop navigation
+      return false; 
     } else if (!isAdmin && requestedRoute.includes('portal/home')) {
       console.log('Non-admin already on home, redirecting to usersHome');
-      router.navigate(['/portal/usersHome']);
-      return false; // Stop navigation
+      router.navigate(['/portal/userhome']);
+      return false; 
     }
-  
-
+   
     return true;
 }

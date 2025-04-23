@@ -14,6 +14,7 @@ export const routes2:Routes=[
         component:PortalComponent,
         canActivate:[canActivate], 
         children:[
+    {path:'',redirectTo:'home',pathMatch:'full'},
    {path:'home',component:HomeComponent},
     {path:'users',component:UsersComponent},
     {path:'products',component:ProductsComponent},

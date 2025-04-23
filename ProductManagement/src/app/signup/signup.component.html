@@ -33,31 +33,25 @@
                     </div>
 
                     <div class="input-box">
-                        <label>User Name</label>
-                        <input type="text" name="username"  maxlength="20" [(ngModel)]="username"
+                        <label>User Name *</label>
+                        <input type="text" name="username" pattern="^[a-zA-Z0-9]*" maxlength="20" [(ngModel)]="username"
                             required />
-                            <!-- #uname="ngModel" -->
-                        <!-- <small *ngIf="uname.invalid && uname.touched">*Username is required</small> -->
-                    </div>
+                         </div>
 
                     <div class="column">
                         <div class="input-box">
-                            <label>First Name</label>
-                            <input type="text" name="firstname" [(ngModel)]="firstName" maxlength="30"
+                            <label>First Name *</label>
+                            <input type="text" name="firstname" pattern="^[a-zA-Z0-9]*" [(ngModel)]="firstName" maxlength="30"
                                 required />
                             <div>
-                                <!-- #fname="ngModel"
-                                <small *ngIf="fname.invalid && fname.touched">*First Name is a Required Field</small> -->
-                            </div>
+                                  </div>
                         </div>
 
                         <div class="input-box">
                             <label>Last Name</label>
-                            <input type="text" name="lastname" [(ngModel)]="lastName" maxlength="30" />
+                            <input type="text" name="lastname" pattern="^[a-zA-Z0-9]*" [(ngModel)]="lastName" maxlength="30" />
                             <div>
-                                <!-- #lname="ngModel"
-                                <small *ngIf="lname.invalid && lname.touched">*Last Name is a Required Field</small> -->
-                            </div>
+                                 </div>
                         </div>
                     </div>
 
@@ -76,7 +70,7 @@
                         </div>
                     </div>
                     <div class="input-box">
-                        <label>Email ID</label>
+                        <label>Email ID *</label>
                         <input type="text" name="email" maxlength="100"  [(ngModel)]="emailAddress"
                             required email />
                         <div>
@@ -84,7 +78,7 @@
                     </div>
 
                     <div class="input-box">
-                        <label>Mobile Number</label>
+                        <label>Mobile Number *</label>
                         <p-inputgroup>
                             <p-inputgroup-addon>
                                 <span>+91</span>
@@ -96,31 +90,33 @@
                 </div>
 
                 <div *ngIf="currentStep === 2">
-                    <div class="input-box address"  >
+                  <div class="column">
+                    <div class="input-box address *" >
                         <label>Address line1</label>
-                        <textarea  pTextarea type="text" name="street2"  rows="2" cols="15" [(ngModel)]="street1"  required></textarea>
+                        <textarea  pInputTextarea class="no-resize" type="text" name="street2"  maxlength="100" [(ngModel)]="street1" required></textarea>
                     </div>
                     <div class="input-box address">
-                        <label>Address line2</label>
-                        <textarea pTextarea type="text" name="street2"  rows="2" cols="15" [(ngModel)]="street2" ></textarea>
+                        <label>Address line2</label>   
+                        <textarea  pInputTextarea class="no-resize" type="text" name="street2"  maxlength="100" [(ngModel)]="street2" ></textarea>
                     </div>
+                  </div>
 
                     <div class="column">
                         <div class="select-box">
                             <label>Country</label>
-                            <select name="country" (change)="onCountryChange($event)" required [(ngModel)]="country">
+                            <select name="country" (change)="onCountryChange($event)"  [(ngModel)]="country">
                                 <option value="India">India</option>
                                 <option value="USA">USA</option>
                             </select>
                         </div>
                         <div class="select-box">
                             <label>State</label>
-                            <select name="state" [(ngModel)]="state" required>
+                            <select name="state" [(ngModel)]="state" >
                                 <option *ngFor="let stateOpt of states" [value]="stateOpt">{{ stateOpt }}</option>
                             </select>
                         </div>
                     </div>
-                    <br>
+                    
 
                     <div class="column">
                         <div class="input-box">
@@ -138,34 +134,31 @@
                     <div class="column">
                         <div class="select-box">
                             <label for="locale">Locale</label>
-                            <select name="locale" [(ngModel)]="localee" >
-                                <option *ngFor="let locale of locales" [value]="locale">{{ locale }}</option>
+                            <select name="locale" [(ngModel)]="localee">
+                                <option *ngFor="let locale of locales" [value]="locale" >{{ locale }}</option>
                             </select>
                         </div>
                         <div class="column checkbox">
-                            <input type="checkbox" name="admin" [(ngModel)]="IsAdmin" disabled>
-                            <label for="admin">is Admin</label><br>
+                            <p-checkbox [(ngModel)]="IsAdmin" name="isAdmin" disabled ></p-checkbox>  
+                            <label for="admin">Is Admin</label>
                         </div>
                     </div>
                     <div class="input-box">
-                        <label for="password">Password</label>
+                        <label for="password">Password *</label>
                         <p-password [(ngModel)]="password" [feedback]="false" [toggleMask]="true" inputId="password"
                             name="password" inputStyleClass="w-full" styleClass="w-full"
                             (ngModelChange)="validatePassword(password, confirmpassword)" required></p-password>
                     </div>
                     <div class="input-box">
-                        <label for="cpassword">Confirm Password</label>
+                        <label for="cpassword">Confirm Password *</label>
                         <p-password [(ngModel)]="confirmpassword" [feedback]="false" [toggleMask]="true"
                             inputId="cpassword" name="cpassword"  inputStyleClass="w-full"
                             styleClass="w-full" (ngModelChange)="validatePassword(password, confirmpassword)"
                             required></p-password>
                     </div>
-                    <!-- #passwords="ngModel" #cpassword="ngModel"
-                    <small *ngIf="!passwordMatching && cpassword.dirty">Passwords Didn't match</small> -->
-
                 </div>
 
-                <div class="input-box" *ngIf="currentStep === 2">
+                <div class="input-box btn" *ngIf="currentStep === 2">
                     <p-button label="Sign Up" styleClass="w-full background-color-rgb(200, 200, 219)"
                      type="submit"></p-button>
                 </div>
@@ -183,11 +176,6 @@
                         [class.disabled]="currentStep === 2"></i>
                 </div>
             </form>
-            <!--     [disabled]="!signupForm.valid " -->
-            <!--  && !signupForm.valid -->
-            <!-- <div class="float-but"> Already have an account?
-              <a routerLink="/login">Login</a>
-          </div> -->
         </div>
     </div>
 </div>

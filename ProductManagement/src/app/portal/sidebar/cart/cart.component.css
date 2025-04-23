@@ -1,88 +1,91 @@
 .cart-container {
-    overflow: hidden;
-    height: 100%;
-    background-color: white;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
-    padding-bottom: 100px;
-    display: flex;
-    flex-direction: column; 
-  }
+  overflow: hidden;
+  height: 100%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+  /* padding-bottom: 100px; */
+  display: flex;
+  flex-direction: column;
+}
 
-  h1{
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 100%;
-    color: #141569;
-    }
-    .title {
-      display: flex;
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 10px;
-      margin-left: 0px;
-    }
-    .search-container {
-      display: flex;
-      justify-content: space-between; 
-      width: 100%;
-      margin-bottom: 20px;
-    }
-    
-    .search-bar {
-      position: relative;
-      width: 100%;
-      max-width: 400px; 
-    
-     
-    }
-    
-    .search-bar input {
-      width: 100%;
-      padding: 10px 40px 10px 15px; 
-      border: none;
-      background-color:rgba(243, 243, 243, 1);
-      border-radius: 6px;
-      font-size: 16px;
-      outline: none;
-    }
-    
-    .search-icon {
-      position: absolute;
-      right: 15px;
-      top: 35%;
-      transform: translateY(-50%);
-      color: rgba(20, 21, 105, 1);
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-    
-    }
-    
-    
+h1 {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+  color: #141569;
+}
+
+.title {
+  display: flex;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-left: 0px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+
+
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  border: none;
+  background-color: rgba(243, 243, 243, 1);
+  border-radius: 6px;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  right: 15px;
+  top: 35%;
+  transform: translateY(-50%);
+  color: rgba(20, 21, 105, 1);
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+
+}
+
+
 .cart-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); /* Responsive columns */
+  grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
+  /* Responsive columns */
   gap: 15px;
   padding: 10px;
   overflow-y: auto;
-  height:auto;
+  height: auto;
   flex-grow: 1;
   max-height: calc(100vh - 200px);
- 
+
 }
 
 .cart-card {
   display: flex;
   align-items: center;
   width: 100%;
-  height: auto; 
+  height: auto;
   border-radius: 5px;
   border: 1px solid #ddd;
   padding: 8px;
-padding-right: 0px;
+  padding-right: 0px;
 }
 
 .cart-img {
@@ -90,17 +93,20 @@ padding-right: 0px;
   height: 105px;
   object-fit: cover;
 }
-.details{
+
+.details {
   display: flex;
   align-items: center;
   gap: 20px;
- border-radius: 5px;
- padding: 0;
+  border-radius: 5px;
+  padding: 0;
 
 }
- :host ::ng-deep .p-button{
-   color: rgba(0, 0, 0, 1);
+
+:host ::ng-deep .p-button {
+  color: rgba(0, 0, 0, 1);
 }
+
 .cart-details {
   flex-grow: 1;
   display: flex;
@@ -108,16 +114,16 @@ padding-right: 0px;
   justify-content: center;
   align-items: left;
   line-height: 1.2;
-  
+
 }
 
 .cart-details h3 {
   margin: 0;
-  font-size: 16px; 
+  font-size: 16px;
 }
 
 .cart-details p {
-  margin: 5px 0; 
+  margin: 5px 0;
   font-size: 14px;
 }
 
@@ -126,7 +132,7 @@ padding-right: 0px;
   flex-grow: 1;
   align-items: center;
   color: black;
-   gap: 5px;
+  gap: 5px;
   /* margin: 10px 0;  */
 }
 
@@ -138,53 +144,59 @@ padding-right: 0px;
   cursor: pointer;
 }
 
-/* .cart-summary {
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: flex-end; 
-  padding-top: 10px;
-} */
+
 
 .checkout-btn {
   background: rgb(12, 2, 94);
   color: white;
-  padding: 10px 20px;
   border-radius: 5px;
   border: none;
   cursor: pointer;
   position: absolute;
   bottom: 30px;
   right: 40px;
+  width: 196px;
+  height: 34px;
+
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+
+
 
 }
-.s{
+
+.s {
   position: relative;
   width: 100%;
   display: flex;
-  justify-content: flex-end; 
+  justify-content: flex-end;
 
 }
 
 .checkout-btn:hover {
   background: rgb(2, 20, 101);
-  
+
 }
-.trash{
+
+.trash {
   padding: 10px;
   padding-right: -5px;
   cursor: pointer;
   color: rgba(20, 21, 105, 1);
 
-  }
-.actions i{
+}
+
+.actions i {
   visibility: hidden;
   margin-right: 5px;
 }
 
-.cart-card:hover .actions i{
+.cart-card:hover .actions i {
   visibility: visible;
-  background-color:#F0ECFD ;
+  background-color: #F0ECFD;
   border-radius: 50%;
 }
 
@@ -192,38 +204,54 @@ padding-right: 0px;
 @media (max-width: 1024px) {
   .cart-grid {
     grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
-     }
+  }
+
   .cart-card {
     height: auto;
     padding: 6px;
   }
+
   .cart-img {
     width: 100px;
     height: 90px;
   }
- 
+
 }
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 250px);
+}
+
 
 @media (max-width: 768px) {
   .cart-grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
+
   .cart-card {
     height: auto;
-    flex-direction: row; /* Ensures image stays on the left */
+    flex-direction: row;
+    /* Ensures image stays on the left */
     align-items: center;
   }
+
   .cart-img {
     width: 90px;
     height: 80px;
   }
+
   .cart-details {
     padding-left: 5px;
   }
 }
+
 @media (max-width: 480px) {
   .cart-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjusts for smaller screens */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    /* Adjusts for smaller screens */
   }
 
   .cart-card {
@@ -240,6 +268,7 @@ padding-right: 0px;
   .quantity-controls {
     gap: 5px;
   }
+
   .title {
     font-size: 16px;
   }
@@ -251,18 +280,18 @@ padding-right: 0px;
   }
 
   .title {
-    font-size: 18px; 
-    text-align: center; 
+    font-size: 18px;
+    text-align: center;
     width: 100%;
   }
 
   .search-bar {
-    max-width: 100%; 
+    max-width: 100%;
   }
 
   .search-icon {
     top: 17px;
     right: 10px;
-    font-size: 14px; 
+    font-size: 14px;
   }
 }

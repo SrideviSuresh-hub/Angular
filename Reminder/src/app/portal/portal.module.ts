@@ -23,13 +23,16 @@ import { Select } from 'primeng/select';
 import { RouterModule } from "@angular/router";
 import { routes2 } from "./portals-route.module";
 import { CommonModule, DatePipe } from "@angular/common";
-import { MessageService } from "primeng/api";
+import { ConfirmationService, MessageService } from "primeng/api";
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from "primeng/ripple";
 import { UserhomeComponent } from "./userhome/userhome.component";
 import { ChartModule } from 'primeng/chart';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { MultiSelectModule } from 'primeng/multiselect';
+
+
 @NgModule({
     declarations: [
         HeaderComponent,
@@ -37,7 +40,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
         ReminderComponent,
         UsersComponent,
         PortalComponent,
-        UserhomeComponent
+        UserhomeComponent,
       ],
       imports: [
         CommonModule,
@@ -63,6 +66,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
         ChartModule,
         MultiSelectModule,
         GoogleChartsModule,
+        ConfirmDialogModule,
         RouterModule.forChild(routes2),
       ],
       exports:[
@@ -78,6 +82,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
         Dialog,
         SelectButtonModule,
         Select,
+        ConfirmDialogModule,
          HttpClientModule,
         CheckboxModule,
         DatePickerModule,
@@ -86,9 +91,9 @@ import { MultiSelectModule } from 'primeng/multiselect';
         ChartModule,
         MultiSelectModule,
         GoogleChartsModule,
-        ToastModule
+        ToastModule,
       ],
-      providers:[MessageService]
+      providers:[MessageService,ConfirmationService]
 })
  export class PortalModule{
 

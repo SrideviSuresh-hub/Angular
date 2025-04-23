@@ -19,13 +19,33 @@
 .chart-box h2 {
   font-size: 1.2rem;
   margin-bottom: 10px;
-  text-align: center;
+  font-size: 1.2rem;
+    margin-top: 5px;
+    margin-bottom: 40px;
+  
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+}
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 300px);
+  width:calc(100vw - 400px);
 }
 
 :host ::ng-deep .chart > div,
 :host ::ng-deep .chart canvas {
   height: 600px !important;
   width: 100% !important;
+}
+:host ::ng-deep .chart2 > div,
+:host ::ng-deep .chart2 canvas {
+  height: 700px !important;
 }
 
 @media (max-width: 768px) {
