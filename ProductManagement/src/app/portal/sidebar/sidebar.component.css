@@ -3,8 +3,8 @@
   transition: all 0.2s ease;
   position: fixed;
   width: 15rem;
-  height:100%;
-  top: 67px; 
+  height: 100%;
+  top: 67px;
   left: 0;
 }
 
@@ -40,19 +40,16 @@
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link {
   display: flex;
   align-items: center;
-  /* height: 3rem; */
-  /* color: #13093d; */
   text-decoration: none;
   margin-right: -16px;
   margin-left: -16px;
-
-height: 39px;
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 600;
-font-size: 20px;
-line-height: 24px;
-color: #141569;
+  height: 39px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #141569;
 
 
 }
@@ -64,7 +61,7 @@ color: #141569;
   text-align: center;
   padding: 12px;
   padding-right: 15px;
-  
+
   text-align: left;
   align-items: left;
   justify-content: center;
@@ -72,7 +69,7 @@ color: #141569;
 }
 
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-text {
-  margin-left:30px;
+  margin-left: 30px;
   font-size: large;
   font-family: 'Montserrat';
   font-style: normal;
@@ -80,8 +77,9 @@ color: #141569;
   font-size: 16px;
   line-height: 20px;
   color: #000000;
-  
+
 }
+
 a.sidenav-nav-link.active {
   padding: 0;
   margin: 0;
@@ -96,14 +94,14 @@ a.sidenav-nav-link.active {
 @media screen and (max-width: 768px) {
   .sidenav {
     width: 5rem;
-    /* top: 10.4vh;  */
-    /* bottom: 0; */
   }
+
   .sidenav-nav[_ngcontent-ng-c1439289101] .sidenav-nav-item[_ngcontent-ng-c1439289101] .sidenav-nav-link[_ngcontent-ng-c1439289101] {
-  
+
     margin-right: 0px;
     margin-left: 0px;
   }
+
   .sidenav .sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-text {
     display: none;
   }
@@ -112,36 +110,6 @@ a.sidenav-nav-link.active {
 @media screen and (min-width: 1024px) {
   .sidenav {
     top: 67px;
-    bottom:0 ;
+    bottom: 0;
   }
 }
-/* 
-@media screen and (min-width: 469px) {
-  .sidenav {
-    top: 10.8vh; 
-  }
-}
-
-@media screen and (min-width: 320px) {
-  .sidenav {
-    top: 10.5vh; 
-  }
-}
-
-@media screen and (min-width: 800px) {
-  .sidenav {
-    top: 8vh; 
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .sidenav {
-    top: 10.2vh; 
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .sidenav {
-    top: 10.2vh; 
-  }
-} */

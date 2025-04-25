@@ -6,4 +6,5 @@ export interface OrderProducts{
     quantity:number;
     totalCount?:number;
     orderCount?:number;
+    deliveryStatus?:string;
   }

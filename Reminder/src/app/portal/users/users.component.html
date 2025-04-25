@@ -9,7 +9,7 @@
     </div>
     <div class="card">
       <p-table #dt [value]="users" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="rows"
-        [first]="first" [paginatorPosition]="'bottom'" (onPage)="onPageChange($event)" 
+        [first]="first" [paginatorPosition]="'bottom'" [scrollHeight]="'calc(100vh - 300px)'" (onPage)="onPageChange($event)" 
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" [responsiveLayout]="'scroll'">
         <ng-template pTemplate="header">
           <tr>
@@ -62,8 +62,8 @@
             </td>
           </tr>
         </ng-template>
+        <hr>
         <ng-template pTemplate="paginatorright">
-          <div class="page-temp">
             <div class="paginator-custom">
               <span class="go-to-page">
                 <input #pageInput id="pageInput" type="number" [(ngModel)]="curPageInput" [min]="1" [max]="maxPage"
@@ -71,7 +71,6 @@
                 <button type="button" pButton label="Go" style="color: black;" (click)="goToPage(dt)"></button>
               </span>
             </div>
-          </div>
         </ng-template>
       </p-table>
     </div>
@@ -88,7 +87,7 @@
       <div class="input-box">
         <label>User Name *</label>
         <input pInputText name="userName" [(ngModel)]="newUser.username" maxlength="20" pattern="^[a-zA-Z0-9]*" required
-          [disabled]="mode==='view'"/>
+          [disabled]="mode==='view' || mode==='edit'"/>
       </div>
       <div class="input-box">
         <label>First Name *</label>

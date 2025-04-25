@@ -16,7 +16,6 @@ export class OrdersComponent implements OnInit {
   selectedOrder: any;
   isLoading: boolean = false;
   selectedOrderKeyId: string;
-
   ordersService: OrdersService = inject(OrdersService);
   userService: UsersService = inject(UsersService);
   messageService: MessageService = inject(MessageService);
@@ -24,15 +23,18 @@ export class OrdersComponent implements OnInit {
   curUser = JSON.parse(localStorage.getItem('user'));
   visible: boolean = false;
 
-
+  // Loads orders
   ngOnInit() {
     this.loadOrders();
-    localStorage.setItem('curPath','portal/orders')
-
+    localStorage.setItem('curPath', 'portal/orders')
   }
+
+  //Opens confirmation dialog
   showDialog() {
     this.visible = true;
   }
+
+  // Fetches user orders
   loadOrders() {
     this.isLoading = true;
     this.ordersService.getOrders().subscribe({
@@ -52,6 +54,7 @@ export class OrdersComponent implements OnInit {
     });
   }
 
+  // Retrieves user details
   fetchUsersAndProducts(index: number) {
     if (index >= this.orders.length) {
       this.isLoading = false;
@@ -69,22 +72,17 @@ export class OrdersComponent implements OnInit {
             state: user.states || "",
             zipCode: user.zipCode || ""
           };
-          console.log(user);
         }
-
         this.fetchUpdatedProducts(index);
-
       },
       error: (err) => {
-        console.error("Error fetching user details:", err);
-        this.fetchUpdatedProducts(index);
+        this.messageService.add({ severity: 'error', detail: 'Error Deleting User', summary: err });
       },
 
     });
   }
 
-
-
+  // Loads products for an order
   fetchUpdatedProducts(index: number) {
     let order = this.orders[index];
     this.ordersService.getOrderProducts(order.keyId).subscribe({
@@ -92,7 +90,6 @@ export class OrdersComponent implements OnInit {
         if (products) {
           let allDelivered = products.every(p => p.deliveryStatus === 'Delivered');
           let newStatus = allDelivered ? 'Delivered' : 'Pending';
-
           this.orders[index] = {
             ...this.orders[index],
             products,
@@ -101,7 +98,7 @@ export class OrdersComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error('Error fetching products for order:', err);
+        this.messageService.add({ severity: 'error', detail: 'Error Deleting User', summary: err });
       },
       complete: () => {
         this.fetchUsersAndProducts(index + 1);
@@ -109,11 +106,13 @@ export class OrdersComponent implements OnInit {
     });
   }
 
+  // Prepares order for deletion
   deleteOrder(keyId: string) {
     this.selectedOrderKeyId = keyId;
-    console.log(this.selectedOrder)
     this.visible = true;
   }
+
+  // Deletes the order
   confirmDelete() {
     this.ordersService.deleteOrder(this.selectedOrderKeyId).subscribe({
       next: () => {
@@ -127,12 +126,13 @@ export class OrdersComponent implements OnInit {
     });
   }
 
+  // Assigns UI severity levels
   getSeverity(status: string) {
     return status === 'Delivered' ? 'success' : 'warn';
   }
 
+  // Displays order details
   viewOrder(order) {
-    console.log("selected Order :", order)
     this.selectedOrder = { ...order }
     this.showPopup = true;
   }

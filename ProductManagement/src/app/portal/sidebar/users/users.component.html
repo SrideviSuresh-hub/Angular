@@ -5,7 +5,8 @@
     <h2>User Data</h2>
     <button label="Add" pButton class="p-button-browse" (click)="addUserForm()"></button>
   </div>
-  <p-progress-spinner  class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+  <p-progress-spinner class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent"
+    animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
 
   <p-table *ngIf="!isLoading" [value]="users" [paginator]="true" [rows]="10">
     <ng-template pTemplate="header">
@@ -16,13 +17,15 @@
         <th>Country</th>
         <th>Product Count</th>
         <th></th>
+        <th></th>
       </tr>
     </ng-template>
-   
-    <ng-template pTemplate="body"  let-user>
+
+    <ng-template pTemplate="body" let-user>
       <tr>
         <td>
-          <p-avatar *ngIf="user.image; else initialsAvatar" [image]="user.image" class="mr-2" size="large" shape="circle"></p-avatar>
+          <p-avatar *ngIf="user.image; else initialsAvatar" [image]="user.image" class="mr-2" size="large"
+            shape="circle"></p-avatar>
           <ng-template #initialsAvatar>
             <div class="avatar-initials">{{ getUserInitials(user) }}</div>
           </ng-template>
@@ -33,172 +36,174 @@
         <td>{{user.productCount}}</td>
         <td class="actions">
           <i class="fa-solid fa-pen" (click)="editUser(user)"></i>
+        </td>
+        <td class="actions">
           <i class="fa-solid fa-trash" (click)="deleteUser(user.id)"></i>
         </td>
       </tr>
-    
-  
+
     </ng-template>
   </p-table>
 </div>
 <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="true" [responsive]="true">
-<ng-template pTemplate="header">
-  <h3>{{ isEditing ? 'Edit User' : 'Add User' }}</h3>
-</ng-template>
+
+  <ng-template pTemplate="header">
+    <h3>{{ isEditing ? 'Edit User' : 'Add User' }}</h3>
+  </ng-template>
+
   <form #userForm="ngForm" (ngSubmit)="onSave(userForm)">
     <div class="form-container">
-    <div class="form-container1" *ngIf="selectedUser">
-      <div class="avatar-container">
-        <input type="file" id="fileInput" accept="image/png, image/jpeg" (change)="onFileSelected($event)" hidden />
-        <div class="avatar-wrapper" (click)="triggerFileInput()">
-          <img *ngIf="imageUrl" [src]="imageUrl" alt="Avatar" class="avatar" />
-          <div class="edit-icon">
-            <i class="pi pi-pencil"></i>
+      <div class="form-container1" *ngIf="selectedUser">
+        <div class="avatar-container">
+          <input type="file" id="fileInput" accept="image/png, image/jpeg" (change)="onFileSelected($event)" hidden />
+          <div class="avatar-wrapper" (click)="triggerFileInput()">
+            <img *ngIf="imageUrl" [src]="imageUrl" alt="Avatar" class="avatar" />
+            <div class="edit-icon">
+              <i class="pi pi-pencil"></i>
+            </div>
+            <button *ngIf="imageUrl && imageUrl!=='assets/images/defaultAvatar.png'"
+              class=" pi pi-times remove-avatar-btn" (click)="removeAvatar($event) ;"> </button>
           </div>
         </div>
-      </div>
 
-      <div class="form-fields">
-        <div class="column input-box">
-          <label>Username *</label>
-          <input type="text" [(ngModel)]="selectedUser.username" name="username"  [disabled]="isEditing" pattern="^[a-zA-Z0-9]*" maxlength="20" required />
-        </div>
-        <div class="flex">
-          <div class="input-box">
-            <label>First Name *</label>
-            <input type="text" pattern="^[a-zA-Z0-9]*" maxlength="30" inputStyleClass="w-full"
-            styleClass="w-full" [(ngModel)]="selectedUser.firstName" name="firstName" required />
+        <div class="form-fields">
+          <div class="column input-box">
+            <label>Username *</label>
+            <input type="text" [(ngModel)]="selectedUser.username" name="username" [disabled]="isEditing"
+              pattern="^[a-zA-Z0-9]*" maxlength="20" required />
           </div>
-          <div class="input-box">
-            <label>Last Name</label>
-            <input type="text"  pattern="^[a-zA-Z0-9]*" maxlength="30" inputStyleClass="w-full"
-            styleClass="w-full"[(ngModel)]="selectedUser.lastName" name="lastName"  />
+
+          <div class="flex">
+            <div class="input-box">
+              <label>First Name *</label>
+              <input type="text" pattern="^[a-zA-Z0-9]*" maxlength="30" inputStyleClass="w-full" styleClass="w-full"
+                [(ngModel)]="selectedUser.firstName" name="firstName" required />
+            </div>
+
+            <div class="input-box">
+              <label>Last Name</label>
+              <input type="text" pattern="^[a-zA-Z0-9]*" maxlength="30" inputStyleClass="w-full" styleClass="w-full"
+                [(ngModel)]="selectedUser.lastName" name="lastName" />
+            </div>
           </div>
-        </div>
-        <div class="flex">
+
+          <div class="flex">
             <div class="gender">
               <label>Gender</label>
-                            <div class="gender-option">
-                                <p-selectbutton [options]="genders" [(ngModel)]="selectedUser.gender" name="gender"
-                                    optionLabel="label" optionValue="gender" />
-                            </div>
+              <div class="gender-option">
+                <p-selectbutton [options]="genders" [(ngModel)]="selectedUser.gender" name="gender" optionLabel="label"
+                  optionValue="gender" />
+              </div>
+            </div>
+
+            <div class="input-box">
+              <label>Date of Birth</label>
+              <p-datepicker [(ngModel)]="selectedUser.dob" name="dob" appendTo="body"></p-datepicker>
+            </div>
           </div>
+
           <div class="input-box">
-            <label>Date of Birth</label>
-            <p-datepicker [(ngModel)]="selectedUser.dob" name="dob" appendTo="body" ></p-datepicker>
+            <label>Email *</label>
+            <input type="email" [(ngModel)]="selectedUser.email" name="email" maxlength="100" required />
           </div>
         </div>
-        <div class="input-box">
-          <label>Email *</label>
-          <input type="email" [(ngModel)]="selectedUser.email" name="email" maxlength="100" required />
-        </div>
       </div>
-    </div>
 
-    <div class="form-container2" *ngIf="selectedUser">
-      <div>
-      <div class="input-box">
-        <label>Address Line 1 *</label>
-        <textarea  pInputTextarea class="no-resize" type="text" name="street2"  maxlength="100" [(ngModel)]="selectedUser.address1" required></textarea>
-      </div>
-      <div class="input-box">
-        <label>Address Line 2</label>
-        <textarea pInputTextarea class="no-resize" type="text" name="street2" maxlength="100" [(ngModel)]="selectedUser.address2"  ></textarea>
-      </div>
-    </div>
-    
-      <div class="flex">
-        <div class="select-box">
-          <label>Country</label>
-          <select [(ngModel)]="selectedUser.country" name="country" (change)="onCountryChange($event)" >
-            <option value="India">India</option>
-            <option value="USA">USA</option>
-          </select>
+      <div class="form-container2" *ngIf="selectedUser">
+        <div>
+          <div class="input-box">
+            <label>Address Line 1 *</label>
+            <textarea pInputTextarea class="no-resize" type="text" name="street2" maxlength="100"
+              [(ngModel)]="selectedUser.address1" required></textarea>
+          </div>
+
+          <div class="input-box">
+            <label>Address Line 2</label>
+            <textarea pInputTextarea class="no-resize" type="text" name="street2" maxlength="100"
+              [(ngModel)]="selectedUser.address2"></textarea>
+          </div>
         </div>
-        <div class="select-box">
-          <label>State</label>
-          <select [(ngModel)]="selectedUser.state" name="state" >
-            <option *ngFor="let state of states" [value]="state">{{ state }}</option>
-          </select>
+
+        <div class="flex">
+          <div class="select-box">
+            <label>Country</label>
+            <p-select [(ngModel)]="selectedUser.country" [options]="countries" name="country"
+              (onChange)="onCountryChange($event)" optionLabel="label" optionValue="value" appendTo="body" />
+          </div>
+
+          <div class="select-box">
+            <label>State</label>
+            <p-select [(ngModel)]="selectedUser.state" [options]="states" appendTo="body" name="state" />
+          </div>
         </div>
-      </div>
-      <div class="flex">
-        <div class="input-box">
-          <label>Zip Code</label>
-          <textarea pInputTextarea class="no-resize" type="text" name="zipCode" maxlength="20" [(ngModel)]="selectedUser.zipCode"  ></textarea>
+
+        <div class="flex">
+          <div class="input-box">
+            <label>Zip Code</label>
+            <textarea pInputTextarea class="no-resize" type="text" name="zipCode" maxlength="20"
+              [(ngModel)]="selectedUser.zipCode"></textarea>
+          </div>
+
+          <div class="select-box">
+            <label>TimeZone</label>
+            <p-select name="timezone" [options]="timezones" appendTo="body" [(ngModel)]="selectedUser.timezone" />
+          </div>
         </div>
-        <div class="select-box">
-          <label>TimeZone</label>
-          <select name="timezone" [(ngModel)]="selectedUser.timezone" >
-              <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
-          </select>
-      </div>
-      </div>
-      <div class="flex">
-        <div class="select-box">
-          <label>Locale</label>
-          <select [(ngModel)]="selectedUser.locale"   name="locale">
-            <option *ngFor="let loc of locales" [value]="loc">{{ loc }}</option>
-          </select>
-        </div>
+
+        <div class="flex">
+          <div class="select-box">
+            <label>Locale</label>
+            <p-select [(ngModel)]="selectedUser.locale" [options]="locales" name="locale" appendTo="body" />
+          </div>
+
           <div class=" input-box checkbox">
-            <p-checkbox [(ngModel)]="selectedUser.isAdmin" name="isAdmin" [disabled]="isEditing"  binary="true"></p-checkbox>  
-
+            <p-checkbox [(ngModel)]="selectedUser.isAdmin" name="isAdmin" [disabled]="isEditing"
+              binary="true"></p-checkbox>
             <label>Is Admin</label>
           </div>
         </div>
 
         <div class="flex">
           <div class="input-box">
-          <label>Mobile *</label>
-          
+            <label>Mobile *</label>
             <p-inputgroup>
               <p-inputgroup-addon>
                 <span>+91</span>
               </p-inputgroup-addon>
-              <input type="tel" [(ngModel)]="selectedUser.mobile" name="mobile" required pattern="\d{10}" maxlength="10" />
-          </p-inputgroup>
-            
+              <input type="tel" [(ngModel)]="selectedUser.mobile" name="mobile" required pattern="\d{10}"
+                maxlength="10" />
+            </p-inputgroup>
           </div>
+
           <div class="input-box">
             <label>Password *</label>
-            <p-password name="password" [(ngModel)]="selectedUser.password" [toggleMask]="true" id="password" required [feedback]="false" ></p-password>
+            <p-password name="password" [(ngModel)]="selectedUser.password" [toggleMask]="true" id="password" required
+              [feedback]="false" [disabled]="isEditing"></p-password>
           </div>
         </div>
-      <div class="actionsdialog">
-        <button type="button" class="p-button-secondary-ss" pButton label="Cancel" (click)="closeUserDialog()"></button>
-        <button type="submit" pButton  class="p-button-primary" label="Save"  ></button>
+
+        <div class="actionsdialog">
+          <button type="button" class="p-button-secondary-ss" pButton label="Cancel"
+            (click)="closeUserDialog()"></button>
+          <button type="submit" pButton class="p-button-primary" label="Save"></button>
+        </div>
       </div>
     </div>
-  </div>
   </form>
 </p-dialog>
 
 <p-dialog class="delete-dialog" [(visible)]="visible" [modal]="true" [style]="{ 'width': '450px', 'height':'279px'}">
   <ng-template #content [style]="{padding:0}">
-      <div class="disp">
-          <div class=" col-12">
-              <i class="pi pi-times-circle error-icon"></i>
-          </div>
-          <h3 class="dialog-title">Are You sure!??</h3>
-          <p>Do you really want to delete the selected item?</p>
+    <div class="disp">
+      <div class=" col-12">
+        <i class="pi pi-times-circle error-icon"></i>
       </div>
+      <h3 class="dialog-title">Are You sure!??</h3>
+      <p>Do you really want to delete the selected item?</p>
+    </div>
   </ng-template>
   <ng-template #footer>
-      <p-button label="Cancel" severity="secondary" class="custom-cancel-btn" (click)="visible = false" />
-      <p-button label="Delete" class="custom-delete-btn" severity="primary" (click)="confirmDelete()" />
+    <p-button label="Cancel" severity="secondary" class="custom-cancel-btn" (click)="visible = false" />
+    <p-button label="Delete" class="custom-delete-btn" severity="primary" (click)="confirmDelete()" />
   </ng-template>
 </p-dialog>
-
-
-
-
-
-
-
-
-
-
-
-
-

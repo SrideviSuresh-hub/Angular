@@ -14,148 +14,151 @@ import { MessageService } from 'primeng/api';
   styleUrl: './products.component.css'
 })
 
-export class ProductsComponent  {
+export class ProductsComponent {
 
-  // authService: AuthService = inject(AuthService);
-  cartService: CartService = inject(CartService);
-  prodService: ProductService = inject(ProductService);
-  orderService:OrdersService=inject(OrdersService);
-  msgService:MessageService=inject(MessageService);
   searchText: string = '';
   products: OrderProducts[] = [];
-  filteredProducts:OrderProducts[]=[];
+  filteredProducts: OrderProducts[] = [];
   showPopup: boolean = false;
-  imagePreview:string| ArrayBuffer|null=null;
-  newProduct: OrderProducts={ id:'', name: '', description: '', image: '', quantity: 0 };;
-  selectedImageFile:File|null=null;
+  imagePreview: string | ArrayBuffer | null = null;
+  newProduct: OrderProducts = { id: '', name: '', description: '', image: '', quantity: 0 };;
+  selectedImageFile: File | null = null;
   isDragging: boolean = false;
-  isAdmin:boolean=false;
-  isLoading:boolean=false;
-  curUser=JSON.parse(localStorage.getItem('user'));
-  ngOnInit(){
-      this.isAdmin=this.curUser.isAdmin;
-      this.loadProducts();
-      localStorage.setItem('curPath','portal/products')
+  isAdmin: boolean = false;
+  isLoading: boolean = false;
+  cartService: CartService = inject(CartService);
+  prodService: ProductService = inject(ProductService);
+  orderService: OrdersService = inject(OrdersService);
+  msgService: MessageService = inject(MessageService);
+  curUser = JSON.parse(localStorage.getItem('user'));
+  
+  // Loads products
+  ngOnInit() {
+    this.isAdmin = this.curUser.isAdmin;
+    this.loadProducts();
+    localStorage.setItem('curPath', '/portal/products')
   }
-  
-  
 
+  // Fetches products
   loadProducts() {
-    this.isLoading=true;
+    this.isLoading = true;
     this.prodService.getProducts().subscribe((res: OrderProducts[]) => {
-        this.products = res;
-        this.filteredProducts=[...this.products];
-        this.isLoading=false;
+      this.products = res;
+      this.filteredProducts = [...this.products];
+      this.isLoading = false;
     });
   }
- 
+
+  // Filters products
   searchProducts() {
-    const search=this.searchText.toLowerCase();
-    this.filteredProducts=this.products.filter((p)=>
-    p.name.toLowerCase().includes(search));
-  
+    const search = this.searchText.toLowerCase();
+    this.filteredProducts = this.products.filter((p) =>
+      p.name.toLowerCase().includes(search));
   }
 
- 
-
-   private updateProduct( product :OrderProducts){
-this.prodService.updateProduct(product.id,product).subscribe(()=>{
-  // console.log(product.id +" "+product.quantity);
-})
+  // Updates product details
+  private updateProduct(product: OrderProducts) {
+    this.prodService.updateProduct(product.id, product).subscribe(() => {
+    })
   }
 
+  // Increases product quantity
   incrementQuantity(product: OrderProducts) {
-    if (!product.quantity) product.quantity = 0; 
+    if (!product.quantity) product.quantity = 0;
     product.quantity++;
     this.updateProduct(product);
     this.cartService.addToCart(product);
   }
 
+  // Decreases prod quantity,
   decrementQuantity(product: OrderProducts) {
-  if(product.quantity>0){
+    if (product.quantity > 0) {
       product.quantity--;
       this.updateProduct(product);
       this.cartService.removeFromCart(product);
+    }
   }
-  }
+
+  // Deletes a product
   deleteProduct(id: string) {
-      this.prodService.deleteProduct(id).subscribe(()=>{
-        this.products=this.products.filter((p)=>p.id!==id);
-        this.filteredProducts=this.filteredProducts.filter((p)=>p.id!==id);
-        console.log('product deleted')
-      })
-    }   
-    
-    addNewProduct(): void {
-      if (this.newProduct.name && this.selectedImageFile) {
-          const reader = new FileReader();
-          reader.onload = () => {
-              this.newProduct.image = reader.result as string;
-              const prodToAdd = { 
-                  ...this.newProduct, 
-                  quantity: 0, 
-                  orderCount: 0, 
-                  totalCount: 100 
-              };
-  
-              this.prodService.addProduct(prodToAdd).subscribe(response => {
-                const generatedId = response.name;  
-                  this.prodService.updateProduct(generatedId, { ...prodToAdd,id: generatedId }).subscribe(() => {
-                    console.log(prodToAdd);
-                    
-                    this.closePopup();
-                      this.loadProducts();
-                  });
-              });
-          };
-          reader.readAsDataURL(this.selectedImageFile);
-      }
-      else{
-        if (!this.newProduct.name) {
-          this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Product name is required!' });
-        }
-        if (!this.selectedImageFile) {
-          this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'image is required!' });
-        }
-      }
+    this.prodService.deleteProduct(id).subscribe(() => {
+      this.products = this.products.filter((p) => p.id !== id);
+      this.filteredProducts = this.filteredProducts.filter((p) => p.id !== id);
+    })
   }
-  
 
- getTotalOrderedCount(prodId: string): number {
-  let totalOrdered = 0;
-  this.prodService.getProductById(prodId).subscribe(product => {
-    if (product) {
-      totalOrdered = product.orderCount || 0;
+  // Adds new product
+  addNewProduct(): void {
+    if (this.newProduct.name && this.selectedImageFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.newProduct.image = reader.result as string;
+        const prodToAdd = {
+          ...this.newProduct,
+          quantity: 0,
+          orderCount: 0,
+          totalCount: 100
+        };
+        this.prodService.addProduct(prodToAdd).subscribe(response => {
+          const generatedId = response.name;
+          this.prodService.updateProduct(generatedId, { ...prodToAdd, id: generatedId }).subscribe(() => {
+            this.closePopup();
+            this.loadProducts();
+          });
+        });
+      };
+      reader.readAsDataURL(this.selectedImageFile);
     }
-  });
-  return totalOrdered;
-}
-
-
-   showAddPopup(){
-        this.showPopup=true;
-        this.newProduct = { id: '', name: '', description: '', image: '', quantity: 0 };
-        this.imagePreview=null;
-        this.selectedImageFile=null;
+    else {
+      if (!this.newProduct.name) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Product name is required!' });
+      }
+      if (!this.selectedImageFile) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'image is required!' });
+      }
     }
+  }
 
+  // Fetches total ordered count
+  getTotalOrderedCount(prodId: string): number {
+    let totalOrdered = 0;
+    this.prodService.getProductById(prodId).subscribe(product => {
+      if (product) {
+        totalOrdered = product.orderCount || 0;
+      }
+    });
+    return totalOrdered;
+  }
+
+  // Opens product addition popup
+  showAddPopup() {
+    this.showPopup = true;
+    this.newProduct = { id: '', name: '', description: '', image: '', quantity: 0 };
+    this.imagePreview = null;
+    this.selectedImageFile = null;
+  }
+
+  // Closes product addition popup
   closePopup() {
     this.showPopup = false;
     this.newProduct = { id: '', name: '', description: '', image: '', quantity: 0 };
-    this.imagePreview=null;
+    this.imagePreview = null;
   }
-   onDrop(event:DragEvent){
+
+  // Handles drag-and-drop image upload.
+  onDrop(event: DragEvent) {
     event.preventDefault();
-    this.isDragging=true;
-    if(event.dataTransfer && event.dataTransfer.files.length>0){
-      this.selectedImageFile=event.dataTransfer.files[0];
-      const reader=new FileReader();
-      reader.onload=e=>this.imagePreview=e.target?.result;
+    this.isDragging = true;
+    if (event.dataTransfer && event.dataTransfer.files.length > 0) {
+      this.selectedImageFile = event.dataTransfer.files[0];
+      const reader = new FileReader();
+      reader.onload = e => this.imagePreview = e.target?.result;
       reader.readAsDataURL(this.selectedImageFile);
     }
+  }
 
-   }
-   onImageUpload(event: any) {
+  // process image selection
+  onImageUpload(event: any) {
     const file = event.target.files[0];
     if (file) {
       this.selectedImageFile = file;
@@ -164,65 +167,27 @@ this.prodService.updateProduct(product.id,product).subscribe(()=>{
       reader.readAsDataURL(file);
     }
   }
+
+  // Clears selected image f
   removeImage() {
     this.imagePreview = null;
     this.selectedImageFile = null;
   }
-   allowDrop(event:DragEvent){
-event.preventDefault();
+  // Enables drag-and-drop functionality
+  allowDrop(event: DragEvent) {
+    event.preventDefault();
+  }
 
-   }
-   onDragOver(event: DragEvent) {
+  // Triggers drag-over 
+  onDragOver(event: DragEvent) {
     event.preventDefault();
     this.isDragging = true;
   }
 
+  // Removes drag-over 
   onDragLeave() {
     this.isDragging = false;
   }
-
-
 }
-
-// { id: '1', name: 'clothes', description: 'Explore the widest range of clothes via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '2', name: 'Shoes', description: 'Explore the widest range of shoes via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '3', name: 'Utensils', description: 'Explore the widest range of utensils via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '4', name: 'Watches', description: 'Explore the widest range of watches via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '5', name: 'Accessories', description: 'Explore the widest range of accessories via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '6', name: 'Hats', description: 'Explore the widest range of hats via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '7', name: 'Electronics', description: 'Explore the widest range of electronics via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '8', name: 'Bags', description: 'Explore the widest range of bags via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 },
-// { id: '9', name: 'Glasses', description: 'Explore the widest range of glasses via Shopify.', image: 'assets/images/cothes.jpg', quantity: 0 }
-
-  
-    //  else {
-    //   product.quantity--;
-    //   this.cartService.removeFromCart(product.id)
-    //   console.log(product.quantity);
-    // }
-  
-
-
-  // addNewProduct(newProd:Product){
-  //   this.products.push(newProd);
-  //   this.prodService.addAllProducts(this.products).subscribe((res)=>{
-  //     console.log("Products Added succesfully")
-  //   })
-  // }
-  // 
-
-
-  // addIntialProducts(){
-  //   this.prodService.addAllProducts( { id: '9', name: 'Glasses', description: 'Explore the widest range of glasses via Shopify.', image: 'assets/images/glasses.png', quantity: 0 }
-  
-  
-  
-  //   ).subscribe((res)=>{
-      
-  //     console.log("Intial products added")
-  //   })
-  //   }
-
-  
 
 

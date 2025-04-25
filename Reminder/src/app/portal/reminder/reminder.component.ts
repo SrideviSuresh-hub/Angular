@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { Reminder } from '../../Models/reminder';
 import { ReminderService } from '../../Services/reminder.service';
 import { NgForm } from '@angular/forms';
@@ -12,19 +12,53 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   styleUrl: './reminder.component.css'
 })
 export class ReminderComponent implements OnInit {
-  reminderService: ReminderService = inject(ReminderService);
-  authService: AuthService = inject(AuthService);
-  messageService: MessageService = inject(MessageService);
-  confirmationService: ConfirmationService = inject(ConfirmationService)
   visible: boolean = false;
   mode: 'view' | 'edit' | 'add' = 'view';
   first = 0;
   rows = 10;
   totalRecords = 0;
   curPageInput: number = 1;
+  paginatorMargin: number = 0;
   maxPage: number = Math.ceil(this.totalRecords / this.rows);
+  cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  reminderService: ReminderService = inject(ReminderService);
+  authService: AuthService = inject(AuthService);
+  messageService: MessageService = inject(MessageService);
+  confirmationService: ConfirmationService = inject(ConfirmationService)
   @ViewChild('titleInput') titleInput!: ElementRef;
+  @ViewChild('dt') tableRef!: ElementRef;
 
+  // loads user reminders
+  ngOnInit(): void {
+    localStorage.setItem('curPath', 'portal/reminder')
+    const user = this.authService.getcurUser();
+    if (user) {
+      this.userId = user.id!;
+      this.newReminder.userId = user.id!;
+      this.loadReminders();
+    }
+  }
+
+  // Adjusts paginator position after view initialization.
+  ngAfterViewInit() {
+    this.adjustPaginatorPosition();
+  }
+
+// Recalculates paginator position on window resize
+  @HostListener('window:resize')
+  onResize() {
+    this.adjustPaginatorPosition(); 
+  }
+
+  // Dynamically positions paginator
+  adjustPaginatorPosition() {
+    if (this.tableRef) {
+      const tableHeight = this.tableRef.nativeElement.clientHeight;
+      const viewportHeight = window.innerHeight;
+      const marginValue = viewportHeight - tableHeight - 80;
+      document.documentElement.style.setProperty('--paginator-margin', `${marginValue}px`);
+  }
+  }
   newReminder: Reminder = {
     title: '',
     detail: '',
@@ -34,21 +68,11 @@ export class ReminderComponent implements OnInit {
     createdatetime: new Date().toISOString(),
     userId: 0
   }
-
   userId!: Date | number | string;
   reminders: Reminder[] = [];
   popupReminders: Reminder[] = []
-  ngOnInit(): void {
-    localStorage.setItem('curPath', 'portal/reminder')
-    const user = this.authService.getcurUser();
-    if (user) {
-      this.userId = user.id!;
-      this.newReminder.userId = user.id!;
-      this.loadReminders();
-    }
 
-  }
-
+  // on table page  chnage
   onPageChange(event: any) {
     this.first = event.first;
     this.rows = event.rows;
@@ -56,6 +80,7 @@ export class ReminderComponent implements OnInit {
     this.curPageInput = event.page + 1
   }
 
+  // goes to specific page
   goToPage(table: any) {
     const targetPage = this.curPageInput;
     if (targetPage >= 1 && targetPage <= this.maxPage) {
@@ -73,14 +98,17 @@ export class ReminderComponent implements OnInit {
     }
   }
 
+// Fetches reminders
   loadReminders() {
     this.reminderService.getReminderbyuserId(this.userId).subscribe(res => {
       this.reminders = res;
+      this.cdr.detectChanges();
       this.totalRecords = this.reminders.length;
       this.maxPage = Math.ceil(this.totalRecords / this.rows);
     })
   }
 
+  // Returns severity class
   getSeverity(status: String) {
     switch (status.toLowerCase()) {
       case "active":
@@ -94,6 +122,7 @@ export class ReminderComponent implements OnInit {
     }
   }
 
+  // display modal
   showDailog(reminder: Reminder | null, mode: 'view' | 'add' | 'edit' = 'add') {
     if (reminder) {
       this.newReminder = { ...reminder, reminderdt: new Date(reminder.reminderdt) };
@@ -114,6 +143,7 @@ export class ReminderComponent implements OnInit {
     this.visible = true
   }
 
+  // Updates reminder status
   updateStatusAndDissmiss(reminder: Reminder) {
     const now = new Date();
     const reminderDate = new Date(reminder.reminderdt);
@@ -129,6 +159,7 @@ export class ReminderComponent implements OnInit {
     return reminder;
   }
 
+  // Validates reminder input
   onSubmit(form: NgForm) {
     if (!form.valid) {
       const alphanumericPattern = /^[a-zA-Z0-9]*$/;
@@ -165,14 +196,31 @@ export class ReminderComponent implements OnInit {
         });
         return;
       }
+      if (!this.newReminder.reminderdt) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Validation Error',
+          detail: 'Reminder date time is required'
+        });
+        return;
+      } 
     }
-
-    console.log("Submitting reminder:", this.newReminder);
     if (form.valid) {
       this.newReminder.userId = this.userId;
       const duplicate = this.reminders.find(rem =>
         rem.title === this.newReminder.title && (this.mode === 'add' || rem.id !== this.newReminder.id)
       )
+      const now = new Date();
+    const reminderDate = new Date(this.newReminder.reminderdt);
+    if (reminderDate <= now) {
+        this.messageService.add({
+            severity: 'warn',
+            summary: 'Validation Error',
+            detail: 'Reminder date and time must be in the future'
+        });
+        return;
+    }
+
       if (duplicate) {
         this.messageService.add({
           severity: 'warn',
@@ -184,6 +232,7 @@ export class ReminderComponent implements OnInit {
         }, 1000);
         return;
       }
+
       this.newReminder = this.updateStatusAndDissmiss(this.newReminder);
       if (this.mode === 'edit') {
 
@@ -215,6 +264,7 @@ export class ReminderComponent implements OnInit {
     }
   }
 
+  // Handles closing of reminder modal
   onCancel() {
     if (this.mode === 'add') {
       this.visible = false;
@@ -225,7 +275,7 @@ export class ReminderComponent implements OnInit {
 
   }
 
-
+// Deletes reminder
   deleteReminder(id: string) {
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete this reminder?',
@@ -242,13 +292,10 @@ export class ReminderComponent implements OnInit {
         });
       },
       reject: () => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Cancelled',
-          detail: 'Deletion cancelled'
-        });
+       
       }
     });
   }
+  
 
 }

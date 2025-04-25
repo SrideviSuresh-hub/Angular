@@ -11,18 +11,16 @@ import { ProductService } from "./products.service";
 export class CartService {
   private baseUrlCart = 'https://assignment-a22f7-default-rtdb.firebaseio.com/cart';
   private baseUrluser = 'https://assignment-a22f7-default-rtdb.firebaseio.com/user';
-  private baseURLProd = 'https://assignment-a22f7-default-rtdb.firebaseio.com/products';
-
   private cart: OrderProducts[] = [];
   http: HttpClient = inject(HttpClient);
   curUser = JSON.parse(localStorage.getItem('user') || '{}')
   prodService: ProductService = inject(ProductService);
+  
   constructor() {
     this.loadCart()
   }
 
   //fetch cart from firbase
-
   getCart(): Observable<OrderProducts[]> {
     return this.http.get<OrderProducts[]>(`${this.baseUrlCart}/${this.curUser.id}.json`).pipe(
       map(cartData => {
@@ -35,13 +33,14 @@ export class CartService {
   }
 
 
-  //load cart 
+  //loads cart data
   private loadCart() {
     this.getCart().subscribe(cartData => {
       this.cart = cartData;
-      console.log("Cart Loaded:", this.cart);
     });
   }
+
+  // Updates Firebase cart data
   updateCart(cart: OrderProducts[]): Observable<any> {
     return this.http.put(`${this.baseUrlCart}/${this.curUser.id}.json`, cart);
   }
@@ -56,12 +55,11 @@ export class CartService {
     }
     this.updateCart(this.cart).subscribe(() => {
       this.getCart();
-      console.log("Cart updated successfully", this.cart)
     });
   }
 
 
-  //remove a prod from cart
+  //remove a product from cart
   removeFromCart(product: OrderProducts) {
     const index = this.cart.findIndex(p => p.id === product.id);
     if (index !== -1) {
@@ -74,22 +72,21 @@ export class CartService {
     }
     this.updateCart(this.cart).subscribe(() => {
       this.getCart();
-      console.log('cart updated Succesfully', this.cart)
     });
   }
 
-
+// Clears all items
   clearCart(): Observable<any> {
     this.cart = [];
     return this.http.delete(`${this.baseUrlCart}/${this.curUser.id}.json`);
   }
 
+// places an order
   checkOut(): Observable<any> {
     if (!this.cart.length) {
       alert('Cart is Empty Cannot Place Order!');
       return new Observable();
     }
-
     const orderData: Order = {
       orderId: new Date().getTime().toString(),
       userId: this.curUser.id,
@@ -104,7 +101,6 @@ export class CartService {
       orderDate: new Date().toISOString(),
       deliveryStatus: 'Shipped',
     };
-
     return this.http.post(`${this.baseUrluser}/${this.curUser.id}/orders.json`, orderData).pipe(
       switchMap(() => {
         return this.incrementProductOrderCount(this.cart);
@@ -115,6 +111,7 @@ export class CartService {
     );
   }
 
+  // Increments product order counts
   incrementProductOrderCount(products: OrderProducts[]): Observable<any> {
     return new Observable(observer => {
       let updatedCount = 0;

@@ -281,7 +281,6 @@ h1 {
 }
 
 label {
-  width: 105px;
   height: 17px;
   font-family: 'Montserrat';
   font-style: normal;
@@ -301,7 +300,12 @@ label {
   background: #F3F3F3;
   border-radius: 5px;
 
+}
 
+:host ::ng-deep .p-button:focus-visible {
+  outline: none !important; 
+  border: none !important; 
+  box-shadow: none  !important; 
 }
 
 

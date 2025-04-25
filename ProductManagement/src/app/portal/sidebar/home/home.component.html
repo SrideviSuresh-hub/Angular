@@ -20,7 +20,8 @@
           <p-tag 
             [value]="order.deliveryStatus" 
             [severity]="getSeverity(order.deliveryStatus)" 
-            (click)="markProductAsDelivered(order.keyId, order.userId, order.productIndex)">
+            (click)="order.deliveryStatus = 'Delivered'; 
+            markProductAsDelivered(order.keyId, order.userId, order.productIndex)">
           </p-tag>
         </td>
         <td class="actions">
@@ -51,7 +52,6 @@
         <p>State: {{ selectedProduct.state }}</p>
         <p>Country:{{ selectedProduct.country }}</p>
         <p>Post Code: {{ selectedProduct.pinCode }}</p>
-        <!-- <p><strong>Delivery Status:</strong> {{ selectedProduct.deliveryStatus }}</p> -->
       </div>
     </div>
   </ng-template>

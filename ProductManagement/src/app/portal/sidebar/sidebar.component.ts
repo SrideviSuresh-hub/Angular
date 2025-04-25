@@ -14,12 +14,15 @@ export class SidebarComponent implements OnInit {
   authService:AuthService=inject(AuthService);
   isAdmin:boolean=false;
   items:any[]=[];
+
+  // Initializes admin status and side bar menu
   ngOnInit()
   {
     this.isAdmin = this.authService.isAdmin();
     this.setSidebarItems();
   }
 
+  // Populates sidebar menu
   setSidebarItems() {
     if (this.isAdmin) {
       this.items = [
@@ -37,6 +40,7 @@ export class SidebarComponent implements OnInit {
     }
   }
 
+  //  Emits selected label of routerlink
   selectLabel(item: any) {
     this.labelSelected.emit(item.label);  
   }

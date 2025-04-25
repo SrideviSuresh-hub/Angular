@@ -2,13 +2,14 @@
   <div class="search-container">
     <h1 class="title">Available Products </h1>
     <div class="search-bar">
-      <input type="text" pInputText [(ngModel)]="searchText"/>
+      <input type="text" pInputText [(ngModel)]="searchText" />
       <i class="pi pi-search search-icon" (click)="searchProducts()"></i>
     </div>
   </div>
 
   <div class="product-grid">
-    <p-progress-spinner  class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+    <p-progress-spinner class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent"
+      animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
 
     <div *ngFor="let product of filteredProducts" class="product-card">
       <img [src]="product.image" alt="{{ product.name }}" class="product-img" />
@@ -41,31 +42,30 @@
     </div>
   </div>
 </div>
-<p-dialog header="Add Product"   [modal]="true" [(visible)]="showPopup" >
+<p-dialog header="Add Product" [modal]="true" [(visible)]="showPopup">
   <div class="dailog-content">
     <div class="imgdialog-feild">
-    <label>Add Image</label>
-    <div class="image-upload">
-      <div class="image-container" [ngClass]="{ 'drag-over': isDragging }" (dragover)="onDragOver($event)"
-        (dragleave)="onDragLeave()" (drop)="onDrop($event)">
-        <img *ngIf="imagePreview" [src]="imagePreview" alt="Preview" />
-        <button *ngIf="imagePreview" class="remove-image-btn"
-         (click)="removeImage()">X</button>
-        <div class="flex" *ngIf="!imagePreview" >
-        <div> <i class="fa-solid fa-folder-open"></i><br>
-                   <span class="upload-icon">
-            Drag & Drop here <br>or</span>
+      <label>Add Image *</label>
+      <div class="image-upload">
+        <div class="image-container" [ngClass]="{ 'drag-over': isDragging }" (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave()" (drop)="onDrop($event)">
+          <img *ngIf="imagePreview" [src]="imagePreview" alt="Preview" />
+          <button *ngIf="imagePreview" class="remove-image-btn" (click)="removeImage()">X</button>
+          <div class="flex" *ngIf="!imagePreview">
+            <div> <i class="fa-solid fa-folder-open"></i><br>
+              <span class="upload-icon">
+                Drag & Drop here <br>or</span>
+            </div>
+
+            <button pButton label="Browse File" class="p-button-browse" (click)="fileInput.click()"></button>
+          </div>
         </div>
-          
-          <button pButton label="Browse File" class="p-button-browse" (click)="fileInput.click()"></button>
-        </div>
+        <input type="file" #fileInput accept="image/*" (change)="onImageUpload($event)" hidden />
       </div>
-      <input type="file" #fileInput accept="image/*" (change)="onImageUpload($event)" hidden />
     </div>
-  </div>
     <div class="dialog-field">
-      <label for="productName">Product Name</label>
-      <input id="productName" type="text" [(ngModel)]="newProduct.name"  />
+      <label for="productName">Product Name *</label>
+      <input id="productName" type="text" [(ngModel)]="newProduct.name" />
     </div>
     <div class="dialog-field">
       <label for="productDesc">Description</label>

@@ -5,11 +5,9 @@ import { Observable } from "rxjs";
 
 export const canActivate = (
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-    ): boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> => {
+    state: RouterStateSnapshot)
+    :boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> => {
     const authService: AuthService = inject(AuthService);
-    console.log(authService.isLoggedIn());
-
     if(authService.isLoggedIn()){
         localStorage.setItem('isLoggedIn','true')
     }
@@ -18,21 +16,14 @@ export const canActivate = (
         router.navigate(['/login']);
          return true;
     }
-   
- 
     const isAdmin = authService.isAdmin();
     const requestedRoute = state.url;
-  
-    console.log('Requested route:', requestedRoute);
-    if (isAdmin && (requestedRoute.includes('portal/usersHome') )) {
-      console.log('Admin already on usersHome, redirecting to home');
-      router.navigate(['/portal/home']);
+    if (isAdmin && ((requestedRoute.includes('portal/usersHome'))||(requestedRoute.includes('portal/orders') )||(requestedRoute.includes('portal/cart')))) {
+      router.navigate([localStorage.getItem('curPath')]);
       return false; 
-    } else if (!isAdmin && requestedRoute.includes('portal/home')) {
-      console.log('Non-admin already on home, redirecting to usersHome');
-      router.navigate(['/portal/userhome']);
+    } else if (!isAdmin && ((requestedRoute.includes('portal/home'))||(requestedRoute.includes('portal/users')))) {
+      router.navigate([localStorage.getItem('curPath')]);
       return false; 
     }
-   
     return true;
 }

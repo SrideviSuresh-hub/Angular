@@ -87,6 +87,19 @@ h2 {
   align-content: center;
   text-align: center;
 }
+.remove-avatar-btn {
+  position: absolute;
+  bottom:0px;
+  left: 40px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  border: none;
+  padding: 5px 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
 
 p-table {
   margin-top: 15px;
@@ -97,10 +110,7 @@ p-avatar {
   width: 30px;
   height: 30px;
 }
-.actions{
-  display: flex;
-  
-}
+
 .actions i {
   visibility: hidden;
 }
@@ -127,11 +137,9 @@ tr:hover .actions i {
   background: #141569 !important;
   border-radius: 5px;
   margin-top: 0 !important;
-
 }
 
 :host ::ng-deep .p-button-label {
-
   left: 1826px;
   top: 108px;
   font-family: 'Montserrat';
@@ -375,6 +383,12 @@ textarea {
   margin-top: 10px;
 }
 
+:host ::ng-deep .p-datepicker {
+  background-color: none;
+  border: none;
+  width: 100%;
+}
+
 :host ::ng-deep .p-inputgroupaddon:first-child {
   background: rgba(243, 243, 243, 1) !important;
   border: none;
@@ -436,8 +450,8 @@ h3 {
 }
 
 :host ::ng-deep .p-password-input,
-.input-box input,
-.select-box select {
+:host ::ng-deep .select-box .p-select,
+.input-box input  {
   width: 100%;
   border-radius: 5px;
   box-sizing: border-box;
@@ -446,33 +460,18 @@ h3 {
   height: 34px;
   background-color: #F3F3F3;
   display: flex;
-  flex-direction: column;
-  padding: 5px;
 }
 
-.select-box select {
-  padding-top: 10px;
-}
 :host ::ng-deep.p-password{
 display: flex;
 }
 :host ::ng-deep .p-password-toggle-mask-icon {
-  padding-top: 5px;
-}
-
-:host ::ng-deep .p-datepicker {
-  background-color: none;
-  border: none;
-  width: 100%;
+  padding-top: 8px;
 }
 
 :host ::ng-deep .p-inputtext:hover {
   border: 1px solid rgba(41, 165, 243, 1) !important;
   background-color: rgba(243, 243, 243, 1) !important;
-}
-
-p-password {
-  background-color: none;
 }
 
 :host ::ng-deep .p-inputtext {
@@ -548,6 +547,9 @@ p-password {
   height: 34px;
 }
 
+:host ::ng-deep .p-inputtext:disabled {
+  background-color: #e2e8f0 !important;
+}
 
 :host ::ng-deep .p-button-secondary {
   background: none !important;
@@ -573,11 +575,16 @@ p-password {
   justify-content: center;
   text-align: center;
 }
+:host ::ng-deep .p-button:focus-visible {
+  outline: none !important; 
+  border: none !important; 
+  box-shadow: none  !important; 
+}
 @media (max-width: 800px) {
   :host ::ng-deep .p-dialog {
     width: 80% !important;
   }
-  .p-button[_ngcontent-ng-c2376188151] {
+  .p-button {
     margin-top: 18px;
     margin-bottom: 10px !important;
 }

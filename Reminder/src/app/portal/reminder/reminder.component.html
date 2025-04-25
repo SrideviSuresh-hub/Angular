@@ -7,7 +7,7 @@
         </div>
         <div class="card table-container">
             <p-table #dt [value]="reminders" class="" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="rows"
-                [first]="first" [paginatorPosition]="'bottom'" (onPage)="onPageChange($event)"
+                [first]="first" [paginatorPosition]="'bottom'" [scrollHeight]="'calc(100vh - 300px)'" (onPage)="onPageChange($event)"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" [responsiveLayout]="'scroll'">
                 <ng-template pTemplate="header">
                     <tr>
@@ -50,6 +50,8 @@
                         </td>
                     </tr>
                 </ng-template>
+              
+                <hr>
                 <ng-template pTemplate="paginatorright">
                     <div class="paginator-custom">
                     <span class="go-to-page">
@@ -67,10 +69,12 @@
                       </div>
                 </ng-template>
             </p-table>
-
+            <!-- <p-paginator [style.marginTop.px]="paginatorMargin"></p-paginator> -->
         </div>
+        
     </div>
 </div>
+<ng-container class="remadd">
 <p-dialog [(visible)]="visible" [modal]="true">
     <ng-template pTemplate="header">
         Reminder Details
@@ -87,28 +91,29 @@
                 required [disabled]="mode==='view'" maxlength="150" pattern="^[a-zA-Z0-9 ]*$"> </textarea>
         </div>
         <div class="input-box">
-            <label for="datetime">Date Time </label>
+            <label for="datetime">Date Time *</label>
 
             <p-datepicker [iconDisplay]="'input'" [showIcon]="true" name="reminderdt" inputId="calendar-24h"
                 [hourFormat]="'24'" [showTime]="true" [(ngModel)]="newReminder.reminderdt" [disabled]="mode === 'view'"
-                 appendTo="body">
+                 appendTo="body" required>
                 <ng-template let-clickCallBack="clickCallBack">
                     <i class="fa-solid fa-calendar-days" (click)="clickCallBack($event)"></i>
                 </ng-template>
             </p-datepicker>
         </div>
     </form>
+    
     <ng-template pTemplate="footer">
         <p-button label="Back" *ngIf="mode==='view'" (click)="visible=false" [text]="true"
-            class="p-button-secondary-ss"></p-button>
+        class="p-button-secondary-ss"></p-button>
         <p-button label="Edit" *ngIf="mode==='view'" (click)="mode='edit'" class="p-button-primary"></p-button>
         <p-button label="Cancel" *ngIf="mode!=='view'" [text]="true" class="p-button-secondary-ss"
-            (click)="onCancel()"></p-button>
+        (click)="onCancel()"></p-button>
         <p-button label="Save" *ngIf="mode!=='view'" class="p-button-primary" type="submit"
-            (click)="onSubmit(reminderForm)"></p-button>
+        (click)="onSubmit(reminderForm)"></p-button>
     </ng-template>
+
 </p-dialog>
-
-
+</ng-container>
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>

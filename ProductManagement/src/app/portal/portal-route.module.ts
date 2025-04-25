@@ -10,7 +10,7 @@ import { UsersComponent } from "./sidebar/users/users.component";
 import { UserHomeComponent } from "./user-home/user-home.component";
 
 export const routes2:Routes=[
-    {path:'portal',
+    {path:'',
         component:PortalComponent,
         canActivate:[canActivate], 
         children:[

@@ -8,7 +8,7 @@
             <h2 class="sign-header"><span class="return" routerLink="/login">↩</span> SIGN UP to Shopify...</h2>
             <p-progress-spinner class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent"
                 animationDuration=".5s" [style]="{ width: '50px', height: '50px' }"></p-progress-spinner>
-
+            <!--User Sign up  Form  -->
             <form class="form" (ngSubmit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
                 <div *ngIf="currentStep === 1">
 
@@ -29,29 +29,30 @@
                             <div class="edit-icon">
                                 <i class="pi pi-pencil"></i>
                             </div>
+                            <button *ngIf="imageUrl && imageUrl!=='assets/images/defaultAvatar.png'"
+                                class=" pi pi-times remove-avatar-btn" (click)="removeAvatar($event) ; "> </button>
                         </div>
                     </div>
-
                     <div class="input-box">
                         <label>User Name *</label>
                         <input type="text" name="username" pattern="^[a-zA-Z0-9]*" maxlength="20" [(ngModel)]="username"
                             required />
-                         </div>
-
+                    </div>
                     <div class="column">
                         <div class="input-box">
                             <label>First Name *</label>
-                            <input type="text" name="firstname" pattern="^[a-zA-Z0-9]*" [(ngModel)]="firstName" maxlength="30"
-                                required />
+                            <input type="text" name="firstname" pattern="^[a-zA-Z0-9]*" [(ngModel)]="firstName"
+                                maxlength="30" required />
                             <div>
-                                  </div>
+                            </div>
                         </div>
 
                         <div class="input-box">
                             <label>Last Name</label>
-                            <input type="text" name="lastname" pattern="^[a-zA-Z0-9]*" [(ngModel)]="lastName" maxlength="30" />
+                            <input type="text" name="lastname" pattern="^[a-zA-Z0-9]*" [(ngModel)]="lastName"
+                                maxlength="30" />
                             <div>
-                                 </div>
+                            </div>
                         </div>
                     </div>
 
@@ -63,18 +64,17 @@
                                     optionLabel="label" optionValue="gender" />
                             </div>
                         </div>
-
                         <div class="input-box">
                             <label>DOB</label>
-                            <p-datepicker [(ngModel)]="dob" name="dob" ></p-datepicker>
+                            <p-datepicker [(ngModel)]="dob" name="dob"></p-datepicker>
                         </div>
                     </div>
+
                     <div class="input-box">
                         <label>Email ID *</label>
-                        <input type="text" name="email" maxlength="100"  [(ngModel)]="emailAddress"
-                            required email />
+                        <input type="text" name="email" maxlength="100" [(ngModel)]="emailAddress" required email />
                         <div>
-                              </div>
+                        </div>
                     </div>
 
                     <div class="input-box">
@@ -90,59 +90,53 @@
                 </div>
 
                 <div *ngIf="currentStep === 2">
-                  <div class="column">
-                    <div class="input-box address *" >
-                        <label>Address line1</label>
-                        <textarea  pInputTextarea class="no-resize" type="text" name="street2"  maxlength="100" [(ngModel)]="street1" required></textarea>
+                    <div class="column">
+                        <div class="input-box address *">
+                            <label>Address line1</label>
+                            <textarea pInputTextarea class="no-resize" type="text" name="street2" maxlength="100"
+                                [(ngModel)]="street1" required></textarea>
+                        </div>
+                        <div class="input-box address">
+                            <label>Address line2</label>
+                            <textarea pInputTextarea class="no-resize" type="text" name="street2" maxlength="100"
+                                [(ngModel)]="street2"></textarea>
+                        </div>
                     </div>
-                    <div class="input-box address">
-                        <label>Address line2</label>   
-                        <textarea  pInputTextarea class="no-resize" type="text" name="street2"  maxlength="100" [(ngModel)]="street2" ></textarea>
-                    </div>
-                  </div>
 
                     <div class="column">
                         <div class="select-box">
                             <label>Country</label>
-                            <select name="country" (change)="onCountryChange($event)"  [(ngModel)]="country">
-                                <option value="India">India</option>
-                                <option value="USA">USA</option>
-                            </select>
+                            <p-select [(ngModel)]="country" [options]="countries" name="country" (onChange)="onCountryChange($event)"
+                            optionLabel="label" optionValue="value" appendTo="body"/>
                         </div>
                         <div class="select-box">
                             <label>State</label>
-                            <select name="state" [(ngModel)]="state" >
-                                <option *ngFor="let stateOpt of states" [value]="stateOpt">{{ stateOpt }}</option>
-                            </select>
+                            <p-select [(ngModel)]="state" [options]="states" appendTo="body" name="state"/>
                         </div>
                     </div>
-                    
 
                     <div class="column">
                         <div class="input-box">
                             <label>Zip Code</label>
-                            <input type="number" name="postal" [(ngModel)]="postal"
-                                maxlength="20" />
+                            <input type="text" name="postal" [(ngModel)]="postal" maxlength="20" />
                         </div>
                         <div class="select-box">
                             <label>TimeZone</label>
-                            <select name="timezone" [(ngModel)]="timezonee" >
-                                <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
-                            </select>
+                            <p-select [(ngModel)]="timezonee" [options]="timezones" appendTo="body" name="timezone"/>
                         </div>
                     </div>
+
                     <div class="column">
                         <div class="select-box">
                             <label for="locale">Locale</label>
-                            <select name="locale" [(ngModel)]="localee">
-                                <option *ngFor="let locale of locales" [value]="locale" >{{ locale }}</option>
-                            </select>
+                            <p-select [(ngModel)]="localee" [options]="locales" name="locale"/>
                         </div>
                         <div class="column checkbox">
-                            <p-checkbox [(ngModel)]="IsAdmin" name="isAdmin" disabled ></p-checkbox>  
+                            <p-checkbox [(ngModel)]="IsAdmin" name="isAdmin" disabled></p-checkbox>
                             <label for="admin">Is Admin</label>
                         </div>
                     </div>
+
                     <div class="input-box">
                         <label for="password">Password *</label>
                         <p-password [(ngModel)]="password" [feedback]="false" [toggleMask]="true" inputId="password"
@@ -152,18 +146,17 @@
                     <div class="input-box">
                         <label for="cpassword">Confirm Password *</label>
                         <p-password [(ngModel)]="confirmpassword" [feedback]="false" [toggleMask]="true"
-                            inputId="cpassword" name="cpassword"  inputStyleClass="w-full"
-                            styleClass="w-full" (ngModelChange)="validatePassword(password, confirmpassword)"
-                            required></p-password>
+                            inputId="cpassword" name="cpassword" inputStyleClass="w-full" styleClass="w-full"
+                            (ngModelChange)="validatePassword(password, confirmpassword)" required></p-password>
                     </div>
                 </div>
 
                 <div class="input-box btn" *ngIf="currentStep === 2">
                     <p-button label="Sign Up" styleClass="w-full background-color-rgb(200, 200, 219)"
-                     type="submit"></p-button>
+                        type="submit"></p-button>
                 </div>
-                <div class="pagination-container">
 
+                <div class="pagination-container">
                     <i class="fa-solid fa-angle-left pagination-icon" (click)="previousStep()"
                         [class.disabled]="currentStep === 1"></i>
 
@@ -171,7 +164,6 @@
                         <span [class.active]="currentStep === 1"></span>
                         <span [class.active]="currentStep === 2"></span>
                     </div>
-
                     <i class="fa-solid fa-angle-right pagination-icon" (click)="nextStep()"
                         [class.disabled]="currentStep === 2"></i>
                 </div>

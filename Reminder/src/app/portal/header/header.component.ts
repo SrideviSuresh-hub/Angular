@@ -12,49 +12,50 @@ import { ReminderService } from '../../Services/reminder.service';
 })
 export class HeaderComponent implements OnInit {
   router: Router = inject(Router);
+  isDarkMode: boolean = false;
+  popupCount: number = 0;
   authService: AuthService = inject(AuthService);
   reminderService: ReminderService = inject(ReminderService);
   curUser: User | null = this.authService.getcurUser();
-  isDarkMode: boolean = false;
-  popupCount: number = 0;
 
+  // Loads theme settings,reminder popup  count
   ngOnInit(): void {
     const savedTheme = localStorage.getItem('theme');
     this.isDarkMode = savedTheme === 'dark';
     this.applyTheme();
-    console.log(this.reminderService.popupReminderCount$);
-    //  setTimeout(()=>{
-    //   this.popupCount=this.reminderService.popupReminderCount;
-    // },1000)
-    this.reminderService.popupReminderCount$.subscribe(count => {
+    this.reminderService.popupReminderCount.subscribe(count => {
       this.popupCount = count;
     });
   }
+
+  // Triggers visibility of reminder popups
   onNotify() {
     this.reminderService.setPopupVisible(true);
   }
 
-  isReminderPage(): boolean {
-    console.log(this.router.url);
-    
-    return this.router.url.includes('reminder'); // ✅ Hides the bell icon only on the reminder page
+  // Logs out user
+  onLogout() {
+    this.authService.logout()
   }
+
+  //redirects user to the correct home page
   navigateToHome() {
     if (this.curUser?.isAdmin) {
-
       this.router.navigate(['portal/home'])
     }
     else {
       this.router.navigate(['portal/userhome'])
-
     }
   }
+
+  // toggles between dark and light themes
   changeTheme() {
     this.isDarkMode = !this.isDarkMode;
     localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
     this.applyTheme();
   }
 
+  // Applies the selected theme
   applyTheme() {
     if (this.isDarkMode) {
       document.body.classList.add('dark-mode');
@@ -62,10 +63,9 @@ export class HeaderComponent implements OnInit {
       document.body.classList.remove('dark-mode');
     }
   }
-
-
-  onLogout() {
-    this.authService.logout()
+  // Checks if the current page is the reminder view.
+  isReminderPage(): boolean {
+    return this.router.url.includes('reminder');
   }
 
 }

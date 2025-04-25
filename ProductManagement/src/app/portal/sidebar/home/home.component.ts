@@ -11,45 +11,40 @@ import { PaginatorState } from 'primeng/paginator';
   selector: 'app-home',
   standalone: false,
   templateUrl: './home.component.html',
-  styleUrls:['./home.component.css']
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
   orders: Order[] = [];
-  isLoading:boolean=false;
+  isLoading: boolean = false;
   orderService: OrdersService = inject(OrdersService);
   userService: UsersService = inject(UsersService);
-  selectedProduct: any={};
+  selectedProduct: any = {};
   showDialog: boolean = false;
   msgService: MessageService = inject(MessageService);
 
-
- 
-
+  // Loads cart data
   ngOnInit() {
     this.loadOrders();
-    localStorage.setItem('curPath','portal/home')
-
+    localStorage.setItem('curPath', 'portal/home')
   }
-  loadOrders() { 
-    this.isLoading=true;
+
+  // Fetches user orders
+  loadOrders() {
+    this.isLoading = true;
     this.userService.getUsers().subscribe({
       next: (users) => {
         if (!users) {
-          console.error('No users found');
           return;
         }
-  
         let newOrders: any[] = [];
-        
         Object.values(users).forEach((user: any) => {
           if (user.orders) {
-            
             Object.entries(user.orders).forEach(([keyId, order]: any) => {
               if (order.products) {
                 order.products.forEach((product: any, index: number) => {
                   newOrders.push({
                     keyId: keyId,
-                    orderId:order.orderId,
+                    orderId: order.orderId,
                     userId: user.id,
                     userName: user.username,
                     street1: user.address1,
@@ -69,61 +64,47 @@ export class HomeComponent {
             });
           }
         });
-  
-        this.orders = newOrders ;
-        console.log('Orders Loaded:', this.orders);
+        this.orders = newOrders;
       },
-      error: (error) => {
-        this.isLoading=false
-        console.error('Error fetching users:', error);
+      error: () => {
+        this.isLoading = false
       },
       complete: () => {
         this.isLoading = false;
-        console.log('User orders fetch complete.');
       }
     });
   }
-  
-  
+
+  // Opens order details i
   viewOrder(product: any) {
     this.selectedProduct = { ...product };
     this.showDialog = true;
   }
-  
- 
+
+  //  Updates product delivery status
   markProductAsDelivered(orderId: string, userId: string, productIndex: number) {
-    
     this.orderService.updateDeliveryStatus(orderId, userId, productIndex, "Delivered").subscribe({
       next: () => {
-        console.log(`Product ${productIndex} in order ${orderId} marked as Delivered`);
         this.updateOrderStatus(orderId, userId);
-        this.loadOrders();
-      },
-      error: (err) => {
-        console.error("Error updating product delivery status:", err);
       }
     });
   }
 
+  // Checks if all products in an order are delivered
   updateOrderStatus(orderId: string, userId: string) {
     this.orderService.getOrderProducts(orderId).subscribe({
       next: (products) => {
         if (!Array.isArray(products)) return;
-
         let allDelivered = products.every(p => p.deliveryStatus === "Delivered");
-        let newStatus = allDelivered ? "Delivered"  : "Pending";
-
-        console.log(`Updating order ${orderId} overall status to ${newStatus}`);
-
+        let newStatus = allDelivered ? "Delivered" : "Pending";
         this.orderService.updateOrderStatus(orderId, userId, newStatus).subscribe();
       }
-  });
+    });
   }
 
-
-
+  // Determines alert styling
   getSeverity(status: string) {
     return status === 'Delivered' ? 'success' : 'warn';
-    }
   }
-  
+}
+

@@ -1,4 +1,4 @@
-<p-toast ></p-toast>
+<p-toast></p-toast>
 <div class="grid-container min-h-screen">
     <div class="image-container">
         <img src="assets\images\shopsy.png" alt="shopsy image" class="image">
@@ -6,69 +6,46 @@
     <div class="form-container flex justify-content-center align-items-center">
         <div class="form-content">
             <p class="login-header">LOGIN To Shopify... </p>
-   
-    <p-progress-spinner  class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
-    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" *ngIf="!isLoading">
-        <div class="field">
-            <label for="email">Email:</label>
-                <input type="text" pInputText 
-                [(ngModel)]="login.email" 
-                class="w-full"
-                id="email"
-                name="email"
-                required
-                email/>
+            <p-progress-spinner class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent"
+                animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+            <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" *ngIf="!isLoading">
+                <div class="field">
+                    <label for="email">Email:</label>
+                    <input type="text" pInputText [(ngModel)]="login.email" class="w-full" id="email" name="email"
+                        required email />
+                </div>
+                <div class="field">
+                    <label for="password">Password:</label>
+                    <p-password [(ngModel)]="login.password" [feedback]="false" [toggleMask]="true" inputId="password"
+                        name="password" inputStyleClass="w-full" styleClass="w-full" required />
+                </div>
 
+                <div class="field">
+                    <p-button label="LOGIN" styleClass="w-full background-color-rgb(183, 145, 219)"
+                        type="submit"></p-button>
+                </div>
+                <div class="center">Don't have an account!?,
+                    <a routerLink="/signup">SIGN UP</a>
+                </div>
+
+            </form>
         </div>
-        <div class="field">
-            <label for="password">Password:</label>
-            <p-password [(ngModel)]="login.password"
-             [feedback]="false"
-              [toggleMask]="true"
-              inputId="password"
-              name="password"
-              inputStyleClass="w-full"
-              styleClass="w-full"
-              required/>
-            </div>
-
-            <div class="field">
-                <p-button label="LOGIN"
-        styleClass="w-full background-color-rgb(183, 145, 219)"
-        type="submit"></p-button>
     </div>
-       <div class="center">Don’t have an account!?,
-           <a routerLink="/signup">SIGN UP</a>
-        </div>
-        
-    </form>
 </div>
-</div>
-</div>
-<p-dialog [(visible)]="showPasswordDialog" modal="true" header="Change Password" [style]="{ width: '400px' }">
+<p-dialog [(visible)]="showPasswordDialog" modal="true" header="Change Password" [style]="{ width: '500px' }">
     <div class="password-change-container">
         <label>New Password</label>
-        <p-password [(ngModel)]="newPassword"
-            name="newPassword"
-            [feedback]="false"
-            [toggleMask]="true"
-            inputStyleClass="w-full"
-            styleClass="w-full"
-            required />
-        
+        <p-password [(ngModel)]="newPassword" name="newPassword" [feedback]="false" [toggleMask]="true"
+            inputStyleClass="w-full" styleClass="w-full" required />
+
         <label>Confirm Password</label>
-        <p-password [(ngModel)]="confirmPassword"
-            name="confirmPassword"
-            [feedback]="false"
-            [toggleMask]="true"
-            inputStyleClass="w-full"
-              styleClass="w-full"
-            required />
-        
+        <p-password [(ngModel)]="confirmPassword" name="confirmPassword" [feedback]="false" [toggleMask]="true"
+            inputStyleClass="w-full" styleClass="w-full" required />
+
         <div *ngIf="passwordError" class="error">{{ passwordError }}</div>
 
         <div class="dialog-buttons">
-            <p-button label="Cancel"  class="p-button-secondary" (click)="showPasswordDialog = false"></p-button>
+            <p-button label="Cancel" class="p-button-secondary" (click)="showPasswordDialog = false"></p-button>
             <p-button label="Change Password" (click)="changePassword()"></p-button>
         </div>
     </div>

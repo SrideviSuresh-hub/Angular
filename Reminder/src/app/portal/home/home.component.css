@@ -35,7 +35,6 @@
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
-    color: #000000;
 }
 
 .class2 .piechart h4 {
@@ -48,7 +47,6 @@
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
-    color: #000000;
 }
 
 
@@ -253,10 +251,12 @@ i {
         gap: 12px;
         top: 100px;
         left: 10px;
-        /* right: auto; */
         height: 68vh;
     }
-
+    .home {
+        
+        left: 10px;
+    }
     :host ::ng-deep .chart>div,
     :host ::ng-deep .chart canvas {
         height: 200px !important;
@@ -302,11 +302,14 @@ i {
 
     i {
         font-size: 11px;
+        top: 15px !important;
     }
-
+    :host ::ng-deep .main .p-card {
+        height: 40px;
+    }
     .class1 h4 {
         top: 22px;
-        left: 25px;
+        left: 22px;
     }
 
     .class2 .piechart h4 {
@@ -317,7 +320,6 @@ i {
 
 @media screen and (max-width: 350px) {
     .content {
-        /* top: 30px; */
         left: 10px;
         height: 68vh;
     }

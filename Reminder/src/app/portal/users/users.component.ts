@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import { User } from '../../Models/Users';
 import { UserService } from '../../Services/user.service';
 import { NgForm } from '@angular/forms';
@@ -23,13 +23,20 @@ export class UsersComponent {
   rows = 10;
   totalRecords = 0;
   curPageInput: number = 1;
-  confirmationService:ConfirmationService=inject(ConfirmationService);
-  maxPage: number = Math.ceil(this.totalRecords / this.rows); 
+  confirmationService: ConfirmationService = inject(ConfirmationService);
+  maxPage: number = Math.ceil(this.totalRecords / this.rows);
   curUser = this.authService.getcurUser();
   uploadedFileName: string = '';
+  @ViewChild('dt') tableRef!: ElementRef;
+  paginatorMargin: number = 0;
+
   locales: string[] =
-    ['en-US', 'en-GB', 'fr-FR',
-      'de-DE', 'es-ES', 'zh-CN'];
+  ['en-US',
+    'en-GB',
+    'fr-FR',
+    'de-DE',
+    'es-ES',
+    'zh-CN'];
 
   genders: any[] = [
     { label: "Male", gender: 'male' },
@@ -37,10 +44,15 @@ export class UsersComponent {
     { label: "Others", gender: 'others' }
   ]
 
-  timezones: string[] = [
-    'UTC-05:00', 'UTC-04:00', 'UTC-03:00', 'UTC-02:00', 'UTC-01:00',
-    'UTC+00:00', 'UTC+01:00', 'UTC+02:00', 'UTC+03:00', 'UTC+04:00', 'UTC+05:00',
-    'UTC+06:00'];
+  timezones: string[] =
+  [
+    "IST - UTC+5:30",
+    "PST - UTC-8",
+    "EST - UTC-5",
+    "CST - UTC-6",
+    "MST - UTC-7",
+    "AKST - UTC-9"
+  ];
 
   countries = [
     { label: 'India', value: 'India' },
@@ -53,7 +65,7 @@ export class UsersComponent {
     label,
     value: label.toLowerCase()
   }));
-  
+
   newUser: User = {
     username: '',
     fname: '',
@@ -77,6 +89,34 @@ export class UsersComponent {
     password: '12345'
   };
 
+  // fetch users
+  ngOnInit() {
+    this.fetchUsers();
+    localStorage.setItem('curPath', 'portal/users')
+  }
+
+  // adjust paginator positioning
+  ngAfterViewInit() {
+    this.adjustPaginatorPosition();
+  }
+
+  // Recalculates paginator position
+  @HostListener('window:resize')
+  onResize() {
+    this.adjustPaginatorPosition();
+  }
+
+  // Dynamically positions paginator
+  adjustPaginatorPosition() {
+    if (this.tableRef) {
+      const tableHeight = this.tableRef.nativeElement.clientHeight;
+      const viewportHeight = window.innerHeight;
+      const marginValue = viewportHeight - tableHeight - 80;
+      document.documentElement.style.setProperty('--paginator-margin', `${marginValue}px`);
+    }
+  }
+
+  // Ensures permissions are correctly set
   onPermissionChange() {
     const permissionsSet = new Set(this.newUser.permissions);
     if (permissionsSet.has('edit')) {
@@ -85,16 +125,14 @@ export class UsersComponent {
     this.newUser.permissions = Array.from(permissionsSet);
   }
 
-
-
+  // Checks user role permissions
   hasPermission(action: string): boolean | undefined {
-    console.log('Checking permission for:', action);
-    console.log('Permissions available:', this.curUser?.permissions); // Make sure it's populated correctly
     if (!this.curUser?.permissions) {
       return false;
     }
     return this.curUser.permissions.includes(action);
   }
+
   showPermissionError(action: string) {
     this.messageService.add({ severity: 'warn', summary: "Permission Denied", detail: `You don't have permission to ${action}` })
   }
@@ -106,16 +144,12 @@ export class UsersComponent {
 
   getStatesByCountry(country: string): string[] {
     if (country === 'India')
-      return ['Karnataka', 'Tamil Nadu', 'Maharashtra'];
+      return ['Karnataka', 'Tamil Nadu', 'Delhi', "Madhya Pradesh", "Maharashtra", 'Kerala', "Haryana", "Himachal Pradesh"];
     if (country === 'USA')
-      return ['California', 'Texas', 'New York'];
+      return ["California", "New York", "Texas", "Florida", "Illinois", "Pennsylvania", "Ohio", "Georgia", "Washington", "Massachusetts"];
     return [];
   }
-  ngOnInit() {
-    this.fetchUsers();
-    localStorage.setItem('curPath','portal/users')
 
-  }
   onPageChange(event: any) {
     this.first = event.first;
     this.rows = event.rows;
@@ -143,11 +177,11 @@ export class UsersComponent {
   fetchUsers(): void {
     this.userService.getUsers().subscribe((data: any[]) => {
       this.users = data;
-      this.totalRecords = this.users.length; 
-    this.maxPage = Math.ceil(this.totalRecords / this.rows);
+      this.totalRecords = this.users.length;
+      this.maxPage = Math.ceil(this.totalRecords / this.rows);
     })
   }
-  
+
   switchToEditMode(): boolean {
     if (!this.hasPermission('edit')) {
       this.showPermissionError('edit');
@@ -160,11 +194,8 @@ export class UsersComponent {
 
 
   showDailog(user: User | null, mode: 'view' | 'add' | 'edit' = 'add') {
-
     this.mode = mode;
     if (!this.hasPermission(this.mode)) {
-      console.log(!this.hasPermission(this.mode));
-      console.log(this.mode);
       this.showPermissionError(this.mode);
       return;
     }
@@ -193,12 +224,12 @@ export class UsersComponent {
         status: 'Active',
         password: '12345'
       }
-      // this.mode = 'add';
     }
 
     this.visible = true
   }
 
+  // Prompts user for deletion,
   confirmDelete(user: any) {
     if (!this.hasPermission('delete')) {
       this.showPermissionError('delete');
@@ -211,13 +242,13 @@ export class UsersComponent {
       accept: () => {
         this.userService.deleteUser(user.id).subscribe(() => {
           this.users = this.users.filter(u => u.id !== user.id);
-              this.messageService.add({
+          this.messageService.add({
             severity: 'success',
             summary: 'Deleted',
             detail: 'Reminder deleted successfully'
           });
         });
- 
+
       },
       reject: () => {
         this.messageService.add({
@@ -228,11 +259,9 @@ export class UsersComponent {
       }
     });
   }
-  
 
+// Validates, saves, or updates user information.
   saveUser(userForm: NgForm): void {
-    console.log(userForm);
-    
     const usernameControl = userForm.controls['userName'];
     if (this.mode === 'add' && (usernameControl.value.trim() === '' || !/^[a-zA-Z0-9]*$/.test(usernameControl.value))) {
       this.messageService.add({
@@ -242,7 +271,6 @@ export class UsersComponent {
       });
       return;
     }
-  
     const firstNameControl = userForm.controls['firstName'];
     if (firstNameControl.value.trim() === '' || !/^[a-zA-Z0-9 ]*$/.test(firstNameControl.value)) {
       this.messageService.add({
@@ -252,7 +280,7 @@ export class UsersComponent {
       });
       return;
     }
-  
+
     const lastNameControl = userForm.controls['lastName'];
     if (lastNameControl.value.trim() !== '' && !/^[a-zA-Z0-9 ]*$/.test(lastNameControl.value)) {
       this.messageService.add({
@@ -261,8 +289,8 @@ export class UsersComponent {
         detail: 'Last Name can only contain alphanumeric characters and spaces (max length 30).'
       });
       return;
-    } 
-     const emailControl = userForm.controls['email'];
+    }
+    const emailControl = userForm.controls['email'];
     if (emailControl.value.trim() === '' || !/\S+@\S+\.\S+/.test(emailControl.value) || emailControl.value.length > 100) {
       this.messageService.add({
         severity: 'error',
@@ -280,7 +308,7 @@ export class UsersComponent {
       });
       return;
     }
-  
+
     const addressField2Control = userForm.controls['address2'];
     if (addressField2Control.value.length > 100) {
       this.messageService.add({
@@ -310,7 +338,7 @@ export class UsersComponent {
             severity: 'success',
             summary: 'User Updated',
             detail: 'User details updated successfully.'
-          });          this.fetchUsers();
+          }); this.fetchUsers();
           this.mode = 'view';
           this.visible = false;
         })
@@ -321,18 +349,23 @@ export class UsersComponent {
             severity: 'success',
             summary: 'User Added',
             detail: 'User added successfully.'
-          });          this.fetchUsers();
+          }); this.fetchUsers();
           this.mode = 'view';
           this.visible = false;
         })
+      }
+      if(this.newUser.username===this.curUser?.username)
+      {
+      localStorage.setItem('curUser',JSON.stringify(this.newUser))
       }
       userForm.resetForm();
     }
 
   }
+  // Handles image file validation
   onImageUpload(event: any) {
     const file: File = event.target.files[0];
-  const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
     if (file && !validTypes.includes(file.type)) {
       this.messageService.add({
         severity: 'error',
@@ -341,29 +374,29 @@ export class UsersComponent {
       });
       return;
     }
-
-      if (file.size > 2 * 1024 * 1024) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'File Too Large',
-          detail: 'Image must be less than 2MB'
-        });
-        return;
-      }
-
-      this.uploadedFileName = file.name;
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.newUser.image = reader.result as string;
-      };
-      reader.readAsDataURL(file);
+    if (file.size > 2 * 1024 * 1024) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'File Too Large',
+        detail: 'Image must be less than 2MB'
+      });
+      return;
     }
-  
+    this.uploadedFileName = file.name;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.newUser.image = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // clears uploaded image preview
   removeImage() {
     this.uploadedFileName = '';
     this.newUser.image = null;
   }
+
+  // Determines UI severity labels
   getSeverity(status: string): string {
     switch (status) {
       case 'Active': return 'success';
@@ -371,6 +404,8 @@ export class UsersComponent {
       default: return 'secondary';
     }
   }
+  
+  // Handles modal closing
   onCancel() {
     if (this.mode === 'add') {
       this.visible = false;
@@ -382,25 +417,3 @@ export class UsersComponent {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//   const confirmed = window.confirm('Are you sure you want to delete this user?');
-  //   if (confirmed && user?.id) {
-  //     this.userService.deleteUser(user.id).subscribe(() => {
-  //       this.users = this.users.filter(u => u.id !== user.id);
-  //     });
-  //   }
-  // }

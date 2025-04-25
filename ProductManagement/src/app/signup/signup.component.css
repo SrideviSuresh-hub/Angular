@@ -6,7 +6,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .grid-container {
@@ -49,6 +48,19 @@ body {
   height: auto;
 }
 
+.remove-avatar-btn {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  border: none;
+  padding: 5px 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
 .return {
   cursor: pointer;
 }
@@ -60,12 +72,6 @@ body {
   height: 100px;
 }
 
-:host ::ng-deep .p-datepicker-input {
-  background-color: rgba(243, 243, 243, 1);
-  width: 100% !important;
-  border: none;
-  line-height: 100%;
-}
 
 :host ::ng-deep .p-button {
   border: none !important;
@@ -73,6 +79,7 @@ body {
   border-radius: 5px !important;
   padding: 16px !important;
   cursor: pointer;
+  height: 50px;
 }
 
 :host ::ng-deep .p-inputgroupaddon:first-child {
@@ -82,42 +89,17 @@ body {
   color: #000000;
 }
 
-.input-box,
-.select-box {
-  margin-top: 25px;
-  height: 84px;
-
-}
-
-.btn {
-  height: 50px !important;
-}
-
-.input-box label,
-.select-box label {
-  display: block;
-  margin-bottom: 10px;
-
-  height: 24px;
-
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
-  color: #333333;
-
-}
-
 :host ::ng-deep .p-selectbutton .p-togglebutton {
   background-color: none !important;
   border-radius: 5px !important;
   margin-right: 10px;
-  margin-top: 10px;
   line-height: 100%;
-
-  width: 98px;
+  width: 94px;
   height: 50px;
+}
+
+:host ::ng-deep .p-selectbutton {
+  width: 100% !important;
 }
 
 :host ::ng-deep .p-checkbox-box {
@@ -133,8 +115,34 @@ body {
   overflow: hidden;
 }
 
-.input-box input,
-.select-box select {
+
+.input-box,
+.select-box {
+  margin-top: 25px;
+  height: 84px;
+
+}
+
+.btn {
+  height: 50px !important;
+}
+
+.input-box label,
+.select-box label,
+.gender label {
+  display: block;
+  margin-bottom: 10px;
+  height: 24px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #333333;
+
+}
+:host ::ng-deep .select-box .p-select,
+.input-box input  {
   width: 100%;
   padding: 10px;
   border-radius: 5px;
@@ -144,12 +152,46 @@ body {
   height: 50px;
   background: #F3F3F3;
   border-radius: 5px;
+  font-family: "Montserrat" !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 17px !important;
+  color: #000000 !important;
 
+}
+:ng-deep textarea:focus-visible{
+  outline: none !important;
+}
+
+
+:host ::ng-deep .p-inputtext {
+  width: 100% !important;
+  background-color: rgba(243, 243, 243, 1) !important;
+  border-radius: 5px !important;
+  border: none !important;
+  font-family: 'Montserrat' !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 17px !important;
+  color: #000000 !important;
+  height: 50px;
+}
+
+:host ::ng-deep .p-datepicker {
+  display: flex !important;
+}
+:host ::ng-deep .p-button:focus-visible {
+  outline: none !important; 
+  border: none !important; 
+  box-shadow: none  !important; 
 }
 
 .gender {
   margin-top: 25px;
   height: 50px;
+  width: 100% !important;
 }
 
 .address {
@@ -157,8 +199,6 @@ body {
   flex-direction: column;
   height: 100px;
 }
-
-
 
 .column .input-box,
 .column .select-box {
@@ -198,7 +238,7 @@ body {
 
 }
 
-:host ::ng-deep .flex {
+:host ::ng-deep.flex {
   margin-left: 120px !important;
   margin-right: 120px !important;
 }
@@ -214,24 +254,8 @@ body {
   margin: 10px;
 }
 
-
-
 .float-but a:hover {
   text-decoration: underline;
-}
-
-
-::ng-deep .p-datepicker {
-  display: block !important;
-
-  height: 50px;
-  background: #F3F3F3;
-  border-radius: 5px;
-
-}
-
-p-password {
-  background-color: none;
 }
 
 .pagination-container {
@@ -283,24 +307,9 @@ p-password {
   background-color: rgba(41, 165, 243, 1) !important;
 }
 
-:host ::ng-deep .p-inputtext {
-  width: 100%;
-  background-color: rgba(243, 243, 243, 1) !important;
-  border-radius: 5px !important;
-  border: none !important;
-  font-family: 'Montserrat' !important;
-  font-style: normal !important;
-  font-weight: 400 !important;
-  font-size: 14px !important;
-  line-height: 17px !important;
-  color: #000000 !important;
-  padding: 12px !important;
-  margin-top: 10px;
-  height: 50px;
-}
 
 :host ::ng-deep .p-inputtext:hover {
-  border: 1px solid rgba(41, 165, 243, 1) !important;
+  border: none !important;
   background-color: rgba(243, 243, 243, 1) !important;
 }
 
@@ -326,12 +335,6 @@ input:-internal-autofill-selected {
   background-color: none;
 }
 
-.input-box input :hover {
-  border: 1px solid rgba(41, 165, 243, 1) !important;
-  background-color: rgba(243, 243, 243, 1) !important;
-}
-
-
 textarea {
   width: 100%;
   height: 100px;
@@ -348,11 +351,11 @@ textarea {
 }
 
 :host ::ng-deep .p-password-toggle-mask-icon {
-  top: 60%;
+  top: 50%;
 }
 
-@media (max-width:1024px) {
-  :host ::ng-deep .flex {
+@media (max-width: 1024px) {
+  :host ::ng-deep.flex {
     display: block !important;
     margin-left: 100px !important;
     margin-right: 100px !important;
@@ -360,15 +363,80 @@ textarea {
     margin-bottom: 0px !important;
   }
 
+  .input-box,
+  .select-box,
+  .gender {
+    height: auto;
+    margin-top: 15px;
+  }
+
+  .input-box input,
+  :host ::ng-deep .select-box .p-select,
+  textarea,
+  :host ::ng-deep .p-inputtext {
+    height: 35px;
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .sign-header {
+    height: auto;
+    margin-top: 20px;
+    font-size: 23px;
+  }
+
+  .avatar-wrapper {
+    width: 100px;
+    height: 100px;
+  }
+
+  .form-box {
+    height: auto;
+  }
+
+  :host ::ng-deep.flex {
+    margin-left: 100px !important;
+    margin-right: 100px !important;
+  }
+
+  :host ::ng-deep .p-selectbutton .p-togglebutton {
+    height: 35px !important;
+    width: 65px !important;
+  }
+
+  textarea {
+    height: 35px;
+  }
+
+  :host ::ng-deep .p-button {
+    height: 40px;
+  }
+
+  .btn {
+    height: 40px !important;
+  }
 }
+
 
 @media (max-width: 768px) {
   .grid-container {
     grid-template-columns: 1fr;
   }
 
-  .column {
-    flex-direction: column;
+  .sign-header {
+    font-size: 20px;
+  }
+
+  :host ::ng-deep .p-selectbutton .p-togglebutton {
+    width: 85px !important;
+  }
+
+  .image-container {
+    display: none;
+  }
+
+  :host ::ng-deep .p-selectbutton {
+    justify-content: flex-start !important;
   }
 
   .column .input-box,
@@ -382,35 +450,59 @@ textarea {
     padding: 10px;
   }
 
+  .column {
+    flex-direction: column;
+    gap: 0 !important;
+  }
+
+  :host ::ng-deep.flex {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+
   .input-box input,
-  .select-box select,
+  :host ::ng-deep .select-box .p-select,
   textarea {
     padding: 10px;
   }
+
+  .input-box,
+  .select-box {
+    padding: 10px;
+    width: 100% !important;
+  }
+
+  .gender {
+    width: 100% !important;
+    margin-left: 3%;
+  }
+
+  .p-inputtext:focus,
+  .p-inputtext:active {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  :host ::ng-deep .p-selectbutton .p-togglebutton {
+    width: 65px !important;
+  }
 }
 
-.p-inputtext:focus,
-.p-inputtext:active {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-@media (max-width: 480px) {
+@media (max-width: 345px) {
   .form-wrapper {
     padding: 10px;
   }
 
-  .input-box input,
-  .select-box select,
-  textarea {
-    padding: 10px;
+  :host ::ng-deep.flex {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
   }
-}
 
-.p-inputtext:focus,
-.p-inputtext:active {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
+  .p-inputtext:focus,
+  .p-inputtext:active {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
 }

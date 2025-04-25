@@ -90,8 +90,6 @@
     justify-content: center;
 }
 
-
-
 .main i {
     position: absolute;
     top: 23px;
@@ -111,12 +109,10 @@
 }
 
 :host ::ng-deep .p-card {
-    /* top: 120px; */
     background: #fefffc;
     border-radius: 10px;
     width: 95vw;
     height: 78vh;
-    /* left: 80px; */
     top: 180px;
 
 }
@@ -128,8 +124,6 @@
 
 :host ::ng-deep .p-dialog-mask .p-overlay-mask {
     position: none;
-
-
 }
 
 :host ::ng-deep .p-dialog {
@@ -182,7 +176,6 @@
     font-weight: 600;
     font-size: 20px;
     line-height: 30px;
-    /* color: #333333; */
 }
 
 .header h6 {
@@ -192,7 +185,6 @@
     font-size: 13px;
     line-height: 20px;
     text-decoration-line: underline;
-    /* color: #162541; */
     width: 68px;
     height: 20px;
 }
@@ -211,7 +203,6 @@ li h4 {
     font-weight: 700;
     font-size: 13px;
     line-height: 20px;
-    /* color: #333333; */
 }
 
 li:hover {

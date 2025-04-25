@@ -31,7 +31,7 @@ import { ChartModule } from 'primeng/chart';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { MultiSelectModule } from 'primeng/multiselect';
-
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
     declarations: [
@@ -67,6 +67,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
         MultiSelectModule,
         GoogleChartsModule,
         ConfirmDialogModule,
+        PaginatorModule,
         RouterModule.forChild(routes2),
       ],
       exports:[
@@ -91,6 +92,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
         ChartModule,
         MultiSelectModule,
         GoogleChartsModule,
+        PaginatorModule,
         ToastModule,
       ],
       providers:[MessageService,ConfirmationService]

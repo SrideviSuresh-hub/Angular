@@ -14,8 +14,6 @@
     </ng-template>
 </p-dialog>
 
-
-
 <div class="order-container">
     <h2>My Orders</h2>
     <div *ngIf="isLoading" class="spinner-container">
@@ -43,7 +41,6 @@
                 <td class="actions">
                     <i class="fa-solid fa-eye" (click)="viewOrder(order)"></i>
                     <i class="fa-solid fa-trash" (click)="deleteOrder(order.keyId)"></i>
-                    <!-- "confirmDelete(order.keyId) -->
                 </td>
             </tr>
         </ng-template>
@@ -51,8 +48,6 @@
 
 </div>
 <p-dialog header="View Order" [(visible)]="showPopup" [modal]="true">
-
-    <!-- <ng-template pTemplate="content"> -->
     <ng-container *ngIf="selectedOrder">
         <div *ngFor="let product of selectedOrder.products" class="product-info">
             <div class="order-details">
@@ -72,5 +67,4 @@
             </div>
         </div>
     </ng-container>
-    <!-- </ng-template> -->
 </p-dialog>

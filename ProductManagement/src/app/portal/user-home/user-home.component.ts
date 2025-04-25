@@ -19,31 +19,28 @@ export class UserHomeComponent implements OnInit {
   orderService: OrdersService = inject(OrdersService);
   productService: ProductService = inject(ProductService);
   isLoading:boolean=false;
+  
+  // Loads order and product data
   ngOnInit(): void {
     this.loadOrdersData();
     this.loadUsersProductData();
     localStorage.setItem('curPath','portal/usersHome')
   }
 
+  // Fetches order statistics
   loadOrdersData() {
     this.isLoading=true
     this.orderService.getOrders().subscribe({
       next: (orders) => {
         const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         let orderCounts = Array(7).fill(0);
-
         orders.forEach(order => {
           const orderDate = new Date(order.orderDate);
           let dayIndex = (orderDate.getDay() + 6) % 7;
           orderCounts[dayIndex]++;
         });
-
         const maxValue = Math.max(...orderCounts);
-        const minValue = Math.min(...orderCounts);
-
         const chartMax = Math.max(70, Math.ceil(maxValue / 10) * 10);
-        const chartMin = minValue > 10 ? Math.floor(minValue / 10) * 10 : 0;
-
         this.lineChartOptions = {
           responsive: true,
           scales: {
@@ -74,7 +71,6 @@ export class UserHomeComponent implements OnInit {
             legend: { display: false }
           }
         };
-
         this.lineChartData = {
           labels: days,
           datasets: [{
@@ -88,12 +84,12 @@ export class UserHomeComponent implements OnInit {
         this.isLoading=false
       },
       error: (err) => {
-        console.error('Error fetching orders:', err);
         this.isLoading=false
       }
     });
   }
 
+  // user product data
   loadUsersProductData() {
     this.isLoading=true
     this.orderService.getOrders().subscribe({
@@ -104,12 +100,10 @@ export class UserHomeComponent implements OnInit {
             prodCount[prod.name] = (prodCount[prod.name] || 0) + prod.quantity;
           });
         });
-
         const barValues = Object.values(prodCount);
         const maxBar = Math.max(...barValues);
         const chartMax = Math.max(70, Math.ceil(maxBar / 10) * 10);
         const chartMin = Math.min(...barValues) > 10 ? Math.floor(Math.min(...barValues) / 10) * 10 : 0;
-
         this.barChartOptions = {
           responsive: true,
           scales: {
@@ -134,7 +128,6 @@ export class UserHomeComponent implements OnInit {
           },
           plugins: {
             legend: { display: false },
-            // title: { display: false }
           }
         };
 
@@ -149,7 +142,6 @@ export class UserHomeComponent implements OnInit {
         this.isLoading=false;
       },
       error: (err) => {
-        console.error('Error fetching product data:', err);
         this.isLoading=false
       }
     });

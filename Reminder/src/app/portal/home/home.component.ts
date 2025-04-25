@@ -22,16 +22,26 @@ export class HomeComponent implements OnInit {
   chartOption: any;
   options: any;
 
+  // nitializes data
   ngOnInit(): void {
-    this.reminderDoughnutChart();
+    this.loadReminders();
     this.userLineChart();
     localStorage.setItem('curPath', 'portal/home')
   }
 
+  // Fetches reminders
+  loadReminders() {
+    this.reminderService.getReminders().subscribe(reminders => {
+      this.reminderDoughnutChart();
+    });
+  }
+
+  // Redirects user to the portal users page
   navigate() {
     this.router.navigate(['/portal/users']);
   }
 
+  // Generates a doughnut chart
   reminderDoughnutChart() {
     this.reminderService.getReminders().subscribe(reminders => {
       const futureReminders = reminders.filter(r => r.status.toLowerCase() === 'active').length;
@@ -44,7 +54,6 @@ export class HomeComponent implements OnInit {
             data: [futureReminders, unreadReminders, inactiveReminders],
             backgroundColor: ['#B8AFFC', '#0000B0', '#5240DA'],
             hoverBackgroundColor: ['#B8AFFC', '#0000B0', '#5240DA'],
-
             borderWidth: 0,
             borderColor: 'transparent',
             hoverBorderColor: 'transparent',
@@ -59,30 +68,30 @@ export class HomeComponent implements OnInit {
             display: false
           },
           datalabels: {
-            anchor: 'center', 
+            anchor: 'center',
             align: 'center',
             font: {
-                family: 'Roboto',
-                weight: '500',
-                size: 16,
-                style:'italic'
+              family: 'Roboto',
+              weight: '500',
+              size: 16,
+              style: 'italic'
             },
-            color:'white',
-          formatter: (_:any, ctx:any) => {
-              const labels = ['Future', 'Unread', 'Inactive']; 
+            color: 'white',
+            formatter: (_: any, ctx: any) => {
+              const labels = ['Future', 'Unread', 'Inactive'];
               return labels[ctx.dataIndex];
+            }
           }
         }
       }
-      }
-      
     })
   }
 
+  //  user created chart
   userLineChart() {
     const last7Days: string[] = [];
     const userCountByDate: { [key: string]: number } = {};
-    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const weekdays = [ 'Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     for (let i = 6; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
@@ -98,10 +107,8 @@ export class HomeComponent implements OnInit {
           userCountByDate[daysOfWeek]++;
         }
       });
-      console.log([...last7Days.map(date => userCountByDate[date])]);
-
       this.lineChartData = {
-        labels: [, ...last7Days],
+        labels: [...last7Days],
         datasets: [
           {
             data: last7Days.map(date => userCountByDate[date]),
@@ -126,27 +133,27 @@ export class HomeComponent implements OnInit {
             grid: {
               display: false
             },
-            border:{
-              color:'#666666'
+            border: {
+              color: '#666666'
             }
           },
           x: {
             grid: {
               display: false
             },
-            border:{
-              color:'#666666'
+            border: {
+              color: '#666666'
             },
             font: {
-              family: 'Poppins', 
-              weight: '400', 
-              size: 13 
-          },
+              family: 'Poppins',
+              weight: '400',
+              size: 13
+            },
             ticks: {
               color: '#7A7A7A',
-              maxRotation: 90,  
-              minRotation: 45  
-          }
+              maxRotation: 90,
+              minRotation: 45
+            }
 
           }
         },
@@ -165,8 +172,8 @@ export class HomeComponent implements OnInit {
           tooltip: {
             enabled: true
           },
-          datalabels:{
-            display:false
+          datalabels: {
+            display: false
           }
         }
       };

@@ -11,7 +11,6 @@ import { MessageService } from 'primeng/api';
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
-
   cartService: CartService = inject(CartService);
   router: Router = inject(Router);
   cartItems: OrderProducts[] = [];
@@ -19,10 +18,13 @@ export class CartComponent {
   isLoading: boolean = false;
   productService: ProductService = inject(ProductService)
   messageService: MessageService = inject(MessageService);
+  
   ngOnInit() {
     this.loadCart();
     localStorage.setItem('curPath', 'portal/cart')
   }
+
+  //Loads cart data 
   loadCart() {
     this.isLoading = true;
     this.cartService.getCart().subscribe(items => {
@@ -31,9 +33,13 @@ export class CartComponent {
     }
     )
   }
+
+  // Displays toast notifications
   showToast(severity: string, summary: string, detail: string) {
     this.messageService.add({ severity, summary, detail });
   }
+
+  // Filters cart items
   getFilteredCartItems() {
     if (!this.searchText.trim()) {
       return this.cartItems;
@@ -43,6 +49,7 @@ export class CartComponent {
     );
   }
 
+  // Increases product quantity
   incrementQuantity(product: OrderProducts) {
     product.quantity++;
     this.cartService.addToCart(product);
@@ -51,6 +58,7 @@ export class CartComponent {
     });
   }
 
+  // Decreases product quantity
   decrementQuantity(product: OrderProducts) {
     if (product.quantity > 0) {
       product.quantity--;
@@ -63,6 +71,7 @@ export class CartComponent {
     }
   }
 
+  // Clears item from cart
   removeItem(product: OrderProducts) {
     product.quantity = 0;
     this.cartService.removeFromCart(product);
@@ -71,13 +80,11 @@ export class CartComponent {
     })
   }
 
-
-
+  // Processes checkout
   checkOut() {
     if (this.cartItems.length === 0) {
       this.showToast('warn', 'Cart Empty', 'Your cart is empty');
       return;
-
     }
     else {
       this.cartItems.forEach(product => {
@@ -92,6 +99,7 @@ export class CartComponent {
     }
   }
 
+  // Deletes a product from cart
   removeFromCart(product) {
     this.cartItems = this.cartItems.filter(item => item.id !== product.id);
     product.quantity = 0;
@@ -100,19 +108,3 @@ export class CartComponent {
     })
   }
 }
-
-
-
-
-
-
-
-
-// getFilteredCartItems() {
-//   if (!this.searchText.trim()) {
-//     return this.cartItems;
-//   }
-//   return this.cartItems.filter((item) =>
-//     item.name.toLowerCase().includes(this.searchText.toLowerCase())
-//   );
-// }

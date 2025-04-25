@@ -1,15 +1,11 @@
-
-
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { AuthResponse } from "../Models/authResponse";
-import { catchError, last, map, Observable, Subject, switchMap, tap, throwError } from "rxjs";
+import { catchError, map, Observable, tap, throwError } from "rxjs";
 import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
 })
-
 export class AuthService {
     router: Router = inject(Router);
     http: HttpClient = inject(HttpClient);
@@ -21,24 +17,28 @@ export class AuthService {
         this.resetTimeOut();
         this.userActivity();
     }
+
+    // Resets inactivity timeout
     resetTimeOut() {
         if (this.timeOut) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(() => { this.logout() }, this.idleTimeOut);
     }
-
+    
+    // Tracks user actions
     userActivity() {
         document.addEventListener('click', () => this.resetTimeOut());
         document.addEventListener('mousemove', () => this.resetTimeOut());
         document.addEventListener('keydown', () => this.resetTimeOut());
     }
 
+    // Sends a signup request
     signUp(user: any): Observable<any> {
         return this.http.post(`${this.baseUrluser}.json`, user);
     }
 
-
+    // Fetches user details by username.
     getUserByUserName(username: string) {
         return this.http.get<{ [key: string]: any }>(`${this.baseUrluser}.json`).pipe(
             map(data => {
@@ -49,7 +49,7 @@ export class AuthService {
             catchError(() => throwError(() => "error fetching user")));
     }
 
-
+    // Authenticates users
     login(email: string, password: string): Observable<any> {
         return this.http.get<{ [key: string]: any }>(`${this.baseUrluser}.json`).pipe(
             map((data) => {
@@ -81,13 +81,13 @@ export class AuthService {
         )
     }
 
+    // Clears session data
     logout() {
         localStorage.removeItem('user');
         this.router.navigate(['/login'])
-        .then(() => {
-            window.location.reload();
-        });
     }
+
+    // Fetches all users
     getAllUsers() {
         return this.http.get(`${this.baseUrluser}.json`).pipe(
             map(users => {
@@ -96,24 +96,29 @@ export class AuthService {
             }))
     }
 
+    // current logged-in user's data
     getCurrentUser(): any {
         return JSON.parse(localStorage.getItem('user') || null);
     }
 
+    // Checks if the current user is an admin.
     isAdmin(): boolean {
         const user = this.getCurrentUser();
         return user ? user.isAdmin : false;
     }
 
+    // checks user is logged in
     isLoggedIn(): boolean {
         return !!this.getCurrentUser();
     }
+
+    // Updates user password
     updatePassword(userId: string, newPassword: string) {
         return this.http.patch(`${this.baseUrluser}/${userId}.json`, {
             password: newPassword,
-            isFirstLogin: false 
+            isFirstLogin: false
         });
-      }
+    }
 
 }
 

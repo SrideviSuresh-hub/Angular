@@ -7,5 +7,7 @@ import { Component, Input} from '@angular/core';
   styleUrl: './main.component.css'
 })
 export class MainComponent {
+  
+  // Receives sidebar collapse state
   @Input() isLeftSidebarCollapsed: boolean = false;
 }

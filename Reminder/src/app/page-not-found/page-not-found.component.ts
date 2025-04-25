@@ -11,6 +11,8 @@ import { AuthService } from '../Services/auth.service';
 export class PageNotFoundComponent {
 router:Router=inject(Router);
 authService:AuthService=inject(AuthService);
+
+// Redirects logged-in users
 ngOnInit(){
   if(Boolean(localStorage.getItem('isLoggedIn'))){
     this.router.navigate([localStorage.getItem('curPath')])

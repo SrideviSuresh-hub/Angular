@@ -15,6 +15,8 @@ export class AuthService {
     router: Router = inject(Router);
     private timeOut: any;
     private idleTimeOut: number = 10 * 60 * 1000;
+
+    // Initializes user session
     constructor() {
         const user = JSON.parse(localStorage.getItem('curUser') || 'null');
         this.curUserSubject = new BehaviorSubject<User | null>(user)
@@ -22,6 +24,8 @@ export class AuthService {
         this.resetTimeOut();
         this.userActivity();
     }
+    
+    // Resets inactivity timer 
     resetTimeOut() {
         if (this.timeOut) {
             clearTimeout(this.timeOut);
@@ -29,18 +33,21 @@ export class AuthService {
         this.timeOut = setTimeout(() => { this.logout() }, this.idleTimeOut);
     }
 
+    // Tracks user activity
     userActivity() {
         document.addEventListener('click', () => this.resetTimeOut());
         document.addEventListener('mousemove', () => this.resetTimeOut());
         document.addEventListener('keydown', () => this.resetTimeOut());
     }
 
+    // Retrieves current user
     public getcurUser(): User | null {
         const userString = localStorage.getItem('curUser');
         const user = userString ? JSON.parse(userString) : null;
         return user;
-            }
+    }
 
+    // Validates credentials
     login(username: string, password: string) {
         return this.userService.getUserByUsername(username).pipe(
             map(user => {
@@ -53,16 +60,22 @@ export class AuthService {
             })
         );
     }
+
+    // Checks if the current user is an admin.
     isAdmin(): boolean {
         const user = this.getcurUser();
         return user ? user.isAdmin : false
     }
+
+    // Determines if a user is logged in,
     isLoggedIn(): boolean {
         return Boolean(localStorage.getItem('isLoggedIn'));
-        // return !!this.getcurUser();
     }
+
+    // Clears session data
     logout() {
         localStorage.removeItem('curUser');
+        localStorage.removeItem('curPath');
         localStorage.removeItem('isLoggedIn');
         this.router.navigate(['/login'])
     }

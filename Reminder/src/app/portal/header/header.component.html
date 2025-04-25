@@ -4,7 +4,6 @@
             <img src="assets/images/logo.png" alt="">
         </ng-template>
         <ng-template #end>
-          
             <div  class="flex items-center gap-2 end">
                 <i class="pi pi-home" (click)="navigateToHome()"></i>
                 <i class="pi pi-bell" *ngIf="!curUser?.isAdmin  && !isReminderPage()" (click)="onNotify()"><span class="badge">{{ popupCount }}</span>

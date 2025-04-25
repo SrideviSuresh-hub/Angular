@@ -33,7 +33,6 @@ body {
     position: relative;
     left: calc(100vw - 89vw);
     top: calc(80vh - 100vh);
-
 }
 
 .image-container {
@@ -84,17 +83,14 @@ body {
     line-height: 17px !important;
     color: #000000 !important;
     padding: 16px !important;
-
     box-sizing: border-box;
     height: 50px;
     background: #F3F3F3;
     border-radius: 5px;
-
 }
 
-
 :host ::ng-deep .p-inputtext:hover {
-    border: 1px solid rgba(41, 165, 243, 1) !important;
+    border: none !important;
     background-color: rgba(243, 243, 243, 1) !important;
 }
 
@@ -170,30 +166,35 @@ input:-internal-autofill-selected {
         padding: 10px;
     }
 }
+
 @media screen and (max-width: 2560px) {
-    .login-header{
+    .login-header {
         left: calc(100vw - 93vw);
     }
 }
+
 @media screen and (max-width: 1024px) {
-    .login-header{
+    .login-header {
         left: calc(100vw - 93vw);
     }
 }
+
 @media screen and (max-width: 768px) {
-    .login-header{
+    .login-header {
         left: calc(100vw - 99vw);
     }
 }
+
 @media screen and (max-width: 430px) {
-    .login-header{
-        left:30px;
+    .login-header {
+        left: 30px;
         top: -20px;
     }
 }
+
 @media screen and (max-width: 330px) {
-    .login-header{
-        left:20px;
+    .login-header {
+        left: 20px;
         top: -20px;
         font-size: 25px;
     }

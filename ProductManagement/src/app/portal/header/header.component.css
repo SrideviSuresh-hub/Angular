@@ -86,17 +86,19 @@ app-weather {
         gap: 10px;
     }
 
-   
+
 }
 
 @media (max-width: 320px) {
     .end-content {
         gap: 7px
     }
-.routeHead{
-    font-size: 10px;
-    
-}
+
+    .routeHead {
+        font-size: 10px;
+
+    }
+
     .avatar-initials {
         font-size: 20px;
         height: 30px;

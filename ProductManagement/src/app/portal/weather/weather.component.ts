@@ -17,7 +17,6 @@ export class WeatherComponent implements OnInit {
       next:(data)=>{
         this.weatherData=data;
         this.extractWeatherData()
-        console.log(this.weatherData)
       }
     })
   }
