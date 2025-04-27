@@ -12,9 +12,7 @@ import { AuthService } from '../../Services/auth.service';
   styleUrl: './users.component.css'
 })
 export class UsersComponent {
-  messageService: MessageService = inject(MessageService)
-  userService: UserService = inject(UserService);
-  authService: AuthService = inject(AuthService);
+
   users: User[] = [];
   states: string[] = [];
   visible: boolean = false;
@@ -24,6 +22,9 @@ export class UsersComponent {
   totalRecords = 0;
   curPageInput: number = 1;
   confirmationService: ConfirmationService = inject(ConfirmationService);
+  messageService: MessageService = inject(MessageService)
+  userService: UserService = inject(UserService);
+  authService: AuthService = inject(AuthService);
   maxPage: number = Math.ceil(this.totalRecords / this.rows);
   curUser = this.authService.getcurUser();
   uploadedFileName: string = '';
@@ -31,12 +32,12 @@ export class UsersComponent {
   paginatorMargin: number = 0;
 
   locales: string[] =
-  ['en-US',
-    'en-GB',
-    'fr-FR',
-    'de-DE',
-    'es-ES',
-    'zh-CN'];
+    ['en-US',
+      'en-GB',
+      'fr-FR',
+      'de-DE',
+      'es-ES',
+      'zh-CN'];
 
   genders: any[] = [
     { label: "Male", gender: 'male' },
@@ -45,14 +46,14 @@ export class UsersComponent {
   ]
 
   timezones: string[] =
-  [
-    "IST - UTC+5:30",
-    "PST - UTC-8",
-    "EST - UTC-5",
-    "CST - UTC-6",
-    "MST - UTC-7",
-    "AKST - UTC-9"
-  ];
+    [
+      "IST - UTC+5:30",
+      "PST - UTC-8",
+      "EST - UTC-5",
+      "CST - UTC-6",
+      "MST - UTC-7",
+      "AKST - UTC-9"
+    ];
 
   countries = [
     { label: 'India', value: 'India' },
@@ -248,7 +249,6 @@ export class UsersComponent {
             detail: 'Reminder deleted successfully'
           });
         });
-
       },
       reject: () => {
         this.messageService.add({
@@ -260,7 +260,7 @@ export class UsersComponent {
     });
   }
 
-// Validates, saves, or updates user information.
+  // Validates, saves, or updates user information.
   saveUser(userForm: NgForm): void {
     const usernameControl = userForm.controls['userName'];
     if (this.mode === 'add' && (usernameControl.value.trim() === '' || !/^[a-zA-Z0-9]*$/.test(usernameControl.value))) {
@@ -354,14 +354,14 @@ export class UsersComponent {
           this.visible = false;
         })
       }
-      if(this.newUser.username===this.curUser?.username)
-      {
-      localStorage.setItem('curUser',JSON.stringify(this.newUser))
+      if (this.newUser.username === this.curUser?.username) {
+        localStorage.setItem('curUser', JSON.stringify(this.newUser))
+        this.curUser = { ...this.newUser }
       }
       userForm.resetForm();
     }
-
   }
+
   // Handles image file validation
   onImageUpload(event: any) {
     const file: File = event.target.files[0];
@@ -404,7 +404,7 @@ export class UsersComponent {
       default: return 'secondary';
     }
   }
-  
+
   // Handles modal closing
   onCancel() {
     if (this.mode === 'add') {

@@ -44,10 +44,10 @@ export class ReminderComponent implements OnInit {
     this.adjustPaginatorPosition();
   }
 
-// Recalculates paginator position on window resize
+  // Recalculates paginator position on window resize
   @HostListener('window:resize')
   onResize() {
-    this.adjustPaginatorPosition(); 
+    this.adjustPaginatorPosition();
   }
 
   // Dynamically positions paginator
@@ -57,7 +57,7 @@ export class ReminderComponent implements OnInit {
       const viewportHeight = window.innerHeight;
       const marginValue = viewportHeight - tableHeight - 80;
       document.documentElement.style.setProperty('--paginator-margin', `${marginValue}px`);
-  }
+    }
   }
   newReminder: Reminder = {
     title: '',
@@ -98,7 +98,7 @@ export class ReminderComponent implements OnInit {
     }
   }
 
-// Fetches reminders
+  // Fetches reminders
   loadReminders() {
     this.reminderService.getReminderbyuserId(this.userId).subscribe(res => {
       this.reminders = res;
@@ -203,7 +203,7 @@ export class ReminderComponent implements OnInit {
           detail: 'Reminder date time is required'
         });
         return;
-      } 
+      }
     }
     if (form.valid) {
       this.newReminder.userId = this.userId;
@@ -211,15 +211,15 @@ export class ReminderComponent implements OnInit {
         rem.title === this.newReminder.title && (this.mode === 'add' || rem.id !== this.newReminder.id)
       )
       const now = new Date();
-    const reminderDate = new Date(this.newReminder.reminderdt);
-    if (reminderDate <= now) {
+      const reminderDate = new Date(this.newReminder.reminderdt);
+      if (reminderDate <= now) {
         this.messageService.add({
-            severity: 'warn',
-            summary: 'Validation Error',
-            detail: 'Reminder date and time must be in the future'
+          severity: 'warn',
+          summary: 'Validation Error',
+          detail: 'Reminder date and time must be in the future'
         });
         return;
-    }
+      }
 
       if (duplicate) {
         this.messageService.add({
@@ -235,7 +235,7 @@ export class ReminderComponent implements OnInit {
 
       this.newReminder = this.updateStatusAndDissmiss(this.newReminder);
       if (this.mode === 'edit') {
-
+        this.newReminder.createdatetime = new Date().toISOString();
         this.reminderService.updateReminder(this.newReminder).subscribe(() => {
           this.messageService.add({
             severity: 'success',
@@ -275,7 +275,7 @@ export class ReminderComponent implements OnInit {
 
   }
 
-// Deletes reminder
+  // Deletes reminder
   deleteReminder(id: string) {
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete this reminder?',
@@ -292,10 +292,10 @@ export class ReminderComponent implements OnInit {
         });
       },
       reject: () => {
-       
+
       }
     });
   }
-  
+
 
 }

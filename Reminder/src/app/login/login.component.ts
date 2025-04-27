@@ -52,7 +52,7 @@ export class LoginComponent {
         }
       },
       error: (err) => {
-        this.msgService.add({ severity: 'error', summary: 'login failed', detail: err.mesage })
+        this.msgService.add({ severity: 'error', summary: 'please enter valid credentials', detail: err.mesage })
       }
     })
   }

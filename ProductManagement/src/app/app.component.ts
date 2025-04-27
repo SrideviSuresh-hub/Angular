@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-// import { ThemeService } from './Services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +8,5 @@ import { Component, inject } from '@angular/core';
 })
 export class AppComponent {
   title = 'ProductManagement';
-//   themeService:ThemeService=inject(ThemeService);
-//   changeTheme(theme: string) {
-//     this.themeService.switchTheme(theme);
-// }
+
 }

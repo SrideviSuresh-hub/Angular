@@ -245,9 +245,9 @@ export class UsersComponent implements OnInit {
   confirmDelete() {
     this.userService.deleteUser(this.selectedUserKeyId).subscribe({
       next: () => {
-        this.loadUsers()
-        this.msgService.add({ severity: 'warn', detail: 'User Deleted' });
         this.visible = false;
+        this.msgService.add({ severity: 'warn', detail: 'User Deleted' });
+        this.loadUsers()
       },
       error: (err) => {
         this.msgService.add({ severity: 'error', detail: 'Error Deleting User', summary: err });
@@ -273,8 +273,8 @@ export class UsersComponent implements OnInit {
       timezone: '',
       locale: '',
       isAdmin: false,
-      password: '',
-      image: '',
+      password: '12345',
+      image:'',
       isFirstLogin: true
     };
   }

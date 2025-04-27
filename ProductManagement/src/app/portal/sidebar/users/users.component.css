@@ -485,6 +485,7 @@ display: flex;
   font-size: 14px !important;
   line-height: 17px !important;
   color: #000000 !important;
+  padding-left: 10px !important;
 }
 
 :host ::ng-deep .p-dialog {
