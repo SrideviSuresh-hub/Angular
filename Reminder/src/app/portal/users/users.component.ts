@@ -93,7 +93,7 @@ export class UsersComponent {
   // fetch users
   ngOnInit() {
     this.fetchUsers();
-    localStorage.setItem('curPath', 'portal/users')
+    localStorage.setItem('curPath','portal/users')
   }
 
   // adjust paginator positioning

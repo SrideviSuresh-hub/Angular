@@ -17,6 +17,5 @@ ngOnInit(){
   if(Boolean(localStorage.getItem('isLoggedIn'))){
     this.router.navigate([localStorage.getItem('curPath')])
   }
- 
 }
 }

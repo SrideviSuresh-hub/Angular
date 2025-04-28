@@ -460,8 +460,12 @@ h3 {
   height: 34px;
   background-color: #F3F3F3;
   display: flex;
+  font-family: 'Montserrat' !important;
 }
 
+.input-box input{
+  padding-left: 10px;
+}
 :host ::ng-deep.p-password{
 display: flex;
 }

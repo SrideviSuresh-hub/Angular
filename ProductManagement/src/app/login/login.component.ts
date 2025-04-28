@@ -12,7 +12,7 @@ import { MessageService } from 'primeng/api';
 })
 export class LoginComponent {
   login = {
-    email: '',
+    username: '',
     password: ''
   }
   isLoading: boolean = false;
@@ -35,24 +35,24 @@ export class LoginComponent {
   // Validates credentials
   onLogin(form: NgForm) {
     if (form.invalid) {
-      if (!form.value.email) {
+      if (!form.value.username) {
         this.showError('Please enter a valid email address.');
       }
-      else {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(form.value.email)) {
-          this.showError('Please enter a valid email address.');
-        }
-      }
+      // else {
+      //   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      //   if (!emailRegex.test(form.value.email)) {
+      //     this.showError('Please enter a valid email address.');
+      //   }
+      // }
       if (!form.value.password) {
         this.showError("Password is required!");
       }
       return;
     }
-    const email = form.value.email;
+    const name = form.value.username;
     const password = form.value.password;
     this.isLoading = true;
-    this.authService.login(email, password).subscribe({
+    this.authService.login(name, password).subscribe({
       next: (user) => {
         this.isLoading = false;
         if (user) {
@@ -64,13 +64,16 @@ export class LoginComponent {
           if (user.isFirstLogin) {
             this.showPasswordDialog = true;
           } else {
-            if (user.isAdmin) {
-              this.router.navigate(['/portal/home']);
-
-            } else {
-              this.router.navigate(['/portal/usersHome']);
-            }
+            setTimeout(() => {
+              localStorage.setItem('isLoggedIn', 'true');
+              if (user.isAdmin) {
+                this.router.navigate(['/portal/home']);
+              } else {
+                this.router.navigate(['/portal/usersHome']);
+              }
+            }, 100)
           }
+          
         } else {
           this.showError("Invalid credentials, user not found.");
         }
@@ -87,6 +90,7 @@ export class LoginComponent {
   showError(message: string) {
     this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
   }
+
   // Updates password
   changePassword() {
     if (this.newPassword !== this.confirmPassword) {

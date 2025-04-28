@@ -13,7 +13,7 @@ import { NotificationService } from '../../Services/notification.service';
   styleUrl: './reminder.component.css'
 })
 export class ReminderComponent implements OnInit {
-  visible: boolean = true;
+  visible: boolean = false;
   visibleRemPopup:boolean=false;
   mode: 'view' | 'edit' | 'add' = 'view';
   first = 0;
@@ -32,6 +32,7 @@ export class ReminderComponent implements OnInit {
   @ViewChild('dt') tableRef!: ElementRef;
    user = this.authService.getcurUser();
    isPopupManuallyClosed: boolean = false; 
+   
   // loads user reminders
   ngOnInit(): void {
     localStorage.setItem('curPath', 'portal/reminder')
@@ -43,7 +44,10 @@ export class ReminderComponent implements OnInit {
     this.notificationService.popupVisible$.subscribe(visible => {
       this.visible = visible;
     });
-    this.loadPopupReminders()
+    this.loadPopupReminders();
+    setInterval(()=>{
+      this.notificationService.trackNextReminder(this.user?.id);
+    },1000);
   }
 
   // Adjusts paginator position after view initialization.
@@ -117,12 +121,12 @@ export class ReminderComponent implements OnInit {
 
   loadPopupReminders() {
     if (this.isPopupManuallyClosed) return;
-    const now = new Date();
     if (!this.user?.id) return;
     this.notificationService.loadPopupReminders(this.user.id); 
     this.notificationService.reminders$.subscribe(reminders => {
-      this.popupReminders = reminders.filter(r => !r.dismissed && new Date(r.reminderdt) <= now);
+      this.popupReminders = reminders.filter(r => !r.dismissed);
       this.visible = this.popupReminders.length > 0;
+      this.cdr.detectChanges(); 
     });
   }
   

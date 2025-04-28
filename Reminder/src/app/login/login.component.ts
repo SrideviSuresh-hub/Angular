@@ -24,7 +24,6 @@ export class LoginComponent {
     if (Boolean(localStorage.getItem('isLoggedIn'))) {
       this.router.navigate([localStorage.getItem('curPath')]);
     }
-
   }
 
   // Validates login form and navigates

@@ -38,6 +38,11 @@ export class UserhomeComponent implements OnInit {
     this.notificationService.popupVisible$.subscribe(visible => {
         this.visible = visible;
     });
+    this.notificationService.reminders$.subscribe(reminders => {
+      this.popupReminders = reminders.filter(r => !r.dismissed && new Date(r.reminderdt) <= new Date());
+      this.visible = this.popupReminders.length > 0;
+      this.reminderChart(); 
+    });
     this.loadReminders();
     this.loadPopupReminders();
   }
@@ -66,6 +71,7 @@ export class UserhomeComponent implements OnInit {
     this.popupReminders = this.popupReminders.filter(r => r.id !== reminder.id);
     this.visible = this.popupReminders.length > 0;
     this.notificationService.dismissReminder(updatedReminder); 
+    this.loadReminders();
   }
   
   //remove all reminders
@@ -74,6 +80,7 @@ export class UserhomeComponent implements OnInit {
     this.notificationService.reminders$.subscribe(reminders => {
       this.popupReminders = [];
       this.visible = false;
+      this.loadReminders();
     });
   }
   

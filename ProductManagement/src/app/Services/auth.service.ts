@@ -50,12 +50,12 @@ export class AuthService {
     }
 
     // Authenticates users
-    login(email: string, password: string): Observable<any> {
+    login(username: string, password: string): Observable<any> {
         return this.http.get<{ [key: string]: any }>(`${this.baseUrluser}.json`).pipe(
             map((data) => {
                 if (data) {
                     const users = Object.keys(data).map(key => ({ id: key, ...data[key] }));
-                    const user = users.find(u => u.email === email && u.password === password);
+                    const user = users.find(u => u.username === username && u.password === password);
                     return user || null;
                 }
                 return null;
@@ -84,6 +84,8 @@ export class AuthService {
     // Clears session data
     logout() {
         localStorage.removeItem('user');
+        localStorage.removeItem('curPath')
+        localStorage.clear();
         this.router.navigate(['/login'])
     }
 
