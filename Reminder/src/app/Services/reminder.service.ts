@@ -11,13 +11,9 @@ export class ReminderService {
     http: HttpClient = inject(HttpClient);
     private popupCountSubject = new BehaviorSubject<number>(0);
     popupReminderCount = this.popupCountSubject.asObservable();
-    private popupVisibleSubject = new BehaviorSubject<boolean>(false);
-    popupVisible = this.popupVisibleSubject.asObservable();
 
     // Controls reminder popup visibility
-    setPopupVisible(isVisible: boolean) {
-        this.popupVisibleSubject.next(isVisible);
-    }
+   
 
     // Updates the number of active popup reminders.
     updatePopupCount(count: number) {

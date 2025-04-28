@@ -17,7 +17,7 @@
 
 .p {
     position: absolute;
-    top:10px;
+    top: 10px;
     left: 50px;
     height: 18px;
     font-family: 'Poppins';
@@ -36,7 +36,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    height:78vh;
+    height: 78vh;
 }
 
 .chart-labels {
@@ -203,12 +203,13 @@ li h4 {
     font-weight: 700;
     font-size: 13px;
     line-height: 20px;
-
+    color: #000000;
 }
 
-body.dark-mode li h4{
+:host ::ng-deep body.dark-mode li h4 {
     color: white !important;
 }
+
 li:hover {
     background: #F1F1F1;
 }
@@ -226,6 +227,10 @@ li div p {
     line-height: 20px;
 }
 
+:host ::ng-deep .p-button:focus-visible {
+    outline: none;
+}
+
 :host ::ng-deep .p-dialog-content {
     padding: 0;
 }
@@ -239,11 +244,11 @@ li:hover i {
     visibility: visible;
 }
 
-.dismiss{
+.dismiss {
     color: #162541;
 }
 
-.flex p{
+.flex p {
     position: absolute;
     height: 24px;
     left: 55px;
@@ -254,27 +259,32 @@ li:hover i {
     font-size: 16px;
     line-height: 24px;
 }
+
 @media screen and (max-width: 800px) {
     :host ::ng-deep .content .p-card-content {
         flex-direction: column;
         align-items: center;
     }
-    .chart-labels{
+
+    .chart-labels {
         flex-direction: row;
         gap: 20px;
     }
 }
+
 @media screen and (max-width: 350px) {
     :host ::ng-deep .content .p-card-content {
         flex-direction: column;
         align-items: center;
         width: 80vw;
     }
-    .chart-labels{
+
+    .chart-labels {
         flex-direction: column;
         gap: 0px;
     }
-    .header h3{
+
+    .header h3 {
         height: auto;
     }
 }
@@ -284,12 +294,12 @@ li:hover i {
     width: 100%;
     height: auto;
     max-height: 400px;
-} 
+}
 
 @media screen and (max-width: 1024px) {
     :host ::ng-deep p-chart {
         max-height: 350px;
-      
+
     }
 
 }
@@ -322,6 +332,7 @@ li:hover i {
         flex-wrap: wrap;
     }
 }
+
 :host ::ng-deep .p-dialog {
     width: 70vw;
     max-width: 700px;
@@ -334,7 +345,7 @@ li:hover i {
 @media screen and (max-width: 1024px) {
     :host ::ng-deep .p-dialog {
         width: 85vw;
-        left:60%
+        left: 60%
     }
 }
 

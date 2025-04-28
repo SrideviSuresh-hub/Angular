@@ -4,6 +4,7 @@ import { ReminderService } from '../../Services/reminder.service';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../Services/auth.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { NotificationService } from '../../Services/notification.service';
 
 @Component({
   selector: 'app-reminder',
@@ -12,7 +13,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   styleUrl: './reminder.component.css'
 })
 export class ReminderComponent implements OnInit {
-  visible: boolean = false;
+  visible: boolean = true;
+  visibleRemPopup:boolean=false;
   mode: 'view' | 'edit' | 'add' = 'view';
   first = 0;
   rows = 10;
@@ -24,19 +26,24 @@ export class ReminderComponent implements OnInit {
   reminderService: ReminderService = inject(ReminderService);
   authService: AuthService = inject(AuthService);
   messageService: MessageService = inject(MessageService);
-  confirmationService: ConfirmationService = inject(ConfirmationService)
+  confirmationService: ConfirmationService = inject(ConfirmationService);
+  notificationService:NotificationService=inject(NotificationService);
   @ViewChild('titleInput') titleInput!: ElementRef;
   @ViewChild('dt') tableRef!: ElementRef;
-
+   user = this.authService.getcurUser();
+   isPopupManuallyClosed: boolean = false; 
   // loads user reminders
   ngOnInit(): void {
     localStorage.setItem('curPath', 'portal/reminder')
-    const user = this.authService.getcurUser();
-    if (user) {
-      this.userId = user.id!;
-      this.newReminder.userId = user.id!;
+    if (this.user) {
+      this.userId = this.user.id!;
+      this.newReminder.userId = this.user.id!;
       this.loadReminders();
     }
+    this.notificationService.popupVisible$.subscribe(visible => {
+      this.visible = visible;
+    });
+    this.loadPopupReminders()
   }
 
   // Adjusts paginator position after view initialization.
@@ -108,6 +115,40 @@ export class ReminderComponent implements OnInit {
     })
   }
 
+  loadPopupReminders() {
+    if (this.isPopupManuallyClosed) return;
+    const now = new Date();
+    if (!this.user?.id) return;
+    this.notificationService.loadPopupReminders(this.user.id); 
+    this.notificationService.reminders$.subscribe(reminders => {
+      this.popupReminders = reminders.filter(r => !r.dismissed && new Date(r.reminderdt) <= now);
+      this.visible = this.popupReminders.length > 0;
+    });
+  }
+  
+  handlePopupClose() {
+    this.isPopupManuallyClosed = true; 
+    this.visible = false;
+  }
+  
+  dismissReminder(reminder: Reminder) {
+    this.notificationService.dismissReminder(reminder);
+    this.notificationService.reminders$.subscribe(reminders => {
+      this.popupReminders = reminders.filter(r => !r.dismissed);
+      this.visible = this.popupReminders.length > 0;
+      this.loadReminders();
+    });
+  }
+  
+  dismissAllReminders() {
+    this.notificationService.dismissAllReminders(this.user?.id);
+    this.notificationService.reminders$.subscribe(() => {
+      this.popupReminders = [];
+      this.visible = false;
+      this.loadReminders();
+    });
+  }
+  
   // Returns severity class
   getSeverity(status: String) {
     switch (status.toLowerCase()) {
@@ -140,7 +181,7 @@ export class ReminderComponent implements OnInit {
       };
       this.mode = 'add';
     }
-    this.visible = true
+    this.visibleRemPopup = true
   }
 
   // Updates reminder status
@@ -244,7 +285,7 @@ export class ReminderComponent implements OnInit {
           });
           this.loadReminders();
           this.mode = 'view';
-          this.visible = false;
+          this.visibleRemPopup = false;
         })
       }
       else {
@@ -257,7 +298,7 @@ export class ReminderComponent implements OnInit {
           });
           this.loadReminders();
           this.mode = 'view';
-          this.visible = false;
+          this.visibleRemPopup = false;
         })
       }
       form.resetForm();
@@ -267,7 +308,7 @@ export class ReminderComponent implements OnInit {
   // Handles closing of reminder modal
   onCancel() {
     if (this.mode === 'add') {
-      this.visible = false;
+      this.visibleRemPopup = false;
     }
     else if (this.mode === 'edit') {
       this.mode = 'view'

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../Services/auth.service';
 import { User } from '../../Models/Users';
 import { ReminderService } from '../../Services/reminder.service';
+import { NotificationService } from '../../Services/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,7 @@ export class HeaderComponent implements OnInit {
   isDarkMode: boolean = false;
   popupCount: number = 0;
   authService: AuthService = inject(AuthService);
-  reminderService: ReminderService = inject(ReminderService);
+  notificationService:NotificationService=inject(NotificationService);
   curUser: User | null = this.authService.getcurUser();
 
   // Loads theme settings,reminder popup  count
@@ -23,14 +24,14 @@ export class HeaderComponent implements OnInit {
     const savedTheme = localStorage.getItem('theme');
     this.isDarkMode = savedTheme === 'dark';
     this.applyTheme();
-    this.reminderService.popupReminderCount.subscribe(count => {
-      this.popupCount = count;
+    this.notificationService.reminders$.subscribe(reminders => {
+      this.popupCount = reminders.length;
     });
   }
 
   // Triggers visibility of reminder popups
   onNotify() {
-    this.reminderService.setPopupVisible(true);
+    this.notificationService.setPopupVisible(true);
   }
 
   // Logs out user

@@ -203,7 +203,6 @@ label {
     font-weight: 700 !important; 
     font-size: 15px !important;
     line-height: 22px !important;
-    color: #000000 !important;
 }
 
 :host ::ng-deep .p-dialog-footer {
@@ -214,11 +213,14 @@ label {
     padding-top: 10px;
 }
 
-:host ::ng-deep .p-button-text {
-    color: #333333 !important;
+:host ::ng-deep .p-dialog-footer .p-button-text {
+    color: #333333 !important ;
     text-align: center;
 }
 
+:host ::ng-deep body.dark-mode.p-button{
+    color: white !important;
+}
 :host ::ng-deep .remadd .p-dialog-content {
     overflow-y: hidden;
     padding: 25px;
@@ -465,8 +467,13 @@ body.dark-mode.card {
     background: none !important;
 }
 
+
 :host ::ng-deep .popup .p-overlay-mask {
     top: 68px !important;
+}
+
+:host ::ng-deep .p-button:focus-visible {
+    outline: none;
 }
 
 :host ::ng-deep .popup .p-overlay-mask {
@@ -480,6 +487,7 @@ body.dark-mode.card {
 
 :host ::ng-deep .p-dialog {
     margin-top: -210px !important;
+    border: none !important;
 }
 
 :host ::ng-deep .p-paginator {
@@ -491,6 +499,14 @@ body.dark-mode.card {
     justify-content: flex-end !important;
     align-items: center;
     gap: 0 !important;
+}
+:host ::ng-deep .popup .p-dialog{
+    width: 70vw !important;
+    max-width: 700px !important;
+    height: auto !important;
+    overflow-y: auto !important;
+    left: 68% !important;
+    transform: translateX(-50%) !important;
 }
 
 :host ::ng-deep.p-paginator-content-end {
@@ -633,6 +649,7 @@ body.dark-mode.card {
     height: 20px;
 }
 
+
 li {
     list-style-type: none;
     width: 100%;
@@ -647,8 +664,12 @@ li h4 {
     font-weight: 700;
     font-size: 13px;
     line-height: 20px;
+    color: #000000 ;
 }
 
+:host ::ng-deep body.dark-mode li h4{
+    color: white !important;
+}
 li:hover {
     background: #F1F1F1;
 }
