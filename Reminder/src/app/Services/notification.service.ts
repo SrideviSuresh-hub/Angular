@@ -49,7 +49,7 @@ export class NotificationService {
           const updatedReminder = { ...upcomingReminder, status: 'Unread' };
         this.reminderService.updateReminder(updatedReminder).subscribe(()=>
         {
-          const updatedReminders = [...this.unreadReminders.value, upcomingReminder]; // ✅ Ensure reminder is added
+          const updatedReminders = [...this.unreadReminders.value, upcomingReminder];
           this.unreadReminders.next(updatedReminders);
         })
       }, timeUntilReminder);
@@ -80,7 +80,7 @@ export class NotificationService {
   }
 
 
-  // Dismiss all reminders globally
+ // Dismiss all reminders globally
   dismissAllReminders(userId: string | Date | number | undefined) {
     if (!userId) return;
     const updatedReminders = this.unreadReminders.value.map(reminder => ({
@@ -89,9 +89,19 @@ export class NotificationService {
       status:'Inactive'
     }));
     updatedReminders.forEach(reminder => {
-      this.reminderService.updateReminder(reminder).subscribe();
+      this.reminderService.updateReminder(reminder).subscribe(()=>{
+        this.refreshReminders(userId);
+      });
     });
     this.unreadReminders.next([]);
     this.popupVisible.next(false);
+  }
+
+  // refresh after dismissal
+  refreshReminders(userId: string | Date | number | undefined) {
+    if (!userId) return;
+    this.reminderService.getReminderbyuserId(userId).subscribe(reminders => {
+      this.unreadReminders.next(reminders.filter(rem => !rem.dismissed));
+    });
   }
 }

@@ -352,7 +352,9 @@ textarea {
     background: #194F72 !important;
     border: 1px solid #194F72 !important;
 }
-
+:host ::ng-deep .p-button:focus-visible {
+    outline: none  !important;
+}
 .ad {
     display: flex;
     flex-direction: row;
@@ -402,7 +404,6 @@ textarea {
 :host ::ng-deep .customSortIcon sortalticon:before {
     content: '\f0dc' !important;
     font-family: 'FontAwesome';
-    
     margin-left: 0.2rem !important;
     margin-right: 0.3rem !important;
 }
@@ -416,13 +417,13 @@ textarea {
 }
 
 :host ::ng-deep .customSortIcon sortamountupalticon:before {
-    content: '\f0dd' !important;
+    content: '\f0de' !important;
     font-family: 'FontAwesome';
     margin-left: 0.7rem !important;
 }
 
 :host ::ng-deep .customSortIcon sortamountdownicon:before {
-    content: '\f0de' !important;
+    content: '\f0dd' !important;
     font-family: 'FontAwesome';
     margin-left: 0.7rem !important;
 }

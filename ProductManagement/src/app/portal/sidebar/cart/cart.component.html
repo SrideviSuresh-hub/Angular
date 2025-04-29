@@ -2,8 +2,8 @@
   <div class="search-container">
     <h1 class="title"> My Cart </h1>
     <div class="search-bar">
-      <input type="text" pInputText [(ngModel)]="searchText"  />
-      <i class="pi pi-search search-icon" (click)="getFilteredCartItems()"></i>
+      <input type="text" pInputText [(ngModel)]="tempSearchQuery"  />
+      <i class="pi pi-search search-icon" (click)="applySearch()"></i>
     </div>
   </div>
   <p-progress-spinner class="spinner-container" *ngIf="isLoading" strokeWidth="8" fill="transparent"
@@ -19,7 +19,7 @@
             <div class="flex">
             <div class="quantity-controls">
               <button pButton icon="pi pi-minus" (click)="decrementQuantity(item)" class="p-button-text"></button>
-              <span>{{ item.quantity }}</span>
+              <span class="quant">{{ item.quantity }}</span>
               <button pButton icon="pi pi-plus" (click)="incrementQuantity(item)" class="p-button-text"></button>
             </div>
             <span class="actions">

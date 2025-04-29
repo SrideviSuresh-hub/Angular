@@ -125,7 +125,7 @@ export class ReminderComponent implements OnInit {
     this.notificationService.loadPopupReminders(this.user.id); 
     this.notificationService.reminders$.subscribe(reminders => {
       this.popupReminders = reminders.filter(r => !r.dismissed);
-      this.visible = this.popupReminders.length > 0;
+      // this.visible = this.popupReminders.length > 0;
       this.cdr.detectChanges(); 
     });
   }
@@ -140,7 +140,6 @@ export class ReminderComponent implements OnInit {
     this.notificationService.reminders$.subscribe(reminders => {
       this.popupReminders = reminders.filter(r => !r.dismissed);
       this.visible = this.popupReminders.length > 0;
-      this.loadReminders();
     });
   }
   

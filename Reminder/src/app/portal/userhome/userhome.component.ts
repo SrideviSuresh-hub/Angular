@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Services/auth.service';
 import { Reminder } from '../../Models/reminder';
@@ -19,7 +19,7 @@ Chart.register(ChartDataLabels);
 })
 export class UserhomeComponent implements OnInit {
 
-  visible: boolean = true;
+  visible: boolean = false;
   popupReminders: Reminder[] = [];
   router: Router = inject(Router);
   chartData: any;
@@ -27,6 +27,7 @@ export class UserhomeComponent implements OnInit {
   reminders: Reminder[] = [];
   isPopupManuallyClosed: boolean = false;
   authService: AuthService = inject(AuthService);
+  cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   reminderService: ReminderService = inject(ReminderService);
   msgService: MessageService = inject(MessageService);
   user: User | null = this.authService.getcurUser();
@@ -38,13 +39,16 @@ export class UserhomeComponent implements OnInit {
     this.notificationService.popupVisible$.subscribe(visible => {
         this.visible = visible;
     });
-    this.notificationService.reminders$.subscribe(reminders => {
-      this.popupReminders = reminders.filter(r => !r.dismissed && new Date(r.reminderdt) <= new Date());
-      this.visible = this.popupReminders.length > 0;
-      this.reminderChart(); 
-    });
+    // this.notificationService.reminders$.subscribe(reminders => {
+    //   this.popupReminders = reminders.filter(r => !r.dismissed && new Date(r.reminderdt) <= new Date());
+    //   // this.visible = this.popupReminders.length > 0; 
+    //   // this.reminderChart()
+    // });
     this.loadReminders();
     this.loadPopupReminders();
+    setInterval(()=>{
+      this.notificationService.trackNextReminder(this.user?.id);
+    },1000);
   }
 
   // navigate to reminders
@@ -55,14 +59,15 @@ export class UserhomeComponent implements OnInit {
   //load popup reminders -unread
   loadPopupReminders() {
     if (this.isPopupManuallyClosed) return;
-    const now = new Date();
     if (!this.user?.id) return; 
     this.notificationService.loadPopupReminders(this.user.id); // Ensures reminders are correctly retrieved
     this.notificationService.reminders$.subscribe(reminders => {
-      this.popupReminders = reminders.filter(r => !r.dismissed && new Date(r.reminderdt) <= now);
-      this.visible = this.popupReminders.length > 0;
+      console.log(reminders)
+      this.popupReminders = reminders.filter(r => !r.dismissed);
+      this.loadReminders()
+      this.cdr.detectChanges(); 
+      // this.visible = this.popupReminders.length > 0;
     });   
-    this.reminderChart();
   }
 
   //remove particular reminder

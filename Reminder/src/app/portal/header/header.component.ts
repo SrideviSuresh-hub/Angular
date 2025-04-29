@@ -64,9 +64,5 @@ export class HeaderComponent implements OnInit {
       document.body.classList.remove('dark-mode');
     }
   }
-  // Checks if the current page is the reminder view.
-  isReminderPage(): boolean {
-    return this.router.url.includes('reminder');
-  }
 
 }

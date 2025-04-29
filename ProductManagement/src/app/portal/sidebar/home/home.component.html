@@ -4,11 +4,11 @@
   <p-table *ngIf="!isLoading" [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="12">
     <ng-template pTemplate="header">
       <tr>
-        <th>User Name</th>
-        <th>Product Count </th>
-        <th>Ordered Item</th>
-        <th> Order Delivered </th>
-        <th></th>
+        <th pSortableColumn="userName">User Name <p-sortIcon field="userName"></p-sortIcon></th>
+            <th pSortableColumn="quantity">Product Count <p-sortIcon field="quantity"></p-sortIcon></th>
+            <th pSortableColumn="productName">Ordered Item <p-sortIcon field="productName"></p-sortIcon></th>
+            <th pSortableColumn="deliveryStatus">Order Delivered <p-sortIcon field="deliveryStatus"></p-sortIcon></th>
+            <th></th>
       </tr>
     </ng-template>
 
@@ -43,7 +43,8 @@
     <div class="product-item">
       <img [src]="selectedProduct.productImage" alt="Product image" width="200px" height="150px">
       <div class="product-info">
-        <p style="color:rgba(20, 21, 105, 1);">Delivered on {{ selectedProduct.orderDate | date: 'mediumDate' }}</p>
+        <p style="color:rgba(20, 21, 105, 1);">Ordered on {{ selectedProduct.orderDate | date: 'dd/MM/yyyy-hh:mm a' }}</p>
+        <p  *ngIf="selectedProduct.deliveryDate" style="color:rgba(20, 21, 105, 1);">Delivered on {{ selectedProduct.deliveryDate | date: 'dd/MM/yyyy-hh:mm a' }}</p>
         <h2>{{ selectedProduct.productName }}</h2>
         <p><strong >Order ID:</strong> {{ selectedProduct.orderId }}</p>
         <p><strong>User Name:</strong> {{ selectedProduct.userName }}</p>

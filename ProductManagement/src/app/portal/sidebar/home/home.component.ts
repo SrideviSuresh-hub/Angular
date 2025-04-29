@@ -52,7 +52,8 @@ export class HomeComponent {
                     state: user.states || '',
                     country: user.country || '',
                     pinCode: user.zipCode || '',
-                    orderDate: order.orderDate,
+                    orderDate: order.orderDate|| '',
+                    deliveryDate:order.deliveryDate,
                     deliveryStatus: product.deliveryStatus || 'Pending',
                     productName: product.name,
                     productImage: product.image,
@@ -83,21 +84,30 @@ export class HomeComponent {
 
   //  Updates product delivery status
   markProductAsDelivered(orderId: string, userId: string, productIndex: number) {
-    this.orderService.updateDeliveryStatus(orderId, userId, productIndex, "Delivered").subscribe({
+    const currentDateTime = new Date().toISOString(); 
+    this.orderService.updateDeliveryStatus(orderId, userId, productIndex, "Delivered",currentDateTime).subscribe({
       next: () => {
         this.updateOrderStatus(orderId, userId);
-      }
+        this.orders.forEach(order => {
+          if (order.orderId === orderId && order.userId === userId && order.productIndex === productIndex) {
+            order.deliveryDate = currentDateTime; 
+          }
+      })
+    }
     });
   }
 
   // Checks if all products in an order are delivered
   updateOrderStatus(orderId: string, userId: string) {
+    const currentDateTime = new Date().toISOString();
     this.orderService.getOrderProducts(orderId).subscribe({
       next: (products) => {
         if (!Array.isArray(products)) return;
         let allDelivered = products.every(p => p.deliveryStatus === "Delivered");
         let newStatus = allDelivered ? "Delivered" : "Pending";
-        this.orderService.updateOrderStatus(orderId, userId, newStatus).subscribe();
+
+       let deliveryDate = allDelivered ? currentDateTime : null; 
+        this.orderService.updateOrderStatus(orderId, userId, newStatus,deliveryDate).subscribe();
       }
     });
   }

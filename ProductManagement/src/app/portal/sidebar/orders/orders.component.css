@@ -74,6 +74,7 @@ margin-bottom: 30px;
   height: 280px;
   object-fit: cover;
   margin-right: 15px;
+  margin-bottom: 10px;
 }
 
 .product-info {
@@ -208,11 +209,15 @@ tr:hover .actions i {
 }
 
 .error-icon {
-  font-size: 5rem;
+  font-size: 4.62rem;
   background-color: rgba(214, 66, 66, 0.5);
   border-radius: 50%;
   color: white;
   margin-top: -7px;
+}
+
+:host ::ng-deep .p-toast {
+  font-family: 'Montserrat' !important;
 }
 
 .custom-cancel-btn {

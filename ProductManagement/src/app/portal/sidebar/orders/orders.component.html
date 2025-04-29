@@ -23,18 +23,28 @@
     <p-table *ngIf="!isLoading" [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="8">
         <ng-template #header>
             <tr>
-                <th>Order ID</th>
-                <th>Product Count</th>
-                <th>Order Date Time</th>
-                <th>Delivery Status</th>
-                <th> </th>
+                <th pSortableColumn="orderId">
+                    Order ID <p-sortIcon field="orderId"></p-sortIcon>
+                </th>
+                <th pSortableColumn="products.length">
+                    Product Count <p-sortIcon field="products.length"></p-sortIcon>
+                </th>
+                <th pSortableColumn="orderDate">
+                    Order Date Time <p-sortIcon field="orderDate">
+
+                    </p-sortIcon></th>
+                <th pSortableColumn="deliveryStatus">
+                    Delivery Status <p-sortIcon field="deliveryStatus">
+                    </p-sortIcon>
+                </th>
+                <th></th>
             </tr>
         </ng-template>
         <ng-template #body let-order>
             <tr>
                 <td>{{ order.orderId }}</td>
                 <td>{{ order.products?.length||0}}</td>
-                <td>{{ order.orderDate | date:'medium'}}</td>
+                <td>{{ order.orderDate | date:'dd/MM/yyyy-hh:mm a'}}</td>
                 <td>
                     <p-tag [value]="order.deliveryStatus" [severity]="getSeverity(order.deliveryStatus)" />
                 </td>
@@ -44,6 +54,7 @@
                 </td>
             </tr>
         </ng-template>
+
     </p-table>
 
 </div>
@@ -53,7 +64,10 @@
             <div class="order-details">
                 <img [src]="product.image">
                 <div class="product-info">
-                    <p style="color: rgba(20, 21, 105, 1);">Delivered on {{ selectedOrder.orderDate | date:'shortDate'}}
+                    <p style="color: rgba(20, 21, 105, 1);">Ordered on {{ selectedOrder.orderDate |
+                        date:'ddd/MM/yyyy-hh:mm a'}}
+                    <p *ngIf="selectedOrder.deliveryDate" style="color: rgba(20, 21, 105, 1);">Delivered on {{
+                        selectedOrder.deliveryDate | date:'dd/MM/yyyy-hh:mm a'}}
                     </p>
                     <h3>{{product.name}}</h3>
                     <p>Quantity: {{ product.quantity }}</p>

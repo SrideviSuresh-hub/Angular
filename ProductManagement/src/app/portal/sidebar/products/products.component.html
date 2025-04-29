@@ -55,8 +55,7 @@
             <div> <i class="fa-solid fa-folder-open"></i><br>
               <span class="upload-icon">
                 Drag & Drop here <br>or</span>
-            </div>
-
+            </div>`
             <button pButton label="Browse File" class="p-button-browse" (click)="fileInput.click()"></button>
           </div>
         </div>
@@ -65,7 +64,7 @@
     </div>
     <div class="dialog-field">
       <label for="productName">Product Name *</label>
-      <input id="productName" type="text" [(ngModel)]="newProduct.name" />
+      <input id="productName" type="text" pattern="^[a-zA-Z0-9]+$" [(ngModel)]="newProduct.name"  required/>
     </div>
     <div class="dialog-field">
       <label for="productDesc">Description</label>

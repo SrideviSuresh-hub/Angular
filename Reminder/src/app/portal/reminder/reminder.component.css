@@ -200,7 +200,7 @@ label {
 :host ::ng-deep .p-dialog-header {
     font-family: 'Poppins' !important;
     font-style: normal !important;
-    font-weight: 700 !important; 
+    font-weight: 700 !important;
     font-size: 15px !important;
     line-height: 22px !important;
 }
@@ -214,13 +214,14 @@ label {
 }
 
 :host ::ng-deep .p-dialog-footer .p-button-text {
-    color: #333333 !important ;
+    color: #333333 !important;
     text-align: center;
 }
 
-:host ::ng-deep body.dark-mode.p-button{
+:host ::ng-deep body.dark-mode.p-button {
     color: white !important;
 }
+
 :host ::ng-deep .remadd .p-dialog-content {
     overflow-y: hidden;
     padding: 25px;
@@ -488,6 +489,7 @@ body.dark-mode.card {
 :host ::ng-deep .p-dialog {
     margin-top: -210px !important;
     border: none !important;
+    max-height: 600px;
 }
 
 :host ::ng-deep .p-paginator {
@@ -500,7 +502,8 @@ body.dark-mode.card {
     align-items: center;
     gap: 0 !important;
 }
-:host ::ng-deep .popup .p-dialog{
+
+:host ::ng-deep .popup .p-dialog {
     width: 70vw !important;
     max-width: 700px !important;
     height: auto !important;
@@ -629,7 +632,7 @@ body.dark-mode.card {
     width: 600px;
 }
 
- .header h3 {
+.header h3 {
     height: 30px;
     font-family: 'Poppins';
     font-style: normal;
@@ -638,7 +641,7 @@ body.dark-mode.card {
     line-height: 30px;
 }
 
- .header h6 {
+.header h6 {
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 400;
@@ -664,12 +667,13 @@ li h4 {
     font-weight: 700;
     font-size: 13px;
     line-height: 20px;
-    color: #000000 ;
+    color: #000000;
 }
 
-:host ::ng-deep body.dark-mode li h4{
+:host ::ng-deep body.dark-mode li h4 {
     color: white !important;
 }
+
 li:hover {
     background: #F1F1F1;
 }

@@ -51,7 +51,7 @@ export class ProductsComponent {
 
   // Filters products
   searchProducts() {
-    const search = this.searchText.toLowerCase();
+    const search = this.searchText.trim().toLowerCase();
     this.filteredProducts = this.products.filter((p) =>
       p.name.toLowerCase().includes(search));
   }
@@ -78,7 +78,7 @@ export class ProductsComponent {
       this.cartService.removeFromCart(product);
     }
   }
-
+  
   // Deletes a product
   deleteProduct(id: string) {
     this.prodService.deleteProduct(id).subscribe(() => {
@@ -89,7 +89,16 @@ export class ProductsComponent {
 
   // Adds new product
   addNewProduct(): void {
-    if (this.newProduct.name && this.selectedImageFile) {
+    const alphanumericPattern = /^[a-zA-Z0-9]+$/;
+      if (!this.selectedImageFile) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'image is required!' });
+        return;
+      }
+      if (!this.newProduct.name || !alphanumericPattern.test(this.newProduct.name)) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Product name must be alphanumeric (no spaces or special characters)!' });
+        return;
+      }
+    // if (this.newProduct.name && this.selectedImageFile) {
       const reader = new FileReader();
       reader.onload = () => {
         this.newProduct.image = reader.result as string;
@@ -108,15 +117,9 @@ export class ProductsComponent {
         });
       };
       reader.readAsDataURL(this.selectedImageFile);
-    }
-    else {
-      if (!this.newProduct.name) {
-        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Product name is required!' });
-      }
-      if (!this.selectedImageFile) {
-        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'image is required!' });
-      }
-    }
+    // }
+      
+    
   }
 
   // Fetches total ordered count

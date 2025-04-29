@@ -142,30 +142,34 @@ export class SignupComponent {
   // Validates form, checks duplicate usernames, and submits signup data
   onSignup(form: NgForm) {
     let hasError = false;
-
     if (!this.username) {
       this.showToast('warn', 'Missing Field', 'Username is required.');
       hasError = true;
+    } else if (!/^[a-zA-Z0-9]+$/.test(this.username)) {
+      this.showToast('warn', 'Invalid Username', 'Username must be alphanumeric.');
+      hasError = true;
     }
-
     if (!this.firstName) {
       this.showToast('warn', 'Missing Field', 'First Name is required.');
+      hasError = true;
+    } else if (!/^[a-zA-Z0-9]+$/.test(this.firstName)) {
+      this.showToast('warn', 'Invalid First Name', 'First Name must be alphanumeric.');
       hasError = true;
     }
 
     if (!this.emailAddress) {
       this.showToast('warn', 'Missing Field', 'Email is required.');
       hasError = true;
-    } else {
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (!emailRegex.test(this.emailAddress)) {
-        this.showToast('warn', 'Invalid Email', 'Please enter a valid email address.');
-        hasError = true;
-      }
+    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.emailAddress)) {
+      this.showToast('warn', 'Invalid Email', 'Enter a valid email address.');
+      hasError = true;
     }
 
     if (!this.phone) {
       this.showToast('warn', 'Missing Field', 'Phone Number is required.');
+      hasError = true;
+    } else if (!/^\d{10}$/.test(this.phone.toString())) {
+      this.showToast('warn', 'Invalid Mobile Number', 'Enter a 10-digit phone number.');
       hasError = true;
     }
 

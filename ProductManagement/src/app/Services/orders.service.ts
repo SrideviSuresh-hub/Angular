@@ -50,11 +50,12 @@ export class OrdersService {
     }
 
     // Updates order status
-    updateOrderStatus(orderId: string, userId: string, newStatus: string) {
+    updateOrderStatus(orderId: string, userId: string, newStatus: string,deliveryDate:Date|string) {
+        const currentDateTime = new Date().toISOString(); 
         const url = `${this.baseUrluser}/${userId}/orders/${orderId}.json`;
-        return this.http.patch(url, { status: newStatus }).pipe(
-            switchMap(() => this.userService.getTotalOrderProductCount(userId)), // ✅ Call UsersService to get count
-            switchMap((totalCount) => this.userService.updateUserProductCount(userId, totalCount)) // ✅ Store count
+        return this.http.patch(url, { status: newStatus ,deliveryDate:currentDateTime}).pipe(
+            switchMap(() => this.userService.getTotalOrderProductCount(userId)),
+            switchMap((totalCount) => this.userService.updateUserProductCount(userId, totalCount)) 
         );
     }
 
@@ -75,9 +76,12 @@ export class OrdersService {
     }
 
     // Updates delivery status
-    updateDeliveryStatus(keyId: string, userId: string, prodIndex: number, status: string): Observable<any> {
+    updateDeliveryStatus(keyId: string, userId: string, prodIndex: number, status: string, deliveryDate: string | Date): Observable<any> {
         const prodPath = `${this.baseUrluser}/${userId}/orders/${keyId}/products/${prodIndex}.json`;
-        return this.http.patch(prodPath, { deliveryStatus: status }).pipe();
+        return this.http.patch(prodPath, { 
+            deliveryStatus: status,
+            deliveryDate: status === "Delivered" ? deliveryDate : null 
+             });
     }
 
 }

@@ -12,10 +12,10 @@
     <ng-template pTemplate="header">
       <tr>
         <th>User Image</th>
-        <th>Username</th>
-        <th>Age</th>
-        <th>Country</th>
-        <th>Product Count</th>
+            <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
+            <th pSortableColumn="age">Age <p-sortIcon field="age"></p-sortIcon></th>
+            <th pSortableColumn="country">Country <p-sortIcon field="country"></p-sortIcon></th>
+            <th pSortableColumn="productCount">Product Count <p-sortIcon field="productCount"></p-sortIcon></th>
         <th></th>
         <th></th>
       </tr>
@@ -70,19 +70,19 @@
           <div class="column input-box">
             <label>Username *</label>
             <input type="text" [(ngModel)]="selectedUser.username" name="username" [disabled]="isEditing"
-              pattern="^[a-zA-Z0-9]*" maxlength="20" required />
+              pattern="^[a-zA-Z0-9]+$" maxlength="20" required />
           </div>
 
           <div class="flex">
             <div class="input-box">
               <label>First Name *</label>
-              <input type="text" pattern="^[a-zA-Z0-9]*" maxlength="30" inputStyleClass="w-full" styleClass="w-full"
+              <input type="text" pattern="^[a-zA-Z0-9]+$" maxlength="30" inputStyleClass="w-full" styleClass="w-full"
                 [(ngModel)]="selectedUser.firstName" name="firstName" required />
             </div>
 
             <div class="input-box">
               <label>Last Name</label>
-              <input type="text" pattern="^[a-zA-Z0-9]*" maxlength="30" inputStyleClass="w-full" styleClass="w-full"
+              <input type="text" pattern="^[a-zA-Z0-9]+$" maxlength="30" inputStyleClass="w-full" styleClass="w-full"
                 [(ngModel)]="selectedUser.lastName" name="lastName" />
             </div>
           </div>
@@ -104,7 +104,7 @@
 
           <div class="input-box">
             <label>Email *</label>
-            <input type="email" [(ngModel)]="selectedUser.email" name="email" maxlength="100" required />
+            <input type="email" [(ngModel)]="selectedUser.email" name="email" maxlength="100" required email />
           </div>
         </div>
       </div>
@@ -113,13 +113,13 @@
         <div>
           <div class="input-box">
             <label>Address Line 1 *</label>
-            <textarea pInputTextarea class="no-resize" type="text" name="street2" maxlength="100"
+            <textarea pInputTextarea class="no-resize" type="text" name="address1" maxlength="100"
               [(ngModel)]="selectedUser.address1" required></textarea>
           </div>
 
           <div class="input-box">
             <label>Address Line 2</label>
-            <textarea pInputTextarea class="no-resize" type="text" name="street2" maxlength="100"
+            <textarea pInputTextarea class="no-resize" type="text" name="address2" maxlength="100"
               [(ngModel)]="selectedUser.address2"></textarea>
           </div>
         </div>
@@ -163,7 +163,6 @@
           </div>
         </div>
 
-        <!-- <div class="flex"> -->
           <div class="input-box">
             <label>Mobile *</label>
             <p-inputgroup>
@@ -174,13 +173,6 @@
                 maxlength="10" />
             </p-inputgroup>
           </div>
-
-          <!-- <div class="input-box">
-            <label>Password *</label>
-            <p-password name="password" [(ngModel)]="selectedUser.password" [toggleMask]="true" id="password" required
-              [feedback]="false" [disabled]="isEditing"></p-password>
-          </div> -->
-        <!-- </div> -->
 
         <div class="actionsdialog">
           <button type="button" class="p-button-secondary-ss" pButton label="Cancel"

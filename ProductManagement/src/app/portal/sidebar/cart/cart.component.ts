@@ -15,10 +15,11 @@ export class CartComponent {
   router: Router = inject(Router);
   cartItems: OrderProducts[] = [];
   searchText: string = '';
+  tempSearchQuery:string='';
   isLoading: boolean = false;
   productService: ProductService = inject(ProductService)
   messageService: MessageService = inject(MessageService);
-  
+
   ngOnInit() {
     this.loadCart();
     localStorage.setItem('curPath', 'portal/cart')
@@ -38,15 +39,16 @@ export class CartComponent {
   showToast(severity: string, summary: string, detail: string) {
     this.messageService.add({ severity, summary, detail });
   }
+  applySearch() {
+    this.searchText = this.tempSearchQuery.trim().toLowerCase();
+  }
 
   // Filters cart items
   getFilteredCartItems() {
-    if (!this.searchText.trim()) {
-      return this.cartItems;
-    }
-    return this.cartItems.filter((item) =>
-      item.name.toLowerCase().includes(this.searchText.toLowerCase())
-    );
+    const search = this.searchText.trim().toLowerCase();
+    return search
+      ? this.cartItems.filter(item => item.name.toLowerCase().includes(search))
+      : this.cartItems;
   }
 
   // Increases product quantity
@@ -54,29 +56,28 @@ export class CartComponent {
     product.quantity++;
     this.cartService.addToCart(product);
     this.productService.updateProduct(product.id, product).subscribe(() => {
-      setTimeout(() => this.loadCart(), 100);
     });
   }
 
   // Decreases product quantity
   decrementQuantity(product: OrderProducts) {
-    if (product.quantity > 0) {
+    if (product.quantity > 1) {
       product.quantity--;
       this.cartService.removeFromCart(product);
       this.productService.updateProduct(product.id, product).subscribe(() => {
-        setTimeout(() => this.loadCart(), 100);
       });
     } else {
-      this.removeItem(product);
+      this.removeFromCart(product);
+
     }
   }
 
-  // Clears item from cart
-  removeItem(product: OrderProducts) {
+  // Deletes a product from cart
+  removeFromCart(product) {
+    this.cartItems = this.cartItems.filter(item => item.id !== product.id);
     product.quantity = 0;
-    this.cartService.removeFromCart(product);
-    this.productService.updateProduct(product.id, product).subscribe(() => {
-      setTimeout(() => this.loadCart(), 200);
+    this.productService.updateProduct(product.id, product).subscribe();
+    this.cartService.updateCart(this.cartItems).subscribe(() => {
     })
   }
 
@@ -99,12 +100,5 @@ export class CartComponent {
     }
   }
 
-  // Deletes a product from cart
-  removeFromCart(product) {
-    this.cartItems = this.cartItems.filter(item => item.id !== product.id);
-    product.quantity = 0;
-    this.productService.updateProduct(product.id, product).subscribe();
-    this.cartService.updateCart(this.cartItems).subscribe(() => {
-    })
-  }
+
 }

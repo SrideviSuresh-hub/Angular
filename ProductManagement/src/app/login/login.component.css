@@ -136,7 +136,9 @@ p-dialog input {
     margin-top: 25px;
     margin-bottom: 0;
 }
-
+:host ::ng-deep .p-toast {
+    font-family: 'Montserrat' !important;
+  }
 .field>label {
     margin-bottom: 10px;
 }

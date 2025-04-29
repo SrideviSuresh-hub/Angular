@@ -523,7 +523,7 @@ display: flex;
   padding: 0 !important;
 }
 .error-icon {
-  font-size: 5rem;
+  font-size: 4.62rem;
   background-color: rgba(214, 66, 66, 0.5);
   border-radius: 50%;
   color: white;
@@ -552,6 +552,9 @@ display: flex;
   height: 34px;
 }
 
+:host ::ng-deep .p-toast {
+  font-family: 'Montserrat' !important;
+}
 :host ::ng-deep .p-inputtext:disabled {
   background-color: #e2e8f0 !important;
 }

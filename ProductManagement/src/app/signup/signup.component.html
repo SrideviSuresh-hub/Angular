@@ -35,13 +35,13 @@
                     </div>
                     <div class="input-box">
                         <label>User Name *</label>
-                        <input type="text" name="username" pattern="^[a-zA-Z0-9]*" maxlength="20" [(ngModel)]="username"
+                        <input type="text" name="username" pattern="^[a-zA-Z0-9]+$" maxlength="20" [(ngModel)]="username"
                             required />
                     </div>
                     <div class="column">
                         <div class="input-box">
                             <label>First Name *</label>
-                            <input type="text" name="firstname" pattern="^[a-zA-Z0-9]*" [(ngModel)]="firstName"
+                            <input type="text" name="firstname" pattern="^[a-zA-Z0-9]+$" [(ngModel)]="firstName"
                                 maxlength="30" required />
                             <div>
                             </div>
@@ -49,7 +49,7 @@
 
                         <div class="input-box">
                             <label>Last Name</label>
-                            <input type="text" name="lastname" pattern="^[a-zA-Z0-9]*" [(ngModel)]="lastName"
+                            <input type="text" name="lastname" pattern="^[a-zA-Z0-9]+$" [(ngModel)]="lastName"
                                 maxlength="30" />
                             <div>
                             </div>

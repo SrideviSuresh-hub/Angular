@@ -40,7 +40,7 @@ export class OrdersComponent implements OnInit {
     this.ordersService.getOrders().subscribe({
       next: (data) => {
         if (data) {
-          this.orders = data;
+          this.orders = data ? data : [];
           this.fetchUsersAndProducts(0);
         }
         else {

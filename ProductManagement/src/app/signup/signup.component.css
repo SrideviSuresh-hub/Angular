@@ -178,6 +178,9 @@ body {
   color: #000000 !important;
   height: 50px;
 }
+:host ::ng-deep .p-toast {
+  font-family: 'Montserrat' !important;
+}
 
 :host ::ng-deep .p-datepicker {
   display: flex !important;

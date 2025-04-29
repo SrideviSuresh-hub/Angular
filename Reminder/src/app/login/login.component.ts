@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../Services/auth.service';
 import { NgForm } from '@angular/forms';
+import { NotificationService } from '../Services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent {
   userService: UserService = inject(UserService);
   msgService: MessageService = inject(MessageService)
   authService: AuthService = inject(AuthService);
-
+  notificationService:NotificationService=inject(NotificationService);
 // Loads order and product data
   ngOnInit() {
     if (Boolean(localStorage.getItem('isLoggedIn'))) {
@@ -45,6 +46,8 @@ export class LoginComponent {
             if (user.isAdmin) {
               this.router.navigate(['/portal/home']);
             } else {
+              this.notificationService.loadPopupReminders(user.id); 
+              this.notificationService.trackNextReminder(user.id);
               this.router.navigate(['/portal/userhome']);
             }
           }, 100)

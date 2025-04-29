@@ -4,7 +4,7 @@ export interface User{
     fname:string;
     lname:string;
     gender:string;
-    dob:string|Date;
+    dob:string|Date|null;
     email:string;
     mobile:number;
     address1:string;

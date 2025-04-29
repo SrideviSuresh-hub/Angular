@@ -201,7 +201,7 @@ export class UsersComponent {
       return;
     }
     if (user) {
-      this.newUser = { ...user, dob: new Date(user.dob) };
+      this.newUser = { ...user, dob:user.dob?new Date(user.dob):null };
       this.states = this.getStatesByCountry(user.country);
     } else {
       this.newUser = {
@@ -411,6 +411,7 @@ export class UsersComponent {
       this.visible = false;
     }
     else if (this.mode === 'edit') {
+      this.newUser = this.users.find(user => user.username === this.newUser.username) || this.newUser;
       this.mode = 'view';
     }
   }

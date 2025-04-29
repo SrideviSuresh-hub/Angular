@@ -118,9 +118,9 @@
         </p-datepicker>
       </div>
       <div class="input-box">
-        <label>Email ID</label>
+        <label>Email ID *</label>
         <input pInputText name="email" [(ngModel)]="newUser.email" type="email" maxlength="100"
-          [disabled]="mode==='view'" email />
+          [disabled]="mode==='view'"  required  email/>
       </div>
 
       <div class="input-box">

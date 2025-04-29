@@ -57,7 +57,7 @@ export class UsersComponent implements OnInit {
   // load Users
   ngOnInit(): void {
     this.loadUsers();
-    localStorage.setItem('curPath','portal/users')
+    localStorage.setItem('curPath', 'portal/users')
   }
 
   // Fetches user data
@@ -112,8 +112,8 @@ export class UsersComponent implements OnInit {
     this.selectedUser.timezone = this.timezones.includes(user.timezone) ? user.timezone : "";
     this.selectedUser.locale = this.locales.includes(user.locale) ? user.locale : "";
     this.isEditing = true;
-    this.imageUrl = user.image || 'assets/images/defaultAvatar.png';
-    this.displayDialog = true;
+    this.imageUrl = user.image ? user.image : 'assets/images/defaultAvatar.png';
+        this.displayDialog = true;
   }
 
   //Opens file selection
@@ -137,9 +137,8 @@ export class UsersComponent implements OnInit {
   removeAvatar(event: Event) {
     event.stopPropagation();
     event.preventDefault();
-    if (this.imageUrl !== "assets/images/defaultAvatar.png") {
-      this.imageUrl = "assets/images/defaultAvatar.png";
-    }
+     this.imageUrl = 'assets/images/defaultAvatar.png';
+     this.selectedUser!.image = '';
     const fileInput = document.getElementById("fileInput") as HTMLInputElement;
     if (fileInput) {
       fileInput.value = "";
@@ -157,31 +156,51 @@ export class UsersComponent implements OnInit {
   // Validates user form
   onSave(form: NgForm): void {
     if (form.invalid) {
+      let hasError = false;
       if (!this.selectedUser?.username) {
         this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Username is required!' });
+        hasError = true;
+      } else if (!/^[a-zA-Z0-9]+$/.test(this.selectedUser.username)) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Username must be alphanumeric!' });
+        hasError = true;
       }
+
       if (!this.selectedUser?.firstName) {
         this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'First Name is required!' });
+        hasError = true;
+      } else if (!/^[a-zA-Z0-9]+$/.test(this.selectedUser.firstName)) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'First Name must be alphanumeric!' });
+        hasError = true;
       }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
       if (!this.selectedUser?.email) {
         this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Email is required!' });
+        hasError = true;
+      } else if (!emailRegex.test(this.selectedUser.email)) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Enter a valid email address!' });
+        hasError = true;
       }
-      else {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(this.selectedUser?.email)) {
-          this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Email is not valid!' });
-        }
-      }
+      
       if (!this.selectedUser?.mobile || this.selectedUser.mobile.length !== 10) {
         this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Mobile number is required and must be exactly 10digit number!' });
+        hasError = true;
+      }else if (!/^\d{10}$/.test(this.selectedUser.mobile)) {
+        this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Enter a valid 10-digit mobile number!' });
+        hasError = true;
       }
+
       if (!this.selectedUser?.address1) {
         this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Address line1  is required!' });
+        hasError = true;
       }
       if (!this.selectedUser?.password) {
         this.msgService.add({ severity: 'error', summary: 'Validation Error', detail: 'Password is required!' });
+        hasError = true;
       }
-      return;
+      if (hasError) {
+        return;
+      }
     }
     if (this.file) {
       setTimeout(() => {
@@ -274,7 +293,7 @@ export class UsersComponent implements OnInit {
       locale: '',
       isAdmin: false,
       password: '12345',
-      image:'',
+      image: '',
       isFirstLogin: true
     };
   }
