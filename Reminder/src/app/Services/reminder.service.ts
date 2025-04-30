@@ -12,10 +12,10 @@ export class ReminderService {
     private popupCountSubject = new BehaviorSubject<number>(0);
     popupReminderCount = this.popupCountSubject.asObservable();
 
-    // Updates the number of active popup reminders.
-    updatePopupCount(count: number) {
-        this.popupCountSubject.next(count);
-    }
+    // // Updates the number of active popup reminders.
+    // updatePopupCount(count: number) {
+    //     this.popupCountSubject.next(count);
+    // }
 
     // Saves a new reminder
     addReminder(reminder: Reminder): Observable<Reminder> {
@@ -38,7 +38,13 @@ export class ReminderService {
     }
 
     // Retrieves reminders specific to a user
-    getReminderbyuserId(userId: string | Date | number | undefined): Observable<Reminder[]> {
-        return this.http.get<Reminder[]>(`${this.url}?userId=${userId}`);
-    }
+    getReminderbyuserId(userId: number|string |Date) {
+        return this.http.get<Reminder[]>(`${this.url}`).pipe(
+          map(reminders => reminders.filter(reminder => reminder.userId === userId))
+        );
+      }
+      
+    // getReminderbyuserId(userId: string | Date | number | undefined): Observable<Reminder[]> {
+    //     return this.http.get<Reminder[]>(`${this.url}?userId=${userId}`);
+    // }
 }

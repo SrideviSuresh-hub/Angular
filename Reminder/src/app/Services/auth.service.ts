@@ -41,9 +41,9 @@ export class AuthService {
     }
 
     // Retrieves current user
-    public getcurUser(): User | null {
+    public getcurUser(): User {
         const userString = localStorage.getItem('curUser');
-        const user = userString ? JSON.parse(userString) : null;
+        const user = userString ? JSON.parse(userString) : '';
         return user;
     }
 

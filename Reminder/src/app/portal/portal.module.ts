@@ -32,6 +32,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { PaginatorModule } from 'primeng/paginator';
+
 @NgModule({
     declarations: [
         HeaderComponent,

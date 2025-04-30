@@ -1,4 +1,4 @@
-import { inject, Injectable } from "@angular/core";
+import { ChangeDetectorRef, inject, Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { Reminder } from "../Models/reminder";
 import { ReminderService } from "./reminder.service";
@@ -22,17 +22,32 @@ export class NotificationService {
   }
 
   // Load unread reminders & trigger popup visibility
+  // loadPopupReminders(userId: string | number | undefined | Date) {
+  //   if (!userId) return;
+  //   this.reminderService.getReminderbyuserId(userId).subscribe(reminders => {
+  //     const filteredReminders = reminders.filter(rem => rem.userId === userId &&!rem.dismissed);
+
+  //     const updatedReminders = filteredReminders.map(reminder => this.updateReminderStatus(reminder));
+  //     updatedReminders.forEach(reminder => {
+  //       this.reminderService.updateReminder(reminder).subscribe(()=>{
+  //       this.unreadReminders.next(updatedReminders.filter(rem => !rem.dismissed && new Date(rem.reminderdt) <= new Date()));
+  //       this.popupVisible.next(this.unreadReminders.value.length > 0);
+  //     });
+  //   })
+  //   });
+  // } 
+ 
+
   loadPopupReminders(userId: string | number | undefined | Date) {
     if (!userId) return;
+    console.log("loadpopup",userId);
     this.reminderService.getReminderbyuserId(userId).subscribe(reminders => {
-      const updatedReminders = reminders.map(reminder => this.updateReminderStatus(reminder));
-      updatedReminders.forEach(reminder => {
-        this.reminderService.updateReminder(reminder).subscribe();
-      });
-      this.unreadReminders.next(updatedReminders.filter(rem => !rem.dismissed && new Date(rem.reminderdt) <= new Date()));
+      const filteredReminders = reminders.filter(rem => !rem.dismissed);
+      this.unreadReminders.next(filteredReminders.filter(rem => new Date(rem.reminderdt) <= new Date()));
       this.popupVisible.next(this.unreadReminders.value.length > 0);
     });
   }
+
 
   //tracking upcomming reminder to show in popup 
   trackNextReminder(userId: number | undefined | Date | string) {
@@ -40,22 +55,30 @@ export class NotificationService {
     this.reminderService.getReminderbyuserId(userId).subscribe(reminders => {
       const now = new Date();
       const upcomingReminder = reminders
-        .filter(r => !r.dismissed && new Date(r.reminderdt) > now)
+        .filter(r => r.userId === userId && !r.dismissed && new Date(r.reminderdt) > now)
         .sort((a, b) => new Date(a.reminderdt).getTime() - new Date(b.reminderdt).getTime())[0];
+
       if (upcomingReminder) {
+        const alreadyExists = this.unreadReminders.value.some(r => r.id === upcomingReminder.id);
+        if (alreadyExists) return;
         const timeUntilReminder = new Date(upcomingReminder.reminderdt).getTime() - now.getTime();
+
         setTimeout(() => {
           this.loadPopupReminders(userId);
           const updatedReminder = { ...upcomingReminder, status: 'Unread' };
-        this.reminderService.updateReminder(updatedReminder).subscribe(()=>
-        {
-          const updatedReminders = [...this.unreadReminders.value, upcomingReminder];
-          this.unreadReminders.next(updatedReminders);
-        })
-      }, timeUntilReminder);
+          console.log('Showing unread reminder')
+          this.reminderService.updateReminder(updatedReminder).subscribe(() => {
+            this.unreadReminders.next([...this.unreadReminders.value, updatedReminder]);
+            // if (this.cdRef) {
+            //   this.cdRef.detectChanges();
+            // }
+          });
+          clearInterval(timeUntilReminder)
+        }, timeUntilReminder);
       }
     });
   }
+
 
   // Updates reminder status dynamically based on time
   updateReminderStatus(reminder: Reminder): Reminder {
@@ -70,6 +93,7 @@ export class NotificationService {
     return { ...reminder, status: updatedStatus };
   }
 
+
   // Dismiss a single reminder globally
   dismissReminder(reminder: Reminder) {
     const updatedReminder = this.updateReminderStatus({ ...reminder, dismissed: true });
@@ -80,16 +104,16 @@ export class NotificationService {
   }
 
 
- // Dismiss all reminders globally
+  // Dismiss all reminders globally
   dismissAllReminders(userId: string | Date | number | undefined) {
     if (!userId) return;
     const updatedReminders = this.unreadReminders.value.map(reminder => ({
       ...reminder,
       dismissed: true,
-      status:'Inactive'
+      status: 'Inactive'
     }));
     updatedReminders.forEach(reminder => {
-      this.reminderService.updateReminder(reminder).subscribe(()=>{
+      this.reminderService.updateReminder(reminder).subscribe(() => {
         this.refreshReminders(userId);
       });
     });

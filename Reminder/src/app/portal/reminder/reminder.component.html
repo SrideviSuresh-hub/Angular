@@ -87,7 +87,7 @@
                 <label for="datetime">Date Time *</label>
 
                 <p-datepicker [iconDisplay]="'input'" [showIcon]="true" name="reminderdt" inputId="calendar-24h"
-                    [hourFormat]="'24'" [showTime]="true" [(ngModel)]="newReminder.reminderdt"
+                    [hourFormat]="'24'" [showTime]="true" [minDate]="minDate" [(ngModel)]="newReminder.reminderdt"
                     [disabled]="mode === 'view'" appendTo="body" required>
                     <ng-template let-clickCallBack="clickCallBack">
                         <i class="fa-solid fa-calendar-days" (click)="clickCallBack($event)"></i>

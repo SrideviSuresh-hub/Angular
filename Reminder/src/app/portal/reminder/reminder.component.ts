@@ -4,7 +4,8 @@ import { ReminderService } from '../../Services/reminder.service';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../Services/auth.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { NotificationService } from '../../Services/notification.service';
+import { SampleService } from '../../Services/sample.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-reminder',
@@ -13,8 +14,8 @@ import { NotificationService } from '../../Services/notification.service';
   styleUrl: './reminder.component.css'
 })
 export class ReminderComponent implements OnInit {
-  visible: boolean = false;
-  visibleRemPopup:boolean=false;
+  visible: boolean = true;
+  visibleRemPopup: boolean = false;
   mode: 'view' | 'edit' | 'add' = 'view';
   first = 0;
   rows = 10;
@@ -22,32 +23,46 @@ export class ReminderComponent implements OnInit {
   curPageInput: number = 1;
   paginatorMargin: number = 0;
   maxPage: number = Math.ceil(this.totalRecords / this.rows);
-  cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   reminderService: ReminderService = inject(ReminderService);
   authService: AuthService = inject(AuthService);
+  sampleService: SampleService = inject(SampleService);
   messageService: MessageService = inject(MessageService);
+  cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   confirmationService: ConfirmationService = inject(ConfirmationService);
-  notificationService:NotificationService=inject(NotificationService);
   @ViewChild('titleInput') titleInput!: ElementRef;
   @ViewChild('dt') tableRef!: ElementRef;
-   user = this.authService.getcurUser();
-   isPopupManuallyClosed: boolean = false; 
-   
+  user = this.authService.getcurUser();
+  newReminder: Reminder = {
+    title: '',
+    detail: '',
+    reminderdt: '',
+    dismissed: false,
+    status: 'Active',
+    createdatetime: new Date().toISOString(),
+    userId: 0
+  }
+  userId!: number | string;
+  reminders: Reminder[] = [];
+  popupReminders: Reminder[] = [];
+  minDate!: Date;
+
   // loads user reminders
   ngOnInit(): void {
-    localStorage.setItem('curPath', 'portal/reminder')
+    localStorage.setItem('curPath', 'portal/reminder');
     if (this.user) {
       this.userId = this.user.id!;
       this.newReminder.userId = this.user.id!;
       this.loadReminders();
+      this.loadPopupReminders();
     }
-    this.notificationService.popupVisible$.subscribe(visible => {
-      this.visible = visible;
+    this.sampleService.getPopupVisible(this.userId)?.subscribe(visible => {
+      this.visible = visible; 
     });
-    this.loadPopupReminders();
-    setInterval(()=>{
-      this.notificationService.trackNextReminder(this.user?.id);
-    },1000);
+    setInterval(() => {
+      this.sampleService.trackNextReminder(this.userId)
+    }, 1000);
+    const today = new Date();
+    this.minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
   }
 
   // Adjusts paginator position after view initialization.
@@ -70,18 +85,6 @@ export class ReminderComponent implements OnInit {
       document.documentElement.style.setProperty('--paginator-margin', `${marginValue}px`);
     }
   }
-  newReminder: Reminder = {
-    title: '',
-    detail: '',
-    reminderdt: '',
-    dismissed: false,
-    status: 'Active',
-    createdatetime: new Date().toISOString(),
-    userId: 0
-  }
-  userId!: Date | number | string;
-  reminders: Reminder[] = [];
-  popupReminders: Reminder[] = []
 
   // on table page  chnage
   onPageChange(event: any) {
@@ -109,49 +112,59 @@ export class ReminderComponent implements OnInit {
     }
   }
 
+  loadPopupReminders() {
+    if (!this.user?.id) return;
+    this.sampleService.loadPopupReminders(this.userId);
+    this.sampleService.getPopupReminders(this.userId)?.subscribe((reminders) => {
+        this.popupReminders = reminders.filter(r => !r.dismissed);
+    })
+    // const popupVisible$ = this.sampleService.getPopupVisible(this.user.id) ?? new BehaviorSubject<boolean>(false).asObservable();
+    //     popupVisible$.subscribe(isVisible => {
+    //       this.visible = isVisible;
+    //     });
+    // this.cdr.detectChanges(); 
+
+  }
+  dismissReminder(reminder: Reminder) {
+    if (!this.userId) return;
+    this.sampleService.dismissReminder(this.userId, reminder);
+    this.sampleService.getPopupReminders(this.userId)?.subscribe((reminders)=>{
+    //   this.popupReminders = rem.map(r => 
+    //     r.id === reminder.id ? { ...r, status: 'Inactive' } : r
+    // );
+    this.popupReminders = reminders.filter(r => !r.dismissed);
+      this.visible = this.popupReminders.length > 0;
+    })
+  }
+  dismissAllReminders() {
+    if (!this.userId) return;
+    this.sampleService.dismissAllReminders(this.userId);
+    this.sampleService.getPopupReminders(this.userId)?.subscribe(()=>{
+      this.popupReminders = [];
+      this.loadReminders();
+    // this.reminders = this.reminders.map(r => ({
+    //     ...r, status: 'Inactive'
+    // }));
+  })
+    this.visible = false;
+  }
+
   // Fetches reminders
   loadReminders() {
+    if (!this.user?.id) return;
     this.reminderService.getReminderbyuserId(this.userId).subscribe(res => {
+      // this.reminders = res.map(reminder => this.updateStatusAndDismiss(reminder));
       this.reminders = res;
-      this.cdr.detectChanges();
       this.totalRecords = this.reminders.length;
       this.maxPage = Math.ceil(this.totalRecords / this.rows);
     })
   }
 
-  loadPopupReminders() {
-    if (this.isPopupManuallyClosed) return;
-    if (!this.user?.id) return;
-    this.notificationService.loadPopupReminders(this.user.id); 
-    this.notificationService.reminders$.subscribe(reminders => {
-      this.popupReminders = reminders.filter(r => !r.dismissed);
-      // this.visible = this.popupReminders.length > 0;
-      this.cdr.detectChanges(); 
-    });
-  }
-  
   handlePopupClose() {
-    this.isPopupManuallyClosed = true; 
     this.visible = false;
   }
-  
-  dismissReminder(reminder: Reminder) {
-    this.notificationService.dismissReminder(reminder);
-    this.notificationService.reminders$.subscribe(reminders => {
-      this.popupReminders = reminders.filter(r => !r.dismissed);
-      this.visible = this.popupReminders.length > 0;
-    });
-  }
-  
-  dismissAllReminders() {
-    this.notificationService.dismissAllReminders(this.user?.id);
-    this.notificationService.reminders$.subscribe(() => {
-      this.popupReminders = [];
-      this.visible = false;
-      this.loadReminders();
-    });
-  }
-  
+
+
   // Returns severity class
   getSeverity(status: String) {
     switch (status.toLowerCase()) {
@@ -188,7 +201,7 @@ export class ReminderComponent implements OnInit {
   }
 
   // Updates reminder status
-  updateStatusAndDissmiss(reminder: Reminder) {
+  updateStatusAndDismiss(reminder: Reminder) {
     const now = new Date();
     const reminderDate = new Date(reminder.reminderdt);
     if (reminder.dismissed && reminderDate > now) {
@@ -277,7 +290,7 @@ export class ReminderComponent implements OnInit {
         return;
       }
 
-      this.newReminder = this.updateStatusAndDissmiss(this.newReminder);
+      this.newReminder = this.updateStatusAndDismiss(this.newReminder);
       if (this.mode === 'edit') {
         this.newReminder.createdatetime = new Date().toISOString();
         this.reminderService.updateReminder(this.newReminder).subscribe(() => {
@@ -287,6 +300,7 @@ export class ReminderComponent implements OnInit {
             detail: 'Reminder updated successfully'
           });
           this.loadReminders();
+          this.loadPopupReminders();
           this.mode = 'view';
           this.visibleRemPopup = false;
         })
@@ -300,6 +314,7 @@ export class ReminderComponent implements OnInit {
             detail: 'Reminder added successfully'
           });
           this.loadReminders();
+          this.loadPopupReminders();
           this.mode = 'view';
           this.visibleRemPopup = false;
         })
@@ -340,6 +355,4 @@ export class ReminderComponent implements OnInit {
       }
     });
   }
-
-
 }

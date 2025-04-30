@@ -7,4 +7,5 @@ export interface OrderProducts{
     totalCount?:number;
     orderCount?:number;
     deliveryStatus?:string;
+    deliveryDate?: string | Date;
   }

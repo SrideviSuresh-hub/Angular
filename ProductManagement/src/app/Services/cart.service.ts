@@ -99,7 +99,7 @@ export class CartService {
       })),
       productCount: this.cart.length,
       orderDate: new Date().toISOString(),
-      deliveryStatus: 'Shipped',
+      deliveryStatus: 'pending',
     };
     return this.http.post(`${this.baseUrluser}/${this.curUser.id}/orders.json`, orderData).pipe(
       switchMap(() => {

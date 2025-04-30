@@ -53,15 +53,18 @@ export class HomeComponent {
                     country: user.country || '',
                     pinCode: user.zipCode || '',
                     orderDate: order.orderDate|| '',
-                    deliveryDate:order.deliveryDate,
+                    orderdeliveryDate:order.deliveryDate,
+                    deliveryDate:product.deliveryDate,
                     deliveryStatus: product.deliveryStatus || 'Pending',
                     productName: product.name,
                     productImage: product.image,
                     quantity: product.quantity,
                     productIndex: index
                   });
+                  console.log(product.deliveryDate);
                 });
               }
+              
             });
           }
         });
@@ -103,7 +106,10 @@ export class HomeComponent {
     this.orderService.getOrderProducts(orderId).subscribe({
       next: (products) => {
         if (!Array.isArray(products)) return;
-        let allDelivered = products.every(p => p.deliveryStatus === "Delivered");
+        let allDelivered = products.every(p => {
+          p.deliveryStatus === "Delivered",
+          p.deliveryDate === currentDateTime
+      });
         let newStatus = allDelivered ? "Delivered" : "Pending";
 
        let deliveryDate = allDelivered ? currentDateTime : null; 

@@ -13,8 +13,9 @@ export class OrdersService {
     userService: UsersService = inject(UsersService);
 
     // Fetches all orders
-    getOrders(): Observable<any> {
-        return this.http.get<any[]>(`${this.baseUrluser}/${this.curUser.id}/orders.json`)
+    getOrders(id:string|Date|number): Observable<any> {
+        console.log(id);     
+        return this.http.get<any[]>(`${this.baseUrluser}/${id}/orders.json`)
             .pipe(
                 map(orderData => {
                     if (!orderData) return [];
@@ -28,8 +29,8 @@ export class OrdersService {
     }
 
     // Generates order chart data
-    getOrdersChartData(): Observable<any[]> {
-        return this.getOrders().pipe(
+    getOrdersChartData(id): Observable<any[]> {
+        return this.getOrders(id).pipe(
             map(orders => {
                 const weekdayMap: Record<string, number> = {
                     Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0, Sun: 0

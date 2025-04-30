@@ -7,7 +7,8 @@ import { User } from '../../Models/Users';
 import { MessageService } from 'primeng/api';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'chart.js';
-import { NotificationService } from '../../Services/notification.service';
+import { SampleService } from '../../Services/sample.service';
+import { BehaviorSubject } from 'rxjs';
 Chart.register(ChartDataLabels);
 
 
@@ -21,34 +22,35 @@ export class UserhomeComponent implements OnInit {
 
   visible: boolean = false;
   popupReminders: Reminder[] = [];
-  router: Router = inject(Router);
   chartData: any;
   chartOption: any;
   reminders: Reminder[] = [];
-  isPopupManuallyClosed: boolean = false;
-  authService: AuthService = inject(AuthService);
-  cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  reminderService: ReminderService = inject(ReminderService);
-  msgService: MessageService = inject(MessageService);
-  user: User | null = this.authService.getcurUser();
-  notificationService:NotificationService=inject(NotificationService);
-
+  user: User | null;
+  userId!: number | string;
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private sampleService: SampleService,
+    private msgService: MessageService,
+    private reminderService: ReminderService
+  ) {
+    this.user = this.authService.getcurUser();
+  }
   // Loads reminders
   ngOnInit() {
     localStorage.setItem('curPath', 'portal/userhome')
-    this.notificationService.popupVisible$.subscribe(visible => {
-        this.visible = visible;
-    });
-    // this.notificationService.reminders$.subscribe(reminders => {
-    //   this.popupReminders = reminders.filter(r => !r.dismissed && new Date(r.reminderdt) <= new Date());
-    //   // this.visible = this.popupReminders.length > 0; 
-    //   // this.reminderChart()
-    // });
     this.loadReminders();
-    this.loadPopupReminders();
-    setInterval(()=>{
-      this.notificationService.trackNextReminder(this.user?.id);
-    },1000);
+    if (this.user) {
+      this.userId = this.user.id!;
+      this.loadPopupReminders();
+    }
+      this.sampleService.getPopupVisible(this.userId)?.subscribe(visible => {
+        this.visible = visible; 
+      });
+    
+      setInterval(() => {
+        this.sampleService.trackNextReminder(this.userId)
+      }, 1000);
   }
 
   // navigate to reminders
@@ -56,52 +58,67 @@ export class UserhomeComponent implements OnInit {
     this.router.navigate(['portal/reminder'])
   }
 
-  //load popup reminders -unread
-  loadPopupReminders() {
-    if (this.isPopupManuallyClosed) return;
-    if (!this.user?.id) return; 
-    this.notificationService.loadPopupReminders(this.user.id); // Ensures reminders are correctly retrieved
-    this.notificationService.reminders$.subscribe(reminders => {
-      console.log(reminders)
-      this.popupReminders = reminders.filter(r => !r.dismissed);
-      this.loadReminders()
-      this.cdr.detectChanges(); 
-      // this.visible = this.popupReminders.length > 0;
-    });   
-  }
-
-  //remove particular reminder
-  dismissReminder(reminder: Reminder) {
-    const updatedReminder = { ...reminder, dismissed: true, status: "Inactive" };
-    this.popupReminders = this.popupReminders.filter(r => r.id !== reminder.id);
-    this.visible = this.popupReminders.length > 0;
-    this.notificationService.dismissReminder(updatedReminder); 
-    this.loadReminders();
-  }
-  
-  //remove all reminders
-  dismissAllReminders() {
-    this.notificationService.dismissAllReminders(this.user?.id);
-    this.notificationService.reminders$.subscribe(reminders => {
-      this.popupReminders = [];
-      this.visible = false;
-      this.loadReminders();
-    });
-  }
-  
-
   // Fetches reminders
   loadReminders() {
     if (!this.user?.id) return;
     this.reminderService.getReminderbyuserId(this.user.id).subscribe((reminders: Reminder[]) => {
-      this.reminders = reminders;
+      this.reminders = reminders.map(reminder => this.updateStatusAndDismiss(reminder)); 
       this.reminderChart();
     })
   }
 
+  loadPopupReminders() {
+    if (!this.user?.id) return;
+    this.sampleService.loadPopupReminders(this.user.id);
+    this.sampleService.getPopupReminders(this.user.id)?.subscribe(reminders => {
+      this.popupReminders = reminders.map(reminder => this.updateStatusAndDismiss(reminder));
+      this.visible = reminders.length > 0;
+    })
+    const popupVisible$ = this.sampleService.getPopupVisible(this.user.id) ?? new BehaviorSubject<boolean>(false).asObservable();
+    popupVisible$.subscribe(isVisible => {
+      this.visible = isVisible;
+    });
+    this.loadReminders()
+  }
+
+
+
+  dismissReminder(reminder: Reminder) {
+    if (!this.user?.id) return;
+    this.sampleService.dismissReminder(this.user.id, reminder);
+    this.reminders = this.reminders.map(r => 
+      r.id === reminder.id ? { ...r, status: 'Inactive' } : r
+  );
+  }
+
+  dismissAllReminders() {
+    if (!this.user?.id) return;
+    this.sampleService.dismissAllReminders(this.user.id);
+    this.popupReminders = [];
+    this.reminders = this.reminders.map(r => ({
+      ...r, status: 'Inactive'
+  }));
+    this.visible = false;
+  }
+
+  updateStatusAndDismiss(reminder: Reminder) {
+    const now = new Date();
+    const reminderDate = new Date(reminder.reminderdt);
+
+    if (reminder.dismissed && reminderDate > now) {
+      return { ...reminder, dismissed: false, status: 'Active' };
+    }
+    if (reminderDate > now) {
+      return { ...reminder, status: 'Active' };
+    }
+    if (reminderDate <= now) {
+      return { ...reminder, status: 'Unread' };
+    }
+    return reminder;
+  }
+
   // Marks reminder popup as manually closed
   handlePopupClose() {
-    this.isPopupManuallyClosed = true;
     this.visible = false;
   }
 
@@ -110,6 +127,10 @@ export class UserhomeComponent implements OnInit {
     const futureReminders = this.reminders.filter(r => r.status.toLowerCase() === 'active').length;
     const unreadReminders = this.reminders.filter(r => r.status.toLowerCase() === 'unread').length;
     const inactiveReminders = this.reminders.filter(r => r.status.toLowerCase() === 'inactive').length;
+    if (this.chartData) {
+      this.chartData.datasets[0].data = [futureReminders, unreadReminders, inactiveReminders];
+      return;
+    }
     this.chartData = {
       labels: ['Future', 'Unread', 'Inactive'],
       datasets: [
@@ -142,7 +163,8 @@ export class UserhomeComponent implements OnInit {
           color: 'white',
           formatter: (_: any, ctx: any) => {
             const labels = ['Future', 'Unread', 'Inactive'];
-            return labels[ctx.dataIndex];
+            const dataValues = ctx.chart.data.datasets[0].data;
+            return dataValues[ctx.dataIndex] > 0 ? labels[ctx.dataIndex] : '';
           }
         },
         tooltip: {

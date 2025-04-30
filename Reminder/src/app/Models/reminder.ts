@@ -5,6 +5,6 @@ export interface Reminder{
     status:string;
     createdatetime:string|number|Date;
     id?:string|number|Date;
-    userId:string|number|Date;
+    userId:string|number;
     dismissed?:boolean;
 }

@@ -20,5 +20,5 @@ export interface User{
     permissions?:string[];
     status:string;
     password:string;
-     id?:string|number|Date;
+    id?:string|number;
 }

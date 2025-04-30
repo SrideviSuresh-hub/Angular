@@ -25,6 +25,7 @@ export class OrdersComponent implements OnInit {
 
   // Loads orders
   ngOnInit() {
+    console.log(this.curUser.id);
     this.loadOrders();
     localStorage.setItem('curPath', 'portal/orders')
   }
@@ -37,10 +38,11 @@ export class OrdersComponent implements OnInit {
   // Fetches user orders
   loadOrders() {
     this.isLoading = true;
-    this.ordersService.getOrders().subscribe({
+    this.ordersService.getOrders(this.curUser.id).subscribe({
       next: (data) => {
         if (data) {
-          this.orders = data ? data : [];
+          this.orders = data ;
+          console.log(this.orders);
           this.fetchUsersAndProducts(0);
         }
         else {

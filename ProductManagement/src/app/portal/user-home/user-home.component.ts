@@ -19,7 +19,7 @@ export class UserHomeComponent implements OnInit {
   orderService: OrdersService = inject(OrdersService);
   productService: ProductService = inject(ProductService);
   isLoading:boolean=false;
-  
+  curUser = JSON.parse(localStorage.getItem('user'));
   // Loads order and product data
   ngOnInit(): void {
     this.loadOrdersData();
@@ -30,7 +30,7 @@ export class UserHomeComponent implements OnInit {
   // Fetches order statistics
   loadOrdersData() {
     this.isLoading=true
-    this.orderService.getOrders().subscribe({
+    this.orderService.getOrders(this.curUser.id).subscribe({
       next: (orders) => {
         const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         let orderCounts = Array(7).fill(0);
@@ -92,7 +92,7 @@ export class UserHomeComponent implements OnInit {
   // user product data
   loadUsersProductData() {
     this.isLoading=true
-    this.orderService.getOrders().subscribe({
+    this.orderService.getOrders(this.curUser.id).subscribe({
       next: (orders) => {
         let prodCount: { [prodName: string]: number } = {};
         orders.forEach(order => {

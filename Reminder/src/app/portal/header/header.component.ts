@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../Services/auth.service';
 import { User } from '../../Models/Users';
 import { ReminderService } from '../../Services/reminder.service';
-import { NotificationService } from '../../Services/notification.service';
+import { SampleService } from '../../Services/sample.service';
 
 @Component({
   selector: 'app-header',
@@ -16,23 +16,30 @@ export class HeaderComponent implements OnInit {
   isDarkMode: boolean = false;
   popupCount: number = 0;
   authService: AuthService = inject(AuthService);
-  notificationService:NotificationService=inject(NotificationService);
-  curUser: User | null = this.authService.getcurUser();
+  sampleService:SampleService=inject(SampleService);
+  curUser: User = this.authService.getcurUser();
 
   // Loads theme settings,reminder popup  count
   ngOnInit(): void {
     const savedTheme = localStorage.getItem('theme');
     this.isDarkMode = savedTheme === 'dark';
     this.applyTheme();
-    this.notificationService.reminders$.subscribe(reminders => {
+  this.loadPopupReminders()
+  }
+
+  loadPopupReminders() {
+    if (!this.curUser?.id) return;
+
+    this.sampleService.loadPopupReminders(this.curUser.id);
+    this.sampleService.getPopupReminders(this.curUser.id)?.subscribe(reminders => {
       this.popupCount = reminders.length;
     });
   }
-
   // Triggers visibility of reminder popups
   onNotify() {
-    this.notificationService.setPopupVisible(true);
-  }
+    if (this.curUser?.id) {
+      this.sampleService.setPopupVisible(true, this.curUser.id);
+    }  }
 
   // Logs out user
   onLogout() {
