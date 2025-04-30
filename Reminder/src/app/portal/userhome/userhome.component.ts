@@ -20,7 +20,7 @@ Chart.register(ChartDataLabels);
 })
 export class UserhomeComponent implements OnInit {
 
-  visible: boolean = false;
+  visible: boolean = true;
   popupReminders: Reminder[] = [];
   chartData: any;
   chartOption: any;
@@ -31,7 +31,7 @@ export class UserhomeComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private sampleService: SampleService,
-    private msgService: MessageService,
+    // private msgService: MessageService,
     private reminderService: ReminderService
   ) {
     this.user = this.authService.getcurUser();
@@ -72,7 +72,7 @@ export class UserhomeComponent implements OnInit {
     this.sampleService.loadPopupReminders(this.user.id);
     this.sampleService.getPopupReminders(this.user.id)?.subscribe(reminders => {
       this.popupReminders = reminders.map(reminder => this.updateStatusAndDismiss(reminder));
-      this.visible = reminders.length > 0;
+      // this.visible = reminders.length > 0;
     })
     const popupVisible$ = this.sampleService.getPopupVisible(this.user.id) ?? new BehaviorSubject<boolean>(false).asObservable();
     popupVisible$.subscribe(isVisible => {
