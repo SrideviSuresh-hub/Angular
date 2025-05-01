@@ -111,7 +111,7 @@
 
 <ng-container class="popup">
     <p-dialog [(visible)]="visible" [modal]="true"
-        [draggable]="false" [resizable]="false">
+        [draggable]="false" [resizable]="false" (onHide)="handlePopupClose()">
         <ng-template pTemplate="header">
             <div class="header">
                 <h3>Today’s Reminders</h3>

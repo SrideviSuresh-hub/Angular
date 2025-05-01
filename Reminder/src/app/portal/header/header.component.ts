@@ -29,17 +29,19 @@ export class HeaderComponent implements OnInit {
 
   loadPopupReminders() {
     if (!this.curUser?.id) return;
-
-    this.sampleService.loadPopupReminders(this.curUser.id);
-    this.sampleService.getPopupReminders(this.curUser.id)?.subscribe(reminders => {
+    this.sampleService.loadPopupReminders(this.curUser.id)?.subscribe(reminders => {
       this.popupCount = reminders.length;
     });
   }
   // Triggers visibility of reminder popups
   onNotify() {
     if (this.curUser?.id) {
-      this.sampleService.setPopupVisible(true, this.curUser.id);
-    }  }
+        localStorage.setItem(`popupClosed`, 'false'); // Reset manual closure
+        this.sampleService.setPopupVisible(true, this.curUser.id);
+        this.sampleService.getPopupVisible(this.curUser.id)?.next(true);
+    }
+}
+
 
   // Logs out user
   onLogout() {

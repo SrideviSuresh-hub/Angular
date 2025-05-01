@@ -1,14 +1,12 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import {  Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Services/auth.service';
 import { Reminder } from '../../Models/reminder';
 import { ReminderService } from '../../Services/reminder.service';
 import { User } from '../../Models/Users';
-import { MessageService } from 'primeng/api';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'chart.js';
 import { SampleService } from '../../Services/sample.service';
-import { BehaviorSubject } from 'rxjs';
 Chart.register(ChartDataLabels);
 
 
@@ -20,34 +18,36 @@ Chart.register(ChartDataLabels);
 })
 export class UserhomeComponent implements OnInit {
 
-  visible: boolean = true;
+  visible: boolean = false;
   popupReminders: Reminder[] = [];
   chartData: any;
   chartOption: any;
   reminders: Reminder[] = [];
   user: User | null;
   userId!: number | string;
+  sampleService: SampleService = inject(SampleService);
   constructor(
     private router: Router,
     private authService: AuthService,
-    private sampleService: SampleService,
-    // private msgService: MessageService,
     private reminderService: ReminderService
   ) {
     this.user = this.authService.getcurUser();
   }
+
   // Loads reminders
   ngOnInit() {
-    localStorage.setItem('curPath', 'portal/userhome')
+    localStorage.setItem('curPath', 'portal/userhome');
+    const pop= localStorage.getItem('popupClosed');
+    const popupClosed=pop? JSON.parse(pop):'false';    
     this.loadReminders();
+    this.loadPopupReminders();
     if (this.user) {
       this.userId = this.user.id!;
-      this.loadPopupReminders();
     }
-      this.sampleService.getPopupVisible(this.userId)?.subscribe(visible => {
-        this.visible = visible; 
-      });
-    
+    this.sampleService.getPopupVisible(this.userId)?.subscribe(visible => {
+      const popupClosed = localStorage.getItem('popupClosed') === 'true';
+      this.visible = !popupClosed && visible;
+    });  
       setInterval(() => {
         this.sampleService.trackNextReminder(this.userId)
       }, 1000);
@@ -61,43 +61,34 @@ export class UserhomeComponent implements OnInit {
   // Fetches reminders
   loadReminders() {
     if (!this.user?.id) return;
-    this.reminderService.getReminderbyuserId(this.user.id).subscribe((reminders: Reminder[]) => {
-      this.reminders = reminders.map(reminder => this.updateStatusAndDismiss(reminder)); 
+    this.reminderService.getReminderbyuserId(this.user.id).subscribe((rem) => {
+      this.reminders = rem;
+      // this.reminders = reminders.map(reminder => this.updateStatusAndDismiss(reminder)); 
       this.reminderChart();
     })
   }
 
   loadPopupReminders() {
     if (!this.user?.id) return;
-    this.sampleService.loadPopupReminders(this.user.id);
-    this.sampleService.getPopupReminders(this.user.id)?.subscribe(reminders => {
-      this.popupReminders = reminders.map(reminder => this.updateStatusAndDismiss(reminder));
-      // this.visible = reminders.length > 0;
-    })
-    const popupVisible$ = this.sampleService.getPopupVisible(this.user.id) ?? new BehaviorSubject<boolean>(false).asObservable();
-    popupVisible$.subscribe(isVisible => {
-      this.visible = isVisible;
+    this.sampleService.loadPopupReminders(this.user.id)?.subscribe((rems)=>{
+      this.popupReminders=rems;
     });
-    this.loadReminders()
   }
-
 
 
   dismissReminder(reminder: Reminder) {
     if (!this.user?.id) return;
     this.sampleService.dismissReminder(this.user.id, reminder);
-    this.reminders = this.reminders.map(r => 
-      r.id === reminder.id ? { ...r, status: 'Inactive' } : r
-  );
+    // this.loadPopupReminders();
+    this.loadReminders();
   }
 
   dismissAllReminders() {
     if (!this.user?.id) return;
     this.sampleService.dismissAllReminders(this.user.id);
     this.popupReminders = [];
-    this.reminders = this.reminders.map(r => ({
-      ...r, status: 'Inactive'
-  }));
+    // this.loadPopupReminders();
+    this.loadReminders();
     this.visible = false;
   }
 
@@ -119,7 +110,9 @@ export class UserhomeComponent implements OnInit {
 
   // Marks reminder popup as manually closed
   handlePopupClose() {
+    localStorage.setItem(`popupClosed`, 'true');
     this.visible = false;
+    
   }
 
   // Generates reminder status chart

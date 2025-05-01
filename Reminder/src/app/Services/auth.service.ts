@@ -74,9 +74,10 @@ export class AuthService {
 
     // Clears session data
     logout() {
-        localStorage.removeItem('curUser');
-        localStorage.removeItem('curPath');
-        localStorage.removeItem('isLoggedIn');
+        // localStorage.removeItem('curUser');
+        // localStorage.removeItem('curPath');
+        // localStorage.removeItem('isLoggedIn');
+        localStorage.clear();
         this.router.navigate(['/login'])
     }
 }

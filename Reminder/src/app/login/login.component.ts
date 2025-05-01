@@ -46,14 +46,16 @@ export class LoginComponent {
         if (user) {
           setTimeout(() => {
             localStorage.setItem('isLoggedIn', 'true');
-          localStorage.setItem('popupDismissed', 'false');
+            // localStorage.setItem('popupClosed', 'false');
             if (user.isAdmin) {
               this.router.navigate(['/portal/home']);
             } else {
               this.router.navigate(['/portal/userhome']);
-              if(user.id){
-                this.sampleService.setPopupVisible(true,user.id)
-              }
+              localStorage.setItem(`popupClosed`, 'false');
+
+              // if(user.id){
+              //   this.sampleService.setPopupVisible(true,user.id)
+              // }
             }
           }, 100)
         }
