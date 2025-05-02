@@ -1,4 +1,4 @@
-import {  Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Services/auth.service';
 import { Reminder } from '../../Models/reminder';
@@ -37,9 +37,7 @@ export class UserhomeComponent implements OnInit {
   // Loads reminders
   ngOnInit() {
     localStorage.setItem('curPath', 'portal/userhome');
-    const pop= localStorage.getItem('popupClosed');
-    const popupClosed=pop? JSON.parse(pop):'false';    
-    this.loadReminders();
+    // this.loadReminders();
     this.loadPopupReminders();
     if (this.user) {
       this.userId = this.user.id!;
@@ -47,10 +45,10 @@ export class UserhomeComponent implements OnInit {
     this.sampleService.getPopupVisible(this.userId)?.subscribe(visible => {
       const popupClosed = localStorage.getItem('popupClosed') === 'true';
       this.visible = !popupClosed && visible;
-    });  
-      setInterval(() => {
-        this.sampleService.trackNextReminder(this.userId)
-      }, 1000);
+    });
+    setInterval(() => {
+      this.sampleService.trackNextReminder(this.userId)
+    }, 5000);
   }
 
   // navigate to reminders
@@ -62,68 +60,52 @@ export class UserhomeComponent implements OnInit {
   loadReminders() {
     if (!this.user?.id) return;
     this.reminderService.getReminderbyuserId(this.user.id).subscribe((rem) => {
-      this.reminders = rem;
-      // this.reminders = reminders.map(reminder => this.updateStatusAndDismiss(reminder)); 
+      this.reminders = [...rem];
       this.reminderChart();
     })
   }
 
+  //loads popup reminders
   loadPopupReminders() {
     if (!this.user?.id) return;
-    this.sampleService.loadPopupReminders(this.user.id)?.subscribe((rems)=>{
-      this.popupReminders=rems;
+    this.sampleService.loadPopupReminders(this.user.id)?.subscribe((rems) => {
+      this.popupReminders = rems;
+      this.loadReminders()
     });
+
   }
 
-
+  // removes a popup reminder
   dismissReminder(reminder: Reminder) {
     if (!this.user?.id) return;
     this.sampleService.dismissReminder(this.user.id, reminder);
-    // this.loadPopupReminders();
-    this.loadReminders();
+    this.loadPopupReminders();
+    // this.loadReminders();
   }
 
+  // removes all popup reminders
   dismissAllReminders() {
     if (!this.user?.id) return;
     this.sampleService.dismissAllReminders(this.user.id);
     this.popupReminders = [];
-    // this.loadPopupReminders();
-    this.loadReminders();
+    this.loadPopupReminders();
+    // this.loadReminders();
     this.visible = false;
-  }
-
-  updateStatusAndDismiss(reminder: Reminder) {
-    const now = new Date();
-    const reminderDate = new Date(reminder.reminderdt);
-
-    if (reminder.dismissed && reminderDate > now) {
-      return { ...reminder, dismissed: false, status: 'Active' };
-    }
-    if (reminderDate > now) {
-      return { ...reminder, status: 'Active' };
-    }
-    if (reminderDate <= now) {
-      return { ...reminder, status: 'Unread' };
-    }
-    return reminder;
   }
 
   // Marks reminder popup as manually closed
   handlePopupClose() {
     localStorage.setItem(`popupClosed`, 'true');
     this.visible = false;
-    
   }
 
   // Generates reminder status chart
   reminderChart() {
+    
     const futureReminders = this.reminders.filter(r => r.status.toLowerCase() === 'active').length;
     const unreadReminders = this.reminders.filter(r => r.status.toLowerCase() === 'unread').length;
     const inactiveReminders = this.reminders.filter(r => r.status.toLowerCase() === 'inactive').length;
-    if (this.chartData) {
-      this.chartData.datasets[0].data = [futureReminders, unreadReminders, inactiveReminders];
-      return;
-    }
+     
     this.chartData = {
       labels: ['Future', 'Unread', 'Inactive'],
       datasets: [
@@ -137,6 +119,7 @@ export class UserhomeComponent implements OnInit {
         },
       ],
     }
+    console.log("chart"+ this.chartData);
     this.chartOption = {
       responsive: true,
       maintainAspectRatio: false,
@@ -165,5 +148,12 @@ export class UserhomeComponent implements OnInit {
         }
       }
     };
+    if (this.chartData) {
+      console.log("chartdata loggong"+this.chartData.datasets[0].data);
+      
+            this.chartData.datasets[0].data = [futureReminders,unreadReminders,inactiveReminders];
+            return;
+          }
   }
+  
 }

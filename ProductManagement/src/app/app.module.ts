@@ -13,13 +13,12 @@ import { RouterModule } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PaginatorModule } from 'primeng/paginator';
-
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { FileUploadModule } from 'primeng/fileupload';
-import { PasswordModule} from 'primeng/password';
+import { PasswordModule } from 'primeng/password';
 import { HttpClientModule } from '@angular/common/http';
 import { Ripple } from 'primeng/ripple';
 import { AvatarModule } from 'primeng/avatar';
@@ -30,12 +29,12 @@ import { PortalModule } from './portal/portal.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 @NgModule({
   declarations: [
-  AppComponent,
-  LoginComponent,
-  SignupComponent,
-  PageNotFoundComponent,
+    AppComponent,
+    LoginComponent,
+    SignupComponent,
+    PageNotFoundComponent,
 
-  
+
   ],
   imports: [
     BrowserModule,
@@ -55,18 +54,18 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     RouterModule.forRoot(routes1),
     HttpClientModule,
     ProgressSpinnerModule,
-  PortalRouteModule,
+    PortalRouteModule,
     Ripple,
     AvatarModule,
     StyleClass
   ],
- 
-  providers: [   provideAnimationsAsync(),
-    providePrimeNG({
-        theme: {
-            preset: Aura
-        }
-    })],
+
+  providers: [provideAnimationsAsync(),
+  providePrimeNG({
+    theme: {
+      preset: Aura
+    }
+  })],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

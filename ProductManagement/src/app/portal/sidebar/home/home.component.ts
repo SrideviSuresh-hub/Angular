@@ -1,10 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { OrdersService } from '../../../Services/orders.service';
 import { UsersService } from '../../../Services/users.service';
 import { MessageService } from 'primeng/api';
-import { OrderProducts } from '../../../Models/orderproducts';
 import { Order } from '../../../Models/orders';
-import { PaginatorState } from 'primeng/paginator';
 
 
 @Component({
@@ -20,8 +18,8 @@ export class HomeComponent {
   userService: UsersService = inject(UsersService);
   selectedProduct: any = {};
   showDialog: boolean = false;
+  empDeliveryDates: { [key: string]: string } = {};
   msgService: MessageService = inject(MessageService);
-
   // Loads cart data
   ngOnInit() {
     this.loadOrders();
@@ -40,7 +38,7 @@ export class HomeComponent {
         Object.values(users).forEach((user: any) => {
           if (user.orders) {
             Object.entries(user.orders).forEach(([keyId, order]: any) => {
-              if (order.products) {
+              if (Array.isArray(order.products)) {
                 order.products.forEach((product: any, index: number) => {
                   newOrders.push({
                     keyId: keyId,
@@ -52,19 +50,17 @@ export class HomeComponent {
                     state: user.states || '',
                     country: user.country || '',
                     pinCode: user.zipCode || '',
-                    orderDate: order.orderDate|| '',
-                    orderdeliveryDate:order.deliveryDate,
-                    deliveryDate:product.deliveryDate,
+                    orderDate: order.orderDate || '',
+                    orderdeliveryDate: order.deliveryDate,
+                    deliveryDate: product.deliveryDate,
                     deliveryStatus: product.deliveryStatus || 'Pending',
                     productName: product.name,
                     productImage: product.image,
                     quantity: product.quantity,
                     productIndex: index
                   });
-                  console.log(product.deliveryDate);
                 });
               }
-              
             });
           }
         });
@@ -79,7 +75,7 @@ export class HomeComponent {
     });
   }
 
-  // Opens order details i
+  // Opens order details 
   viewOrder(product: any) {
     this.selectedProduct = { ...product };
     this.showDialog = true;
@@ -87,16 +83,16 @@ export class HomeComponent {
 
   //  Updates product delivery status
   markProductAsDelivered(orderId: string, userId: string, productIndex: number) {
-    const currentDateTime = new Date().toISOString(); 
-    this.orderService.updateDeliveryStatus(orderId, userId, productIndex, "Delivered",currentDateTime).subscribe({
+    const currentDateTime = new Date().toISOString();
+    this.orderService.updateDeliveryStatus(orderId, userId, productIndex, "Delivered", currentDateTime).subscribe({
       next: () => {
         this.updateOrderStatus(orderId, userId);
         this.orders.forEach(order => {
           if (order.orderId === orderId && order.userId === userId && order.productIndex === productIndex) {
-            order.deliveryDate = currentDateTime; 
+            order.deliveryDate = currentDateTime;
           }
-      })
-    }
+        })
+      }
     });
   }
 
@@ -106,14 +102,13 @@ export class HomeComponent {
     this.orderService.getOrderProducts(orderId).subscribe({
       next: (products) => {
         if (!Array.isArray(products)) return;
-        let allDelivered = products.every(p => {
-          p.deliveryStatus === "Delivered",
+        let allDelivered = products.every(p =>
+          p.deliveryStatus === "Delivered" &&
           p.deliveryDate === currentDateTime
-      });
+        );
         let newStatus = allDelivered ? "Delivered" : "Pending";
-
-       let deliveryDate = allDelivered ? currentDateTime : null; 
-        this.orderService.updateOrderStatus(orderId, userId, newStatus,deliveryDate).subscribe();
+        let deliveryDate = allDelivered ? currentDateTime : null;
+        this.orderService.updateOrderStatus(orderId, userId, newStatus, deliveryDate).subscribe();
       }
     });
   }

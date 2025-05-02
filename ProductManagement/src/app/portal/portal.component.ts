@@ -18,5 +18,4 @@ export class PortalComponent {
       this.selectedLabel="";
     }
   }
-
 }

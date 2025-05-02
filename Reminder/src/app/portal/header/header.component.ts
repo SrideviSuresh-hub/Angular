@@ -2,7 +2,6 @@ import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Services/auth.service';
 import { User } from '../../Models/Users';
-import { ReminderService } from '../../Services/reminder.service';
 import { SampleService } from '../../Services/sample.service';
 
 @Component({
@@ -12,35 +11,38 @@ import { SampleService } from '../../Services/sample.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-  router: Router = inject(Router);
   isDarkMode: boolean = false;
   popupCount: number = 0;
   authService: AuthService = inject(AuthService);
-  sampleService:SampleService=inject(SampleService);
-  curUser: User = this.authService.getcurUser();
+  sampleService: SampleService = inject(SampleService);
+  user: User = this.authService.getcurUser();
+  router: Router = inject(Router);
 
   // Loads theme settings,reminder popup  count
   ngOnInit(): void {
     const savedTheme = localStorage.getItem('theme');
     this.isDarkMode = savedTheme === 'dark';
     this.applyTheme();
-  this.loadPopupReminders()
+    this.loadPopupCount()
   }
 
-  loadPopupReminders() {
-    if (!this.curUser?.id) return;
-    this.sampleService.loadPopupReminders(this.curUser.id)?.subscribe(reminders => {
+  // popup count
+  loadPopupCount() {
+    if (!this.user?.id) return;
+    this.sampleService.loadPopupReminders(this.user.id)?.subscribe(reminders => {
       this.popupCount = reminders.length;
+
     });
   }
+
   // Triggers visibility of reminder popups
   onNotify() {
-    if (this.curUser?.id) {
-        localStorage.setItem(`popupClosed`, 'false'); // Reset manual closure
-        this.sampleService.setPopupVisible(true, this.curUser.id);
-        this.sampleService.getPopupVisible(this.curUser.id)?.next(true);
+    if (this.user?.id) {
+      localStorage.setItem(`popupClosed`, 'false'); 
+      this.sampleService.setPopupVisible(true, this.user.id);
+      this.sampleService.getPopupVisible(this.user.id)?.next(true);
     }
-}
+  }
 
 
   // Logs out user
@@ -50,7 +52,7 @@ export class HeaderComponent implements OnInit {
 
   //redirects user to the correct home page
   navigateToHome() {
-    if (this.curUser?.isAdmin) {
+    if (this.user?.isAdmin) {
       this.router.navigate(['portal/home'])
     }
     else {

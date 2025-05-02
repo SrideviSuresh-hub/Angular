@@ -10,7 +10,7 @@
     <div class="card">
       <p-table #dt [value]="users" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="rows"
         [first]="first" [paginatorPosition]="'bottom'" [scrollHeight]="'calc(100vh - 300px)'" (onPage)="onPageChange($event)" 
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" [responsiveLayout]="'scroll'">
+         [responsiveLayout]="'scroll'">
         <ng-template pTemplate="header">
           <tr>
             <th pSortableColumn="username" style="width:14%">

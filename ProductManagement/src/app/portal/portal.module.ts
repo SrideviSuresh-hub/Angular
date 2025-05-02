@@ -117,12 +117,10 @@ import { CheckboxModule } from 'primeng/checkbox';
         SelectButton,
         TableModule,
         ConfirmDialogModule,
-        ToastModule,
-        CheckboxModule,
         PaginatorModule,
-        NgxChartsModule
-
-        
+        NgxChartsModule,
+        ToastModule,
+        CheckboxModule
     ],
     providers:[ConfirmationService,MessageService]
 })

@@ -25,7 +25,6 @@ export class OrdersComponent implements OnInit {
 
   // Loads orders
   ngOnInit() {
-    console.log(this.curUser.id);
     this.loadOrders();
     localStorage.setItem('curPath', 'portal/orders')
   }
@@ -42,7 +41,6 @@ export class OrdersComponent implements OnInit {
       next: (data) => {
         if (data) {
           this.orders = data ;
-          console.log(this.orders);
           this.fetchUsersAndProducts(0);
         }
         else {

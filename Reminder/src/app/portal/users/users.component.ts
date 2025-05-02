@@ -4,6 +4,7 @@ import { UserService } from '../../Services/user.service';
 import { NgForm } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from '../../Services/auth.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -157,20 +158,19 @@ export class UsersComponent {
     this.maxPage = Math.ceil(this.totalRecords / this.rows);
     this.curPageInput = event.page + 1
   }
-
+ 
   goToPage(table: any) {
     const targetPage = this.curPageInput;
     if (targetPage >= 1 && targetPage <= this.maxPage) {
       this.first = (targetPage - 1) * this.rows;
       table.first = this.first;
-      table.paginate({ first: (this.curPageInput - 1) * 5, rows: 5 });
-
+      table.paginate({ first: table.first, rows: this.rows });
     }
     else {
       this.messageService.add({
         severity: 'warn',
         summary: 'Invalid Page',
-        detail: 'Invalid page number'
+        detail: 'Page does not  exist'
       });
     }
   }
@@ -318,6 +318,7 @@ export class UsersComponent {
       });
       return;
     }
+
     if (userForm.valid) {
       this.newUser.datetime = new Date();
       const duplicate = this.users.find(user =>
@@ -331,6 +332,7 @@ export class UsersComponent {
         });
         return;
       }
+      
       if (this.mode === 'edit') {
         this.onCountryChange({ target: { value: this.newUser.country } });
         this.userService.updateUser(this.newUser).subscribe(() => {

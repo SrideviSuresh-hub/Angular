@@ -14,7 +14,6 @@ export class OrdersService {
 
     // Fetches all orders
     getOrders(id:string|Date|number): Observable<any> {
-        console.log(id);     
         return this.http.get<any[]>(`${this.baseUrluser}/${id}/orders.json`)
             .pipe(
                 map(orderData => {
@@ -85,4 +84,10 @@ export class OrdersService {
              });
     }
 
+    getOrderedProductbyId(keyId: string, userId: string, prodIndex: number){
+        
+        const prodPath = `${this.baseUrluser}/${userId}/orders/${keyId}/products/${prodIndex}.json`;
+        console.log(prodPath);
+        return this.http.get(prodPath);
+    }
 }

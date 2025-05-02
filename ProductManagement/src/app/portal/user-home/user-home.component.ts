@@ -96,9 +96,11 @@ export class UserHomeComponent implements OnInit {
       next: (orders) => {
         let prodCount: { [prodName: string]: number } = {};
         orders.forEach(order => {
+            if (Array.isArray(order.products)) {
           order.products.forEach((prod: any) => {
             prodCount[prod.name] = (prodCount[prod.name] || 0) + prod.quantity;
-          });
+            });
+            }
         });
         const barValues = Object.values(prodCount);
         const maxBar = Math.max(...barValues);

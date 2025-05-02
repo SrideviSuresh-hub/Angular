@@ -1,11 +1,10 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
+import {  Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { Reminder } from '../../Models/reminder';
 import { ReminderService } from '../../Services/reminder.service';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../Services/auth.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { SampleService } from '../../Services/sample.service';
-import { BehaviorSubject } from 'rxjs';
 import { User } from '../../Models/Users';
 
 @Component({
@@ -32,7 +31,7 @@ export class ReminderComponent implements OnInit {
     private authService: AuthService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private reminderService: ReminderService
+    private reminderService: ReminderService,
   ) {
     this.user = this.authService.getcurUser();
   }
@@ -54,9 +53,7 @@ export class ReminderComponent implements OnInit {
   // loads user reminders
   ngOnInit(): void {
     localStorage.setItem('curPath', 'portal/reminder');
-    // console.log(this.tableRef);
-    
-    this.sampleService.setReminderTableRef(this.tableRef);
+
     if (this.user) {
       this.userId = this.user.id!;
       this.newReminder.userId = this.user.id!;
@@ -66,8 +63,8 @@ export class ReminderComponent implements OnInit {
     this.sampleService.getPopupVisible(this.userId)?.subscribe(visible => {
       const popupClosed = localStorage.getItem('popupClosed') === 'true';
       this.visible = !popupClosed && visible;
-    });  
-  
+    });
+
     setInterval(() => {
       this.sampleService.trackNextReminder(this.userId);
     }, 1000);
@@ -78,11 +75,8 @@ export class ReminderComponent implements OnInit {
   // Adjusts paginator position after view initialization.
   ngAfterViewInit() {
     this.adjustPaginatorPosition();
-    setTimeout(() => {
-      console.log("ngAfterViewInit:", this.tableRef); // Should log the table reference  }
-
-    }, 3000);
   }
+
   // Recalculates paginator position on window resize
   @HostListener('window:resize')
   onResize() {
@@ -113,31 +107,35 @@ export class ReminderComponent implements OnInit {
     if (targetPage >= 1 && targetPage <= this.maxPage) {
       this.first = (targetPage - 1) * this.rows;
       table.first = this.first;
-      table.paginate({ first: this.first, rows: this.rows });
+      table.paginate({ first: table.first, rows: this.rows });
 
     }
     else {
       this.messageService.add({
         severity: 'warn',
         summary: 'Invalid Page',
-        detail: 'Invalid page number'
+        detail: 'Page does not exist'
       });
     }
   }
 
+  // load popup reminders
   loadPopupReminders() {
     if (!this.user?.id) return;
     this.sampleService.loadPopupReminders(this.user.id)?.subscribe((rems) => {
       this.popupReminders = rems;
+      this.loadReminders();
     });
   }
 
+  // remove a popup reminder
   dismissReminder(reminder: Reminder) {
     if (!this.userId) return;
     this.sampleService.dismissReminder(this.userId, reminder);
     this.loadReminders();
   }
 
+  // removes  all popup reminders
   dismissAllReminders() {
     if (!this.userId) return;
     this.sampleService.dismissAllReminders(this.userId);
@@ -156,8 +154,9 @@ export class ReminderComponent implements OnInit {
     })
   }
 
+  // closing popup dialog
   handlePopupClose() {
-    localStorage.setItem('popupClosed','true')
+    localStorage.setItem('popupClosed', 'true')
     this.visible = false;
   }
 
@@ -296,7 +295,6 @@ export class ReminderComponent implements OnInit {
             detail: 'Reminder updated successfully'
           });
           this.loadReminders();
-          this.loadPopupReminders();
           this.mode = 'view';
           this.visibleRemPopup = false;
         })
@@ -310,7 +308,6 @@ export class ReminderComponent implements OnInit {
             detail: 'Reminder added successfully'
           });
           this.loadReminders();
-          this.loadPopupReminders();
           this.mode = 'view';
           this.visibleRemPopup = false;
         })

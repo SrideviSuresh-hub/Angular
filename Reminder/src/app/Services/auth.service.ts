@@ -8,19 +8,15 @@ import { UserService } from "./user.service";
     providedIn: 'root'
 })
 export class AuthService {
-    private curUserSubject: BehaviorSubject<User | null>;
-    public curUser: Observable<User | null>;
     userService: UserService = inject(UserService);
     http: HttpClient = inject(HttpClient);
     router: Router = inject(Router);
     private timeOut: any;
     private idleTimeOut: number = 10 * 60 * 1000;
 
-    // Initializes user session
+    // Initializes user 
     constructor() {
         const user = JSON.parse(localStorage.getItem('curUser') || 'null');
-        this.curUserSubject = new BehaviorSubject<User | null>(user)
-        this.curUser = this.curUserSubject.asObservable();
         this.resetTimeOut();
         this.userActivity();
     }
@@ -74,9 +70,6 @@ export class AuthService {
 
     // Clears session data
     logout() {
-        // localStorage.removeItem('curUser');
-        // localStorage.removeItem('curPath');
-        // localStorage.removeItem('isLoggedIn');
         localStorage.clear();
         this.router.navigate(['/login'])
     }

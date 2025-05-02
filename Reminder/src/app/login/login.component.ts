@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../Services/auth.service';
 import { NgForm } from '@angular/forms';
-import { NotificationService } from '../Services/notification.service';
 import { User } from '../Models/Users';
 import { SampleService } from '../Services/sample.service';
 
@@ -23,6 +22,7 @@ export class LoginComponent {
   authService: AuthService = inject(AuthService);
   sampleService:SampleService=inject(SampleService);
   curUser: User  = this.authService.getcurUser();
+  
 // Loads order and product data
   ngOnInit() {
     if (Boolean(localStorage.getItem('isLoggedIn'))) {
@@ -46,16 +46,11 @@ export class LoginComponent {
         if (user) {
           setTimeout(() => {
             localStorage.setItem('isLoggedIn', 'true');
-            // localStorage.setItem('popupClosed', 'false');
             if (user.isAdmin) {
               this.router.navigate(['/portal/home']);
             } else {
               this.router.navigate(['/portal/userhome']);
               localStorage.setItem(`popupClosed`, 'false');
-
-              // if(user.id){
-              //   this.sampleService.setPopupVisible(true,user.id)
-              // }
             }
           }, 100)
         }

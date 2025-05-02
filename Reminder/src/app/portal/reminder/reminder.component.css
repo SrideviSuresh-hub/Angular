@@ -254,8 +254,12 @@ label {
 :host ::ng-deep .p-datatable-thead>tr>th.p-datatable-column-sorted {
     border: none;
     border-bottom: 1px solid #E1E1E1 !important;
+    color: #000000 ;
 }
+:host ::ng-deep .dark-mode .p-datatable-thead > tr > th.p-datatable-column-sorted {
+    color: white !important;
 
+}
 
 .tag-active {
     background: #28693D;
@@ -612,7 +616,6 @@ body.dark-mode.card {
     margin-right: 10px;
     border: none !important;
 }
-
 :host ::ng-deep .p-button-secondary {
     border: none !important;
     border-color: none;
@@ -650,6 +653,7 @@ body.dark-mode.card {
     text-decoration-line: underline;
     width: 68px;
     height: 20px;
+    margin-top: 5px;
 }
 
 

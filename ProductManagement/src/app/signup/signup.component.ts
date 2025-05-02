@@ -36,6 +36,9 @@ export class SignupComponent {
   confirmpassword: string = '';
   currentStep = 1;
   passwordMatching = true;
+  authService: AuthService = inject(AuthService);
+  router: Router = inject(Router);
+  messageService: MessageService = inject(MessageService);
   locales: string[] =
     ['en-US',
       'en-GB',
@@ -64,10 +67,7 @@ export class SignupComponent {
       "MST - UTC-7",
       "AKST - UTC-9"
     ];
-  authService: AuthService = inject(AuthService);
-  router: Router = inject(Router);
-  messageService: MessageService = inject(MessageService);
-
+  
   // toast notification with custom message severity
   showToast(severity: string, summary: string, detail: string) {
     this.messageService.add({ severity, summary, detail });
@@ -86,7 +86,7 @@ export class SignupComponent {
       reader.onload = (e) => this.imageUrl = e.target?.result;
       reader.readAsDataURL(file);
     } else {
-      alert("File must be PNG or JPG and less than 2MB.");
+      this.showToast('warn', 'image upload failed','File must be PNG or JPG and less than 2MB.');
     }
   }
 

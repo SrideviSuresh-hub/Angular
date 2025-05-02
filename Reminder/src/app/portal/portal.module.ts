@@ -56,7 +56,7 @@ import { PaginatorModule } from 'primeng/paginator';
         Dialog,
         SelectButtonModule,
         Select,
-         HttpClientModule,
+        HttpClientModule,
         CheckboxModule,
         DatePickerModule,
         DropdownModule,
