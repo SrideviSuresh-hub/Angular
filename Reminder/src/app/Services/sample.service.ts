@@ -72,11 +72,11 @@ export class SampleService {
                 const updatedReminder = this.updateReminderStatus({ ...upcomingReminder, status: 'Unread' });
                 this.loadPopupReminders(userId);
                 this.reminderService.updateReminder(updatedReminder).subscribe(() => {
-                    // const currentReminder = this.userPopupReminders.get(userId)?.value || [];
-                    // const updatedReminders = currentReminder.map(rem =>
-                    //     rem.id === updatedReminder.id ? updatedReminder : rem
-                    // );
-                    // this.userPopupReminders.get(userId)?.next(updatedReminders);
+                    const currentReminder = this.userPopupReminders.get(userId)?.value || [];
+                    const updatedReminders = currentReminder.map(rem =>
+                        rem.id === updatedReminder.id ? updatedReminder : rem
+                    );
+                    this.userPopupReminders.get(userId)?.next(updatedReminders);
                     this.userPopupVisible.get(userId)?.next(true);
                 });
                 this.trackNextReminder(userId);

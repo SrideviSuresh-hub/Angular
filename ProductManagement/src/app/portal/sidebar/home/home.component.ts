@@ -20,6 +20,7 @@ export class HomeComponent {
   showDialog: boolean = false;
   empDeliveryDates: { [key: string]: string } = {};
   msgService: MessageService = inject(MessageService);
+  
   // Loads cart data
   ngOnInit() {
     this.loadOrders();

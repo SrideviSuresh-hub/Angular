@@ -101,10 +101,10 @@ export class UserhomeComponent implements OnInit {
 
   // Generates reminder status chart
   reminderChart() {
-    
     const futureReminders = this.reminders.filter(r => r.status.toLowerCase() === 'active').length;
     const unreadReminders = this.reminders.filter(r => r.status.toLowerCase() === 'unread').length;
     const inactiveReminders = this.reminders.filter(r => r.status.toLowerCase() === 'inactive').length;
+    
      
     this.chartData = {
       labels: ['Future', 'Unread', 'Inactive'],
@@ -148,12 +148,12 @@ export class UserhomeComponent implements OnInit {
         }
       }
     };
-    if (this.chartData) {
-      console.log("chartdata loggong"+this.chartData.datasets[0].data);
-      
-            this.chartData.datasets[0].data = [futureReminders,unreadReminders,inactiveReminders];
-            return;
-          }
-  }
   
+  if (this.chartData) {
+    console.log("chartdata loggong"+this.chartData.datasets[0].data);
+    
+          this.chartData.datasets[0].data = [futureReminders,unreadReminders,inactiveReminders];
+          return;
+        }
+}
 }
