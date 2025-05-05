@@ -46,9 +46,9 @@ export class UserhomeComponent implements OnInit {
       const popupClosed = localStorage.getItem('popupClosed') === 'true';
       this.visible = !popupClosed && visible;
     });
-    setInterval(() => {
+    // setInterval(() => {
       this.sampleService.trackNextReminder(this.userId)
-    }, 5000);
+    // }, 1000);
   }
 
   // navigate to reminders
@@ -78,9 +78,10 @@ export class UserhomeComponent implements OnInit {
   // removes a popup reminder
   dismissReminder(reminder: Reminder) {
     if (!this.user?.id) return;
-    this.sampleService.dismissReminder(this.user.id, reminder);
-    this.loadPopupReminders();
-    // this.loadReminders();
+    this.sampleService.dismissReminder(this.user.id, reminder)?.subscribe(()=>{
+      this.loadPopupReminders();
+      // this.loadReminders();
+  });
   }
 
   // removes all popup reminders
@@ -151,7 +152,6 @@ export class UserhomeComponent implements OnInit {
   
   if (this.chartData) {
     console.log("chartdata loggong"+this.chartData.datasets[0].data);
-    
           this.chartData.datasets[0].data = [futureReminders,unreadReminders,inactiveReminders];
           return;
         }

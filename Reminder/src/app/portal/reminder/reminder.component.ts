@@ -65,9 +65,9 @@ export class ReminderComponent implements OnInit {
       this.visible = !popupClosed && visible;
     });
 
-    setInterval(() => {
+    // setInterval(() => {
       this.sampleService.trackNextReminder(this.userId);
-    }, 1000);
+    // }, 1000);
     const today = new Date();
     this.minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
   }
@@ -131,8 +131,9 @@ export class ReminderComponent implements OnInit {
   // remove a popup reminder
   dismissReminder(reminder: Reminder) {
     if (!this.userId) return;
-    this.sampleService.dismissReminder(this.userId, reminder);
-    this.loadReminders();
+    this.sampleService.dismissReminder(this.userId, reminder)?.subscribe(()=>{
+      this.loadReminders();
+  });
   }
 
   // removes  all popup reminders
