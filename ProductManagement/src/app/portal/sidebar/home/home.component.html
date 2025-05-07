@@ -20,8 +20,7 @@
           <p-tag 
             [value]="order.deliveryStatus" 
             [severity]="getSeverity(order.deliveryStatus)" 
-            (click)="order.deliveryStatus = 'Delivered'; 
-            markProductAsDelivered(order.keyId, order.userId, order.productIndex)">
+            (click)="markProductAsDelivered(order.keyId, order.userId, order.productIndex); order.deliveryStatus = 'Delivered'; order.deliveryDate=currentDateTime">
           </p-tag>
         </td>
         <td class="actions">
@@ -44,7 +43,7 @@
       <img [src]="selectedProduct.productImage" alt="Product image" width="200px" height="150px">
       <div class="product-info">
         <p style="color:rgba(20, 21, 105, 1);">Ordered on {{ selectedProduct.orderDate | date: 'dd/MM/yyyy-hh:mm a' }}</p>
-        <p  *ngIf="selectedProduct.deliveryDate" style="color:rgba(20, 21, 105, 1);">Delivered on {{ selectedProduct.deliveryDate | date: 'dd/MM/yyyy-hh:mm a' }}</p>
+        <p  *ngIf="selectedProduct?.deliveryDate" style="color:rgba(20, 21, 105, 1);">Delivered on {{ selectedProduct.deliveryDate | date: 'dd/MM/yyyy-hh:mm a' }}</p>
         <h2>{{ selectedProduct.productName }}</h2>
         <p><strong >Order ID:</strong> {{ selectedProduct.orderId }}</p>
         <p><strong>User Name:</strong> {{ selectedProduct.userName }}</p>

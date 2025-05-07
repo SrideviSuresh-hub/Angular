@@ -37,7 +37,6 @@ export class UserhomeComponent implements OnInit {
   // Loads reminders
   ngOnInit() {
     localStorage.setItem('curPath', 'portal/userhome');
-    // this.loadReminders();
     this.loadPopupReminders();
     if (this.user) {
       this.userId = this.user.id!;
@@ -46,9 +45,7 @@ export class UserhomeComponent implements OnInit {
       const popupClosed = localStorage.getItem('popupClosed') === 'true';
       this.visible = !popupClosed && visible;
     });
-    // setInterval(() => {
-      this.sampleService.trackNextReminder(this.userId)
-    // }, 1000);
+    this.sampleService.trackNextReminder(this.userId)
   }
 
   // navigate to reminders
@@ -72,16 +69,14 @@ export class UserhomeComponent implements OnInit {
       this.popupReminders = rems;
       this.loadReminders()
     });
-
   }
 
   // removes a popup reminder
   dismissReminder(reminder: Reminder) {
     if (!this.user?.id) return;
-    this.sampleService.dismissReminder(this.user.id, reminder)?.subscribe(()=>{
+    this.sampleService.dismissReminder(this.user.id, reminder)?.subscribe(() => {
       this.loadPopupReminders();
-      // this.loadReminders();
-  });
+    });
   }
 
   // removes all popup reminders
@@ -90,7 +85,6 @@ export class UserhomeComponent implements OnInit {
     this.sampleService.dismissAllReminders(this.user.id);
     this.popupReminders = [];
     this.loadPopupReminders();
-    // this.loadReminders();
     this.visible = false;
   }
 
@@ -105,8 +99,6 @@ export class UserhomeComponent implements OnInit {
     const futureReminders = this.reminders.filter(r => r.status.toLowerCase() === 'active').length;
     const unreadReminders = this.reminders.filter(r => r.status.toLowerCase() === 'unread').length;
     const inactiveReminders = this.reminders.filter(r => r.status.toLowerCase() === 'inactive').length;
-    
-     
     this.chartData = {
       labels: ['Future', 'Unread', 'Inactive'],
       datasets: [
@@ -120,7 +112,6 @@ export class UserhomeComponent implements OnInit {
         },
       ],
     }
-    console.log("chart"+ this.chartData);
     this.chartOption = {
       responsive: true,
       maintainAspectRatio: false,
@@ -149,11 +140,9 @@ export class UserhomeComponent implements OnInit {
         }
       }
     };
-  
-  if (this.chartData) {
-    console.log("chartdata loggong"+this.chartData.datasets[0].data);
-          this.chartData.datasets[0].data = [futureReminders,unreadReminders,inactiveReminders];
-          return;
-        }
-}
+    if (this.chartData) {
+      this.chartData.datasets[0].data = [futureReminders, unreadReminders, inactiveReminders];
+      return;
+    }
+  }
 }

@@ -88,6 +88,7 @@ export class OrdersComponent implements OnInit {
     this.ordersService.getOrderProducts(order.keyId).subscribe({
       next: (products) => {
         if (products) {
+          products = Array.isArray(products) ? products : [];
           let allDelivered = products.every(p => p.deliveryStatus === 'Delivered');
           let newStatus = allDelivered ? 'Delivered' : 'Pending';
           this.orders[index] = {
@@ -133,7 +134,7 @@ export class OrdersComponent implements OnInit {
 
   // Displays order details
   viewOrder(order) {
-    this.selectedOrder = { ...order }
+    this.selectedOrder =order ? { ...order }: null;
     this.showPopup = true;
   }
 }

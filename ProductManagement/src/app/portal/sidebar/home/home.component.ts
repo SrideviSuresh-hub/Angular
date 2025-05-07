@@ -18,9 +18,9 @@ export class HomeComponent {
   userService: UsersService = inject(UsersService);
   selectedProduct: any = {};
   showDialog: boolean = false;
-  empDeliveryDates: { [key: string]: string } = {};
+  currentDateTime = new Date().toISOString();
   msgService: MessageService = inject(MessageService);
-  
+
   // Loads cart data
   ngOnInit() {
     this.loadOrders();
@@ -29,6 +29,7 @@ export class HomeComponent {
 
   // Fetches user orders
   loadOrders() {
+
     this.isLoading = true;
     this.userService.getUsers().subscribe({
       next: (users) => {
@@ -41,6 +42,7 @@ export class HomeComponent {
             Object.entries(user.orders).forEach(([keyId, order]: any) => {
               if (Array.isArray(order.products)) {
                 order.products.forEach((product: any, index: number) => {
+                  if (!product) return;
                   newOrders.push({
                     keyId: keyId,
                     orderId: order.orderId,
@@ -52,9 +54,9 @@ export class HomeComponent {
                     country: user.country || '',
                     pinCode: user.zipCode || '',
                     orderDate: order.orderDate || '',
-                    orderdeliveryDate: order.deliveryDate,
-                    deliveryDate: product.deliveryDate,
-                    deliveryStatus: product.deliveryStatus || 'Pending',
+                    orderdeliveryDate: order?.deliveryDate || '',
+                    deliveryDate: product?.deliveryDate || '',
+                    deliveryStatus: product?.deliveryStatus || 'Pending',
                     productName: product.name,
                     productImage: product.image,
                     quantity: product.quantity,
@@ -119,4 +121,3 @@ export class HomeComponent {
     return status === 'Delivered' ? 'success' : 'warn';
   }
 }
-

@@ -10,7 +10,6 @@ export class SampleService {
     private userPopupReminders = new Map<string | number, BehaviorSubject<Reminder[]>>();
     private userPopupVisible = new Map<string | number, BehaviorSubject<boolean>>();
     private userReminderTimeouts = new Map<number, any>();
-
     constructor(private reminderService: ReminderService) { }
 
 
@@ -45,7 +44,6 @@ export class SampleService {
     // Sets the visibility state of the reminder popup
     setPopupVisible(isVisible: boolean, userId: string | number) {
         if (!userId) return;
-
         if (!this.userPopupVisible.has(userId)) {
             this.userPopupVisible.set(userId, new BehaviorSubject<boolean>(false));
         }
@@ -58,51 +56,44 @@ export class SampleService {
     // Tracks the next upcoming reminder 
     trackNextReminder(userId: string | number) {
         if (!userId) return;
-      
         this.reminderService.getReminderbyuserId(userId).subscribe(reminders => {
-          const now = new Date();
-      
-          const futureReminders = reminders
-            .filter(r => !r.dismissed && new Date(r.reminderdt) > now)
-            .sort((a, b) => new Date(a.reminderdt).getTime() - new Date(b.reminderdt).getTime());
-      
-          if (futureReminders.length === 0) return;
-      
-          const nextReminder = futureReminders[0];
-          const timeUntilReminder = new Date(nextReminder.reminderdt).getTime() - now.getTime();
-      
-          setTimeout(() => {
-            const updatedReminder = this.updateReminderStatus({
-              ...nextReminder,
-              status: 'Unread'
-            });
-      
-            this.reminderService.updateReminder(updatedReminder).subscribe(() => {
-              localStorage.setItem('popupClosed', 'false');
-      
-              this.loadPopupReminders(userId);  // refresh UI
-      
-              const remindersNow = this.userPopupReminders.get(userId)?.value || [];
-              const updatedReminders = remindersNow.map(rem =>
-                rem.id === updatedReminder.id ? updatedReminder : rem
-              );
-      
-              this.userPopupReminders.get(userId)?.next(updatedReminders);
-              this.userPopupVisible.get(userId)?.next(true);
-      
-              // Recurse to track the next one
-              this.trackNextReminder(userId);
-            });
-          }, timeUntilReminder);
+            const now = new Date();
+            const futureReminders = reminders
+                .filter(r => !r.dismissed && new Date(r.reminderdt) > now)
+                .sort((a, b) => new Date(a.reminderdt).getTime() - new Date(b.reminderdt).getTime());
+            if (futureReminders.length === 0) return;
+            const nextReminder = futureReminders[0];
+            const delay = new Date(nextReminder.reminderdt).getTime() - now.getTime();
+            if (this.userReminderTimeouts.has(+userId)) {
+                clearTimeout(this.userReminderTimeouts.get(+userId));
+            }
+            const timeout = setTimeout(() => {
+                const updatedReminder = this.updateReminderStatus({
+                    ...nextReminder,
+                    status: 'Unread'
+                });
+                this.reminderService.updateReminder(updatedReminder).subscribe(() => {
+                    localStorage.setItem('popupClosed', 'false');
+
+                    this.loadPopupReminders(userId); const remindersNow = this.userPopupReminders.get(userId)?.value || [];
+                    const updatedReminders = remindersNow.map(rem =>
+                        rem.id === updatedReminder.id ? updatedReminder : rem
+                    );
+                    this.userPopupReminders.get(userId)?.next(updatedReminders);
+                    this.userPopupVisible.get(userId)?.next(true);
+                    this.trackNextReminder(userId);
+                });
+            }, delay);
+            this.userReminderTimeouts.set(+userId, timeout);
         });
-      }
-      
+    }
+
     // Returns the visibility state of the popup 
     getPopupVisible(userId: string | number) {
         return this.userPopupVisible.get(userId);
     }
 
-    //     // Updates the status of a reminder 
+    // Updates the status of a reminder 
     updateReminderStatus(reminder: Reminder): Reminder {
         const now = new Date();
         const reminderDate = new Date(reminder.reminderdt);
@@ -115,17 +106,17 @@ export class SampleService {
         return { ...reminder, status: updatedStatus };
     }
 
-     // Marks a specific reminder as dismissed
-     dismissReminder(userId: string | number, reminder: Reminder) {
+    // Marks a specific reminder as dismissed
+    dismissReminder(userId: string | number, reminder: Reminder) {
         if (!userId) return;
         const updatedReminder = this.updateReminderStatus({ ...reminder, dismissed: true });
         return this.reminderService.updateReminder(updatedReminder).pipe(tap(() => {
-          const updateList = this.userPopupReminders.get(userId)?.value.filter(r => r.id !== reminder.id) || [];
-          this.userPopupReminders.get(userId)?.next(updateList);
-          this.userPopupVisible.get(userId)?.next(updateList.length > 0);
+            const updateList = this.userPopupReminders.get(userId)?.value.filter(r => r.id !== reminder.id) || [];
+            this.userPopupReminders.get(userId)?.next(updateList);
+            this.userPopupVisible.get(userId)?.next(updateList.length > 0);
         }));
-      }
-      
+    }
+
 
     // Dismisses all popup reminders for a user
     dismissAllReminders(userId: string | number) {
@@ -142,7 +133,6 @@ export class SampleService {
         }));
         updatedReminders.forEach(rem => {
             this.reminderService.updateReminder(rem).subscribe(() => {
-                // this.dismissReminder(userId, rem)
             })
         })
         return this.userPopupReminders.get(userId)?.next([]);
@@ -157,7 +147,5 @@ export class SampleService {
                 return this.userPopupReminders.get(userId)?.next(filteredReminders);
             }
         })
-
     }
-
 }

@@ -99,7 +99,7 @@ export class SignupComponent {
     }
     const fileInput = document.getElementById("fileInput") as HTMLInputElement;
     if (fileInput) {
-      fileInput.value = "";
+      fileInput.value ="";
     }
   }
 

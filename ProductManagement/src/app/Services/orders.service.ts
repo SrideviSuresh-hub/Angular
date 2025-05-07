@@ -84,10 +84,8 @@ export class OrdersService {
              });
     }
 
-    getOrderedProductbyId(keyId: string, userId: string, prodIndex: number){
-        
+    updateOrderedProductbyId(keyId: string, userId: string, prodIndex: number,deliveryDate:number|string){
         const prodPath = `${this.baseUrluser}/${userId}/orders/${keyId}/products/${prodIndex}.json`;
-        console.log(prodPath);
-        return this.http.get(prodPath);
+        return this.http.patch(prodPath, { deliveryDate: deliveryDate });
     }
 }

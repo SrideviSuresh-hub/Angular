@@ -1,4 +1,4 @@
-import {  Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { Reminder } from '../../Models/reminder';
 import { ReminderService } from '../../Services/reminder.service';
 import { NgForm } from '@angular/forms';
@@ -22,7 +22,7 @@ export class ReminderComponent implements OnInit {
   totalRecords = 0;
   curPageInput: number = 1;
   paginatorMargin: number = 0;
-  user: User | null;;
+  user: User | null;
   maxPage: number = Math.ceil(this.totalRecords / this.rows);
   sampleService: SampleService = inject(SampleService);
   @ViewChild('titleInput') titleInput!: ElementRef;
@@ -59,18 +59,17 @@ export class ReminderComponent implements OnInit {
       this.newReminder.userId = this.user.id!;
       this.loadReminders();
       this.loadPopupReminders();
-    }
-    this.sampleService.getPopupVisible(this.userId)?.subscribe(visible => {
-      const popupClosed = localStorage.getItem('popupClosed') === 'true';
-      this.visible = !popupClosed && visible;
-    });
 
-    // setInterval(() => {
+      this.sampleService.getPopupVisible(this.userId)?.subscribe(visible => {
+        const popupClosed = localStorage.getItem('popupClosed') === 'true';
+        this.visible = !popupClosed && visible;
+      });
       this.sampleService.trackNextReminder(this.userId);
-    // }, 1000);
+    }
     const today = new Date();
     this.minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
   }
+
 
   // Adjusts paginator position after view initialization.
   ngAfterViewInit() {
@@ -108,7 +107,6 @@ export class ReminderComponent implements OnInit {
       this.first = (targetPage - 1) * this.rows;
       table.first = this.first;
       table.paginate({ first: table.first, rows: this.rows });
-
     }
     else {
       this.messageService.add({
@@ -131,9 +129,9 @@ export class ReminderComponent implements OnInit {
   // remove a popup reminder
   dismissReminder(reminder: Reminder) {
     if (!this.userId) return;
-    this.sampleService.dismissReminder(this.userId, reminder)?.subscribe(()=>{
+    this.sampleService.dismissReminder(this.userId, reminder)?.subscribe(() => {
       this.loadReminders();
-  });
+    });
   }
 
   // removes  all popup reminders
@@ -157,7 +155,7 @@ export class ReminderComponent implements OnInit {
 
   // closing popup dialog
   handlePopupClose() {
-    localStorage.setItem('popupClosed', 'true')
+    localStorage.setItem(`popupClosed`, 'true');
     this.visible = false;
   }
 
@@ -176,7 +174,7 @@ export class ReminderComponent implements OnInit {
   }
 
   // display modal
-  showDailog(reminder: Reminder | null, mode: 'view' | 'add' | 'edit' = 'add') {
+  showDailog(reminder: Reminder | null, mode: 'view' | 'add' | 'edit') {
     if (reminder) {
       this.newReminder = { ...reminder, reminderdt: new Date(reminder.reminderdt) };
       this.mode = mode;

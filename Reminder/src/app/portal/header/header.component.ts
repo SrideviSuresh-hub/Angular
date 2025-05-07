@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit {
     this.isDarkMode = savedTheme === 'dark';
     this.applyTheme();
     this.loadPopupCount()
+
   }
 
   // popup count
